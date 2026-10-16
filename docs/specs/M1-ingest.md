@@ -1,6 +1,6 @@
 # M1：数据管线
 
-状态：已批准（作者 2026-10-16 确认；M0 完成后开始）
+状态：完成（2026-10-16）
 
 ## 需求
 
@@ -296,14 +296,59 @@ async def ingest_corpus(raw_dir: Path, embedder: Embedder, engine: AsyncEngine) 
 
 ## 任务
 
-- [ ] T1 语料清单与下载：`corpus.py` 及测试、`scripts/fetch_docs.py`、poe 任务 → AC1
-- [ ] T2 清洗：`cleaner.py`、fixtures 和 golden 测试、全量无残留标签测试 → AC2
-- [ ] T3 切块：`core/text.py`、`chunker.py` 及测试 → AC3
-- [ ] T4 表与仓储：`tables.py`、0002 迁移、`db/corpus.py`（写入、删除、按哈希查询、`nearest_chunks`） → AC5 的一部分
-- [ ] T5 GPU 嵌入：gpu 依赖组、`local_embedder.py`、`factory.py`、`tests/gpu/` → AC6
-- [ ] T6 入库流程与报告：`pipeline.py`、`scripts/ingest.py`、增量的集成测试 → AC4、AC5、AC7
-- [ ] T7 收尾：全量入库跑两遍，把报告摘要写进「记录」，对抗性自审，写日志，开当天的 PR
+- [x] T1 语料清单与下载：`corpus.py` 及测试、`scripts/fetch_docs.py`、poe 任务 → AC1
+- [x] T2 清洗：`cleaner.py`、fixtures 和 golden 测试、全量无残留标签测试 → AC2
+- [x] T3 切块：`core/text.py`、`chunker.py` 及测试 → AC3
+- [x] T4 表与仓储：`tables.py`、0002 迁移、`db/corpus.py`（写入、删除、按哈希查询、`nearest_chunks`） → AC5 的一部分
+- [x] T5 GPU 嵌入：gpu 依赖组、`local_embedder.py`、`factory.py`、`tests/gpu/` → AC6
+- [x] T6 入库流程与报告：`pipeline.py`、`scripts/ingest.py`、增量的集成测试 → AC4、AC5、AC7
+- [x] T7 收尾：全量入库跑两遍，把报告摘要写进「记录」，对抗性自审，写日志，开当天的 PR
 
 ## 阻塞
 
 ## 记录
+
+**验收结果（2026-10-16）**
+
+| 编号 | 结果 |
+|---|---|
+| AC1 | `poe fetch-docs`：第一次下载 182 篇（6 秒，共 1.6MB），第二次输出「已存在，跳过：182 篇都已下载且校验一致」 |
+| AC2 | 7 篇真实文档的 golden 测试通过；182 篇全量检查：残留标签 0、未知组件 0 |
+| AC3 | 28 个切块测试通过，含真实文档上的不变式（子块不超 500 字，除非含代码块；父块不超 4000；每一行原文都能在父块里找到） |
+| AC4 | 第一次 `poe ingest`：新增 182 / 嵌入 2090 个子块；第二次：未变 182 / 嵌入 0，块数不变 |
+| AC5 | 集成测试 8 个：改一篇只重建这一篇、删一篇、新增一篇、`INGEST_VERSION` 变化触发全量重建、维度不对不写库 |
+| AC6 | `poe test-gpu`：3 个通过；`torch 2.14.1+cu130`，`cuda.is_available()` 为 True，`get_device_capability()` 为 (12, 0)，RTX 5070 Ti |
+| AC7 | 报告在 `.cache/reports/ingest-20261016-144501.md`（摘要见下） |
+| AC8 | `poe check`：152 个单元测试，覆盖率 92%；`poe test-int`：19 个；CI 两个 job 通过 |
+
+**数据报告摘要**（commit `c80a318`，Qwen3-Embedding-0.6B，fp16，批大小 32）
+- 182 篇：自部署 108 / 云版 45 / 通用 29；父块 1252，子块 2090，向量 2090
+- 子块长度：最小 5 / 中位 254 / p95 459 / 最大 1497；超过 500 字的子块 27 个，全部是代码块
+- 嵌入 2090 个子块用 18.4 秒（114 块/秒），整个入库加报告 26.5 秒
+- 3 个检查查询都命中预期文档：
+  - 「知识库单次最多上传几个文件」：前 5 里有云版和自部署版的「上传本地文件」，第 1 是知识流水线的文件上传，距离 0.212
+  - 「怎么修改上传文件的大小限制」：前 4 是「文件上传」相关的应用设置页，`environments`（知识库配置）排第 5，距离 0.208 → **纯向量检索对这类带变量名的问题不够好，M2 的 BM25 要解决**
+  - 「云版本怎么查看应用的监控数据」：前 5 全是阿里云监控集成（云版和自部署版各一份）
+
+**偏离 Spec 的地方**
+- **下载方式**：不下载整个仓库的 tarball（仓库 300MB），先取 GitHub 的文件列表（含每个文件的 git blob 哈希），再逐个下载并按哈希校验。182 个文件只有 1.6MB，6 秒。
+- **PyTorch 的 CUDA 版本**：用 cu130 不是 cu128。官方 cu128 源最高只到 torch 2.11，最新的 2.14.1 只发布 cu130；本机驱动支持 CUDA 13.3。
+- **清洗比 Spec 多处理的**（实测 182 篇里出现了 Spec 没列的写法）：
+  - Danger / Check / Callout 当提示框处理（标签分别是「危险」「确认」「说明」）；Columns / Column / CodeGroup 当包装组件去掉标签
+  - 17 个 HTML 表格转成 Markdown 表格（单元格里的 `<ul><li>` 用「；」连接）；div / ul / ol / section / p 等 HTML 容器和组件一样还原缩进
+  - `<br>` 在表格行里换成空格（换成换行会拆散表格）；表格里为对齐补的多余空格压成一个
+  - 每个提示框 / 标签页 / 步骤的标记行前面空一行，让每个组件的内容自成一段
+  - 已知组件即使缺少闭合标签也当组件处理；字面的尖括号（`<your_token>`、`<SCHEME>`）保留
+- **切块比 Spec 多处理的**：分隔线（`---`）不入块；H1 和 H4 以下的标题并进后面的段落；列表项自己就超长（常见于带代码块的步骤）时拆到行，代码块仍保持完整。
+- **嵌入器接口**：`SentenceTransformerEmbedder(spec, ...)` 接收一个 `EmbedderSpec`，不是 Spec 里的一长串参数；bge-m3 用右填充（它取第一个 token，左填充会取到填充符）。
+- **新增**：`ConfigError`；`CorpusError`；`has_embeddings` + 入库保护——库里已有语料但没有所选模型的向量时拒绝运行，因为整篇重建会级联删掉另一个模型的向量（给第二个模型补向量留到 M2）。
+- **pytest 临时目录**放在仓库的 `.cache/pytest-tmp`（系统临时目录在本机有权限问题），`tests/conftest.py` 负责在干净 clone（如 CI）里先建好上级目录。
+- 版本过滤的 HNSW 测试只要求「至少 3 条且全是自部署版」，不要求恰好 5 条：HNSW 是近似检索，图是随机建的，CI 上有一次只返回 4 条。
+
+**Spec 里的「待确认」**：站内链接只保留文字、不保存 URL——按 Spec 的建议执行（作者说「差不多了」）；需要原文链接时从 `documents.path` 拼出来。
+
+**自审**（没有另一个 agent 或新会话，自己对照 Spec 和 workflow §4.3 的清单过了一遍）：发现并修复了一个隐患——`--model bge-m3` 或 `fake` 在已入库的库上运行时，文档「未变」会被跳过，不会生成新向量；若强行重建则会级联删掉 qwen3 的向量。现在直接报错并说明原因（有集成测试）。已知局限：向量检索对带变量名的问题排序不理想（见上），M2 解决；`>500 字的子块` 目前都是代码块，若以后出现别的类型，数据报告会列出来。
+
+**任务外发现的问题**：
+- pgvector 的 HNSW 对「大量互相正交、距离完全相同的稀疏向量」表现不正常（带版本过滤时一条都搜不到，`ef_search` 调到 400 也一样），所以测试用稠密向量；真实的 Qwen3 向量是稠密的，不受影响。
+- ruff 0.17 的 `ruff format` 会格式化 Markdown 里的代码块；已在 pre-commit 里限制只处理 Python。

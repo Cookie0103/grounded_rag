@@ -174,6 +174,20 @@ async def test_wrong_vector_dimension_is_rejected_before_anything_is_written(
         assert await document_hashes(connection) == {}
 
 
+async def test_second_embedding_model_is_refused_instead_of_destroying_the_first(
+    raw_dir: Path, engine: AsyncEngine
+) -> None:
+    await ingest_corpus(raw_dir, CountingEmbedder(), engine)
+    other = CountingEmbedder()
+    other.name = "other-model"
+    before = await _snapshot(engine)
+
+    with pytest.raises(CorpusError, match="other-model"):
+        await ingest_corpus(raw_dir, other, engine)
+
+    assert await _snapshot(engine) == before
+
+
 async def _snapshot(engine: AsyncEngine, document: str | None = None) -> list[tuple[str, str, str]]:
     """(子块 ID, 所属父块, 正文)，按 ID 排序；可只看一篇文档。"""
     statement = select(chunks.c.id, chunks.c.parent_id, chunks.c.text).order_by(chunks.c.id)

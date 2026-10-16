@@ -3,7 +3,7 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from sqlalchemy import Column, bindparam, delete, func, insert, select, text
+from sqlalchemy import Column, bindparam, delete, exists, func, insert, select, text
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.db.tables import chunk_embeddings, chunks, documents, parent_chunks
@@ -53,6 +53,12 @@ async def document_hashes(connection: AsyncConnection) -> dict[str, str]:
     """库里已有的文档 → 内容哈希，用来判断哪些文档变了。"""
     rows = await connection.execute(select(documents.c.id, documents.c.content_hash))
     return {row.id: row.content_hash for row in rows}
+
+
+async def has_embeddings(connection: AsyncConnection, model: str) -> bool:
+    """库里是否已经有这个模型的向量。"""
+    statement = select(exists().where(chunk_embeddings.c.model == model))
+    return bool(await connection.scalar(statement))
 
 
 async def delete_documents(connection: AsyncConnection, document_ids: Sequence[str]) -> None:

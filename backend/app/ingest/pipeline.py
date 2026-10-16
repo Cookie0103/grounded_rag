@@ -17,6 +17,7 @@ from app.db.corpus import (
     ParentRecord,
     delete_documents,
     document_hashes,
+    has_embeddings,
     replace_document,
 )
 from app.ingest.chunker import ChunkedDocument, chunk_document
@@ -69,6 +70,12 @@ async def ingest_corpus(
     stats = IngestStats()
     async with engine.connect() as connection:
         existing = await document_hashes(connection)
+        if existing and not await has_embeddings(connection, embedder.name):
+            # 整篇重建会级联删掉别的模型的向量；给第二个模型补向量要单独做（M2）
+            raise CorpusError(
+                f"库里已有语料，但没有 {embedder.name} 的向量；"
+                "给另一个嵌入模型补向量不能用整篇重建，留到 M2 做模型对比时再加"
+            )
 
     to_write: list[_Prepared] = []
     current_ids: set[str] = set()

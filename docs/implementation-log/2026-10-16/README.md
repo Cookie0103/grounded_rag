@@ -1,7 +1,7 @@
 # 2026-10-16
 
 - 分支：`2026-10-16-framework-build`（基于 `main`，第一天）
-- 里程碑 / 任务：开发前准备（规范、调研、M0 / M1 Spec）；M0 T1～T7
+- 里程碑 / 任务：开发前准备（规范、调研、M0 / M1 Spec）；M0、M1 实现
 - 模型：Claude Opus 5.5（写规范和 Spec）；Claude Sonnet 5.5（实现 M0）
 
 ## 做了什么
@@ -23,6 +23,16 @@
 - `e649e9e` feat(M0-T4)：数据库（compose、engine、alembic、独立测试库）
 - `d4295b2` feat(M0-T5)：API（`/health`、统一错误、trace 中间件）
 - `5ed8083` feat(M0-T6)：CI 与 README
+
+## M1 实现（Sonnet）
+
+- `1958271` feat(M1-T1)：语料清单与下载（182 篇，按 git blob 哈希校验）
+- `254b72d` feat(M1-T2)：mdx 清洗（组件、HTML 表格、缩进还原、代码保护）
+- `882ce7a` feat(M1-T3)：父子切块
+- `615fec7` feat(M1-T4)：四张表、迁移 0002、仓储
+- `7169dfd` feat(M1-T5)：GPU 嵌入与 gpu 依赖组
+- `f502b9f` feat(M1-T6)：入库流程、数据报告、`poe ingest`
+- `3fbc5f2`、`5b8672d`：修 CI 的两个问题（见困难 17、18）
 
 ## 困难与解决
 
@@ -82,6 +92,45 @@
 - Windows 上 `ASGITransport` 默认会把应用里未捕获的异常抛进测试 → 测试客户端设 `raise_app_exceptions=False`，才能断言 500 响应。
 - 一次写多个大 heredoc 时 bash 报语法错，整条命令没有执行 → 改用 Write 工具逐个写文件。
 
+### 13. 实际的 mdx 比 Spec 里列的复杂
+- 现象：Spec 按 12 种组件设计清洗；真正统计 182 篇后，还有 `Danger`、`Check`、`Callout`、`Columns`、`Column`、`CodeGroup`，17 个 HTML 表格，大量 `div` / `ul` / `span` / `p`，以及 `<token>`、`<SCHEME>` 这种不是标签的尖括号文字。
+- 排查：写脚本统计所有标签和属性（排除代码块），再逐类看真实例子。
+- 解决：清洗时先把围栏代码和行内代码换成占位符；字面尖括号靠「已知 HTML / 组件名，或者文档里有对应闭合标签」来判断是不是标签；HTML 表格转 Markdown；容器类 HTML 和组件一样还原缩进；`<br>` 在表格里换成空格。每改一次规则就重新生成并逐篇核对 golden 文件，最后对 182 篇全量检查残留标签为 0。
+
+### 14. 表格行为对齐补了几十个空格，子块被撑到 700 字
+- 现象：切块后有 3 个非代码子块超过 500 字，都是 `local-source-code` 里的表格行。
+- 原因：原文用空格把表格列对齐，一行里有一大片空格。
+- 解决：清洗时把表格行里连续的空格压成一个。之后超过 500 字的子块全部是代码块。
+
+### 15. 一个列表步骤带代码块，整项 4000 多字切不动
+- 现象：第一版切块里最长的子块 4495 字，父块也超过 4000。
+- 原因：列表按「项」切，而带代码块的编号步骤自己就很长。
+- 解决：某一项超长时才拆到行，代码块作为整体保留；代码块超过 1500 字再按行切并补上围栏。
+
+### 16. HNSW + 版本过滤的测试怎么写才有意义
+- 现象：用假嵌入（哈希到固定维度的稀疏向量）写「近邻全是云版时仍能找到自部署版」的测试，带过滤时一条都搜不到，`ef_search` 调到 400 也一样。
+- 原因：这些向量互相几乎正交，距离几乎都一样，HNSW 图的连通性很差，不能代表真实的稠密向量。另外，planner 可能先按版本过滤再排序，根本不走 HNSW，对照实验就失效了。
+- 解决：测试改用确定性的稠密向量；断言「找到的都是自部署版、至少 3 条、且 `nearest_chunks` 确实在事务里开了 `hnsw.iterative_scan`」。
+
+### 17. CI：干净的 clone 里 `.cache` 目录不存在
+- 现象：本机通过，CI 里 4 个用 `tmp_path` 的测试报 `FileNotFoundError: .cache/pytest-tmp`。
+- 原因：我把 pytest 的临时目录指到了仓库的 `.cache/pytest-tmp`（本机系统临时目录有权限问题），干净 clone 里 `.cache` 还不存在。
+- 解决：`tests/conftest.py` 的 `pytest_configure` 先建好上级目录；验证时把本机的 `.cache` 临时改名再跑一遍。
+
+### 18. CI：HNSW 测试偶发只返回 4 条
+- 现象：同一个测试本机连跑 5 次都通过，CI 上一次返回 4 条。
+- 原因：HNSW 是近似检索，图是随机建的，个别点可能搜不到。
+- 解决：断言放宽为至少 3 条且全是自部署版，并在注释里写明原因。
+
+### 19. PyTorch 该选哪个 CUDA 版本
+- 现象：Spec 写的是 cu128；实际查官方源发现 cu128 最高只到 torch 2.11。
+- 解决：用 cu130（torch 2.14.1），本机驱动 610.88 支持 CUDA 13.3；验证 `torch.cuda.get_device_capability()` 是 (12, 0)，并实际跑了一个矩阵乘核函数。
+
+### 20. 工具使用上的两个坑
+- 终端工具会把 heredoc 里的反斜杠转义吃掉一层（`"\\n"` 变成换行），用 Python 脚本批量改带反斜杠的代码时会静默改错或断言失败 → 改用 Edit / Write 工具改文件。
+- 一次写很多大 heredoc 时 bash 报语法错，整条命令没有执行 → 同上。
+- pre-commit 的 ruff 拦住了一次含超长注释的提交（E501），符合预期。
+
 ## 查阅资料
 
 | 资料 | 结论用在哪 |
@@ -103,32 +152,33 @@
 | Google eng-practices、Claude Code 最佳实践、spec-kit、Codex cookbook、GPT-6 Astra 提示词指南 | 规范与流程（见 workflow.md） |
 | PyPI 发布记录（jieba、rjieba、bm25s、rank_bm25、HanLP、SudachiPy 等）与本机实测 | BM25 库和分词方案的选择（见困难 8） |
 | [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/html/2410.13070v1)、[Anthropic Contextual Retrieval](https://anthropic.com/news/contextual-retrieval) | 不做语义切分；标题路径拼进检索文本（见困难 9） |
+| [PyTorch 官方 whl 索引](https://download.pytorch.org/whl/)、Qwen3-Embedding 模型卡 | cu130 才有最新 torch；Qwen3 左填充、仅查询加指令（见困难 19） |
+| GitHub REST API（git/trees）、`git hash-object` 的 blob 哈希规则 | 语料下载与校验（M1-T1） |
+| pgvector README（iterative scan） | `nearest_chunks` 带版本过滤（见困难 16） |
 | 本地 Adaptive-rag 项目的 `docs/19-project-diagnosis.md` | 前人踩过的坑，转成本项目的规则 |
 
 ## 验收证据
 
-M0 的 8 条验收标准全部满足，详细结果和偏离见 [M0 Spec 的「记录」](../../specs/M0-skeleton.md)。关键输出：
+M0 和 M1 的验收标准全部满足，详细结果和偏离见 [M0 Spec](../../specs/M0-skeleton.md) 与 [M1 Spec](../../specs/M1-ingest.md) 的「记录」。关键输出：
 
+**M0**
 - **AC1/AC5**：`uv run poe check` → 格式、lint、`lint-imports`（1 kept, 0 broken）、mypy（no issues）、38 passed，覆盖率 95.02%。
-- **AC2**：`alembic upgrade head` → `Running upgrade -> 0001, enable pgvector`；`poe test-int` → 3 passed；`select extversion from pg_extension where extname='vector'` → `0.8.7`。
-- **AC3**（真实服务 + curl）：
-  - 数据库正常：`200`，`{"status":"ok","database":"ok","trace_id":"6bf869af…"}`，响应头 `x-trace-id` 相同
-  - 带 `X-Trace-Id: demo-001`：响应头和 body 都是 `demo-001`
-  - 未知路径：`{"error":{"code":"NOT_FOUND","message":"Not Found"},"trace_id":"a9831f41…"}`
-  - `docker compose stop db` 后：`503`，`{"error":{"code":"DEPENDENCY_UNAVAILABLE","message":"数据库不可用"},"trace_id":"481cb1c7…"}`
-  - `docker compose start db` 后：恢复 `200`
-- **AC4**（故意违规，已删除临时文件）：
-  - core 反向 import api → `lint-imports`：`app.core is not allowed to import app.api`
-  - `import openai`（以及 `from openai import X`）→ ruff `TID251 openai is banned`
-  - `os.environ["HOME"]`（app/api）→ ruff `TID251 os.environ is banned`
-  - `print("hi")` → ruff `T201`
-  - `def add(a, b)` → mypy `Function is missing a type annotation [no-untyped-def]`
-- **AC6**：`gh run view` → `conclusion: success`，`check` 和 `integration` 两个 job 都成功。
-- **AC7**：`pre-commit run --all-files` 4 个钩子 Passed；`.claude/settings.json` 已提交，但没能在本会话验证拦截效果（见 M0 Spec 记录）。
-- **AC8**：fresh clone 到临时目录，`uv sync --locked && uv run poe check` → 38 passed，覆盖率 95.02%。
+- **AC2**：`alembic upgrade head` → `Running upgrade -> 0001, enable pgvector`；`poe test-int` → 3 passed；pgvector 0.8.7。
+- **AC3**（真实服务 + curl）：数据库正常 `200`；带 `X-Trace-Id: demo-001` 响应头和 body 都是它；未知路径 `404` 统一格式；`docker compose stop db` 后 `503`；恢复后 `200`。
+- **AC4**（故意违规，已删除临时文件）：core 反向 import api → `lint-imports` 拦截；`import openai`（以及 `from openai import X`）→ ruff `TID251`；`os.environ` → `TID251`；`print` → `T201`；缺类型标注 → mypy `no-untyped-def`。
+- **AC6**：GitHub Actions `check` 和 `integration` 两个 job 都成功。AC7、AC8 见 M0 Spec 记录。
+
+**M1**
+- **AC1**：`poe fetch-docs` 两次：第一次下载 182 篇（6 秒，1.6MB），第二次「已存在，跳过」。
+- **AC2/AC3**：golden + 全量 182 篇无残留标签；切块 28 个测试。
+- **AC4**：`poe ingest` 两次：新增 182、嵌入 2090 个子块（18.4 秒，114 块/秒）→ 未变 182、嵌入 0。
+- **AC6**：`torch 2.14.1+cu130 True (12, 0) NVIDIA GeForce RTX 5070 Ti`；`poe test-gpu` 3 passed。
+- **AC7**：数据报告 `.cache/reports/ingest-20261016-144501.md`，摘要在 M1 Spec 的「记录」里。
+- **AC8**：`poe check` 152 passed，覆盖率 92%；`poe test-int` 19 passed；CI 全绿（最新一次 `5b8672d`）。
 
 ## 遗留 / 明天
 
-- M0 完成。接下来做 M1（数据管线），先从 T1（固定 commit 下载 182 篇）开始；T5 要下载 CUDA 版 PyTorch 和 Qwen3-Embedding-0.6B（约 1.2GB，公开模型，不需要 token）。
-- 需要作者回来后做：从仓库根目录启动 Claude Code，试一下能不能编辑 `backend/eval/data/`（应该被拒绝）。
-- 评测题由作者在 Gemini 网页端出：M1 完成后可以导出清洗好的文档给 Gemini（到时再确认格式）。
+- **作者要看**：M1 的数据报告（`.cache/reports/ingest-20261016-144501.md`，摘要在 M1 Spec 记录里）；还有清洗 / 切块的 golden 文件（`backend/tests/fixtures/dify/*.expected.md`）。
+- **需要作者回来后做**：从仓库根目录启动 Claude Code，试一下能不能编辑 `backend/eval/data/`（应该被拒绝）；在 Gemini 网页端出评测题（M3），需要的话我可以先导出清洗好的 182 篇文档。
+- **下一步 M2**（检索）：BM25（bm25s + jieba3）、RRF、Qwen3-Reranker、`/retrieve`。先写 M2 的 Spec，作者批准后再做。M1 报告里「怎么修改上传文件的大小限制」只排到第 5，正好是 BM25 要解决的问题。
+- 没有开 PR、没有合并 main（作者要求）；所有提交都在 `2026-10-16-framework-build`。
