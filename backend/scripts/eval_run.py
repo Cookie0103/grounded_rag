@@ -1,6 +1,7 @@
 """跑评测：`uv run poe eval-dev [--system 系统] [--questions 文件] [--judge 评审]`。
 
-系统：retrieval（只检索）、no-retrieval、naive-rag（两个基线）、full（完整编排）。
+系统（消融从上到下）：no-retrieval、naive-rag（两个基线）、hybrid-rag（混合检索与精排）、
+routed（再加改写与路由）、full（再加证据评分、校验与拒答）；retrieval 只出检索指标。
 评审：不给就只出检索指标；claude（命令行 `claude -p`，消耗 Claude 用量）；deepseek（用 `CHAT_MODEL`
 配置的对话模型，有每日预算）。结果写到 .cache/eval/<系统>/，中断后重跑会接着做。
 """
@@ -17,6 +18,7 @@ from app.db.engine import create_engine
 from app.orchestration.pipeline import ChatPipeline
 from app.providers.factory import get_chat_model
 from app.retrieval.factory import build_retriever
+from app.retrieval.retriever import HYBRID
 from eval.attribution import attribute_errors
 from eval.dataset import load_questions
 from eval.evaluate import evaluate
@@ -26,7 +28,7 @@ from eval.runner import run_system
 from eval.systems import FullSystem, NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem, System
 
 DEFAULT_QUESTIONS = Path(__file__).resolve().parents[1] / "eval" / "data" / "dev.jsonl"
-SYSTEMS = ("retrieval", "no-retrieval", "naive-rag", "full")
+SYSTEMS = ("retrieval", "no-retrieval", "naive-rag", "hybrid-rag", "routed", "full")
 JUDGES = ("claude", "deepseek")
 logger = logging.getLogger("eval_run")
 
@@ -50,10 +52,18 @@ async def run(arguments: argparse.Namespace) -> str:
             system = NoRetrievalSystem(get_chat_model(settings))
         else:
             retriever = await build_retriever(engine, settings)
+            chat = get_chat_model(settings)
             if arguments.system == "naive-rag":
-                system = NaiveRagSystem(retriever, get_chat_model(settings))
+                system = NaiveRagSystem(retriever, chat)
+            elif arguments.system == "hybrid-rag":
+                system = NaiveRagSystem(
+                    retriever, chat, mode=HYBRID, rerank=True, name="混合检索与精排 + 直接生成"
+                )
+            elif arguments.system == "routed":
+                pipeline = ChatPipeline(chat, retriever, grade=False, verify=False)
+                system = FullSystem(pipeline, name="改写与自适应路由（无评分、无校验）")
             elif arguments.system == "full":
-                system = FullSystem(ChatPipeline(get_chat_model(settings), retriever))
+                system = FullSystem(ChatPipeline(chat, retriever))
             else:
                 system = RetrievalOnlySystem(retriever)
         answers = await run_system(

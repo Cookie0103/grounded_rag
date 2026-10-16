@@ -111,16 +111,34 @@ class NaiveRagSystem:
 
     name = "朴素 RAG"
 
-    def __init__(self, retriever: Retriever, chat: ChatModel, *, top_k: int = FINAL_TOP_K) -> None:
+    def __init__(
+        self,
+        retriever: Retriever,
+        chat: ChatModel,
+        *,
+        top_k: int = FINAL_TOP_K,
+        mode: str = VECTOR,
+        rerank: bool = False,
+        name: str | None = None,
+    ) -> None:
+        """mode / rerank 默认是朴素基线；改成混合 + 精排就是消融里的「+ 混合检索与精排」。"""
         self._retriever = retriever
         self._chat = chat
         self._top_k = top_k
+        self._mode = mode
+        self._rerank = rerank
+        if name is not None:
+            self.name = name
 
     async def answer(self, question: Question) -> SystemAnswer:
         editions = EDITION_FILTERS[question.edition] if question.edition else None
         started = time.perf_counter()
         result = await self._retriever.retrieve(
-            question.question, top_k=self._top_k, editions=editions, rerank=False, mode=VECTOR
+            question.question,
+            top_k=self._top_k,
+            editions=editions,
+            rerank=self._rerank,
+            mode=self._mode,
         )
         contexts = tuple(parent.text for parent in result.parents)
         prompt = fill_template(
@@ -147,8 +165,10 @@ class FullSystem:
 
     name = "完整系统"
 
-    def __init__(self, pipeline: ChatPipeline) -> None:
+    def __init__(self, pipeline: ChatPipeline, *, name: str | None = None) -> None:
         self._pipeline = pipeline
+        if name is not None:
+            self.name = name
 
     async def answer(self, question: Question) -> SystemAnswer:
         started = time.perf_counter()

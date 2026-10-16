@@ -295,3 +295,15 @@ async def test_empty_question_is_refused(question: str) -> None:
     response = await _ask(ScriptedChat(router=ROUTE_SINGLE), StubRetriever(), question)
 
     assert response.route == "REFUSE"
+
+
+async def test_ablation_flags_skip_grading_and_verification_without_calling_the_model() -> None:
+    chat = _happy(grade=_json(sufficient=False, missing="x"), verify=_json(faithful=False))
+    pipeline = ChatPipeline(chat, StubRetriever(), grade=False, verify=False)
+
+    response = await pipeline.answer(ChatRequest(question="怎么上传文件"))
+
+    assert not response.abstained
+    assert "grade" not in chat.kinds
+    assert "verify" not in chat.kinds
+    assert [s.note for s in response.steps if s.name in ("grade", "verify")] == ["已关闭", "已关闭"]

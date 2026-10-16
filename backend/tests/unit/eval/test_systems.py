@@ -99,3 +99,16 @@ async def test_full_system_maps_the_pipeline_response() -> None:
         ("a",),
         0.5,
     )
+
+
+async def test_naive_rag_can_be_switched_to_hybrid_with_rerank_for_the_ablation() -> None:
+    retriever = StubRetriever()
+    system = NaiveRagSystem(
+        retriever, FakeChatModel(responses=["答"]), mode="hybrid", rerank=True, name="混合 + 精排"
+    )
+
+    await system.answer(QUESTION)
+
+    assert system.name == "混合 + 精排"
+    assert retriever.calls[0]["rerank"] is True
+    assert retriever.calls[0]["mode"] == "hybrid"

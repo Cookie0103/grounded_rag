@@ -102,11 +102,20 @@ def _is_greeting(question: str) -> bool:
 
 class ChatPipeline:
     def __init__(
-        self, chat: ChatModel, retriever: Retriever, store: SessionStore | None = None
+        self,
+        chat: ChatModel,
+        retriever: Retriever,
+        store: SessionStore | None = None,
+        *,
+        grade: bool = True,
+        verify: bool = True,
     ) -> None:
+        """grade / verify 关掉后跳过证据评分和忠实度校验（消融实验用；线上都开）。"""
         self._chat = chat
         self._retriever = retriever
         self._store = store
+        self._grade_enabled = grade
+        self._verify_enabled = verify
         self._graph = self._build()
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
@@ -371,6 +380,8 @@ class ChatPipeline:
 
     async def _grade(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
+        if not self._grade_enabled:
+            return {"sufficient": True, "steps": _record(state, "grade", started, "已关闭")}
         if not state["parents"]:
             return {
                 "sufficient": False,
@@ -444,6 +455,8 @@ class ChatPipeline:
 
     async def _verify(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
+        if not self._verify_enabled:
+            return {"faithful": True, "steps": _record(state, "verify", started, "已关闭")}
         _, full_context = assemble(state["parents"])
         output = await state["meter"].ask(
             prompts.render("verify_v1", contexts=full_context, answer=state["answer"]),

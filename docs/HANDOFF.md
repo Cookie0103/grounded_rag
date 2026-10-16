@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M8 完成，M9 未开始）
+最后更新：2026-10-16（M0～M9 全部完成，等作者的题目和密钥）
 
 ## 一、总体进度
 
@@ -18,13 +18,15 @@
 | M6 记忆 | ✅ 完成 | `docs/specs/M6-memory.md` |
 | M7 服务与可靠性（SSE、MCP、缓存、降级、限流、压测） | ✅ 完成 | `docs/specs/M7-service.md` |
 | M8 观测与坏例 | ✅ 完成 | `docs/specs/M8-observability.md` |
-| M9 收尾（README、一键复现、最终报告） | ⬜ 未开始 | 测试集由作者手动跑一次 |
+| M9 收尾（README、一键复现、最终报告） | ✅ 完成（真实数字待作者） | `docs/specs/M9-wrapup.md` |
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、下一步：M9 收尾
+## 二、现状：代码里程碑 M0～M9 全部完成
 
-先写 `docs/specs/M9-wrapup.md`（自批）。内容：① `README.md`（项目是什么、架构图、快速开始、一键复现：`docker compose up -d db` → `uv sync` → `poe fetch-docs` → `poe ingest` → `poe serve`；评测怎么跑；MCP 怎么注册；文档许可来源）；② `docs/eval/runbook.md`：作者拿到密钥和 Gemini 题目后一步步该做什么（校验题目 → 开发集跑各系统 → 人工校准 20 条 → 测试集跑一次 → 出报告），包含完整消融表模板（无检索 → naive → +混合与精排 → +改写与路由 → +校验与拒答）和模型对比表模板；③ `docs/final-report-template.md`（最终报告骨架，数字留空）；④ 复现性检查：干净目录里按 README 走一遍（本机用临时库验证命令都存在）；⑤ 全部 Spec 的「未验证」汇总成 `docs/known-gaps.md`；⑥ Notion 页首进度框更新（给作者看）；⑦ 最后一次全量检查：`poe check`、`poe test-int`、`poe test-gpu`、CI。做完后整个长程任务结束，向作者汇报：已完成 / 阻塞项 / 需要作者做的事。
+剩下的都是**需要作者**做的事，完整清单在 [known-gaps.md](known-gaps.md)，操作步骤在 [eval/runbook.md](eval/runbook.md)：Gemini 出题 → 给 DeepSeek 密钥 → 开发集跑 5 个系统（`no-retrieval`、`naive-rag`、`hybrid-rag`、`routed`、`full`）→ 人工校准 20 条 → 调提示词（新增版本文件）→ 测试集只跑一次 → 填 [final-report-template.md](final-report-template.md)。
+
+如果还要继续开发（新的一天）：从当前分支创建 `YYYY-MM-DD-xxx-yyy`；优先做 known-gaps §二 里能做的（例如 `traces` 保留期清理、HTTP 模式 MCP 验证）；任何改提示词、规则的动作都要在开发集上对比，不碰测试集。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 
