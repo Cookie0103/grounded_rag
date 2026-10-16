@@ -1,0 +1,27 @@
+# AI 生成的临时内容与各类缓存
+.cache/
+
+# 下载的原始文档
+data/
+
+# 环境与密钥
+.env
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
