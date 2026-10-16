@@ -5,6 +5,7 @@
 
 import logging
 import time
+from collections.abc import AsyncIterator
 from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
@@ -85,6 +86,7 @@ class State(TypedDict, total=False):
     regenerations: int
     faithful: bool
     abstained: bool
+    degraded: bool
 
 
 def _record(state: State, name: str, started: float, note: str = "") -> list[Step]:
@@ -108,23 +110,38 @@ class ChatPipeline:
         self._graph = self._build()
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
+        response: ChatResponse | None = None
+        async for item in self.stream(request):
+            if isinstance(item, ChatResponse):
+                response = item
+        if response is None:
+            raise RuntimeError("stream 没有产出 ChatResponse")
+        return response
+
+    async def stream(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
+        """每个环节做完就产出一个 Step，最后产出完整的 ChatResponse。"""
         meter = MeteredChat(self._chat)
         session = await self._load_session(request)
-        final: State = await self._graph.ainvoke(
-            {
-                "request": request,
-                "question": request.question,
-                "session": session,
-                "edition": request.edition or (session.edition if session else None),
-                "meter": meter,
-                "steps": [],
-                "retries": 0,
-                "regenerations": 0,
-            }
-        )
+        initial: State = {
+            "request": request,
+            "question": request.question,
+            "session": session,
+            "edition": request.edition or (session.edition if session else None),
+            "meter": meter,
+            "steps": [],
+            "retries": 0,
+            "regenerations": 0,
+        }
+        final = initial
+        emitted = 0
+        async for state in self._graph.astream(initial, stream_mode="values"):
+            final = state
+            for step in state.get("steps", [])[emitted:]:
+                yield step
+            emitted = len(state.get("steps", []))
         await self._remember(final, session, meter)
         question = final.get("question", request.question)
-        return ChatResponse(
+        yield ChatResponse(
             answer=final.get("answer", ABSTAIN_TEXT),
             route=final.get("route", REFUSE),
             citations=final.get("citations", []) if not final.get("abstained") else [],
@@ -133,6 +150,7 @@ class ChatPipeline:
             contexts=[parent.text for parent in final.get("parents", [])],
             cost_cny=meter.cost_cny,
             abstained=bool(final.get("abstained")),
+            degraded=bool(final.get("degraded")),
             standalone_question=question if question != request.question else None,
         )
 
@@ -329,8 +347,10 @@ class ChatPipeline:
         parents = [*state.get("parents", [])]
         known = {parent.id for parent in parents}
         doc_ids = [*state.get("doc_ids", [])]
+        degraded = state.get("degraded", False)
         for query in state["queries"]:
             result = await self._retriever.retrieve(query, top_k=FINAL_TOP_K, editions=editions)
+            degraded = degraded or result.degraded
             for parent in result.parents:
                 if parent.id not in known:
                     known.add(parent.id)
@@ -342,6 +362,7 @@ class ChatPipeline:
         return {
             "parents": parents,
             "doc_ids": doc_ids,
+            "degraded": degraded,
             "all_citations": citations,
             "context_text": context_text,
             "used_queries": [*state.get("used_queries", []), *state["queries"]],

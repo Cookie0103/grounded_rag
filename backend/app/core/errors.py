@@ -36,3 +36,10 @@ class BudgetExceededError(AppError):
 
     code = "BUDGET_EXCEEDED"
     status_code = 429
+
+
+class RateLimitedError(AppError):
+    """请求太频繁。"""
+
+    code = "RATE_LIMITED"
+    status_code = 429

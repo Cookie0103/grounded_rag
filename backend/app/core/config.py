@@ -66,6 +66,8 @@ class Settings(BaseSettings):
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-flash"
     daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）
+    rate_limit_per_minute: int = 30  # 每个客户端 IP；0 表示不限制
+    prewarm: bool = False  # 启动时就建检索器、加载模型；poe serve 会打开
 
 
 @lru_cache

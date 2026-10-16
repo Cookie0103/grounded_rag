@@ -56,6 +56,7 @@ class RetrievalResult:
     candidates: list[Candidate]
     parents: list[ParentContext]
     timings_ms: dict[str, float] = field(default_factory=dict)
+    degraded: bool = False  # 精排不可用，跳过了精排
 
 
 HYBRID, VECTOR, BM25 = "hybrid", "vector", "bm25"

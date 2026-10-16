@@ -10,6 +10,7 @@ dependencies = [
     "httpx>=0.28.1",
     "jieba3>=1.0.2",
     "langgraph>=1.2.15",
+    "mcp>=2.3.0",
     "pgvector>=0.5.1",
     "pydantic>=2.14.1",
     "pydantic-settings>=2.16.0",
@@ -121,7 +122,7 @@ test = "pytest -m 'not integration and not gpu' --cov --cov-report=term-missing"
 check = ["lint", "typecheck", "test"]
 test-int = "pytest -m integration"
 test-gpu = "pytest -m gpu --no-cov"
-serve = "uvicorn app.api.main:create_app --factory --reload"
+serve = { cmd = "uvicorn app.api.main:create_app --factory --reload", env = { PREWARM = "true" } }
 fetch-docs = "python -m scripts.fetch_docs"
 ingest = "python -m scripts.ingest"
 retrieve-demo = "python -m scripts.retrieve_demo"

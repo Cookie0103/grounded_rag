@@ -36,4 +36,6 @@ class ChatResponse(BaseModel):
     contexts: list[str] = Field(default_factory=list)
     cost_cny: float = 0.0
     abstained: bool = False
+    degraded: bool = False  # 精排或生成不可用，已降级
+    cached: bool = False
     standalone_question: str | None = None  # 追问独立化之后的问题；没改写就是 None

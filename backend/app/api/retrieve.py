@@ -4,15 +4,13 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, Field, StringConstraints
-from sqlalchemy.exc import SQLAlchemyError
 
-from app.core.config import EDITION_FILTERS, FINAL_TOP_K, get_settings
-from app.core.errors import DependencyUnavailableError
+from app.api.services import enforce_rate_limit, get_services
+from app.core.config import EDITION_FILTERS, FINAL_TOP_K
 from app.core.trace import trace_id_var
-from app.retrieval.factory import build_retriever
 from app.retrieval.retriever import Candidate, ParentContext, Retriever
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(enforce_rate_limit)])
 
 MAX_TOP_K = 20
 MAX_QUERY_CHARS = 500
@@ -60,17 +58,8 @@ class RetrieveResponse(BaseModel):
 
 
 async def get_retriever(request: Request) -> Retriever:
-    """第一次请求时才建检索器（读库建 BM25 索引、加载模型），之后复用。"""
-    state = request.app.state
-    if state.retriever is None:
-        async with state.retriever_lock:
-            if state.retriever is None:
-                try:
-                    state.retriever = await build_retriever(state.engine, get_settings())
-                except (SQLAlchemyError, OSError) as error:
-                    raise DependencyUnavailableError("检索器初始化失败：数据库不可用") from error
-    retriever: Retriever = state.retriever
-    return retriever
+    services = await get_services(request)
+    return services.retriever
 
 
 @router.post("/retrieve")
