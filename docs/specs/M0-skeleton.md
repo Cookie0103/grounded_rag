@@ -16,7 +16,7 @@
 - 不装 GPU 依赖（torch、sentence-transformers）：M1 再装。
 - 不建业务表：M1 建。
 - 不写后端的 Dockerfile：M7 再做。
-- 不引入 LangGraph、MCP、jieba 等后续才用的依赖。
+- 不引入 LangGraph、MCP、bm25s 等后续才用的依赖。
 
 ### 接口与数据
 

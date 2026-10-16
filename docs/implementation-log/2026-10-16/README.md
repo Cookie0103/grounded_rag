@@ -48,6 +48,11 @@
 - 现象：原计划由 Codex 开发，现在改为 Claude Sonnet 开发，与出题的 Claude 同属一家。
 - 解决：测试集保持放在仓库外，开发 agent 接触不到；评审以 Gemini 为主。proposal 的分工表已更新。如需更严格的隔离，可以让作者或 Gemini 出测试集，**请作者决定**。
 
+### 8. jieba 太老，BM25 分词怎么选
+- 现象：作者指出 jieba 是 2020 年的库，不想用；也嫌「二元组 + 整词保留」麻烦。
+- 排查：查了 PyPI 上 jieba 系列、pkuseg、LTP、HanLP、bm25s、rank_bm25 的最近发布日期；在隔离环境里用同一句话测了 jieba / rjieba / jieba-next / jieba3，切分结果完全相同（同一套词典和算法），并且都会拆碎 `UPLOAD_FILE_SIZE_LIMIT`、不认识「工作流」。顺带发现 `rank_bm25` 也是 2022 年的库。
+- 解决：BM25 库换成 `bm25s`（2026-10 仍在更新，已验证可接受自己切好的词列表）；分词用字符二元组 + 保留英文标识符，约 10 行代码，不需要术语词典。M2 再用 Recall@5 与 rjieba 对照。日语版保留 SudachiPy 作为将来的方案。
+
 ## 查阅资料
 
 | 资料 | 结论用在哪 |
@@ -67,6 +72,7 @@
 | [DeepSeek 价格页](https://api-docs.deepseek.com/quick_start/pricing) | 模型 `deepseek-flash`；¥10/天大约够 1400 次调用 |
 | langgenius/dify-docs 仓库（用 `gh api` 实测） | 固定 commit、182 篇的构成、92 个同名页面、组件使用统计 |
 | Google eng-practices、Claude Code 最佳实践、spec-kit、Codex cookbook、GPT-6 Astra 提示词指南 | 规范与流程（见 workflow.md） |
+| PyPI 发布记录（jieba、rjieba、bm25s、rank_bm25、HanLP、SudachiPy 等）与本机实测 | BM25 库和分词方案的选择（见困难 8） |
 | 本地 Adaptive-rag 项目的 `docs/19-project-diagnosis.md` | 前人踩过的坑，转成本项目的规则 |
 
 ## 验收证据
