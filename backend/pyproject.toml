@@ -14,6 +14,13 @@ dependencies = [
     "uvicorn[standard]>=0.54.0",
 ]
 
+[project.optional-dependencies]
+gpu = [
+    "sentence-transformers>=2.7",
+    "torch>=2.14.1",
+    "transformers>=4.51",
+]
+
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",
@@ -78,7 +85,10 @@ markers = [
 [tool.coverage.run]
 source = ["app"]
 branch = true
-omit = ["app/db/*"]          # 数据库代码由集成测试覆盖
+omit = [
+    "app/db/*",                 # 数据库代码由集成测试覆盖
+    "app/providers/local_*.py",  # 本机 GPU 推理由 tests/gpu 覆盖
+]
 
 [tool.coverage.report]
 fail_under = 80
@@ -105,5 +115,19 @@ typecheck = "mypy"
 test = "pytest -m 'not integration and not gpu' --cov --cov-report=term-missing"
 check = ["lint", "typecheck", "test"]
 test-int = "pytest -m integration"
+test-gpu = "pytest -m gpu --no-cov"
 serve = "uvicorn app.api.main:create_app --factory --reload"
 fetch-docs = "python -m scripts.fetch_docs"
+
+# 本机 GPU 推理用的 PyTorch 从官方 CUDA 13 源安装（RTX 50 系需要 CUDA 12.8 及以上）；CI 不装
+[tool.uv.sources]
+torch = [{ index = "pytorch-cuda", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.mypy.overrides]]
+module = ["sentence_transformers.*", "torch.*", "transformers.*"]
+ignore_missing_imports = true

@@ -23,3 +23,9 @@ class CorpusError(AppError):
     """语料下载或解析失败（数量不对、文件损坏、缺少必填字段等）。"""
 
     code = "CORPUS_ERROR"
+
+
+class ConfigError(AppError):
+    """配置项的值不合法。"""
+
+    code = "CONFIG_ERROR"
