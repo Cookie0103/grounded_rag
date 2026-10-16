@@ -118,6 +118,7 @@ test-int = "pytest -m integration"
 test-gpu = "pytest -m gpu --no-cov"
 serve = "uvicorn app.api.main:create_app --factory --reload"
 fetch-docs = "python -m scripts.fetch_docs"
+ingest = "python -m scripts.ingest"
 
 # 本机 GPU 推理用的 PyTorch 从官方 CUDA 13 源安装（RTX 50 系需要 CUDA 12.8 及以上）；CI 不装
 [tool.uv.sources]

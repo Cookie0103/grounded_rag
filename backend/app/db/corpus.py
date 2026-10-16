@@ -3,7 +3,7 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from sqlalchemy import bindparam, delete, func, insert, select, text
+from sqlalchemy import Column, bindparam, delete, func, insert, select, text
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.db.tables import chunk_embeddings, chunks, documents, parent_chunks
@@ -149,3 +149,58 @@ async def table_counts(connection: AsyncConnection) -> dict[str, int]:
             await connection.scalar(select(func.count()).select_from(table)) or 0
         )
     return counts
+
+
+@dataclass(frozen=True)
+class LongestChunk:
+    chunk_id: str
+    length: int
+    preview: str
+
+
+@dataclass(frozen=True)
+class CorpusOverview:
+    """库里语料的概况，数据报告用。"""
+
+    counts: dict[str, int]
+    documents_by_edition: dict[str, int]
+    documents_by_category: dict[str, int]
+    chunk_length_min: int
+    chunk_length_p50: int
+    chunk_length_p95: int
+    chunk_length_max: int
+    longest_chunks: list[LongestChunk]
+
+
+async def corpus_overview(connection: AsyncConnection, *, longest: int = 10) -> CorpusOverview:
+    length = func.length(chunks.c.text)
+    stats = (
+        await connection.execute(
+            select(
+                func.coalesce(func.min(length), 0),
+                func.coalesce(func.percentile_cont(0.5).within_group(length), 0),
+                func.coalesce(func.percentile_cont(0.95).within_group(length), 0),
+                func.coalesce(func.max(length), 0),
+            )
+        )
+    ).one()
+    longest_rows = await connection.execute(
+        select(chunks.c.id, length.label("length"), func.left(chunks.c.text, 60).label("preview"))
+        .order_by(length.desc(), chunks.c.id)
+        .limit(longest)
+    )
+    return CorpusOverview(
+        counts=await table_counts(connection),
+        documents_by_edition=await _count_by(connection, documents.c.edition),
+        documents_by_category=await _count_by(connection, documents.c.category),
+        chunk_length_min=int(stats[0]),
+        chunk_length_p50=int(stats[1]),
+        chunk_length_p95=int(stats[2]),
+        chunk_length_max=int(stats[3]),
+        longest_chunks=[LongestChunk(row.id, row.length, row.preview) for row in longest_rows],
+    )
+
+
+async def _count_by(connection: AsyncConnection, column: Column[str]) -> dict[str, int]:
+    rows = await connection.execute(select(column, func.count()).group_by(column).order_by(column))
+    return {name: int(count) for name, count in rows}
