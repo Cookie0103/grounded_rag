@@ -18,6 +18,11 @@ CHILD_MAX_CHARS = 500
 PARENT_MAX_CHARS = 4000
 CODE_BLOCK_MAX_CHARS = 1500
 
+# 嵌入向量的维度和库里的模型名；Qwen3-Embedding-0.6B 与 bge-m3 都是 1024 维
+EMBEDDING_DIMENSION = 1024
+QWEN3_MODEL_NAME = "qwen3-embedding-0.6b"
+BGE_M3_MODEL_NAME = "bge-m3"
+
 # Qwen3-Embedding 只给查询加指令，文档不加
 QWEN3_QUERY_INSTRUCTION = (
     "Given a question about the Dify platform, retrieve documentation passages that answer it"
