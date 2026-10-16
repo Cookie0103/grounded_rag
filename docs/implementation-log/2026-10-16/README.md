@@ -61,6 +61,11 @@
 - 评测接入：`poe eval-dev --system full`
 - 全部在假模型上验证；真实效果等密钥和开发集，见 [M5 Spec](../../specs/M5-orchestration.md)
 
+## M6 实现（Sonnet）
+
+- 会话记忆：`app/core/session.py`、`SessionStore`（内存 + PostgreSQL，迁移 0004）、追问独立化、摘要（超过 6 轮并进摘要、保留 3 轮）、历史字数预算、版本记忆；`ChatRequest.session_id`
+- 见 [M6 Spec](../../specs/M6-memory.md)
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行

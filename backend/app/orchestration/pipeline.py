@@ -3,16 +3,25 @@
 每个节点是一个普通的异步函数；对话模型的输出不合法时都有保守的退路，不让一次格式错误拖垮请求。
 """
 
+import logging
 import time
 from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
+from app.core.errors import AppError
+from app.core.session import Session, Turn
 from app.orchestration import prompts
 from app.orchestration.context import assemble, resolve_citations
 from app.orchestration.guard import check_input
 from app.orchestration.jsonutil import as_bool, parse_object
+from app.orchestration.memory import (
+    SessionStore,
+    format_history,
+    needs_summary,
+    split_for_summary,
+)
 from app.orchestration.models import (
     ABSTAIN_TEXT,
     CLARIFY,
@@ -31,6 +40,7 @@ from app.providers.base import ChatMessage, ChatModel, Completion
 from app.providers.deepseek import cost_cny
 from app.retrieval.retriever import ParentContext, Retriever
 
+logger = logging.getLogger(__name__)
 MAX_SUBQUESTIONS = 3
 MAX_RETRIEVAL_RETRIES = 2
 MAX_REGENERATIONS = 1
@@ -55,6 +65,8 @@ class MeteredChat:
 
 class State(TypedDict, total=False):
     request: ChatRequest
+    question: str  # 路由和检索用的问题（追问独立化之后）
+    session: Session | None
     meter: MeteredChat
     steps: list[Step]
     route: str
@@ -87,16 +99,31 @@ def _is_greeting(question: str) -> bool:
 
 
 class ChatPipeline:
-    def __init__(self, chat: ChatModel, retriever: Retriever) -> None:
+    def __init__(
+        self, chat: ChatModel, retriever: Retriever, store: SessionStore | None = None
+    ) -> None:
         self._chat = chat
         self._retriever = retriever
+        self._store = store
         self._graph = self._build()
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         meter = MeteredChat(self._chat)
+        session = await self._load_session(request)
         final: State = await self._graph.ainvoke(
-            {"request": request, "meter": meter, "steps": [], "retries": 0, "regenerations": 0}
+            {
+                "request": request,
+                "question": request.question,
+                "session": session,
+                "edition": request.edition or (session.edition if session else None),
+                "meter": meter,
+                "steps": [],
+                "retries": 0,
+                "regenerations": 0,
+            }
         )
+        await self._remember(final, session, meter)
+        question = final.get("question", request.question)
         return ChatResponse(
             answer=final.get("answer", ABSTAIN_TEXT),
             route=final.get("route", REFUSE),
@@ -106,7 +133,37 @@ class ChatPipeline:
             contexts=[parent.text for parent in final.get("parents", [])],
             cost_cny=meter.cost_cny,
             abstained=bool(final.get("abstained")),
+            standalone_question=question if question != request.question else None,
         )
+
+    async def _load_session(self, request: ChatRequest) -> Session | None:
+        if self._store is None or not request.session_id:
+            return None
+        return await self._store.load(request.session_id) or Session(id=request.session_id)
+
+    async def _remember(self, final: State, session: Session | None, meter: MeteredChat) -> None:
+        """把这一轮写进会话：被拒绝的回合不进历史；历史太长就把最早的并进摘要。"""
+        if self._store is None or session is None or final.get("route") == REFUSE:
+            return
+        request = final["request"]
+        session.edition = request.edition or final.get("edition") or session.edition
+        session.turns.append(Turn(question=request.question, answer=final["answer"]))
+        if needs_summary(session):
+            old, recent = split_for_summary(session)
+            session.summary = await self._summarize(meter, session.summary, old)
+            session.turns = recent
+        await self._store.save(session)
+
+    @staticmethod
+    async def _summarize(meter: MeteredChat, summary: str, old: list[Turn]) -> str:
+        turns = "\n".join(f"用户：{turn.question}\n助手：{turn.answer}" for turn in old)
+        prompt = prompts.render("summarize_v1", summary=summary or "（无）", turns=turns)
+        try:
+            text = await meter.ask(prompt)
+        except AppError:
+            logger.warning("摘要失败，直接丢掉最早的 %d 轮", len(old))
+            return summary
+        return text.strip() or summary
 
     # ------------------------------------------------------------------ 图
 
@@ -114,6 +171,7 @@ class ChatPipeline:
         graph = StateGraph(State)
         nodes: dict[str, Any] = {
             "guard": self._guard,
+            "standalone": self._standalone,
             "route": self._route,
             "direct": self._direct,
             "clarify": self._clarify,
@@ -131,8 +189,9 @@ class ChatPipeline:
             graph.add_node(name, node)
         graph.add_edge(START, "guard")
         graph.add_conditional_edges(
-            "guard", lambda s: "refuse" if s.get("route") == REFUSE else "route"
+            "guard", lambda s: "refuse" if s.get("route") == REFUSE else "standalone"
         )
+        graph.add_edge("standalone", "route")
         graph.add_conditional_edges(
             "route",
             lambda s: {
@@ -169,7 +228,7 @@ class ChatPipeline:
 
     async def _guard(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        reason = check_input(state["request"].question)
+        reason = check_input(state["question"])
         if reason is None:
             return {"steps": _record(state, "guard", started, "通过")}
         return {
@@ -178,14 +237,27 @@ class ChatPipeline:
             "steps": _record(state, "guard", started, reason),
         }
 
+    async def _standalone(self, state: State) -> dict[str, Any]:
+        """有历史时，把追问改写成不看对话也能看懂的完整问题；改写失败就用原问题。"""
+        session = state.get("session")
+        if session is None or not (session.turns or session.summary):
+            return {}
+        started = time.perf_counter()
+        prompt = prompts.render(
+            "standalone_v1", history=format_history(session), question=state["question"]
+        )
+        data = parse_object(await state["meter"].ask(prompt, json_mode=True)) or {}
+        question = str(data.get("question", "")).strip() or state["question"]
+        return {"question": question, "steps": _record(state, "standalone", started, question)}
+
     async def _route(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        request = state["request"]
-        edition = request.edition
-        if _is_greeting(request.question):
+        question = state["question"]
+        edition = state.get("edition")
+        if _is_greeting(question):
             return {"route": DIRECT, "steps": _record(state, "route", started, "规则：问候")}
         output = await state["meter"].ask(
-            prompts.render("router_v1", question=request.question), json_mode=True
+            prompts.render("router_v1", question=question), json_mode=True
         )
         data = parse_object(output) or {}
         route = str(data.get("route", "")).strip().upper()
@@ -202,13 +274,13 @@ class ChatPipeline:
 
     async def _direct(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        prompt = prompts.render("direct_v1", question=state["request"].question)
+        prompt = prompts.render("direct_v1", question=state["question"])
         answer = await state["meter"].ask(prompt)
         return {"answer": answer.strip(), "steps": _record(state, "direct", started)}
 
     async def _clarify(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        prompt = prompts.render("clarify_v1", question=state["request"].question)
+        prompt = prompts.render("clarify_v1", question=state["question"])
         answer = await state["meter"].ask(prompt)
         return {"answer": answer.strip(), "steps": _record(state, "clarify", started)}
 
@@ -223,7 +295,7 @@ class ChatPipeline:
 
     async def _rewrite(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        question = state["request"].question
+        question = state["question"]
         output = await state["meter"].ask(
             prompts.render("rewrite_v1", question=question), json_mode=True
         )
@@ -233,7 +305,7 @@ class ChatPipeline:
 
     async def _decompose(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        question = state["request"].question
+        question = state["question"]
         output = await state["meter"].ask(
             prompts.render("decompose_v1", question=question, max_parts=str(MAX_SUBQUESTIONS)),
             json_mode=True,
@@ -252,7 +324,7 @@ class ChatPipeline:
 
     async def _retrieve(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        edition = state.get("edition") or state["request"].edition
+        edition = state.get("edition")
         editions = EDITION_FILTERS.get(edition or "")
         parents = [*state.get("parents", [])]
         known = {parent.id for parent in parents}
@@ -281,13 +353,13 @@ class ChatPipeline:
         if not state["parents"]:
             return {
                 "sufficient": False,
-                "missing": state["request"].question,
+                "missing": state["question"],
                 "steps": _record(state, "grade", started, "没有检索到任何内容"),
             }
         output = await state["meter"].ask(
             prompts.render(
                 "grade_v1",
-                question=state["request"].question,
+                question=state["question"],
                 contexts=state["context_text"],
             ),
             json_mode=True,
@@ -308,7 +380,7 @@ class ChatPipeline:
 
     async def _retry_query(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
-        question = state["request"].question
+        question = state["question"]
         missing = state.get("missing") or question
         output = await state["meter"].ask(
             prompts.render(
@@ -337,7 +409,7 @@ class ChatPipeline:
         prompt = prompts.render(
             "generate_v1",
             contexts=state["context_text"],
-            question=state["request"].question,
+            question=state["question"],
             retry_note=note,
         )
         raw = await state["meter"].ask(prompt)

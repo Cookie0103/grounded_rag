@@ -24,6 +24,8 @@ MARKERS = {
     "verify": "是否都能在「资料」里找到依据",
     "direct": "在打招呼",
     "clarify": "写一个简短的中文反问",
+    "standalone": "不看对话也能看懂的完整问题",
+    "summarize": "压缩成不超过 300 字的摘要",
 }
 
 

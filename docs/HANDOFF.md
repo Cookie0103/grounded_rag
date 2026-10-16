@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M5 完成，M6 未开始）
+最后更新：2026-10-16（M6 完成，M7 未开始）
 
 ## 一、总体进度
 
@@ -15,16 +15,16 @@
 | M3 评测 | ✅ 完成（真实评审待作者提供后端） | `docs/specs/M3-evaluation.md` |
 | M4 基线（无检索、朴素 RAG） | ✅ 完成（真实分数待密钥） | `docs/specs/M4-baselines.md` |
 | M5 编排（路由、改写、分解、证据评分、生成、校验） | ✅ 完成（假模型；真实效果待密钥） | `docs/specs/M5-orchestration.md` |
-| M6 记忆 | ⬜ 未开始 | |
+| M6 记忆 | ✅ 完成 | `docs/specs/M6-memory.md` |
 | M7 服务与可靠性（SSE、MCP、缓存、降级、限流、压测） | ⬜ 未开始 | |
 | M8 观测与坏例 | ⬜ 未开始 | |
 | M9 收尾（README、一键复现、最终报告） | ⬜ 未开始 | 测试集由作者手动跑一次 |
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、下一步：M6 记忆
+## 二、下一步：M7 服务与可靠性
 
-M5 完成。M6：先写 `docs/specs/M6-memory.md`（自批）。内容：多轮会话——短期记忆（最近几轮，超长时用模型摘要）、问题独立化（追问里的指代改写成完整问题）、用户偏好（自部署 / 云版本记在会话里并作为检索过滤）、会话存储（数据库表 + 迁移 0004，会话 ID，过期清理）；`ChatRequest` 加 `session_id`；`ChatPipeline` 在 guard 之后加 `standalone` 节点；评测里支持多轮题（先不做数据集，只做单元测试）。
+先写 `docs/specs/M7-service.md`（自批）。内容（proposal §5）：`POST /chat`（JSON + SSE 流式）、`POST /feedback`（M8 也用）、MCP 服务（`search_docs`、`ask_docs`，官方 `mcp` SDK，stdio 和 streamable-http）、三级缓存（查询嵌入 / 检索结果 / 完整回答；内存 LRU + TTL，缓存键含版本和提示词版本）、超时 / 重试 / 熔断 / 降级（精排挂了跳过精排；对话模型挂了只返回检索结果；预算超了同理）、限流（按 IP / 会话的令牌桶）、启动时预热检索器（替换 M2 的懒加载）、压测脚本（`scripts/load_test.py`，出 QPS 和 P95）。HTTP 层依赖 `app.orchestration`（已在 import-linter 分层里）。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 

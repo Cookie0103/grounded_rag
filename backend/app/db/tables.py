@@ -19,6 +19,7 @@ from sqlalchemy import (
     func,
     text,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 
 from app.core.config import BGE_M3_MODEL_NAME, EMBEDDING_DIMENSION, QWEN3_MODEL_NAME
 
@@ -102,4 +103,18 @@ chunk_embeddings = Table(
         postgresql_ops={"embedding": "vector_cosine_ops"},
         postgresql_where=text(f"model = '{BGE_M3_MODEL_NAME}'"),
     ),
+)
+
+
+sessions = Table(
+    "sessions",
+    metadata,
+    Column("id", Text, primary_key=True),
+    Column("edition", Text),
+    Column("summary", Text, nullable=False, server_default=""),
+    Column("turns", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
+    _timestamp("created_at"),
+    _timestamp("updated_at"),
+    CheckConstraint("edition IS NULL OR edition IN ('self_host', 'cloud')", name="edition"),
+    Index("ix_sessions_updated_at", "updated_at"),
 )

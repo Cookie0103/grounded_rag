@@ -12,6 +12,7 @@ ABSTAIN_TEXT = "抱歉，在文档里没有找到足够的依据来回答这个�
 class ChatRequest(BaseModel):
     question: str
     edition: str | None = None  # self_host / cloud / None（不限制）
+    session_id: str | None = None
 
 
 class Citation(BaseModel):
@@ -35,3 +36,4 @@ class ChatResponse(BaseModel):
     contexts: list[str] = Field(default_factory=list)
     cost_cny: float = 0.0
     abstained: bool = False
+    standalone_question: str | None = None  # 追问独立化之后的问题；没改写就是 None
