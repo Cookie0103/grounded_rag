@@ -49,9 +49,9 @@
 - 解决：测试集保持放在仓库外，开发 agent 接触不到；评审以 Gemini 为主。proposal 的分工表已更新。如需更严格的隔离，可以让作者或 Gemini 出测试集，**请作者决定**。
 
 ### 8. jieba 太老，BM25 分词怎么选
-- 现象：作者指出 jieba 是 2020 年的库，不想用；也嫌「二元组 + 整词保留」麻烦。
-- 排查：查了 PyPI 上 jieba 系列、pkuseg、LTP、HanLP、bm25s、rank_bm25 的最近发布日期；在隔离环境里用同一句话测了 jieba / rjieba / jieba-next / jieba3，切分结果完全相同（同一套词典和算法），并且都会拆碎 `UPLOAD_FILE_SIZE_LIMIT`、不认识「工作流」。顺带发现 `rank_bm25` 也是 2022 年的库。
-- 解决：BM25 库换成 `bm25s`（2026-10 仍在更新，已验证可接受自己切好的词列表）；分词用字符二元组 + 保留英文标识符，约 10 行代码，不需要术语词典。M2 再用 Recall@5 与 rjieba 对照。日语版保留 SudachiPy 作为将来的方案。
+- 现象：作者指出 jieba 是 2020 年的库，不想用。
+- 排查：查了 PyPI 上 jieba 系列、pkuseg、LTP、HanLP、bm25s、rank_bm25 的最近发布日期；在隔离环境里用同一句话测了 jieba / rjieba / jieba-next / jieba3，切分结果完全相同（词典内容相同），并且都会拆碎 `UPLOAD_FILE_SIZE_LIMIT`、不认识「工作流」。顺带发现 `rank_bm25` 也是 2022 年的库。我一度建议用字符二元组，作者选了 jieba3 + bm25s。
+- 解决：中文分词用 jieba3（现代 Python 3 重写版，只依赖 pydantic），BM25 用 bm25s（2026-10 仍在更新）。检查 jieba3 的接口发现它**没有用户词典接口**，所以在切词前用正则保护变量名和术语表，其余文字再交给 `cut_query`。在本机跑通：变量名和术语不被拆，三个测试查询都排到第 1。字符二元组留作 M2 的对照。
 
 ## 查阅资料
 

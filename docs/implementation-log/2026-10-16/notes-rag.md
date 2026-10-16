@@ -87,16 +87,58 @@ Cormack, Clarke, Büttcher. *Reciprocal Rank Fusion outperforms Condorcet and in
 
 ## 7. BM25 与中文分词
 
-**结论**：用 `bm25s` + 字符二元组分词，不用 jieba，也不维护术语词典。
+**结论（作者 2026-10-16 决定）**：中文分词用 `jieba3`，BM25 用 `bm25s`。M2 实现，M0 / M1 不装。
+
+### 依据
 
 - BM25 需要的是分词，不是关键词提取；查询和文档必须用同一种切法。
-- 库的维护状态（PyPI，2026-10-16 核对）：jieba 0.42.1 → 2020-01；pkuseg → 2020-06；jieba3 → 2024-10；jieba-next 1.0.0rc1 → 2026-04；rjieba 0.2.1 → 2026-04；LTP → 2024-06；HanLP 2.1.5 → 2026-09（深度学习，要 PyTorch 和模型，对 BM25 太重）；`rank_bm25` 0.2.2 → **2022-02**；`bm25s` 0.3.13 → **2026-10-07**。
-- **实测**（本机，Python 3.12，隔离环境）：同一句「在知识流水线里怎么修改 UPLOAD_FILE_SIZE_LIMIT……工作流有什么区别」，jieba、rjieba、jieba-next、jieba3 的切分结果**完全相同**——它们是同一套词典和算法的移植，新版只是更快，不会更准。共同的问题：`UPLOAD_FILE_SIZE_LIMIT` 被拆成 5 段；「工作流有」被切成「工作 / 流有」（不认识「工作流」，要补词典）。
-- 字符二元组：中文连续汉字切成相邻两字（单字原样保留），英文单词和变量名（`[A-Za-z0-9_]+`）整体保留。「知识流水线」→ 知识 / 识流 / 流水 / 水线，查询同样切，所以能匹配，不需要词典。缺点是单字查询匹配不到长词内部，噪声略多。
-- `bm25s` 接受自己切好的词列表（`BM25().index(list_of_token_lists)`、`retrieve(query_tokens, k=…, corpus=…)`），已在本机验证可用；切词函数放在一个独立的小函数里，随时可换。
-- M2 对照：二元组 vs rjieba，用开发集 Recall@5 决定。可选实验：bge-m3 的稀疏向量（不需要分词，但不是 BM25，要换一套检索实现）。
-- **日语**（将来）：SudachiPy 0.7.0（2026-09）+ `sudachidict-core`（2026-10-15），备选 fugashi（2025-10）；字符二元组对日语同样可用。
-- **多语言嵌入**：Qwen3-Embedding、bge-m3 及两个精排模型都是多语言模型，官方支持 100 多种语言，中日文都在内；效果是否相当，要用日文题集实测。嵌入模型自带分词器，与上面的 BM25 分词无关。
+- 库的维护状态（PyPI，2026-10-16 核对）：jieba 0.42.1 → 2020-01；pkuseg → 2020-06；jieba3 1.0.2 → 2024-10；jieba-next 1.0.0rc1 → 2026-04；rjieba 0.2.1 → 2026-04；LTP → 2024-06；HanLP 2.1.5 → 2026-09（深度学习，要 PyTorch 和模型，对 BM25 太重）；`rank_bm25` 0.2.2 → **2022-02**；`bm25s` 0.3.13 → **2026-10-07**。
+- **实测**（本机，隔离环境）：同一句话，jieba、rjieba、jieba-next、jieba3 的切分结果完全相同（词典内容相同，新版只是更快）。共同问题：`UPLOAD_FILE_SIZE_LIMIT` 被拆成 5 段；「工作流」被切成「工作 / 流有」。所以**必须在切词前保护变量名和术语**。
+
+### jieba3 要点
+
+- 用法：`cutter = jieba3.jieba3(model="base")`（`small` / `base` / `large`，模型文件 2.7 / 9.9 / 16.6 MB，随包安装，无需下载）；`cutter.cut_text(s)` 精确模式；`cutter.cut_query(s)` 搜索模式（长词同时给出子词：「流水线」→ 流水 / 水线 / 流水线）。
+- 依赖只有 pydantic，Python ≥ 3.10。**没有用户词典接口**（没有 `add_word` / `load_userdict`），不要去找。
+- 输出里有空白和标点 token，要过滤。
+
+### 切词函数（已在本机跑通，`app/retrieval/tokenizer.py`）
+
+```python
+PROTECTED = re.compile(r"([a-z][a-z0-9]*(?:_[a-z0-9]+)+|工作流|知识流水线)")  # 变量名 + 术语表
+cutter = jieba3.jieba3(model="base")
+
+def tokenize(text: str) -> list[str]:
+    tokens: list[str] = []
+    for i, part in enumerate(PROTECTED.split(text.lower())):
+        if i % 2:                      # 奇数位是被保护的变量名 / 术语：整体保留
+            tokens.append(part)
+        else:                          # 其余文字交给 jieba3，丢掉空白和标点
+            tokens += [t for t in cutter.cut_query(part) if re.search(r"\w", t)]
+    return tokens
+```
+
+- `re.split` 带捕获组，结果里奇数位是匹配到的部分。
+- 实测输出：「在知识流水线里怎么修改 UPLOAD_FILE_SIZE_LIMIT，……工作流有什么区别」→ `在 / 知识流水线 / 里 / 怎么 / 修改 / upload_file_size_limit / … / 工作流 / 有 / 什么 / 区别`。
+- 术语表先放十几个（从 182 篇文档的标题统计高频词得到：「工作流」「知识流水线」「知识库」「Chatflow」「Agent」等），M2 再定；术语表放 `app/retrieval/terms.py`，不放进 config。
+- 已知缺点：被保护的整词（「知识流水线」）搜「流水线」匹配不到。M2 评估时要专门看这一点；若有影响，保护词同时输出整词和 `cut_query` 的子词。
+
+### bm25s 要点
+
+- `r = bm25s.BM25(); r.index(list_of_token_lists)`；`r.retrieve([query_tokens], k=…, corpus=…)` 返回 `(results, scores)`。**传自己切好的词列表**，不用它自带的 tokenizer。已验证可用。
+- 索引不入库，启动时从 `chunks` 表在内存里构建。
+- `show_progress=False` 关掉进度条（日志干净）。
+
+### M2 对照实验
+
+jieba3 `cut_query` vs `cut_text` vs 字符二元组（中文连续汉字切相邻两字，英文标识符整体保留，零依赖、不需要术语表），用开发集 Recall@5 决定，并记入开发日志。可选：bge-m3 稀疏向量（不是 BM25，要换一套检索实现）。
+
+### 日语（将来，不实现）
+
+SudachiPy 0.7.0（2026-09）+ `sudachidict-core`（2026-10-15），备选 fugashi（2025-10）；字符二元组对日语也能用。
+
+### 多语言嵌入
+
+Qwen3-Embedding、bge-m3 及两个精排模型都是多语言模型，官方支持 100 多种语言，中日文都在内；效果是否相当，要用日文题集实测。嵌入模型自带分词器，与上面的 BM25 分词无关。
 
 ## 8. Adaptive-RAG（Jeong et al., NAACL 2024）
 
