@@ -66,6 +66,12 @@
 - 会话记忆：`app/core/session.py`、`SessionStore`（内存 + PostgreSQL，迁移 0004）、追问独立化、摘要（超过 6 轮并进摘要、保留 3 轮）、历史字数预算、版本记忆；`ChatRequest.session_id`
 - 见 [M6 Spec](../../specs/M6-memory.md)
 
+## M7 实现（Sonnet）
+
+- 缓存（嵌入 / 检索 / 完整回答）、精排熔断与降级、生成降级（只返回检索片段）、整次问答超时、令牌桶限流、启动预热
+- `POST /chat`（JSON 与 SSE：每个环节一个 step 事件，最后 answer 事件）、MCP 服务（`search_docs`、`ask_docs`，`poe mcp`）、压测脚本（`poe load-test`）
+- 压测数字和偏离见 [M7 Spec](../../specs/M7-service.md)
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行
@@ -184,6 +190,15 @@
 ### 26. LangGraph 的类型标注与 mypy
 - 现象：`add_node` 的重载和 `dict[str, Callable]` 对不上，mypy 报 `call-overload`。
 - 解决：节点表标成 `dict[str, Any]`；状态用 TypedDict，`MeteredChat` 要在 State 之前定义（用字符串前向引用会让 mypy 认不出状态类型）。
+
+### 27. 单元测试没有 lifespan，限流器和服务容器不能放在 lifespan 里
+- 现象：给所有路由加了限流依赖后，已有的接口测试全部 `AttributeError: 'State' object has no attribute 'limiter'`。
+- 原因：测试用 `ASGITransport`，不会跑 lifespan。
+- 解决：限流器和服务锁在 `create_app()` 里建；lifespan 只管引擎和预热。
+
+### 28. MCP SDK 2.x 的接口变了
+- 现象：`from mcp.server.fastmcp import FastMCP` 报「mcp 2.x 里改名为 MCPServer」。
+- 解决：按报错用 `mcp.server.mcpserver.MCPServer`；客户端用 `mcp.Client(StdioServerParameters(...))`；工具里抛 `ValueError`，`call_tool` 会变成 `UnexpectedToolError`。
 
 ### 25. 超时杀掉的子进程在测试结束后报警告
 - 现象：命令行评审超时测试通过，但 pytest 报 `Event loop is closed` 的 ResourceWarning。

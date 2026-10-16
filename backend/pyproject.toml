@@ -67,6 +67,7 @@ max-args = 7
 [tool.ruff.lint.per-file-ignores]
 "app/core/config.py" = ["TID251"]
 "app/providers/**" = ["TID251"]
+"scripts/load_test.py" = ["TID251"]  # 压测是调用我们自己的服务，不是外部模型
 "tests/**" = ["S101", "PLR2004", "TID251"]
 "migrations/**" = ["ERA001"]
 
@@ -126,6 +127,8 @@ serve = { cmd = "uvicorn app.api.main:create_app --factory --reload", env = { PR
 fetch-docs = "python -m scripts.fetch_docs"
 ingest = "python -m scripts.ingest"
 retrieve-demo = "python -m scripts.retrieve_demo"
+mcp = "python -m scripts.mcp_server"
+load-test = "python -m scripts.load_test"
 compare-retrieval = "python -m scripts.compare_retrieval"
 eval-dev = "python -m scripts.eval_run"
 eval-validate = "python -m scripts.validate_questions"

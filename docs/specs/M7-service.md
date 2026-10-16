@@ -52,14 +52,26 @@ MCP 工具：`search_docs(query, edition=None, top_k=5)`、`ask_docs(question, e
 
 ## 任务
 
-- [ ] T1 缓存、熔断器、限流器（`app/core/`）
-- [ ] T2 带缓存和降级的检索器 / 嵌入器；流式管线；`ChatService`
-- [ ] T3 `/chat` 与限流、预热
-- [ ] T4 MCP 服务
-- [ ] T5 压测脚本、收尾
+- [x] T1 缓存、熔断器、限流器（`app/core/`）
+- [x] T2 带缓存和降级的检索器 / 嵌入器；流式管线；`ChatService`
+- [x] T3 `/chat` 与限流、预热
+- [x] T4 MCP 服务
+- [x] T5 压测脚本、收尾
 
 ## 阻塞
 
 - 真实压测数字要真实模型（本机 GPU）和 DeepSeek 密钥；没有密钥时只能用假对话模型 + 真检索压测。
 
 ## 记录
+
+2026-10-16 完成。
+- AC1～AC5、AC7：`tests/unit/core/test_resilience.py`、`tests/unit/retrieval/test_resilient.py`、`tests/unit/orchestration/test_service.py`、`tests/unit/api/test_chat.py`（缓存 / 熔断 / 限流 / 降级 / SSE / 预热）；AC6：`tests/unit/api/test_mcp.py` 11 个 + `tests/integration/test_mcp_stdio.py`（真实子进程经 stdio 列出两个工具）。`poe check` 397 passed，覆盖率 94.8%；`poe test-int` 27 passed。
+- AC8（本机 RTX 5070 Ti，真实 Qwen3 嵌入 + 精排，`CHAT_MODEL=fake`，`RATE_LIMIT_PER_MINUTE=0`，并发 4）：
+  - `/retrieve` 冷查询（每次问题都不同）：QPS 4.8，P50 833 毫秒，P95 870 毫秒，0 错误；
+  - `/retrieve` 28 题循环 56 次：QPS 3.0，P50 769 毫秒，P95 12.2 秒（第一次请求要做 CUDA 预热，之后的请求命中检索缓存或在 0.8 秒内）；
+  - `/chat`（假对话模型，只测编排开销，不是真实生成耗时）：QPS 40，P50 6 毫秒。
+  - 瓶颈是 GPU 上的精排（线程锁让推理串行），并发再高 QPS 不会涨；真实 `/chat` 的耗时由 DeepSeek 往返决定，要有密钥才能测。
+- SSE 手动验证：`curl -N` 看到 step 事件逐个到达，最后是 answer 事件。
+- **偏离 / 决定**：① 精排失败的判断是「检索抛 AppError / RuntimeError / OSError」，数据库错误也会让熔断器计一次失败（降级重试仍然失败时原样抛出真正的错误）；② 答案缓存键 = (问题, 版本, 提示词哈希)，**不含**对话模型名（换模型要重启服务）；③ 限流只按 IP，放在路由依赖里（`/health` 不限流）；④ `/feedback` 留给 M8；⑤ MCP 用 `mcp` 2.x 的 `MCPServer`（不是 1.x 的 `FastMCP`）；⑥ 预热失败只记警告，第一次请求再试。
+- **未验证**：真实对话模型下的端到端耗时；HTTP 模式的 MCP（只验证了 stdio）；Claude Code 里的实际调用（要作者执行 `claude mcp add`）。
+
