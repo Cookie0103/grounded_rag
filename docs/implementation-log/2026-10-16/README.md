@@ -53,6 +53,11 @@
 - 排查：查了 PyPI 上 jieba 系列、pkuseg、LTP、HanLP、bm25s、rank_bm25 的最近发布日期；在隔离环境里用同一句话测了 jieba / rjieba / jieba-next / jieba3，切分结果完全相同（词典内容相同），并且都会拆碎 `UPLOAD_FILE_SIZE_LIMIT`、不认识「工作流」。顺带发现 `rank_bm25` 也是 2022 年的库。我一度建议用字符二元组，作者选了 jieba3 + bm25s。
 - 解决：中文分词用 jieba3（现代 Python 3 重写版，只依赖 pydantic），BM25 用 bm25s（2026-10 仍在更新）。检查 jieba3 的接口发现它**没有用户词典接口**，所以在切词前用正则保护变量名和术语表，其余文字再交给 `cut_query`。在本机跑通：变量名和术语不被拆，三个测试查询都排到第 1。字符二元组留作 M2 的对照。
 
+### 9. 分块：固定窗口 vs 语义切分 vs 按结构切
+- 现象：作者看不懂「表格怎么拆」，并问固定字数切是否太生硬、是否该用语义切分，以及 Adaptive-rag 怎么做。
+- 排查：读了 Adaptive-rag 的 `chunking.py`（按标题分节后 500 字窗口、重叠 60，硬切）；查了语义切分的论文（NAACL 2025 Findings）和 Anthropic 的 Contextual Retrieval。
+- 解决：保持按文档结构切（不是固定窗口，也没有重叠）；不做语义切分；表格按字数分组，每组几行不固定，M2 对照「一行一块」；标题路径拼进嵌入和 BM25 文本，作为 Contextual Retrieval 的免费简化版。澄清了一个误会：1024 是向量维度，不是字符数。已写进 Notion 4.2–4.5 节和 notes-rag §11。
+
 ## 查阅资料
 
 | 资料 | 结论用在哪 |
@@ -73,6 +78,7 @@
 | langgenius/dify-docs 仓库（用 `gh api` 实测） | 固定 commit、182 篇的构成、92 个同名页面、组件使用统计 |
 | Google eng-practices、Claude Code 最佳实践、spec-kit、Codex cookbook、GPT-6 Astra 提示词指南 | 规范与流程（见 workflow.md） |
 | PyPI 发布记录（jieba、rjieba、bm25s、rank_bm25、HanLP、SudachiPy 等）与本机实测 | BM25 库和分词方案的选择（见困难 8） |
+| [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/html/2410.13070v1)、[Anthropic Contextual Retrieval](https://anthropic.com/news/contextual-retrieval) | 不做语义切分；标题路径拼进检索文本（见困难 9） |
 | 本地 Adaptive-rag 项目的 `docs/19-project-diagnosis.md` | 前人踩过的坑，转成本项目的规则 |
 
 ## 验收证据
