@@ -166,7 +166,9 @@ async def test_edition_filter_returns_enough_rows_when_the_nearest_ones_are_anot
 
     async with engine.begin() as connection:
         await connection.execute(text("SET LOCAL enable_seqscan = off"))  # 尽量走 HNSW 索引
-        found = await nearest_chunks(connection, query, model=MODEL, limit=5, edition="self_host")
+        found = await nearest_chunks(
+            connection, query, model=MODEL, limit=5, editions=("self_host",)
+        )
         setting = await connection.scalar(text("SHOW hnsw.iterative_scan"))
 
     # HNSW 是近似检索，图是随机建的，个别点可能搜不到（CI 上有一次只返回 4 条），

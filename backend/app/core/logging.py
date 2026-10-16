@@ -4,7 +4,7 @@ import logging
 
 from app.core.trace import trace_id_var
 
-NOISY_LOGGERS = ("httpx", "httpcore", "huggingface_hub")
+NOISY_LOGGERS = ("httpx", "httpcore", "huggingface_hub", "bm25s")
 LOG_FORMAT = "%(asctime)s %(levelname)s %(name)s trace=%(trace_id)s %(message)s"
 
 

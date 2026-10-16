@@ -109,9 +109,9 @@ async def nearest_chunks(
     *,
     model: str,
     limit: int,
-    edition: str | None = None,
+    editions: Sequence[str] | None = None,
 ) -> list[NearestChunk]:
-    """按余弦距离取最近的子块；可以只查某个版本的文档。
+    """按余弦距离取最近的子块；可以只查某几种版本（self_host / cloud / common）的文档。
 
     带 WHERE 过滤时，HNSW 索引是先找近邻再过滤，可能不足 limit 条，所以开启迭代扫描。
     模型名直接写进 SQL（literal_execute），这样部分索引的 WHERE 条件才能被规划器识别。
@@ -136,8 +136,8 @@ async def nearest_chunks(
         .order_by(distance)
         .limit(limit)
     )
-    if edition is not None:
-        statement = statement.where(documents.c.edition == edition)
+    if editions is not None:
+        statement = statement.where(documents.c.edition.in_(list(editions)))
     rows = await connection.execute(statement)
     return [
         NearestChunk(
@@ -145,6 +145,57 @@ async def nearest_chunks(
         )
         for row in rows
     ]
+
+
+@dataclass(frozen=True)
+class ChunkRow:
+    id: str
+    document_id: str
+    parent_id: str
+    heading_path: str
+    text: str
+    edition: str
+
+
+@dataclass(frozen=True)
+class ParentRow:
+    id: str
+    document_id: str
+    heading_path: str
+    text: str
+
+
+async def load_chunks(connection: AsyncConnection) -> list[ChunkRow]:
+    """所有子块（含所属文档的版本），启动时建 BM25 索引用。按 ID 排序，顺序确定。"""
+    rows = await connection.execute(
+        select(
+            chunks.c.id,
+            chunks.c.document_id,
+            chunks.c.parent_id,
+            chunks.c.heading_path,
+            chunks.c.text,
+            documents.c.edition,
+        )
+        .select_from(chunks.join(documents, documents.c.id == chunks.c.document_id))
+        .order_by(chunks.c.id)
+    )
+    return [ChunkRow(*row) for row in rows]
+
+
+async def load_parents(
+    connection: AsyncConnection, parent_ids: Sequence[str]
+) -> dict[str, ParentRow]:
+    if not parent_ids:
+        return {}
+    rows = await connection.execute(
+        select(
+            parent_chunks.c.id,
+            parent_chunks.c.document_id,
+            parent_chunks.c.heading_path,
+            parent_chunks.c.text,
+        ).where(parent_chunks.c.id.in_(list(parent_ids)))
+    )
+    return {row.id: ParentRow(*row) for row in rows}
 
 
 async def table_counts(connection: AsyncConnection) -> dict[str, int]:
@@ -210,3 +261,40 @@ async def corpus_overview(connection: AsyncConnection, *, longest: int = 10) -> 
 async def _count_by(connection: AsyncConnection, column: Column[str]) -> dict[str, int]:
     rows = await connection.execute(select(column, func.count()).group_by(column).order_by(column))
     return {name: int(count) for name, count in rows}
+
+
+async def chunks_without_embedding(connection: AsyncConnection, model: str) -> list[ChunkRow]:
+    """还没有这个模型的向量的子块。给第二个嵌入模型补向量用。"""
+    has_vector = (
+        select(chunk_embeddings.c.id)
+        .where(chunk_embeddings.c.chunk_id == chunks.c.id, chunk_embeddings.c.model == model)
+        .exists()
+    )
+    rows = await connection.execute(
+        select(
+            chunks.c.id,
+            chunks.c.document_id,
+            chunks.c.parent_id,
+            chunks.c.heading_path,
+            chunks.c.text,
+            documents.c.edition,
+        )
+        .select_from(chunks.join(documents, documents.c.id == chunks.c.document_id))
+        .where(~has_vector)
+        .order_by(chunks.c.id)
+    )
+    return [ChunkRow(*row) for row in rows]
+
+
+async def insert_embeddings(
+    connection: AsyncConnection, model: str, vectors: Sequence[tuple[str, list[float]]]
+) -> None:
+    """(子块 ID, 向量) 写入 chunk_embeddings。"""
+    if vectors:
+        await connection.execute(
+            insert(chunk_embeddings),
+            [
+                {"chunk_id": chunk_id, "model": model, "embedding": vector}
+                for chunk_id, vector in vectors
+            ],
+        )

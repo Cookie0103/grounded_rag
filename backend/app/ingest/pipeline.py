@@ -15,9 +15,11 @@ from app.db.corpus import (
     ChunkRecord,
     DocumentRecord,
     ParentRecord,
+    chunks_without_embedding,
     delete_documents,
     document_hashes,
     has_embeddings,
+    insert_embeddings,
     replace_document,
 )
 from app.ingest.chunker import ChunkedDocument, chunk_document
@@ -179,3 +181,24 @@ def _chunk_records(prepared: _Prepared, vectors: list[list[float]]) -> list[Chun
         )
         for child, vector in zip(prepared.chunked.children, vectors, strict=True)
     ]
+
+
+async def add_missing_embeddings(embedder: Embedder, engine: AsyncEngine) -> int:
+    """给库里已有的子块补上这个模型的向量（不动文档和块）。返回补了多少个。
+
+    用于第二个嵌入模型（如 bge-m3）：整篇重建会级联删掉别的模型的向量，所以单独做。
+    """
+    async with engine.connect() as connection:
+        missing = await chunks_without_embedding(connection, embedder.name)
+    for start in range(0, len(missing), EMBED_SLICE):
+        batch = missing[start : start + EMBED_SLICE]
+        vectors = await embedder.embed_documents(
+            [search_text(chunk.heading_path, chunk.text) for chunk in batch]
+        )
+        if any(len(vector) != EMBEDDING_DIMENSION for vector in vectors):
+            raise CorpusError(f"嵌入向量的维度必须是 {EMBEDDING_DIMENSION}")
+        async with engine.begin() as connection:
+            await insert_embeddings(
+                connection, embedder.name, [(c.id, v) for c, v in zip(batch, vectors, strict=True)]
+            )
+    return len(missing)

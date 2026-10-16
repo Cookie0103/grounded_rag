@@ -29,6 +29,20 @@ QWEN3_QUERY_INSTRUCTION = (
 )
 
 
+# 检索：向量和 BM25 各取前 RETRIEVE_TOP_K，RRF 融合后取前 FUSION_TOP_K 送去精排，最后留 FINAL_TOP_K
+RETRIEVE_TOP_K = 30
+FUSION_TOP_K = 20
+FINAL_TOP_K = 5
+RRF_K = 60
+QWEN3_RERANKER_NAME = "qwen3-reranker-0.6b"
+BGE_RERANKER_NAME = "bge-reranker-v2-m3"
+# 版本过滤：只看自部署版 / 云版时，同时包含「通用」文档
+EDITION_FILTERS = {
+    "self_host": ("self_host", "common"),
+    "cloud": ("cloud", "common"),
+}
+
+
 class Settings(BaseSettings):
     """从环境变量和仓库根目录的 `.env` 读取；字段与 `.env.example` 保持一致。"""
 
@@ -40,6 +54,7 @@ class Settings(BaseSettings):
     embedding_model: str = "qwen3"  # qwen3 / bge-m3 / fake
     embed_device: str = "cuda"
     embed_batch_size: int = 32
+    reranker_model: str = "qwen3"  # qwen3 / bge / fake / none
 
 
 @lru_cache

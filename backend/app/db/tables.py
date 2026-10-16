@@ -20,7 +20,7 @@ from sqlalchemy import (
     text,
 )
 
-from app.core.config import EMBEDDING_DIMENSION, QWEN3_MODEL_NAME
+from app.core.config import BGE_M3_MODEL_NAME, EMBEDDING_DIMENSION, QWEN3_MODEL_NAME
 
 # 统一约束命名，迁移里不会出现匿名约束
 NAMING_CONVENTION = {
@@ -87,12 +87,19 @@ chunk_embeddings = Table(
     Column("embedding", Vector(EMBEDDING_DIMENSION), nullable=False),
     _timestamp("created_at"),
     UniqueConstraint("chunk_id", "model"),
-    # 每个嵌入模型一个部分索引；bge-m3 的在 M2 加
+    # 每个嵌入模型一个部分索引
     Index(
         "ix_chunk_embeddings_qwen3_hnsw",
         "embedding",
         postgresql_using="hnsw",
         postgresql_ops={"embedding": "vector_cosine_ops"},
         postgresql_where=text(f"model = '{QWEN3_MODEL_NAME}'"),
+    ),
+    Index(
+        "ix_chunk_embeddings_bge_m3_hnsw",
+        "embedding",
+        postgresql_using="hnsw",
+        postgresql_ops={"embedding": "vector_cosine_ops"},
+        postgresql_where=text(f"model = '{BGE_M3_MODEL_NAME}'"),
     ),
 )

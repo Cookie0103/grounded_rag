@@ -48,7 +48,7 @@ class SentenceTransformerEmbedder:
                 self._spec.model_id,
                 device=self._device,
                 cache_folder=str(self._cache_dir),
-                tokenizer_kwargs={"padding_side": self._spec.padding_side},
+                processor_kwargs={"padding_side": self._spec.padding_side},
                 model_kwargs={"torch_dtype": torch.float16},
             )
         return self._model

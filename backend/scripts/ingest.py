@@ -16,7 +16,7 @@ from app.core.logging import configure_logging
 from app.db.corpus import corpus_overview
 from app.db.engine import create_engine
 from app.ingest.corpus import CORPUS_COMMIT, RAW_DIR
-from app.ingest.pipeline import ingest_corpus
+from app.ingest.pipeline import add_missing_embeddings, ingest_corpus
 from app.ingest.report import ReportMeta, render_report, run_checks
 from app.providers.factory import get_embedder
 
@@ -41,14 +41,31 @@ async def run(model: str | None) -> str:
     return render_report(meta, stats, overview, checks)
 
 
+async def add_embeddings(model: str | None) -> str:
+    settings = get_settings()
+    embedder = get_embedder(model or settings.embedding_model, settings)
+    engine = create_engine(settings)
+    try:
+        added = await add_missing_embeddings(embedder, engine)
+    finally:
+        await engine.dispose()
+    return f"给 {embedder.name} 补了 {added} 个子块的向量\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="语料入库并生成数据报告")
     parser.add_argument(
         "--model", choices=["qwen3", "bge-m3", "fake"], help="默认读 EMBEDDING_MODEL"
     )
+    parser.add_argument(
+        "--add-embeddings", action="store_true", help="只给已入库的子块补这个模型的向量"
+    )
     arguments = parser.parse_args()
 
     configure_logging("INFO")
+    if arguments.add_embeddings:
+        sys.stdout.write(asyncio.run(add_embeddings(arguments.model)))
+        return
     report = asyncio.run(run(arguments.model))
     sys.stdout.write(report)
     reports_dir = CACHE_DIR / "reports"
