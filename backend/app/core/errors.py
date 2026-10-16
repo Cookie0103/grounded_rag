@@ -43,3 +43,10 @@ class RateLimitedError(AppError):
 
     code = "RATE_LIMITED"
     status_code = 429
+
+
+class TraceNotFoundError(AppError):
+    """没有这个 trace_id 的记录。"""
+
+    code = "TRACE_NOT_FOUND"
+    status_code = 404

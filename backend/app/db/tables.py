@@ -6,8 +6,10 @@ from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     TIMESTAMP,
     BigInteger,
+    Boolean,
     CheckConstraint,
     Column,
+    Float,
     ForeignKey,
     Identity,
     Index,
@@ -117,4 +119,46 @@ sessions = Table(
     _timestamp("updated_at"),
     CheckConstraint("edition IS NULL OR edition IN ('self_host', 'cloud')", name="edition"),
     Index("ix_sessions_updated_at", "updated_at"),
+)
+
+
+traces = Table(
+    "traces",
+    metadata,
+    Column("trace_id", Text, primary_key=True),
+    Column("question", Text, nullable=False),
+    Column("route", Text, nullable=False),
+    Column("edition", Text),
+    Column("session_id", Text),
+    Column("answer", Text, nullable=False),
+    Column("abstained", Boolean, nullable=False),
+    Column("degraded", Boolean, nullable=False),
+    Column("cached", Boolean, nullable=False),
+    Column("cost_cny", Float, nullable=False),
+    Column("steps", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
+    Column("retrieved_docs", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
+    Column("citations", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
+    _timestamp("created_at"),
+    Index("ix_traces_created_at", "created_at"),
+)
+
+feedback = Table(
+    "feedback",
+    metadata,
+    Column("id", BigInteger, Identity(), primary_key=True),
+    Column("trace_id", Text, nullable=False),
+    Column("rating", Text, nullable=False),
+    Column("comment", Text, nullable=False, server_default=""),
+    _timestamp("created_at"),
+    CheckConstraint("rating IN ('good', 'bad')", name="rating"),
+    Index("ix_feedback_trace_id", "trace_id"),
+)
+
+interventions = Table(
+    "interventions",
+    metadata,
+    Column("question_key", Text, primary_key=True),  # 归一化后的问题（core.text.question_key）
+    Column("question", Text, nullable=False),
+    Column("answer", Text, nullable=False),
+    _timestamp("created_at"),
 )

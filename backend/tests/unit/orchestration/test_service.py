@@ -46,7 +46,7 @@ class DegradedRetriever(StubRetriever):
         return RetrievalResult(result.query, result.candidates, result.parents, degraded=True)
 
 
-def _service(chat: Any, retriever: StubRetriever | None = None, **kw: float) -> ChatService:
+def _service(chat: Any, retriever: StubRetriever | None = None, **kw: Any) -> ChatService:
     retriever = retriever or StubRetriever()
     pipeline = ChatPipeline(chat, retriever)
     return ChatService(pipeline, retriever, answer_cache=TtlCache(10, 60), **kw)

@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M7 完成，M8 未开始）
+最后更新：2026-10-16（M8 完成，M9 未开始）
 
 ## 一、总体进度
 
@@ -17,14 +17,14 @@
 | M5 编排（路由、改写、分解、证据评分、生成、校验） | ✅ 完成（假模型；真实效果待密钥） | `docs/specs/M5-orchestration.md` |
 | M6 记忆 | ✅ 完成 | `docs/specs/M6-memory.md` |
 | M7 服务与可靠性（SSE、MCP、缓存、降级、限流、压测） | ✅ 完成 | `docs/specs/M7-service.md` |
-| M8 观测与坏例 | ⬜ 未开始 | |
+| M8 观测与坏例 | ✅ 完成 | `docs/specs/M8-observability.md` |
 | M9 收尾（README、一键复现、最终报告） | ⬜ 未开始 | 测试集由作者手动跑一次 |
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、下一步：M8 观测与坏例
+## 二、下一步：M9 收尾
 
-先写 `docs/specs/M8-observability.md`（自批）。内容（proposal §7）：① 每次问答的 trace 持久化（表 `traces`：trace_id、问题、路由、各步骤耗时、检索到的文档、成本、是否降级 / 拒答，迁移 0005），`GET /traces/{trace_id}` 复盘；② 输出后处理：敏感词黑名单、重复检测、干预库（人工指定「问题 → 标准答案」，优先于生成）；③ `POST /feedback`（trace_id、好 / 坏、备注，表 `feedback`）；④ 坏例收集：把坏反馈 / 拒答 / 降级的问题导出到 `backend/eval/bad_cases.jsonl` 格式（只导出问题，不写金标——金标要作者来标）；⑤ 日志里的 trace_id 贯穿 `app/orchestration`。之后 M9：README、一键复现（`docker compose up` + 脚本）、最终报告模板、作者跑测试集的说明。
+先写 `docs/specs/M9-wrapup.md`（自批）。内容：① `README.md`（项目是什么、架构图、快速开始、一键复现：`docker compose up -d db` → `uv sync` → `poe fetch-docs` → `poe ingest` → `poe serve`；评测怎么跑；MCP 怎么注册；文档许可来源）；② `docs/eval/runbook.md`：作者拿到密钥和 Gemini 题目后一步步该做什么（校验题目 → 开发集跑各系统 → 人工校准 20 条 → 测试集跑一次 → 出报告），包含完整消融表模板（无检索 → naive → +混合与精排 → +改写与路由 → +校验与拒答）和模型对比表模板；③ `docs/final-report-template.md`（最终报告骨架，数字留空）；④ 复现性检查：干净目录里按 README 走一遍（本机用临时库验证命令都存在）；⑤ 全部 Spec 的「未验证」汇总成 `docs/known-gaps.md`；⑥ Notion 页首进度框更新（给作者看）；⑦ 最后一次全量检查：`poe check`、`poe test-int`、`poe test-gpu`、CI。做完后整个长程任务结束，向作者汇报：已完成 / 阻塞项 / 需要作者做的事。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 

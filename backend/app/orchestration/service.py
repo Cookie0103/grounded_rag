@@ -4,12 +4,18 @@ import asyncio
 import logging
 from collections.abc import AsyncIterator
 
+from sqlalchemy.exc import SQLAlchemyError
+
 from app.core.cache import TtlCache
 from app.core.config import EDITION_FILTERS
 from app.core.errors import BudgetExceededError, DependencyUnavailableError
+from app.core.records import TraceRecord
+from app.core.trace import NO_TRACE, new_trace_id, trace_id_var
 from app.orchestration import prompts
-from app.orchestration.models import ChatRequest, ChatResponse, Citation, Step
+from app.orchestration.models import ABSTAIN_TEXT, ChatRequest, ChatResponse, Citation, Step
+from app.orchestration.observe import InterventionStore, TraceStore
 from app.orchestration.pipeline import ChatPipeline
+from app.orchestration.postprocess import postprocess
 from app.retrieval.retriever import Retriever
 
 logger = logging.getLogger(__name__)
@@ -28,7 +34,11 @@ class ChatService:
         *,
         answer_cache: TtlCache[AnswerKey, ChatResponse],
         timeout_seconds: float = CHAT_TIMEOUT_SECONDS,
+        traces: TraceStore | None = None,
+        interventions: InterventionStore | None = None,
     ) -> None:
+        self._traces = traces
+        self._interventions = interventions
         self._pipeline = pipeline
         self._retriever = retriever
         self._cache = answer_cache
@@ -44,6 +54,57 @@ class ChatService:
         return response
 
     async def stream(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
+        async for item in self._run(request):
+            if isinstance(item, ChatResponse):
+                await self._record(request, item)
+            yield item
+
+    async def _record(self, request: ChatRequest, response: ChatResponse) -> None:
+        """保存 trace；保存失败只记日志，不影响回答。"""
+        if self._traces is None:
+            return
+        trace_id = trace_id_var.get()
+        record = TraceRecord(
+            trace_id=new_trace_id() if trace_id == NO_TRACE else trace_id,
+            question=request.question,
+            route=response.route,
+            edition=request.edition,
+            session_id=request.session_id,
+            answer=response.answer,
+            abstained=response.abstained,
+            degraded=response.degraded,
+            cached=response.cached,
+            cost_cny=response.cost_cny,
+            steps=[step.model_dump() for step in response.steps],
+            retrieved_docs=response.retrieved_docs,
+            citations=[citation.model_dump() for citation in response.citations],
+        )
+        try:
+            await self._traces.save(record)
+        except (SQLAlchemyError, OSError) as error:
+            logger.warning("trace 保存失败：%r", error)
+
+    async def _intervention(self, request: ChatRequest) -> ChatResponse | None:
+        if self._interventions is None:
+            return None
+        try:
+            answer = await self._interventions.get(request.question)
+        except (SQLAlchemyError, OSError) as error:
+            logger.warning("干预库不可用，按正常流程回答：%r", error)
+            return None
+        if answer is None:
+            return None
+        return ChatResponse(
+            answer=answer,
+            route="INTERVENED",
+            steps=[Step(name="intervention", ms=0.0, note="命中干预库")],
+        )
+
+    async def _run(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
+        intervened = await self._intervention(request)
+        if intervened is not None:
+            yield intervened
+            return
         key = (request.question.strip(), request.edition, prompts.version())
         cacheable = not request.session_id  # 有会话的回答依赖历史，不缓存
         if cacheable and (cached := self._cache.get(key)) is not None:
@@ -62,9 +123,24 @@ class ChatService:
             final = await self._fallback(request)
         if final is None:
             raise RuntimeError("编排没有产出 ChatResponse")
+        final = self._postprocess(final)
         if cacheable and not final.degraded and not final.abstained:
             self._cache.put(key, final)
         yield final
+
+    @staticmethod
+    def _postprocess(response: ChatResponse) -> ChatResponse:
+        result = postprocess(response.answer)
+        if result.blocked:
+            return response.model_copy(
+                update={"answer": ABSTAIN_TEXT, "abstained": True, "citations": []}
+            )
+        if not result.notes:
+            return response
+        step = Step(name="postprocess", ms=0.0, note="；".join(result.notes))
+        return response.model_copy(
+            update={"answer": result.answer, "steps": [*response.steps, step]}
+        )
 
     async def _fallback(self, request: ChatRequest) -> ChatResponse:
         editions = EDITION_FILTERS.get(request.edition or "")

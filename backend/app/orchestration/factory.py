@@ -7,7 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from app.core.cache import TtlCache
 from app.core.config import Settings
 from app.core.resilience import CircuitBreaker
+from app.db.observability import PostgresInterventionStore, PostgresTraceStore
 from app.db.sessions import PostgresSessionStore
+from app.orchestration.observe import TraceStore
 from app.orchestration.pipeline import ChatPipeline
 from app.orchestration.service import ChatService
 from app.providers.cached import CachedEmbedder
@@ -26,6 +28,7 @@ RERANK_FAILURE_THRESHOLD, RERANK_RESET_SECONDS = 3, 30.0
 class Services:
     retriever: Retriever
     chat: ChatService
+    traces: TraceStore | None = None
 
 
 async def build_services(engine: AsyncEngine, settings: Settings) -> Services:
@@ -40,7 +43,12 @@ async def build_services(engine: AsyncEngine, settings: Settings) -> Services:
         breaker=CircuitBreaker(RERANK_FAILURE_THRESHOLD, RERANK_RESET_SECONDS),
     )
     pipeline = ChatPipeline(get_chat_model(settings), retriever, PostgresSessionStore(engine))
+    traces = PostgresTraceStore(engine)
     chat = ChatService(
-        pipeline, retriever, answer_cache=TtlCache(ANSWER_CACHE_SIZE, ANSWER_CACHE_TTL)
+        pipeline,
+        retriever,
+        answer_cache=TtlCache(ANSWER_CACHE_SIZE, ANSWER_CACHE_TTL),
+        traces=traces,
+        interventions=PostgresInterventionStore(engine),
     )
-    return Services(retriever=retriever, chat=chat)
+    return Services(retriever=retriever, chat=chat, traces=traces)

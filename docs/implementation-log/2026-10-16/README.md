@@ -72,6 +72,11 @@
 - `POST /chat`（JSON 与 SSE：每个环节一个 step 事件，最后 answer 事件）、MCP 服务（`search_docs`、`ask_docs`，`poe mcp`）、压测脚本（`poe load-test`）
 - 压测数字和偏离见 [M7 Spec](../../specs/M7-service.md)
 
+## M8 实现（Sonnet）
+
+- trace 持久化（`traces` 表，`GET /traces/{id}`）、反馈（`POST /feedback`）、干预库（`poe interventions`）、输出后处理（遮蔽密钥、黑名单、折叠重复）、坏例导出（`poe export-bad-cases`）；迁移 0005
+- 见 [M8 Spec](../../specs/M8-observability.md)
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行
