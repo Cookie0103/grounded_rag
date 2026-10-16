@@ -124,6 +124,9 @@ fetch-docs = "python -m scripts.fetch_docs"
 ingest = "python -m scripts.ingest"
 retrieve-demo = "python -m scripts.retrieve_demo"
 compare-retrieval = "python -m scripts.compare_retrieval"
+eval-dev = "python -m scripts.eval_run"
+eval-validate = "python -m scripts.validate_questions"
+export-for-gemini = "python -m scripts.export_for_gemini"
 
 # 本机 GPU 推理用的 PyTorch 从官方 CUDA 13 源安装（RTX 50 系需要 CUDA 12.8 及以上）；CI 不装
 [tool.uv.sources]

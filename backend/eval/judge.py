@@ -71,6 +71,7 @@ class CommandPromptRunner:
             )
         except TimeoutError:
             process.kill()
+            await process.wait()
             raise JudgeError(f"命令 {self._command[0]} 超过 {self._timeout} 秒没有返回") from None
         if process.returncode != 0:
             reason = stderr.decode("utf-8", "replace")[:300]

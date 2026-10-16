@@ -6,6 +6,7 @@
 import asyncio
 import importlib
 import os
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +37,7 @@ class Qwen3Reranker:
         self._batch_size = batch_size
         self._cache_dir = cache_dir
         self._loaded: tuple[Any, Any, Any] | None = None
+        self._lock = threading.Lock()  # 并发调用时只加载一次，GPU 推理也排队
 
     def _load(self) -> tuple[Any, Any, Any]:
         if self._loaded is None:
@@ -74,7 +76,11 @@ class Qwen3Reranker:
     async def rerank(self, query: str, documents: list[str]) -> list[float]:
         if not documents:
             return []
-        return await asyncio.to_thread(self._score, query, documents)
+        return await asyncio.to_thread(self._locked_score, query, documents)
+
+    def _locked_score(self, query: str, documents: list[str]) -> list[float]:
+        with self._lock:
+            return self._score(query, documents)
 
 
 class CrossEncoderReranker:
@@ -89,6 +95,7 @@ class CrossEncoderReranker:
         self._batch_size = batch_size
         self._cache_dir = cache_dir
         self._model: Any = None
+        self._lock = threading.Lock()
 
     def _load(self) -> Any:
         if self._model is None:
@@ -105,6 +112,10 @@ class CrossEncoderReranker:
         return self._model
 
     def _score(self, query: str, documents: list[str]) -> list[float]:
+        with self._lock:
+            return self._predict(query, documents)
+
+    def _predict(self, query: str, documents: list[str]) -> list[float]:
         pairs = [(query, document[:MAX_DOCUMENT_CHARS]) for document in documents]
         scores = self._load().predict(
             pairs, batch_size=self._batch_size, show_progress_bar=False, convert_to_numpy=True

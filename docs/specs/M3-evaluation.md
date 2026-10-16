@@ -75,3 +75,11 @@
 - 正式的开发集和测试集要作者用 Gemini 出（见 `docs/eval/gemini-question-prompt.md`）；真实评审要密钥或可用的命令行。
 
 ## 记录
+
+2026-10-16 完成。
+- AC1～AC4：`tests/unit/eval/` 83 个测试，评测代码覆盖率 98% 以上。
+- AC5：`poe eval-dev --questions eval/smoke_retrieval.jsonl` → 28 题 Recall@5 92.9%、MRR 0.857；用词 similar 100%（19 题）、distant 77.8%（9 题）。
+- AC6：`poe export-for-gemini` 导出 2 份到 `.cache/gemini-pack/`，每篇前有文档 ID。
+- **偏离**：① `--judge` 目前只支持 `none`（默认）和 `claude`（命令行 `claude -p`），DeepSeek 评审等 M4 有客户端后再加；`--limit` 没做。② 冒烟集没有关键点，`eval-validate` 对它会报错，这是预期的（它只用来测检索）。③ 本地模型加了线程锁，见日志困难 24。
+- **未验证**：真实评审（要作者准备命令行或密钥）；评审和人工的一致率（要作者标 20 条）。
+

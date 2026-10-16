@@ -41,6 +41,14 @@
 - `poe retrieve-demo`、`poe compare-retrieval`（9 种方案，28 题冒烟集），评测指标和题集读取放进 `backend/eval/`
 - 结果和偏离见 [M2 Spec](../../specs/M2-retrieval.md) 的「记录」
 
+## M3 实现（Sonnet）
+
+- 评测框架 `backend/eval/`：题目格式与校验器、打分（评审只给标签，分数由代码按 Spec 的换算表算）、bootstrap 置信区间、评审（直接调模型或命令行 `claude -p`，带一次重试）、评测器（并发、缓存、续跑、出错不中断）、Markdown 报告、错误归因（没检索到 / 上下文不足 / 生成错误）
+- 命令：`poe eval-dev`、`poe eval-validate`、`poe export-for-gemini`；出题提示词在 `docs/eval/gemini-question-prompt.md`
+- 冒烟集（28 题，只检索）：Recall@5 92.9%，MRR 0.857；用词 similar 100%、distant 77.8%（和 M2 对比结果一致）
+- 测试：eval 下 83 个单元测试，覆盖率 92%
+- 结果和偏离见 [M3 Spec](../../specs/M3-evaluation.md) 的「记录」
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行
@@ -151,6 +159,15 @@
 - 现象：`/retrieve` 的检索器要读库建 BM25 索引、加载两个模型，约 40 秒。
 - 解决：第一次请求时才建，用锁防止并发重复建；单元测试用依赖覆盖换成假的。M7 做服务时改成启动时预热。
 
+### 24. 评测并发调用时本地模型加载出错
+- 现象：`poe eval-dev` 用 4 路并发，所有题都报 `Cannot copy out of meta tensor` 或 `float != Half`。
+- 原因：两个线程同时懒加载同一个 GPU 模型，一个线程拿到了没加载完的模型。
+- 解决：嵌入和两个精排模型都加 `threading.Lock`，加载只做一次，GPU 推理也排队（本来也不能真并行）。
+
+### 25. 超时杀掉的子进程在测试结束后报警告
+- 现象：命令行评审超时测试通过，但 pytest 报 `Event loop is closed` 的 ResourceWarning。
+- 解决：`process.kill()` 之后 `await process.wait()`。
+
 ## 查阅资料
 
 | 资料 | 结论用在哪 |
@@ -187,6 +204,10 @@ M0 和 M1 的验收标准全部满足，详细结果和偏离见 [M0 Spec](../..
 - **AC3**（真实服务 + curl）：数据库正常 `200`；带 `X-Trace-Id: demo-001` 响应头和 body 都是它；未知路径 `404` 统一格式；`docker compose stop db` 后 `503`；恢复后 `200`。
 - **AC4**（故意违规，已删除临时文件）：core 反向 import api → `lint-imports` 拦截；`import openai`（以及 `from openai import X`）→ ruff `TID251`；`os.environ` → `TID251`；`print` → `T201`；缺类型标注 → mypy `no-untyped-def`。
 - **AC6**：GitHub Actions `check` 和 `integration` 两个 job 都成功。AC7、AC8 见 M0 Spec 记录。
+
+**M3**
+- `poe check`：279 passed，覆盖率 92%；`poe test-int` 23 passed；`poe test-gpu` 3 passed。
+- `poe eval-dev --questions eval/smoke_retrieval.jsonl`：Recall@5 92.9%（见上）。`poe export-for-gemini`：2 份。
 
 **M1**
 - **AC1**：`poe fetch-docs` 两次：第一次下载 182 篇（6 秒，1.6MB），第二次「已存在，跳过」。

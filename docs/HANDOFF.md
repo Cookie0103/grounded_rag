@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M3 进行中）
+最后更新：2026-10-16（M3 完成，M4 未开始）
 
 ## 一、总体进度
 
@@ -12,7 +12,7 @@
 | M0 工程骨架 | ✅ 完成 | `docs/specs/M0-skeleton.md` |
 | M1 数据管线 | ✅ 完成 | 182 篇入库，2090 个子块；`docs/specs/M1-ingest.md` |
 | M2 检索 | ✅ 完成 | 混合检索 + 精排 + `/retrieve`；`docs/specs/M2-retrieval.md` |
-| M3 评测 | 🔶 进行中 | 见第二节；`docs/specs/M3-evaluation.md` |
+| M3 评测 | ✅ 完成（真实评审待作者提供后端） | `docs/specs/M3-evaluation.md` |
 | M4 基线（无检索、朴素 RAG） | ⬜ 未开始 | 需要 DeepSeek 客户端和预算记账；真实运行要密钥 |
 | M5 编排（路由、改写、分解、证据评分、生成、校验） | ⬜ 未开始 | 先用假模型把流程和测试做完 |
 | M6 记忆 | ⬜ 未开始 | |
@@ -22,19 +22,13 @@
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、M3 的现状（进行中）
+## 二、下一步：M4 基线
 
-**已写好、未提交的文件**（在 `backend/eval/` 下，`poe check` 里 lint 和 mypy 已通过，但**还没有测试**）：
-`dataset.py`（题目、校验）、`scoring.py`（打分、置信区间）、`judge.py`（评审提示词、解析、LLM / 命令行后端）、`systems.py`（被测系统接口、只检索系统）、`runner.py`（并发、缓存、续跑）、`evaluate.py`（汇总）、`prompts/judge_v1.md`、`prompts/sufficiency_v1.md`。
-
-**M3 还差的**（Spec 里的任务 T1～T6）：
-1. 测试：`tests/unit/eval/` 下给 dataset 校验、scoring（逐行覆盖 Spec 里的换算表和每个不可回答类别）、judge（解析各种坏输出、重试）、runner（并发、缓存续跑、出错不中断）、evaluate 写测试。覆盖率别拉低（阈值 80%）。
-2. `eval/report.py`：把 `EvalResult` 渲染成 Markdown 报告（总体、按题型 / 用词 / 版本、不可回答按类别、检索 Recall@5、路由准确率、P95 延迟、平均成本、judge/系统出错的题）。
-3. `eval/attribution.py`：错误归因（没检索到 / 检索到但上下文不充分 / 上下文充分却答错），用 `Judge.sufficient`。
-4. 脚本：`scripts/eval_run.py`（`poe eval-dev`）、`scripts/validate_questions.py`（`poe eval-validate`）、`scripts/export_for_gemini.py`（`poe export-for-gemini`，把清洗后的 182 篇分成几份 Markdown 放 `.cache/gemini-pack/`）。poe 任务要加进 `backend/pyproject.toml`。
-5. 文档：`docs/eval/gemini-question-prompt.md`（作者在 Gemini 网页端出题用的提示词，按 `notes-evaluation.md` §7.1～7.5 写：字段、配额、先答案后问题、独立成立的题干）。
-6. 在冒烟集 `backend/eval/smoke_retrieval.jsonl` 上跑 `poe eval-dev --system retrieval`，贴出报告摘要。
-7. 收尾：`poe check`、`poe test-int`、CI 全绿；写 Spec 记录、当天日志、更新本文件。
+M3 已完成（评测框架、报告、归因、命令、Gemini 出题提示词；83 个单元测试）。M4 要做：
+1. 先写 `docs/specs/M4-baselines.md`（自批）。
+2. `app/providers/deepseek.py`：用 httpx 调 DeepSeek（`deepseek-flash`），统计 token 和费用，每天 ¥10 预算由代码强制（超了抛 `BudgetExceededError`）；单元测试用 `httpx.MockTransport`，没有密钥也能做完。`Settings` 加 `deepseek_api_key`（同步 `.env.example`）。
+3. 被测系统 `NoRetrievalSystem`（直接问模型）、`NaiveRagSystem`（向量检索 top5 → 拼提示词 → 生成），放 `eval/systems.py`；`eval_run.py` 的 `--system` 加上它们；评审 `--judge deepseek`。
+4. 真实运行需要 `DEEPSEEK_API_KEY` 和开发集；没有就只用假模型验证流程，把阻塞写进日志，接着做 M5。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 

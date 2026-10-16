@@ -7,6 +7,7 @@
 import asyncio
 import importlib
 import os
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -36,6 +37,7 @@ class SentenceTransformerEmbedder:
         self._batch_size = batch_size
         self._cache_dir = cache_dir
         self._model: Any = None
+        self._lock = threading.Lock()  # 并发调用时只加载一次，GPU 推理也排队
 
     def _load(self) -> Any:
         if self._model is None:
@@ -54,13 +56,14 @@ class SentenceTransformerEmbedder:
         return self._model
 
     def _encode(self, texts: list[str], prompt: str | None) -> list[list[float]]:
-        vectors = self._load().encode(
-            texts,
-            prompt=prompt,
-            batch_size=self._batch_size,
-            normalize_embeddings=True,
-            show_progress_bar=False,
-        )
+        with self._lock:
+            vectors = self._load().encode(
+                texts,
+                prompt=prompt,
+                batch_size=self._batch_size,
+                normalize_embeddings=True,
+                show_progress_bar=False,
+            )
         return [[float(value) for value in vector] for vector in vectors]
 
     async def embed_queries(self, texts: list[str]) -> list[list[float]]:
