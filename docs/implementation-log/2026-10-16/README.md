@@ -1,8 +1,8 @@
 # 2026-10-16
 
 - 分支：`2026-10-16-framework-build`（基于 `main`，第一天）
-- 里程碑 / 任务：开发前准备（规范、调研、M0 / M1 Spec）
-- 模型：Claude Opus 5.5（写规范和 Spec）；实现交给 Claude Sonnet
+- 里程碑 / 任务：开发前准备（规范、调研、M0 / M1 Spec）；M0 T1～T7
+- 模型：Claude Opus 5.5（写规范和 Spec）；Claude Sonnet 5.5（实现 M0）
 
 ## 做了什么
 
@@ -14,6 +14,15 @@
   - [notes-rag.md](notes-rag.md)：语料实测、嵌入和精排模型、pgvector、RRF、BM25、Adaptive-RAG、Corrective RAG、DeepSeek
 - 按调研结论更新 proposal：固定语料 commit、超长表格按行切、DeepSeek 模型名、nugget 分 vital / okay、不可回答题细分类别、评审需先人工校准。
 - 写了 [M0 Spec](../../specs/M0-skeleton.md)（已批准）和 [M1 Spec](../../specs/M1-ingest.md)（待批准）。
+
+## M0 实现（Sonnet）
+
+- `de5d83d` feat(M0-T1)：`backend/` 初始化，core（配置、错误、trace_id、日志）
+- `ae3df31` feat(M0-T2)：质量门禁（pre-commit、评测数据只读权限）
+- `0c00d57` feat(M0-T3)：providers 接口与离线假实现
+- `e649e9e` feat(M0-T4)：数据库（compose、engine、alembic、独立测试库）
+- `d4295b2` feat(M0-T5)：API（`/health`、统一错误、trace 中间件）
+- `5ed8083` feat(M0-T6)：CI 与 README
 
 ## 困难与解决
 
@@ -58,6 +67,21 @@
 - 排查：读了 Adaptive-rag 的 `chunking.py`（按标题分节后 500 字窗口、重叠 60，硬切）；查了语义切分的论文（NAACL 2025 Findings）和 Anthropic 的 Contextual Retrieval。
 - 解决：保持按文档结构切（不是固定窗口，也没有重叠）；不做语义切分；表格按字数分组，每组几行不固定，M2 对照「一行一块」；标题路径拼进嵌入和 BM25 文本，作为 Contextual Retrieval 的免费简化版。澄清了一个误会：1024 是向量维度，不是字符数。已写进 Notion 4.2–4.5 节和 notes-rag §11。
 
+### 10. 开发前的环境检查发现 Docker 没开、端口被占
+- 现象：`docker info` 连不上守护进程；5432 被 Windows 上的 `postgres.exe` 服务占用；改成 5433 后依然连到别人的库（`用户 "grounded" Password 认证失败`），`netstat` 显示 5433 上有两个监听者（本机的另一个 PostgreSQL 实例和 Docker）。
+- 解决：启动 Docker Desktop；compose 端口改为 `${DB_PORT:-5432}:5432`，本机 `.env` 设 `DB_PORT=15432`。CI 用默认的 5432。没有动用户本机的 PostgreSQL 服务。
+
+### 11. ruff 0.17 的 format 会改 Markdown 里的代码块
+- 现象：`pre-commit run --all-files` 后 docs 里 3 个文件被改动（代码块被重排）。
+- 解决：`git checkout -- docs` 还原；pre-commit 的两个 ruff 钩子加 `types_or: [python, pyi]`。`backend/` 内的 `poe fmt` 只处理 `backend/`，不受影响。
+
+### 12. 几个小的检查报错
+- ruff `ASYNC109`：async 函数不能有名为 `timeout` 的参数 → 改名 `timeout_seconds`。
+- ruff `RUF001/2/3`：中文注释里的全角标点被当成易混淆字符 → 在配置里忽略这三条。
+- mypy 报两个 `conftest` 模块重名（`tests/unit/api` 和 `tests/integration`）→ `tests/` 各级目录加 `__init__.py`。
+- Windows 上 `ASGITransport` 默认会把应用里未捕获的异常抛进测试 → 测试客户端设 `raise_app_exceptions=False`，才能断言 500 响应。
+- 一次写多个大 heredoc 时 bash 报语法错，整条命令没有执行 → 改用 Write 工具逐个写文件。
+
 ## 查阅资料
 
 | 资料 | 结论用在哪 |
@@ -83,9 +107,28 @@
 
 ## 验收证据
 
-本日只写文档，没有代码。检查了环境：uv 0.9.26、Docker 28.5.1、gh 2.101.0、RTX 5070 Ti（驱动 610.88，16GB）。本机 Python 是 3.13，项目要求 3.12，由 uv 自动下载。
+M0 的 8 条验收标准全部满足，详细结果和偏离见 [M0 Spec 的「记录」](../../specs/M0-skeleton.md)。关键输出：
+
+- **AC1/AC5**：`uv run poe check` → 格式、lint、`lint-imports`（1 kept, 0 broken）、mypy（no issues）、38 passed，覆盖率 95.02%。
+- **AC2**：`alembic upgrade head` → `Running upgrade -> 0001, enable pgvector`；`poe test-int` → 3 passed；`select extversion from pg_extension where extname='vector'` → `0.8.7`。
+- **AC3**（真实服务 + curl）：
+  - 数据库正常：`200`，`{"status":"ok","database":"ok","trace_id":"6bf869af…"}`，响应头 `x-trace-id` 相同
+  - 带 `X-Trace-Id: demo-001`：响应头和 body 都是 `demo-001`
+  - 未知路径：`{"error":{"code":"NOT_FOUND","message":"Not Found"},"trace_id":"a9831f41…"}`
+  - `docker compose stop db` 后：`503`，`{"error":{"code":"DEPENDENCY_UNAVAILABLE","message":"数据库不可用"},"trace_id":"481cb1c7…"}`
+  - `docker compose start db` 后：恢复 `200`
+- **AC4**（故意违规，已删除临时文件）：
+  - core 反向 import api → `lint-imports`：`app.core is not allowed to import app.api`
+  - `import openai`（以及 `from openai import X`）→ ruff `TID251 openai is banned`
+  - `os.environ["HOME"]`（app/api）→ ruff `TID251 os.environ is banned`
+  - `print("hi")` → ruff `T201`
+  - `def add(a, b)` → mypy `Function is missing a type annotation [no-untyped-def]`
+- **AC6**：`gh run view` → `conclusion: success`，`check` 和 `integration` 两个 job 都成功。
+- **AC7**：`pre-commit run --all-files` 4 个钩子 Passed；`.claude/settings.json` 已提交，但没能在本会话验证拦截效果（见 M0 Spec 记录）。
+- **AC8**：fresh clone 到临时目录，`uv sync --locked && uv run poe check` → 38 passed，覆盖率 95.02%。
 
 ## 遗留 / 明天
 
-- 作者审 M1 Spec，并决定第 7 条（测试集由谁出）。
-- Sonnet 按 M0 Spec 开始实现。如果仍在 10-16 当天，就继续用本分支；否则新开 `2026-10-17-<两个词>`，从本分支创建。
+- M0 完成。接下来做 M1（数据管线），先从 T1（固定 commit 下载 182 篇）开始；T5 要下载 CUDA 版 PyTorch 和 Qwen3-Embedding-0.6B（约 1.2GB，公开模型，不需要 token）。
+- 需要作者回来后做：从仓库根目录启动 Claude Code，试一下能不能编辑 `backend/eval/data/`（应该被拒绝）。
+- 评测题由作者在 Gemini 网页端出：M1 完成后可以导出清洗好的文档给 Gemini（到时再确认格式）。

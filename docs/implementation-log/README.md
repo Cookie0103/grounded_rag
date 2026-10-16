@@ -50,4 +50,4 @@ implementation-log/
 
 | 日期 | 分支 | 内容 |
 |---|---|---|
-| [2026-10-16](2026-10-16/README.md) | `2026-10-16-framework-build` | 开发规范定稿；评测与 RAG 资料调研；M0、M1 Spec |
+| [2026-10-16](2026-10-16/README.md) | `2026-10-16-framework-build` | 开发规范定稿；评测与 RAG 资料调研；M0、M1 Spec；M0 实现完成 |

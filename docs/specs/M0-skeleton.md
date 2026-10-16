@@ -1,6 +1,6 @@
 # M0：工程骨架
 
-状态：已批准（作者 2026-10-16 确认，Sonnet 开始实现）
+状态：完成（2026-10-16）
 
 ## 需求
 
@@ -415,14 +415,38 @@ CI 用的数据库连接串与 `Settings` 的默认值一致，所以不需要�
 
 ## 任务
 
-- [ ] T1 后端工程初始化：`backend/.python-version`、pyproject、依赖、`app/core/`（config、errors、trace、logging）及测试 → AC1 的一部分
-- [ ] T2 质量门禁：ruff、mypy、import-linter、pytest、覆盖率、poe 任务；`.pre-commit-config.yaml`；`.claude/settings.json`；逐条验证违规会被拦住 → AC4、AC7
-- [ ] T3 providers：三个接口与假实现及测试 → AC5
-- [ ] T4 数据库：docker-compose、engine、alembic、0001 迁移、集成测试 → AC2
-- [ ] T5 API：create_app、trace 中间件、统一错误、`/health` 及测试 → AC3
-- [ ] T6 CI 与 README：`ci.yml`；README 写项目一句话介绍、快速开始（启动数据库、安装、检查、运行）、目录说明、文档索引 → AC6、AC8
-- [ ] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（workflow §4.3），写日志，推送（暂不开 PR）
+- [x] T1 后端工程初始化：`backend/.python-version`、pyproject、依赖、`app/core/`（config、errors、trace、logging）及测试 → AC1 的一部分
+- [x] T2 质量门禁：ruff、mypy、import-linter、pytest、覆盖率、poe 任务；`.pre-commit-config.yaml`；`.claude/settings.json`；逐条验证违规会被拦住 → AC4、AC7
+- [x] T3 providers：三个接口与假实现及测试 → AC5
+- [x] T4 数据库：docker-compose、engine、alembic、0001 迁移、集成测试 → AC2
+- [x] T5 API：create_app、trace 中间件、统一错误、`/health` 及测试 → AC3
+- [x] T6 CI 与 README：`ci.yml`；README 写项目一句话介绍、快速开始（启动数据库、安装、检查、运行）、目录说明、文档索引 → AC6、AC8
+- [x] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（workflow §4.3），写日志，推送（暂不开 PR）
 
 ## 阻塞
 
 ## 记录
+
+**验收结果（2026-10-16）**
+- AC1：干净 clone 后 `uv sync --locked && uv run poe check` 通过，38 个单元测试，覆盖率 95%。
+- AC2：`alembic upgrade head`（开发库）与 `poe test-int`（测试库，3 个测试）通过；pgvector 0.8.7。
+- AC3：`poe serve` 后 curl：数据库正常 200；`docker compose stop db` 后 503 和统一错误格式；恢复后 200。输出见当天日志。
+- AC4：5 种故意违规（core 反向 import api、`import openai`、`os.environ`、`print`、缺类型标注）都被对应检查拦住，另验证了 `from openai import X` 写法。输出见当天日志。
+- AC5：覆盖率 95%（阈值 80%）。
+- AC6：push 后 GitHub Actions 的 `check` 和 `integration` 两个 job 都通过。
+- AC7：`pre-commit run --all-files` 通过，commit 时 hook 会运行。`.claude/settings.json` 已提交，但**未能验证它真的会拦截**（本会话的工作目录不是仓库根，规则按工作目录定位）；从仓库根启动 Claude Code 后需要试一次。
+- AC8：fresh clone 按 README 的 `uv sync` + `poe check` 通过；数据库相关步骤在本机另行验证。
+
+**偏离 Spec 的地方**
+- 新增 `app/api/middleware.py`（trace_id 中间件）。
+- ruff 额外忽略 RUF001 / RUF002 / RUF003：中文注释和字符串里的全角标点会被当成「易混淆字符」。
+- 数据库端口：本机 5432 和 5433 都被 Windows 的 PostgreSQL 占用，本机 `.env` 用 `DB_PORT=15432`；`.env.example` 里 `DB_PORT` 是注释，所以一致性测试不需要例外。
+- CI 触发条件改为任何分支 push + PR（作者暂不开 PR）。
+- `ping` 的参数名由 `timeout` 改成 `timeout_seconds`（ruff ASYNC109 不允许 async 函数有 `timeout` 参数）。
+- `tests/` 下各目录加了 `__init__.py`：否则 mypy 报两个 `conftest` 模块重名。
+- pre-commit 的 ruff 钩子加 `types_or: [python, pyi]`：ruff 0.17 默认还会格式化 Markdown 里的代码块，会改动 docs。
+- 未做对抗性评审（需要新会话或另一个 agent；本次只有作者本人在审），由我自审一遍，见下。
+
+**自审**：对照 Spec 逐条核对接口、错误格式、配置、测试清单，没有发现遗漏。已知局限：`get_database_ping` 在 lifespan 没有运行时（`app.state.engine` 不存在）会抛 AttributeError 变成 500，只有测试里会遇到，测试都显式覆盖或设置了引擎。
+
+**任务外发现的问题**：无。
