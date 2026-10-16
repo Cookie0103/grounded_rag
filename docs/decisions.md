@@ -34,4 +34,4 @@
 | 2026-10-16 | 嵌入和 BM25 共用带标题路径的文本，作为 Contextual Retrieval 的免费简化版；大模型生成说明为备选 | Anthropic 基准显示补上下文有效；先用零成本版本，M3 错误归因后再决定 |
 | 2026-10-16 | 评测题由 Gemini 出（作者在 Gemini 网页端操作），Claude 审题；测试集放仓库外，开发 agent 看不到 | 作者决定；出题人与开发 agent 不同模型。注意评审（Gemini 主评）与出题同为 Gemini，有自我偏好风险，靠 Claude 复评和作者人工标 20 条校准兜底 |
 | 2026-10-16 | 暂不合并到 main、不开 PR；只提交到当天分支；CI 对任何分支 push 都运行 | 作者决定；GitHub 的合并设置之后再说 |
-| 2026-10-16 | 本机 5432 被 Windows PostgreSQL 占用，compose 用 `DB_PORT=5433`（只在本机 `.env`） | 不动用户已有的服务 |
+| 2026-10-16 | 本机 5432 被 Windows PostgreSQL 占用，compose 用 `DB_PORT=15432`（5433 也被本机的另一个 PostgreSQL 占用）（只在本机 `.env`） | 不动用户已有的服务 |

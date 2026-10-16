@@ -62,7 +62,7 @@
 无。
 
 **已决定的偏差（2026-10-16）**
-- 本机 5432 已被 Windows 的 PostgreSQL 服务占用。docker-compose 的端口写成 `${DB_PORT:-5432}:5432`；本机 `.env` 里设 `DB_PORT=5433` 和对应的 `DATABASE_URL`。`Settings` 默认值仍是 5432（CI 用）。`DB_PORT` 只给 docker compose 用，不是 `Settings` 字段，所以 `.env.example` 一致性测试要把它列为例外。
+- 本机 5432 已被 Windows 的 PostgreSQL 服务占用。docker-compose 的端口写成 `${DB_PORT:-5432}:5432`；本机 `.env` 里设 `DB_PORT=15432`（5433 也被占用） 和对应的 `DATABASE_URL`。`Settings` 默认值仍是 5432（CI 用）。`DB_PORT` 只给 docker compose 用，不是 `Settings` 字段，所以 `.env.example` 一致性测试要把它列为例外。
 - 作者暂不要求合并到 main，也不开 PR。CI 触发条件改为：任何分支 push 和 pull_request 都跑（原来只有 main 和 PR），这样不开 PR 也能看到 CI 结果。
 
 ## 方案
