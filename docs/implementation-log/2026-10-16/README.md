@@ -49,6 +49,12 @@
 - 测试：eval 下 83 个单元测试，覆盖率 92%
 - 结果和偏离见 [M3 Spec](../../specs/M3-evaluation.md) 的「记录」
 
+## M4 实现（Sonnet）
+
+- `providers/deepseek.py`（httpx、重试、费用）、`providers/budget.py`（每日预算，记在 `.cache/budget/`）、`get_chat_model`
+- 基线系统：无检索、朴素 RAG（向量 top5、不精排、不要求引用）；`poe eval-dev --system ... --judge claude|deepseek`
+- 没有密钥，真实基线分数待作者；见 [M4 Spec](../../specs/M4-baselines.md)
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行

@@ -42,6 +42,12 @@ EDITION_FILTERS = {
     "cloud": ("cloud", "common"),
 }
 
+# DeepSeek（deepseek-flash）按高峰时段、缓存未命中的价格保守估算（美元/百万 token），
+# 价格页 https://api-docs.deepseek.com/quick_start/pricing，2026-10-16 核对；官方改价后要更新
+DEEPSEEK_INPUT_USD_PER_MILLION = 0.3
+DEEPSEEK_OUTPUT_USD_PER_MILLION = 1.2
+USD_TO_CNY = 7.2
+
 
 class Settings(BaseSettings):
     """从环境变量和仓库根目录的 `.env` 读取；字段与 `.env.example` 保持一致。"""
@@ -55,6 +61,11 @@ class Settings(BaseSettings):
     embed_device: str = "cuda"
     embed_batch_size: int = 32
     reranker_model: str = "qwen3"  # qwen3 / bge / fake / none
+    chat_model: str = "deepseek"  # deepseek / fake
+    deepseek_api_key: str | None = None
+    deepseek_base_url: str = "https://api.deepseek.com"
+    deepseek_model: str = "deepseek-flash"
+    daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）
 
 
 @lru_cache

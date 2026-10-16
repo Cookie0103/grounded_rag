@@ -29,3 +29,10 @@ class ConfigError(AppError):
     """配置项的值不合法。"""
 
     code = "CONFIG_ERROR"
+
+
+class BudgetExceededError(AppError):
+    """当天的模型调用费用已超过预算。"""
+
+    code = "BUDGET_EXCEEDED"
+    status_code = 429

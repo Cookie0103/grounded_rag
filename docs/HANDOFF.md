@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M3 完成，M4 未开始）
+最后更新：2026-10-16（M4 完成，M5 未开始）
 
 ## 一、总体进度
 
@@ -13,7 +13,7 @@
 | M1 数据管线 | ✅ 完成 | 182 篇入库，2090 个子块；`docs/specs/M1-ingest.md` |
 | M2 检索 | ✅ 完成 | 混合检索 + 精排 + `/retrieve`；`docs/specs/M2-retrieval.md` |
 | M3 评测 | ✅ 完成（真实评审待作者提供后端） | `docs/specs/M3-evaluation.md` |
-| M4 基线（无检索、朴素 RAG） | ⬜ 未开始 | 需要 DeepSeek 客户端和预算记账；真实运行要密钥 |
+| M4 基线（无检索、朴素 RAG） | ✅ 完成（真实分数待密钥） | `docs/specs/M4-baselines.md` |
 | M5 编排（路由、改写、分解、证据评分、生成、校验） | ⬜ 未开始 | 先用假模型把流程和测试做完 |
 | M6 记忆 | ⬜ 未开始 | |
 | M7 服务与可靠性（SSE、MCP、缓存、降级、限流、压测） | ⬜ 未开始 | |
@@ -22,13 +22,9 @@
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、下一步：M4 基线
+## 二、下一步：M5 编排
 
-M3 已完成（评测框架、报告、归因、命令、Gemini 出题提示词；83 个单元测试）。M4 要做：
-1. 先写 `docs/specs/M4-baselines.md`（自批）。
-2. `app/providers/deepseek.py`：用 httpx 调 DeepSeek（`deepseek-flash`），统计 token 和费用，每天 ¥10 预算由代码强制（超了抛 `BudgetExceededError`）；单元测试用 `httpx.MockTransport`，没有密钥也能做完。`Settings` 加 `deepseek_api_key`（同步 `.env.example`）。
-3. 被测系统 `NoRetrievalSystem`（直接问模型）、`NaiveRagSystem`（向量检索 top5 → 拼提示词 → 生成），放 `eval/systems.py`；`eval_run.py` 的 `--system` 加上它们；评审 `--judge deepseek`。
-4. 真实运行需要 `DEEPSEEK_API_KEY` 和开发集；没有就只用假模型验证流程，把阻塞写进日志，接着做 M5。
+M3、M4 已完成。M5：先写 `docs/specs/M5-orchestration.md`（自批），用假模型把整条流程和测试做完：护栏 → 路由（DIRECT/SINGLE/MULTI/CLARIFY/REFUSE）→ 改写 / 分解 → 检索 → 证据评分（不够就重检索，≤2 次）→ 上下文组装 → 带引用生成 → 忠实度校验；提示词放 `backend/app/prompts/`（带版本号）；编排用 LangGraph（先确认可安装）。完成后加 `--system full` 到 `eval_run.py`。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 

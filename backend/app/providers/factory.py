@@ -3,6 +3,7 @@
 from app.core.config import (
     BGE_M3_MODEL_NAME,
     BGE_RERANKER_NAME,
+    CACHE_DIR,
     MODEL_CACHE_DIR,
     QWEN3_MODEL_NAME,
     QWEN3_QUERY_INSTRUCTION,
@@ -10,8 +11,10 @@ from app.core.config import (
     Settings,
 )
 from app.core.errors import ConfigError
-from app.providers.base import Embedder, Reranker
-from app.providers.fakes import FAKE_MODEL_NAME, FakeEmbedder, FakeReranker
+from app.providers.base import ChatModel, Embedder, Reranker
+from app.providers.budget import BudgetLedger
+from app.providers.deepseek import DeepSeekChat
+from app.providers.fakes import FAKE_MODEL_NAME, FakeChatModel, FakeEmbedder, FakeReranker
 from app.providers.local_embedder import EmbedderSpec, SentenceTransformerEmbedder
 from app.providers.local_reranker import CrossEncoderReranker, Qwen3Reranker
 
@@ -71,3 +74,17 @@ def get_reranker(name: str, settings: Settings) -> Reranker | None:
             cache_dir=MODEL_CACHE_DIR,
         )
     raise ConfigError(f"未知的精排模型 {name!r}，可选：{', '.join(RERANKER_NAMES)}")
+
+
+def get_chat_model(settings: Settings) -> ChatModel:
+    """settings.chat_model: deepseek / fake。"""
+    if settings.chat_model == FAKE_MODEL_NAME:
+        return FakeChatModel()
+    if settings.chat_model == "deepseek":
+        return DeepSeekChat(
+            api_key=settings.deepseek_api_key,
+            base_url=settings.deepseek_base_url,
+            model=settings.deepseek_model,
+            ledger=BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny),
+        )
+    raise ConfigError(f"未知的对话模型 {settings.chat_model!r}，可选：deepseek、{FAKE_MODEL_NAME}")

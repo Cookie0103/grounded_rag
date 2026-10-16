@@ -1,6 +1,8 @@
-"""跑评测：`uv run poe eval-dev [--system retrieval] [--questions 文件] [--judge none|claude]`。
+"""跑评测：`uv run poe eval-dev [--system 系统] [--questions 文件] [--judge 评审]`。
 
-结果（回答缓存、评审缓存、报告）写到 .cache/eval/<系统名>/，中断后重跑会接着做。
+系统：retrieval（只检索）、no-retrieval（无检索基线）、naive-rag（朴素 RAG 基线）。
+评审：不给就只出检索指标；claude（命令行 `claude -p`，消耗 Claude 用量）；deepseek（用 `CHAT_MODEL`
+配置的对话模型，有每日预算）。结果写到 .cache/eval/<系统>/，中断后重跑会接着做。
 """
 
 import argparse
@@ -9,21 +11,31 @@ import logging
 import sys
 from pathlib import Path
 
-from app.core.config import CACHE_DIR, get_settings
+from app.core.config import CACHE_DIR, Settings, get_settings
 from app.core.logging import configure_logging
 from app.db.engine import create_engine
+from app.providers.factory import get_chat_model
 from app.retrieval.factory import build_retriever
 from eval.attribution import attribute_errors
 from eval.dataset import load_questions
 from eval.evaluate import evaluate
-from eval.judge import CommandPromptRunner, Judge
+from eval.judge import ChatPromptRunner, CommandPromptRunner, Judge
 from eval.report import render_report
 from eval.runner import run_system
-from eval.systems import RetrievalOnlySystem
+from eval.systems import NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem, System
 
 DEFAULT_QUESTIONS = Path(__file__).resolve().parents[1] / "eval" / "data" / "dev.jsonl"
-JUDGE_COMMANDS = {"claude": ["claude", "-p"]}
+SYSTEMS = ("retrieval", "no-retrieval", "naive-rag")
+JUDGES = ("claude", "deepseek")
 logger = logging.getLogger("eval_run")
+
+
+def build_judge(name: str | None, settings: Settings) -> Judge | None:
+    if name == "claude":
+        return Judge(CommandPromptRunner(["claude", "-p"]))
+    if name == "deepseek":
+        return Judge(ChatPromptRunner(get_chat_model(settings)))
+    return None
 
 
 async def run(arguments: argparse.Namespace) -> str:
@@ -32,17 +44,24 @@ async def run(arguments: argparse.Namespace) -> str:
     settings = get_settings()
     engine = create_engine(settings)
     try:
-        retriever = await build_retriever(engine, settings)
-        system = RetrievalOnlySystem(retriever)
+        system: System
+        if arguments.system == "no-retrieval":
+            system = NoRetrievalSystem(get_chat_model(settings))
+        else:
+            retriever = await build_retriever(engine, settings)
+            if arguments.system == "naive-rag":
+                system = NaiveRagSystem(retriever, get_chat_model(settings))
+            else:
+                system = RetrievalOnlySystem(retriever)
         answers = await run_system(
             system,
             questions,
             cache_path=output_dir / "answers.jsonl",
-            progress=lambda done, total: logger.info("检索 %d/%d", done, total),
+            progress=lambda done, total: logger.info("作答 %d/%d", done, total),
         )
     finally:
         await engine.dispose()
-    judge = Judge(CommandPromptRunner(JUDGE_COMMANDS[arguments.judge])) if arguments.judge else None
+    judge = build_judge(arguments.judge, settings)
     result = await evaluate(
         system.name, questions, answers, judge, verdict_cache=output_dir / "verdicts.jsonl"
     )
@@ -55,13 +74,9 @@ async def run(arguments: argparse.Namespace) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="跑评测")
-    parser.add_argument("--system", choices=["retrieval"], default="retrieval")
+    parser.add_argument("--system", choices=SYSTEMS, default="retrieval")
     parser.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
-    parser.add_argument(
-        "--judge",
-        choices=sorted(JUDGE_COMMANDS),
-        help="不给就不评审，只出检索指标；claude 会消耗你的 Claude 用量",
-    )
+    parser.add_argument("--judge", choices=JUDGES, help="不给就不评审，只出检索指标")
     arguments = parser.parse_args()
     configure_logging("INFO")
     sys.stdout.write(asyncio.run(run(arguments)))

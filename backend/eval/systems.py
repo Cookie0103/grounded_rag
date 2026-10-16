@@ -5,8 +5,11 @@ from dataclasses import asdict, dataclass
 from typing import Any, Protocol
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
-from app.retrieval.retriever import Retriever
+from app.providers.base import ChatMessage, ChatModel, Completion
+from app.providers.deepseek import cost_cny
+from app.retrieval.retriever import VECTOR, Retriever
 from eval.dataset import Question
+from eval.judge import fill_template
 from eval.metrics import ranked_documents
 
 
@@ -71,4 +74,67 @@ class RetrievalOnlySystem:
             ),
             contexts=tuple(parent.text for parent in result.parents),
             latency_ms=(time.perf_counter() - started) * 1000,
+        )
+
+
+def _completion_cost(completion: Completion) -> float:
+    return cost_cny(completion.prompt_tokens, completion.completion_tokens)
+
+
+class NoRetrievalSystem:
+    """基线一：不检索，直接问模型。"""
+
+    name = "无检索"
+
+    def __init__(self, chat: ChatModel) -> None:
+        self._chat = chat
+
+    async def answer(self, question: Question) -> SystemAnswer:
+        started = time.perf_counter()
+        prompt = fill_template("baseline_no_retrieval_v1.md", question=question.question)
+        completion = await self._chat.complete([ChatMessage(role="user", content=prompt)])
+        return SystemAnswer(
+            question_id=question.id,
+            answer=completion.text,
+            route=None,
+            retrieved_docs=(),
+            contexts=(),
+            latency_ms=(time.perf_counter() - started) * 1000,
+            cost_cny=_completion_cost(completion),
+        )
+
+
+class NaiveRagSystem:
+    """基线二：向量检索前 5 → 拼上下文 → 生成。不精排、不路由、不要求引用。"""
+
+    name = "朴素 RAG"
+
+    def __init__(self, retriever: Retriever, chat: ChatModel, *, top_k: int = FINAL_TOP_K) -> None:
+        self._retriever = retriever
+        self._chat = chat
+        self._top_k = top_k
+
+    async def answer(self, question: Question) -> SystemAnswer:
+        editions = EDITION_FILTERS[question.edition] if question.edition else None
+        started = time.perf_counter()
+        result = await self._retriever.retrieve(
+            question.question, top_k=self._top_k, editions=editions, rerank=False, mode=VECTOR
+        )
+        contexts = tuple(parent.text for parent in result.parents)
+        prompt = fill_template(
+            "baseline_naive_rag_v1.md",
+            question=question.question,
+            contexts="\n\n---\n\n".join(contexts),
+        )
+        completion = await self._chat.complete([ChatMessage(role="user", content=prompt)])
+        return SystemAnswer(
+            question_id=question.id,
+            answer=completion.text,
+            route=None,
+            retrieved_docs=tuple(
+                ranked_documents([c.chunk.document_id for c in result.candidates])
+            ),
+            contexts=contexts,
+            latency_ms=(time.perf_counter() - started) * 1000,
+            cost_cny=_completion_cost(completion),
         )

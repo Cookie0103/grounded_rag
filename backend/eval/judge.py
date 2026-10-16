@@ -87,7 +87,7 @@ def gold_document_text(document_id: str, raw_dir: Path = RAW_DIR) -> str:
     return text[:MAX_DOCUMENT_CHARS]
 
 
-def _fill(template_name: str, **values: str) -> str:
+def fill_template(template_name: str, **values: str) -> str:
     text = (PROMPTS_DIR / template_name).read_text(encoding="utf-8")
     for name, value in values.items():
         text = text.replace("{{" + name + "}}", value)
@@ -101,7 +101,7 @@ def build_judge_prompt(question: Question, answer: str, gold_texts: Sequence[str
     )
     kind = KIND_TEXT.get(question.unanswerable_category or "", "可回答题：回答要覆盖下面的关键点")
     documents = "\n\n---\n\n".join(gold_texts) if gold_texts else "（这道题没有金标文档）"
-    return _fill(
+    return fill_template(
         "judge_v1.md",
         question=question.question,
         kind=kind,
@@ -175,7 +175,7 @@ class Judge:
 
     async def sufficient(self, question: Question, contexts: Sequence[str]) -> bool:
         """给出的上下文够不够回答这道题（错误归因用）。"""
-        prompt = _fill(
+        prompt = fill_template(
             "sufficiency_v1.md",
             question=question.question,
             contexts="\n\n---\n\n".join(contexts) or "（空）",
