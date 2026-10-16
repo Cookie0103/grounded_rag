@@ -9,6 +9,19 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = REPO_ROOT / "data"
 CACHE_DIR = REPO_ROOT / ".cache"
+MODEL_CACHE_DIR = CACHE_DIR / "models"
+
+# 入库流程的参数：改了清洗或切块逻辑就把 INGEST_VERSION 加 1，下次入库会全量重建
+INGEST_VERSION = "1"
+CHILD_TARGET_CHARS = 300
+CHILD_MAX_CHARS = 500
+PARENT_MAX_CHARS = 4000
+CODE_BLOCK_MAX_CHARS = 1500
+
+# Qwen3-Embedding 只给查询加指令，文档不加
+QWEN3_QUERY_INSTRUCTION = (
+    "Given a question about the Dify platform, retrieve documentation passages that answer it"
+)
 
 
 class Settings(BaseSettings):
@@ -19,6 +32,9 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://grounded:grounded@localhost:5432/grounded_rag"
     db_timeout_seconds: float = 5.0
     log_level: str = "INFO"
+    embedding_model: str = "qwen3"  # qwen3 / bge-m3 / fake
+    embed_device: str = "cuda"
+    embed_batch_size: int = 32
 
 
 @lru_cache

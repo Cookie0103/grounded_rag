@@ -93,7 +93,7 @@ def clean_mdx(raw: str, *, path: str = "") -> CleanDocument:
     converter = _Converter(_closing_names(masked))
     for line in _join_multiline_tags(masked).split("\n"):
         converter.feed(line)
-    cleaned = _strip_images_and_links("\n".join(converter.lines))
+    cleaned = _squeeze_table_padding(_strip_images_and_links("\n".join(converter.lines)))
     markdown = _restore_code(cleaned, fences, inlines)
     return CleanDocument(
         title=title.strip(),
@@ -418,6 +418,14 @@ class _Converter:
 
 def _strip_images_and_links(text: str) -> str:
     return _LINK.sub(r"\1", _IMAGE.sub("", text))
+
+
+def _squeeze_table_padding(text: str) -> str:
+    """原文表格为了对齐用大量空格补位，会让一行长出几十个字符；压成单个空格。"""
+    return "\n".join(
+        re.sub(r" {2,}", " ", line) if line.lstrip().startswith("|") else line
+        for line in text.split("\n")
+    )
 
 
 def _collapse_blank_lines(text: str) -> str:

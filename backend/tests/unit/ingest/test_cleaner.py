@@ -248,7 +248,7 @@ def test_html_table_becomes_a_markdown_table() -> None:
     )
 
     assert _clean(body) == (
-        "前文\n\n| 名称 | 说明 |\n|---|---|\n| 甲 | 第一 行 一；二 |\n| 乙\\|丙 |  |\n\n后文\n"
+        "前文\n\n| 名称 | 说明 |\n|---|---|\n| 甲 | 第一 行 一；二 |\n| 乙\\|丙 | |\n\n后文\n"
     )
 
 
