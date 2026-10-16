@@ -2,6 +2,7 @@ from collections.abc import Sequence
 
 import pytest
 
+from app.orchestration.models import ChatRequest, ChatResponse
 from app.providers.deepseek import cost_cny
 from app.providers.fakes import FakeChatModel
 from app.retrieval.retriever import (
@@ -12,7 +13,7 @@ from app.retrieval.retriever import (
     RetrievalResult,
 )
 from eval.dataset import Question
-from eval.systems import NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem
+from eval.systems import FullSystem, NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem
 
 QUESTION = Question("q1", "知识库最多上传几个文件", ("a",), edition="cloud")
 
@@ -80,3 +81,21 @@ async def test_retrieval_only_system_still_returns_no_answer() -> None:
 def _tokens(chat: FakeChatModel) -> tuple[int, int]:
     prompt_chars = sum(len(m.content) for m in chat.calls[0])
     return prompt_chars // 2, len("最多 5 个") // 2
+
+
+async def test_full_system_maps_the_pipeline_response() -> None:
+    class StubPipeline:
+        async def answer(self, request: ChatRequest) -> ChatResponse:
+            assert (request.question, request.edition) == ("知识库最多上传几个文件", "cloud")
+            return ChatResponse(
+                answer="答", route="SINGLE", retrieved_docs=["a"], contexts=["c"], cost_cny=0.5
+            )
+
+    answer = await FullSystem(StubPipeline()).answer(QUESTION)  # type: ignore[arg-type]
+
+    assert (answer.answer, answer.route, answer.retrieved_docs, answer.cost_cny) == (
+        "答",
+        "SINGLE",
+        ("a",),
+        0.5,
+    )

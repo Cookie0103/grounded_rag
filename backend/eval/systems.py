@@ -5,6 +5,8 @@ from dataclasses import asdict, dataclass
 from typing import Any, Protocol
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
+from app.orchestration.models import ChatRequest
+from app.orchestration.pipeline import ChatPipeline
 from app.providers.base import ChatMessage, ChatModel, Completion
 from app.providers.deepseek import cost_cny
 from app.retrieval.retriever import VECTOR, Retriever
@@ -137,4 +139,28 @@ class NaiveRagSystem:
             contexts=contexts,
             latency_ms=(time.perf_counter() - started) * 1000,
             cost_cny=_completion_cost(completion),
+        )
+
+
+class FullSystem:
+    """完整系统：护栏、路由、改写 / 分解、证据评分、带引用生成、忠实度校验。"""
+
+    name = "完整系统"
+
+    def __init__(self, pipeline: ChatPipeline) -> None:
+        self._pipeline = pipeline
+
+    async def answer(self, question: Question) -> SystemAnswer:
+        started = time.perf_counter()
+        response = await self._pipeline.answer(
+            ChatRequest(question=question.question, edition=question.edition)
+        )
+        return SystemAnswer(
+            question_id=question.id,
+            answer=response.answer,
+            route=response.route,
+            retrieved_docs=tuple(response.retrieved_docs),
+            contexts=tuple(response.contexts),
+            latency_ms=(time.perf_counter() - started) * 1000,
+            cost_cny=response.cost_cny,
         )

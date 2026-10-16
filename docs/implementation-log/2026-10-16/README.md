@@ -55,6 +55,12 @@
 - 基线系统：无检索、朴素 RAG（向量 top5、不精排、不要求引用）；`poe eval-dev --system ... --judge claude|deepseek`
 - 没有密钥，真实基线分数待作者；见 [M4 Spec](../../specs/M4-baselines.md)
 
+## M5 实现（Sonnet）
+
+- `app/orchestration/`：护栏（规则）、路由、改写 / 分解、检索合并、证据评分与重检索（≤2 次）、上下文组装、带引用生成、忠实度校验（重生成 1 次）、LangGraph 组装；9 个版本化提示词在 `app/prompts/`
+- 评测接入：`poe eval-dev --system full`
+- 全部在假模型上验证；真实效果等密钥和开发集，见 [M5 Spec](../../specs/M5-orchestration.md)
+
 ## 困难与解决
 
 ### 1. “表格不拆”的切块规则不可行
@@ -169,6 +175,10 @@
 - 现象：`poe eval-dev` 用 4 路并发，所有题都报 `Cannot copy out of meta tensor` 或 `float != Half`。
 - 原因：两个线程同时懒加载同一个 GPU 模型，一个线程拿到了没加载完的模型。
 - 解决：嵌入和两个精排模型都加 `threading.Lock`，加载只做一次，GPU 推理也排队（本来也不能真并行）。
+
+### 26. LangGraph 的类型标注与 mypy
+- 现象：`add_node` 的重载和 `dict[str, Callable]` 对不上，mypy 报 `call-overload`。
+- 解决：节点表标成 `dict[str, Any]`；状态用 TypedDict，`MeteredChat` 要在 State 之前定义（用字符串前向引用会让 mypy 认不出状态类型）。
 
 ### 25. 超时杀掉的子进程在测试结束后报警告
 - 现象：命令行评审超时测试通过，但 pytest 报 `Event loop is closed` 的 ResourceWarning。

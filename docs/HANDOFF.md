@@ -3,7 +3,7 @@
 > **这份文件是「现在做到哪了、下一步做什么」的唯一入口。** 每完成一个任务就更新并提交；用量快到上限（95% 以上）或要停下时，先把这里写完整再停。
 > 接手的人：先读本文件，再读 `AGENTS.md`、`docs/workflow.md`、当前里程碑的 `docs/specs/Mx-*.md`，最后看 `docs/implementation-log/<今天>/README.md`。
 
-最后更新：2026-10-16（M4 完成，M5 未开始）
+最后更新：2026-10-16（M5 完成，M6 未开始）
 
 ## 一、总体进度
 
@@ -14,7 +14,7 @@
 | M2 检索 | ✅ 完成 | 混合检索 + 精排 + `/retrieve`；`docs/specs/M2-retrieval.md` |
 | M3 评测 | ✅ 完成（真实评审待作者提供后端） | `docs/specs/M3-evaluation.md` |
 | M4 基线（无检索、朴素 RAG） | ✅ 完成（真实分数待密钥） | `docs/specs/M4-baselines.md` |
-| M5 编排（路由、改写、分解、证据评分、生成、校验） | ⬜ 未开始 | 先用假模型把流程和测试做完 |
+| M5 编排（路由、改写、分解、证据评分、生成、校验） | ✅ 完成（假模型；真实效果待密钥） | `docs/specs/M5-orchestration.md` |
 | M6 记忆 | ⬜ 未开始 | |
 | M7 服务与可靠性（SSE、MCP、缓存、降级、限流、压测） | ⬜ 未开始 | |
 | M8 观测与坏例 | ⬜ 未开始 | |
@@ -22,9 +22,9 @@
 
 完整计划见 `docs/proposal-2026-10-15.md` 第 7 节。每个里程碑开始前先在 `docs/specs/` 写 Spec（作者已授权自己批准），做完在 Spec 的「记录」里写验收结果和偏离。
 
-## 二、下一步：M5 编排
+## 二、下一步：M6 记忆
 
-M3、M4 已完成。M5：先写 `docs/specs/M5-orchestration.md`（自批），用假模型把整条流程和测试做完：护栏 → 路由（DIRECT/SINGLE/MULTI/CLARIFY/REFUSE）→ 改写 / 分解 → 检索 → 证据评分（不够就重检索，≤2 次）→ 上下文组装 → 带引用生成 → 忠实度校验；提示词放 `backend/app/prompts/`（带版本号）；编排用 LangGraph（先确认可安装）。完成后加 `--system full` 到 `eval_run.py`。
+M5 完成。M6：先写 `docs/specs/M6-memory.md`（自批）。内容：多轮会话——短期记忆（最近几轮，超长时用模型摘要）、问题独立化（追问里的指代改写成完整问题）、用户偏好（自部署 / 云版本记在会话里并作为检索过滤）、会话存储（数据库表 + 迁移 0004，会话 ID，过期清理）；`ChatRequest` 加 `session_id`；`ChatPipeline` 在 guard 之后加 `standalone` 节点；评测里支持多轮题（先不做数据集，只做单元测试）。
 
 ## 三、阻塞项（需要作者提供，不要自己编）
 

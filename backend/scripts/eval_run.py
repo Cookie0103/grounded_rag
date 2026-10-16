@@ -1,6 +1,6 @@
 """跑评测：`uv run poe eval-dev [--system 系统] [--questions 文件] [--judge 评审]`。
 
-系统：retrieval（只检索）、no-retrieval（无检索基线）、naive-rag（朴素 RAG 基线）。
+系统：retrieval（只检索）、no-retrieval、naive-rag（两个基线）、full（完整编排）。
 评审：不给就只出检索指标；claude（命令行 `claude -p`，消耗 Claude 用量）；deepseek（用 `CHAT_MODEL`
 配置的对话模型，有每日预算）。结果写到 .cache/eval/<系统>/，中断后重跑会接着做。
 """
@@ -14,6 +14,7 @@ from pathlib import Path
 from app.core.config import CACHE_DIR, Settings, get_settings
 from app.core.logging import configure_logging
 from app.db.engine import create_engine
+from app.orchestration.pipeline import ChatPipeline
 from app.providers.factory import get_chat_model
 from app.retrieval.factory import build_retriever
 from eval.attribution import attribute_errors
@@ -22,10 +23,10 @@ from eval.evaluate import evaluate
 from eval.judge import ChatPromptRunner, CommandPromptRunner, Judge
 from eval.report import render_report
 from eval.runner import run_system
-from eval.systems import NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem, System
+from eval.systems import FullSystem, NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem, System
 
 DEFAULT_QUESTIONS = Path(__file__).resolve().parents[1] / "eval" / "data" / "dev.jsonl"
-SYSTEMS = ("retrieval", "no-retrieval", "naive-rag")
+SYSTEMS = ("retrieval", "no-retrieval", "naive-rag", "full")
 JUDGES = ("claude", "deepseek")
 logger = logging.getLogger("eval_run")
 
@@ -51,6 +52,8 @@ async def run(arguments: argparse.Namespace) -> str:
             retriever = await build_retriever(engine, settings)
             if arguments.system == "naive-rag":
                 system = NaiveRagSystem(retriever, get_chat_model(settings))
+            elif arguments.system == "full":
+                system = FullSystem(ChatPipeline(get_chat_model(settings), retriever))
             else:
                 system = RetrievalOnlySystem(retriever)
         answers = await run_system(

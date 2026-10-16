@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.143.2",
     "httpx>=0.28.1",
     "jieba3>=1.0.2",
+    "langgraph>=1.2.15",
     "pgvector>=0.5.1",
     "pydantic>=2.14.1",
     "pydantic-settings>=2.16.0",
@@ -106,6 +107,7 @@ name = "分层依赖方向（coding-standards §3）"
 type = "layers"
 layers = [
     "app.api",
+    "app.orchestration",
     "app.retrieval | app.ingest",
     "app.providers | app.db",
     "app.core",
