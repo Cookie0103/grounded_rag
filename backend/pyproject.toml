@@ -1,0 +1,102 @@
+[project]
+name = "grounded-rag"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alembic>=1.20.0",
+    "asyncpg>=0.32.0",
+    "fastapi>=0.143.2",
+    "pgvector>=0.5.1",
+    "pydantic>=2.14.1",
+    "pydantic-settings>=2.16.0",
+    "sqlalchemy[asyncio]>=2.1.4",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "import-linter>=2.15",
+    "mypy>=2.4.0",
+    "poethepoet>=0.49.0",
+    "pre-commit>=4.7.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "C90", "ASYNC", "S", "BLE", "T20", "ERA", "PL", "PT", "RUF", "TID"]
+# 中文注释和字符串里的全角标点是有意为之，不算「易混淆字符」
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-statements = 40
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"os.environ".msg = "配置只在 app/core/config.py 读取"
+"os.getenv".msg = "配置只在 app/core/config.py 读取"
+"openai".msg = "外部模型只能经过 app/providers/"
+"httpx".msg = "外部调用只能经过 app/providers/"
+"torch".msg = "模型推理只能经过 app/providers/"
+"transformers".msg = "模型推理只能经过 app/providers/"
+"sentence_transformers".msg = "模型推理只能经过 app/providers/"
+
+[tool.ruff.lint.per-file-ignores]
+"app/core/config.py" = ["TID251"]
+"app/providers/**" = ["TID251"]
+"tests/**" = ["S101", "PLR2004", "TID251"]
+"migrations/**" = ["ERA001"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["app", "tests"]
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--strict-markers"
+markers = ["integration: 需要 PostgreSQL（docker compose up -d db）"]
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+omit = ["app/db/*"]          # 数据库代码由集成测试覆盖
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = true
+
+[tool.importlinter]
+root_package = "app"
+
+[[tool.importlinter.contracts]]
+name = "分层依赖方向（coding-standards §3）"
+type = "layers"
+layers = [
+    "app.api",
+    "app.providers | app.db",
+    "app.core",
+]
+
+[tool.poe.tasks]
+fmt = [{ cmd = "ruff format ." }, { cmd = "ruff check --fix ." }]
+lint = [{ cmd = "ruff format --check ." }, { cmd = "ruff check ." }, { cmd = "lint-imports" }]
+typecheck = "mypy"
+test = "pytest -m 'not integration and not gpu' --cov --cov-report=term-missing"
+check = ["lint", "typecheck", "test"]
+test-int = "pytest -m integration"
+serve = "uvicorn app.api.main:create_app --factory --reload"
