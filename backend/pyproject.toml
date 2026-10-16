@@ -59,7 +59,7 @@ max-statements = 40
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["app", "tests"]
+files = ["app", "scripts", "tests"]
 plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
@@ -67,8 +67,11 @@ testpaths = ["tests"]
 pythonpath = ["."]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-addopts = "--strict-markers"
-markers = ["integration: 需要 PostgreSQL（docker compose up -d db）"]
+addopts = "--strict-markers --basetemp=../.cache/pytest-tmp"
+markers = [
+    "integration: 需要 PostgreSQL（docker compose up -d db）",
+    "gpu: 需要本机 GPU 和模型权重，只在本机用 poe test-gpu 跑",
+]
 
 [tool.coverage.run]
 source = ["app"]
@@ -88,6 +91,7 @@ name = "分层依赖方向（coding-standards §3）"
 type = "layers"
 layers = [
     "app.api",
+    "app.ingest",
     "app.providers | app.db",
     "app.core",
 ]
@@ -100,3 +104,4 @@ test = "pytest -m 'not integration and not gpu' --cov --cov-report=term-missing"
 check = ["lint", "typecheck", "test"]
 test-int = "pytest -m integration"
 serve = "uvicorn app.api.main:create_app --factory --reload"
+fetch-docs = "python -m scripts.fetch_docs"

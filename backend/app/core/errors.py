@@ -17,3 +17,9 @@ class DependencyUnavailableError(AppError):
 
     code = "DEPENDENCY_UNAVAILABLE"
     status_code = 503
+
+
+class CorpusError(AppError):
+    """语料下载或解析失败（数量不对、文件损坏、缺少必填字段等）。"""
+
+    code = "CORPUS_ERROR"
