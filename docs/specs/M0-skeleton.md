@@ -1,6 +1,6 @@
 # M0：工程骨架
 
-状态：待批准（作者在 Notion《开发计划_Polish》确认后改为「已批准」，之前不要开始开发）
+状态：已批准（作者 2026-10-16 确认，Sonnet 开始实现）
 
 ## 需求
 
@@ -53,13 +53,17 @@
 | AC3 | 服务可启动，`/health` 行为符合上文 | `uv run poe serve` 后用 curl 请求；再停掉数据库请求一次，得到 503 和统一错误格式。命令和输出贴进当天日志 |
 | AC4 | 门禁真的能拦住违规 | 对下面 5 种违规，各写一个临时文件，确认对应检查失败；输出贴进日志后删除临时文件，不提交：① `app/core` import `app/api`（lint-imports）；② `app/core` 里 `import openai`（ruff TID251）；③ `app/api` 里用 `os.environ`（TID251）；④ `print`（T20）；⑤ 缺少类型标注（mypy） |
 | AC5 | 单元测试覆盖率 ≥ 80% | `poe check` 的输出 |
-| AC6 | CI 两个 job 都通过 | 当天 PR 页面的 checks |
+| AC6 | CI 两个 job 都通过 | 当天分支 push 后的 Actions 结果（`gh run list`），不需要开 PR |
 | AC7 | pre-commit 生效；Claude Code 禁止编辑评测数据 | `uv run pre-commit run --all-files` 通过；`.claude/settings.json` 已提交 |
 | AC8 | README 有快速开始 | 按 README 的步骤，从零能跑通 AC1～AC3 |
 
 ### 待确认
 
-无。如果本机 5432 端口已被占用，把映射改成 `5433:5432`，在 `.env` 里改 `DATABASE_URL`，并在日志里记录，不需要停下来问。
+无。
+
+**已决定的偏差（2026-10-16）**
+- 本机 5432 已被 Windows 的 PostgreSQL 服务占用。docker-compose 的端口写成 `${DB_PORT:-5432}:5432`；本机 `.env` 里设 `DB_PORT=5433` 和对应的 `DATABASE_URL`。`Settings` 默认值仍是 5432（CI 用）。`DB_PORT` 只给 docker compose 用，不是 `Settings` 字段，所以 `.env.example` 一致性测试要把它列为例外。
+- 作者暂不要求合并到 main，也不开 PR。CI 触发条件改为：任何分支 push 和 pull_request 都跑（原来只有 main 和 PR），这样不开 PR 也能看到 CI 结果。
 
 ## 方案
 
@@ -334,7 +338,7 @@ services:
       POSTGRES_PASSWORD: grounded
       POSTGRES_DB: grounded_rag
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -351,8 +355,7 @@ volumes:
 ```yaml
 name: CI
 on:
-  push:
-    branches: [main]
+  push:                 # 任何分支；作者暂不开 PR，靠 push 触发
   pull_request:
 permissions:
   contents: read
@@ -418,7 +421,7 @@ CI 用的数据库连接串与 `Settings` 的默认值一致，所以不需要�
 - [ ] T4 数据库：docker-compose、engine、alembic、0001 迁移、集成测试 → AC2
 - [ ] T5 API：create_app、trace 中间件、统一错误、`/health` 及测试 → AC3
 - [ ] T6 CI 与 README：`ci.yml`；README 写项目一句话介绍、快速开始（启动数据库、安装、检查、运行）、目录说明、文档索引 → AC6、AC8
-- [ ] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（workflow §4.3），写日志，推送并开当天的 PR
+- [ ] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（workflow §4.3），写日志，推送（暂不开 PR）
 
 ## 阻塞
 
