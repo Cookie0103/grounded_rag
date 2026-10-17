@@ -7,13 +7,14 @@
 
 | 阶段 | 产出 | 谁做 | 人工关口 |
 |---|---|---|---|
-| Spec | `docs/specs/Mx-<名称>.md` 的「需求」部分 | agent 起草 | **作者批准后才能进入 Plan** |
+| Spec | `harness/build/phase-NN-<名称>.md` 的「需求」部分（M0～M9 即 phase-00～09） | agent 起草 | **作者批准后才能进入 Plan** |
 | Plan | 同一文件的「方案」和「任务」部分 | agent | 作者确认任务拆分 |
 | Implement | 代码与测试；每个任务一组提交，放在当天的分支上 | agent | — |
 | Verify | `poe check`、验收证据、自审、当天的 PR | agent | **作者合并 PR** |
 
-每天在 `docs/implementation-log/<日期>/` 记录当天的开发过程（格式见该目录的 README）。
-里程碑完成时，在该里程碑 Spec 的「记录」里写一段总结：做了什么、指标变化（链接报告）、遗留问题。
+实际做了什么、测试结果、阻塞，追加到 `harness/build-log.md` 的「活动记录」（只追加；进度以它为准）。
+重要决定记进 `harness/context/phase-NN-*-context.md`。里程碑完成时，在该阶段文件的「记录」里写一段总结：做了什么、指标变化（链接报告）、遗留问题。
+`harness/archive/` 是历史归档（2026-10-16 的完整日志和调研笔记），不再追加。
 
 ## 2. Spec 与 Plan
 
@@ -55,7 +56,7 @@
 - 重构、格式调整和功能改动分开提交。
 - 提交说明用 Conventional Commits：`feat:`、`fix:`、`test:`、`refactor:`、`docs:`、`chore:`。
 - 任务范围外发现的问题不在这次修，记到 Spec 的「记录」。
-- 收工前更新当天的开发日志：做了什么、遇到的困难和解决方法、查阅了哪些资料。没写日志的一天不算完成。
+- 收工前更新 `harness/build-log.md`：做了什么、验证命令与结果、遇到的困难和解决方法；查阅的资料写进对应的 context 文件。没写日志的一天不算完成。
 
 ## 4. Verify
 
@@ -91,7 +92,7 @@ CI（`.github/workflows/ci.yml`，push 到 main 或提 PR 时触发）：
 
 ### 4.3 评审
 
-开当天的 PR 前，用一个新会话或另一个 agent（`/code-review`、Codex review）只看 diff 和 Spec 审一遍，对照下表：
+开当天的 PR 前，用一个新会话或另一个 agent（`/code-review`、Codex review）只看 diff 和阶段文件审一遍（提示词见 [PROMPTS.md §4](PROMPTS.md)），对照下表；审查结果写进 `harness/code_review/`：
 
 | 看什么 | 问题 |
 |---|---|
@@ -114,6 +115,6 @@ CI（`.github/workflows/ci.yml`，push 到 main 或提 PR 时触发）：
 ## 6. 文档维护
 
 - 每件事只在一处写，其他地方链接过去。
-- 已定的决策一行一条记在 `docs/decisions.md`；推翻决策时改那一行，并写上日期和原因。
+- 已定的决策一行一条记在 `harness/context/phase-NN-*-context.md`；推翻决策时改那一行，并写上日期和原因。
 - 同类错误出现两次，就把教训写成规则（AGENTS.md）、检查配置或回归测试，不能只留在聊天记录里。
 - 每个里程碑结束后检查 AGENTS.md，删掉 agent 已经不需要的规则。

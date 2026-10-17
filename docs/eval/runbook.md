@@ -11,7 +11,7 @@
 ## 1. 出题（Gemini 网页端）
 
 1. `uv run poe export-for-gemini` → `.cache/gemini-pack/part-01.md …`。
-2. 按 [gemini-question-prompt.md](gemini-question-prompt.md) 开一个新对话：先粘贴提示词，再上传所有 `part-*.md`，说「开始出题」。
+2. 按 [PROMPTS.md §6](../../PROMPTS.md) 开一个新对话：先粘贴提示词，再上传所有 `part-*.md`，说「开始出题」。
 3. 把输出的 JSON Lines 存成 `backend/eval/data/dev.jsonl`（`split` 为 `dev` 的约 70 题）；`split` 为 `test` 的约 30 题存到**仓库外**（例如 `D:\eval-private\test.jsonl`），不要让 agent 看到。
 4. `uv run poe eval-validate`：应为 0 个错误；有错误就把提示贴回 Gemini 让它改。提醒（题干里有「根据文档」之类）建议改掉。
 5. 人工过一遍 70 道开发题：问题是否独立成立、金标文档是否真的有答案、关键点是否原子。
@@ -32,7 +32,7 @@ uv run poe eval-dev --system full         --judge deepseek       # 完整系统
 ## 3. 校准评审（必须做）
 
 1. 从 `.cache/eval/full/answers.jsonl` 随机挑 20 条（含可回答和不可回答）。
-2. 对每条，自己按 [notes-evaluation §7.3](../implementation-log/2026-10-16/notes-evaluation.md) 的规则判：每个关键点 support / partial_support / not_support、有没有矛盾、行为（回答 / 反问 / 拒答）。
+2. 对每条，自己按 [notes-evaluation §7.3](../../harness/archive/2026-10-16/notes-evaluation.md) 的规则判：每个关键点 support / partial_support / not_support、有没有矛盾、行为（回答 / 反问 / 拒答）。
 3. 与 `verdicts.jsonl` 里的标签对比。**一致率 ≥ 85% 才采信自动评审**；不到就改 `eval/prompts/judge_v1.md`（新增 `judge_v2.md`，不要覆盖）并重跑。
 
 ## 4. 完整消融与模型对比

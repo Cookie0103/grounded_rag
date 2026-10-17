@@ -105,7 +105,7 @@ skip_covered = true
 root_package = "app"
 
 [[tool.importlinter.contracts]]
-name = "分层依赖方向（coding-standards §3）"
+name = "分层依赖方向（CODING-STANDARDS.md §3）"
 type = "layers"
 layers = [
     "app.api",

@@ -2,7 +2,7 @@
 
 Dify 官方中文文档的问答后端（RAG）：按问题复杂度选择检索流程，答案带引用，文档里没有就拒答。对外提供 REST API 和 MCP。
 
-> 状态：M0～M9 的代码都已完成（见 [HANDOFF](docs/HANDOFF.md)）。**真实模型下的效果数字还没有**：需要作者提供评测题和 DeepSeek 密钥，步骤见 [评测运行手册](docs/eval/runbook.md)；已知的缺口见 [docs/known-gaps.md](docs/known-gaps.md)。
+> 状态：M0～M9 的代码都已完成（见 [build-log](harness/build-log.md)）。**真实模型下的效果数字还没有**：需要作者提供评测题和 DeepSeek 密钥，步骤见 [评测运行手册](docs/eval/runbook.md)；已知的缺口见 [PLANS.md §8](PLANS.md §8)。
 
 ## 它做什么
 
@@ -69,13 +69,14 @@ uv run poe compare-retrieval                  # 9 种检索方案对比
 uv run poe load-test --endpoint retrieve      # 压测（先 `poe serve`，并把 RATE_LIMIT_PER_MINUTE 设成 0）
 ```
 
-评测题由作者用 Gemini 出，提示词在 [docs/eval/gemini-question-prompt.md](docs/eval/gemini-question-prompt.md)；完整步骤见 [评测运行手册](docs/eval/runbook.md)。
+评测题由作者用 Gemini 出，提示词在 [PROMPTS.md §6](PROMPTS.md)；完整步骤见 [评测运行手册](docs/eval/runbook.md)。
 
 ## 目录
 
 ```text
 backend/    app/（业务代码）、tests/、eval/、scripts/、migrations/、pyproject.toml
-docs/       计划、规范、Spec、决策记录、开发日志、评测手册
+harness/    阶段计划（build）、决策（context）、开发日志、review、归档
+docs/       只给人看的：评测运行手册、最终报告模板
 data/       下载的原始文档（gitignore）
 .cache/     临时内容、模型缓存、评测输出（gitignore）
 ```
@@ -84,16 +85,16 @@ data/       下载的原始文档（gitignore）
 
 | 想知道 | 看哪里 |
 |---|---|
-| 现在做到哪了、下一步 | [docs/HANDOFF.md](docs/HANDOFF.md) |
-| 做什么、为什么、里程碑 | [docs/proposal-2026-10-15.md](docs/proposal-2026-10-15.md) |
-| 代码、测试、接口、数据库规范 | [docs/coding-standards.md](docs/coding-standards.md) |
-| 开发流程（Spec → Plan → Implement → Verify） | [docs/workflow.md](docs/workflow.md) |
-| 每个里程碑的需求、验收和记录 | [docs/specs/](docs/specs/) |
-| 已定的决策 | [docs/decisions.md](docs/decisions.md) |
-| 每天做了什么、遇到的问题 | [docs/implementation-log/](docs/implementation-log/README.md) |
-| 没验证的、需要作者做的 | [docs/known-gaps.md](docs/known-gaps.md) |
+| 现在做到哪了、下一步 | [harness/build-log.md](harness/build-log.md) |
+| 做什么、不做什么、成功条件 | [GOALS.md](GOALS.md) |
+| 怎么做、里程碑顺序、没验证的 / 需要作者做的 | [PLANS.md](PLANS.md) |
+| 每个阶段的范围、任务、验收 | [harness/build/](harness/build/) |
+| 已定的决策、本机环境 | [harness/context/](harness/context/) |
+| 代码、测试、接口、数据库规范 | [CODING-STANDARDS.md](CODING-STANDARDS.md) |
+| 开发流程、Review | [WORKFLOW.md](WORKFLOW.md)、[PROMPTS.md](PROMPTS.md) |
+| 历史日志和调研笔记 | [harness/archive/](harness/archive/README.md) |
 | 怎么跑评测、出最终报告 | [docs/eval/runbook.md](docs/eval/runbook.md) |
-| Agent 工作规则 | [AGENTS.md](AGENTS.md) |
+| Agent 工作规则（Claude / Codex 通用） | [AGENTS.md](AGENTS.md) |
 
 ## 许可
 

@@ -6,14 +6,14 @@
 
 ## 做了什么
 
-- 定稿开发规范：`AGENTS.md`（权限表、完成的定义、什么时候停下）、`docs/coding-standards.md`（标出由工具自动检查的条目）、`docs/workflow.md`（Spec → Plan → Implement → Verify、按天分支、开发日志）、`docs/decisions.md`。
+- 定稿开发规范：`AGENTS.md`（权限表、完成的定义、什么时候停下）、`CODING-STANDARDS.md`（标出由工具自动检查的条目）、`WORKFLOW.md`（Spec → Plan → Implement → Verify、按天分支、开发日志）、`harness/context/`。
 - 目录结构改为 `backend/`（app、tests、eval、scripts、migrations 都在里面）+ `docs/` + 将来的 `frontend/`，不用 src layout。
 - 参考了 Adaptive-rag 项目的诊断文档，把它踩过的坑提前写成规则：检查覆盖全仓库、mypy 从第一天就开 strict、不手写实测数字、评测报告记录 commit、ID 不用绝对路径、`.env.example` 与配置一致。
 - 读了 proposal 引用的 6 篇评测论文，以及检索和编排相关资料，写成两份笔记：
   - [notes-evaluation.md](notes-evaluation.md)：6 篇论文，以及汇总出的评测题字段、配额和打分规则（§7）
   - [notes-rag.md](notes-rag.md)：语料实测、嵌入和精排模型、pgvector、RRF、BM25、Adaptive-RAG、Corrective RAG、DeepSeek
 - 按调研结论更新 proposal：固定语料 commit、超长表格按行切、DeepSeek 模型名、nugget 分 vital / okay、不可回答题细分类别、评审需先人工校准。
-- 写了 [M0 Spec](../../specs/M0-skeleton.md)（已批准）和 [M1 Spec](../../specs/M1-ingest.md)（待批准）。
+- 写了 [M0 Spec](../../build/phase-00-skeleton.md)（已批准）和 [M1 Spec](../../build/phase-01-ingest.md)（待批准）。
 
 ## M0 实现（Sonnet）
 
@@ -39,43 +39,43 @@
 - 分词（jieba3 + 保护变量名和术语 + 停用词）、bm25s 索引、RRF、检索器（向量 + BM25 并行 → 融合 → 精排 → 父块）、`POST /retrieve`
 - 精排模型：Qwen3-Reranker（按模型卡的 yes/no 提示词）和 bge-reranker-v2-m3；第二个嵌入模型的补向量流程和迁移 0003
 - `poe retrieve-demo`、`poe compare-retrieval`（9 种方案，28 题冒烟集），评测指标和题集读取放进 `backend/eval/`
-- 结果和偏离见 [M2 Spec](../../specs/M2-retrieval.md) 的「记录」
+- 结果和偏离见 [M2 Spec](../../build/phase-02-retrieval.md) 的「记录」
 
 ## M3 实现（Sonnet）
 
 - 评测框架 `backend/eval/`：题目格式与校验器、打分（评审只给标签，分数由代码按 Spec 的换算表算）、bootstrap 置信区间、评审（直接调模型或命令行 `claude -p`，带一次重试）、评测器（并发、缓存、续跑、出错不中断）、Markdown 报告、错误归因（没检索到 / 上下文不足 / 生成错误）
-- 命令：`poe eval-dev`、`poe eval-validate`、`poe export-for-gemini`；出题提示词在 `docs/eval/gemini-question-prompt.md`
+- 命令：`poe eval-dev`、`poe eval-validate`、`poe export-for-gemini`；出题提示词在 `PROMPTS.md`
 - 冒烟集（28 题，只检索）：Recall@5 92.9%，MRR 0.857；用词 similar 100%、distant 77.8%（和 M2 对比结果一致）
 - 测试：eval 下 83 个单元测试，覆盖率 92%
-- 结果和偏离见 [M3 Spec](../../specs/M3-evaluation.md) 的「记录」
+- 结果和偏离见 [M3 Spec](../../build/phase-03-evaluation.md) 的「记录」
 
 ## M4 实现（Sonnet）
 
 - `providers/deepseek.py`（httpx、重试、费用）、`providers/budget.py`（每日预算，记在 `.cache/budget/`）、`get_chat_model`
 - 基线系统：无检索、朴素 RAG（向量 top5、不精排、不要求引用）；`poe eval-dev --system ... --judge claude|deepseek`
-- 没有密钥，真实基线分数待作者；见 [M4 Spec](../../specs/M4-baselines.md)
+- 没有密钥，真实基线分数待作者；见 [M4 Spec](../../build/phase-04-baselines.md)
 
 ## M5 实现（Sonnet）
 
 - `app/orchestration/`：护栏（规则）、路由、改写 / 分解、检索合并、证据评分与重检索（≤2 次）、上下文组装、带引用生成、忠实度校验（重生成 1 次）、LangGraph 组装；9 个版本化提示词在 `app/prompts/`
 - 评测接入：`poe eval-dev --system full`
-- 全部在假模型上验证；真实效果等密钥和开发集，见 [M5 Spec](../../specs/M5-orchestration.md)
+- 全部在假模型上验证；真实效果等密钥和开发集，见 [M5 Spec](../../build/phase-05-orchestration.md)
 
 ## M6 实现（Sonnet）
 
 - 会话记忆：`app/core/session.py`、`SessionStore`（内存 + PostgreSQL，迁移 0004）、追问独立化、摘要（超过 6 轮并进摘要、保留 3 轮）、历史字数预算、版本记忆；`ChatRequest.session_id`
-- 见 [M6 Spec](../../specs/M6-memory.md)
+- 见 [M6 Spec](../../build/phase-06-memory.md)
 
 ## M7 实现（Sonnet）
 
 - 缓存（嵌入 / 检索 / 完整回答）、精排熔断与降级、生成降级（只返回检索片段）、整次问答超时、令牌桶限流、启动预热
 - `POST /chat`（JSON 与 SSE：每个环节一个 step 事件，最后 answer 事件）、MCP 服务（`search_docs`、`ask_docs`，`poe mcp`）、压测脚本（`poe load-test`）
-- 压测数字和偏离见 [M7 Spec](../../specs/M7-service.md)
+- 压测数字和偏离见 [M7 Spec](../../build/phase-07-service.md)
 
 ## M8 实现（Sonnet）
 
 - trace 持久化（`traces` 表，`GET /traces/{id}`）、反馈（`POST /feedback`）、干预库（`poe interventions`）、输出后处理（遮蔽密钥、黑名单、折叠重复）、坏例导出（`poe export-bad-cases`）；迁移 0005
-- 见 [M8 Spec](../../specs/M8-observability.md)
+- 见 [M8 Spec](../../build/phase-08-observability.md)
 
 ## 困难与解决
 
@@ -96,7 +96,7 @@
 ### 4. 按天叠分支与 squash 合并冲突
 - 现象：作者要求每天从前一天的分支开新分支。
 - 原因：如果 PR 用 squash 合并，后一天的分支里仍保留着前一天的原始提交，提 PR 时会重复出现这些提交，还会产生冲突。
-- 解决：PR 改用 merge commit 合并，按日期顺序合并。已写进 workflow §3。
+- 解决：PR 改用 merge commit 合并，按日期顺序合并。已写进 WORKFLOW.md §3。
 
 ### 5. 集成测试会清空开发库
 - 现象：M1 入库后，开发库里有完整语料；集成测试每次运行前要清空表。
@@ -237,7 +237,7 @@
 
 ## 验收证据
 
-M0 和 M1 的验收标准全部满足，详细结果和偏离见 [M0 Spec](../../specs/M0-skeleton.md) 与 [M1 Spec](../../specs/M1-ingest.md) 的「记录」。关键输出：
+M0 和 M1 的验收标准全部满足，详细结果和偏离见 [M0 Spec](../../build/phase-00-skeleton.md) 与 [M1 Spec](../../build/phase-01-ingest.md) 的「记录」。关键输出：
 
 **M0**
 - **AC1/AC5**：`uv run poe check` → 格式、lint、`lint-imports`（1 kept, 0 broken）、mypy（no issues）、38 passed，覆盖率 95.02%。

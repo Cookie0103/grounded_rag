@@ -1,23 +1,8 @@
-# grounded_rag 开发计划
+# 开发计划
 
-> 软件使用手册的中文问答后端。按问题复杂度选择检索流程，答案带引用，文档里没有就拒答。
-> 对外提供 REST API 和 MCP 工具。**只做 RAG**：不含 Agent runtime、多智能体、多模态。
+> 怎么做：技术栈、设计、目录、评测方案、里程碑顺序。目标和非目标见 [GOALS.md](GOALS.md)，每个阶段的任务见 [harness/build/](harness/build/)，实际进度见 [harness/build-log.md](harness/build-log.md)。
 
-## 1. 要解决的问题
-
-以 Dify 官方中文文档为知识库，覆盖 RAG 最典型的 7 个问题：
-
-1. 文档太长，关键信息被淹没（环境变量大全单篇约 126KB）
-2. 用户口语和文档术语对不上（“把资料喂给机器人” vs “知识库”）
-3. 一个问题要跨多篇文档才能答
-4. 简单问题不该走重流程
-5. 检索错了还自信地答
-6. 版本差异（云版、自部署版同名页内容不同）
-7. 问题含糊、多轮追问指代不明
-
-**非目标**：前端界面、登录与多租户、SDK、模型微调、生产级高可用部署、Agent runtime / 多智能体 / 多模态。
-
-## 2. 技术栈
+## 1. 技术栈
 
 | 类别 | 选型 |
 |---|---|
@@ -36,7 +21,7 @@
 - 嵌入与精排模型是开源权重，本机 GPU（RTX 5070 Ti 16GB）运行，不走 API。RTX 50 系（sm_120）需要 CUDA 12.8 及以上版本构建的 PyTorch。
 - 只有 DeepSeek 走 API，密钥放 `.env`，不入库。
 
-## 3. 数据集
+## 2. 数据集
 
 来源：[langgenius/dify-docs `zh/`](https://github.com/langgenius/dify-docs/tree/main/zh)（CC BY 4.0）。
 
@@ -49,11 +34,11 @@
 - 文档**不放进仓库**：`backend/scripts/fetch_docs.py` 按固定 commit 下载到根目录 `data/raw/`（已 gitignore）。
 - 固定 commit：`c80a31868611b673bd77725a6310c685068a585e`（2026-10-16 的 main），篇数已按此 commit 复核。
 - 云版和自部署版的 `use-dify` 下有 92 个同名页面，是天然的版本差异题和检索难负例。
-- 文档是 mdx，入库前去掉 JSX 组件；清洗规则见 [M1 Spec](specs/M1-ingest.md)。
+- 文档是 mdx，入库前去掉 JSX 组件；清洗规则见 [phase-01](harness/build/phase-01-ingest.md)。
 
-## 4. 核心设计
+## 3. 核心设计
 
-### 4.1 RAG 流水线
+### 3.1 RAG 流水线
 
 | 环节 | 做法 | 对应问题 |
 |---|---|---|
@@ -66,7 +51,7 @@
 | 上下文组装 | 子块扩展到父块，去重，按 token 预算截断 | 1 |
 | 生成与校验 | 必须带引用；忠实度检查不过则重生成 1 次，仍不过则拒答 | 5 |
 
-### 4.2 自适应编排
+### 3.2 自适应编排
 
 | 问题 | 做法 |
 |---|---|
@@ -77,7 +62,7 @@
 | 版本差异 | 记住用户版本并过滤；未知时默认自部署版并注明 |
 | 注入、超范围 | 输入护栏，直接 REFUSE |
 
-### 4.3 流程
+### 3.3 流程
 
 ```mermaid
 flowchart LR
@@ -104,14 +89,14 @@ flowchart LR
     N --> O
 ```
 
-## 5. 后端
+## 4. 后端
 
-### 5.1 接口
+### 4.1 接口
 
 - REST：`POST /chat`（支持 SSE）、`POST /retrieve`（只检索）、`POST /feedback`、`GET /health`
 - MCP：`search_docs`、`ask_docs`
 
-### 5.2 目录结构
+### 4.2 目录结构
 
 ```text
 grounded_rag/
@@ -138,16 +123,18 @@ grounded_rag/
 │   ├── uv.lock
 │   └── Dockerfile
 ├── frontend/               # 不做（非目标）；将来需要时在此新建，有自己的工具链
-├── docs/                   # 计划、规范、Spec、决策
+├── harness/                # 阶段计划（build）、决策（context）、日志、review、归档
+├── docs/                   # 只给人看的：评测手册、最终报告模板
 ├── docker-compose.yml
-├── AGENTS.md  README.md  LICENSE
+├── AGENTS.md  CLAUDE.md  GOALS.md  PLANS.md  PROMPTS.md  README.md  LICENSE
+├── CODING-STANDARDS.md  WORKFLOW.md
 ├── data/                   # 下载的原始文档（gitignore）
 └── .cache/                 # AI 生成的临时内容、模型与响应缓存（gitignore）
 ```
 
-依赖方向见 [coding-standards.md §3](coding-standards.md)，由 import-linter 检查。目录在用到它的里程碑才建。
+依赖方向见 [CODING-STANDARDS.md §3](CODING-STANDARDS.md)，由 import-linter 检查。目录在用到它的里程碑才建。
 
-### 5.3 数据表（PostgreSQL + pgvector）
+### 4.3 数据表（PostgreSQL + pgvector）
 
 | 表 | 存什么 |
 |---|---|
@@ -160,9 +147,9 @@ grounded_rag/
 
 BM25 索引不入库，启动时从 chunks 表在内存构建。表在用到它的里程碑通过 Alembic 迁移创建，不一次建完。
 
-## 6. 评测
+## 5. 评测
 
-### 6.1 四个核心指标
+### 5.1 四个核心指标
 
 | 指标 | 怎么算 | 依据 |
 |---|---|---|
@@ -173,7 +160,7 @@ BM25 索引不入库，启动时从 chunks 表在内存构建。表在用到它�
 
 错误归因只分两类：检索到的内容够却答错 → 生成问题；不够 → 检索问题（[Sufficient Context](https://arxiv.org/abs/2411.06037)）。
 
-### 6.2 评测集：100 道
+### 5.2 评测集：100 道
 
 开发集 70（调参用），测试集 30（只在 M9 跑一次）。题型分层参考 [Know Your RAG](https://arxiv.org/abs/2411.19710)；不可回答题分类参考 [UAEval4RAG](https://arxiv.org/abs/2412.12300)；每类约一半用新手口吻（参考 [DataMorgana](https://arxiv.org/abs/2501.12789)）。
 
@@ -185,13 +172,13 @@ BM25 索引不入库，启动时从 chunks 表在内存构建。表在用到它�
 | 版本差异 | 10 |
 | 不可回答：文档没写 6、错误前提 4、含糊需反问 5、超范围 3、注入 2 | 20 |
 
-每题字段和打分细则见 [评测笔记](implementation-log/2026-10-16/notes-evaluation.md) §7，M3 的 Spec 以它为准。
+每题字段和打分细则见 [评测笔记](harness/archive/2026-10-16/notes-evaluation.md) §7，M3 的 Spec 以它为准。
 
-### 6.3 分工
+### 5.3 分工
 
 | 环节 | 谁 | 规则 |
 |---|---|---|
-| 出题 | Gemini（作者在 Gemini 网页端操作，喂入清洗后的文档） | 产出问题 + 金标文档 + 关键点 + 期望路由，按 notes-evaluation §7 的字段和配额 |
+| 出题 | Gemini（作者在 Gemini 网页端操作，喂入清洗后的文档） | 产出问题 + 金标文档 + 关键点 + 期望路由，按 [notes-evaluation §7](harness/archive/2026-10-16/notes-evaluation.md) 的字段和配额 |
 | 审题 | Claude（Opus） | 答案确在金标文档、无歧义、题干不泄漏答案；出题人和审题人不是同一个模型 |
 | 人工确认 | 项目作者 | 100 道全看，只勾“能答 / 通顺” |
 | 被测 | DeepSeek | 不参与出题和评审 |
@@ -200,37 +187,64 @@ BM25 索引不入库，启动时从 chunks 表在内存构建。表在用到它�
 
 评审批量调用命令行，每批 10 题，只输出 JSON；结果缓存在 `.cache/`，中断可续跑。
 
-### 6.4 对比实验
+### 5.4 对比实验
 
 - 主线消融（每行报 4 个核心指标）：无检索 → naive RAG → + 混合检索与精排 → + 改写与自适应路由 → + 校验与拒答
 - 模型对比（只看 Recall@5）：嵌入 2 选 1、精排 2 选 1
 - 题量只有 100，差距很小不宣称提升，如实记录“没用”的项
 
-## 7. 里程碑
+## 6. 里程碑
 
-| 编号 | 内容 | 完成标准 |
+| 阶段（Mx = phase-0x） | 内容 | 完成标准 |
 |---|---|---|
-| M0 | 骨架：目录、pyproject、Docker Compose（PostgreSQL + pgvector）、配置、providers 接口与假实现、poe 任务、CI | `uv run poe check` 通过；数据库能起 |
-| M1 | 数据管线：按固定 commit 下载、mdx 清洗、父子切块、元数据、嵌入、增量入库 | 182 篇入库；重复运行无重复块；输出数据报告 |
-| M2 | 检索：BM25、向量、RRF、精排、版本过滤、父块扩展、`/retrieve`；模型对比 | 返回带分数的候选；选定模型 |
-| M3 | 评测：评测集（100 题）、并行评测器、评审、报告 | `uv run poe eval-dev` 一条命令出报告 |
-| M4 | 基线：无检索、naive RAG | 两条基线入报告 |
-| M5 | 编排：护栏、路由、改写、分解、证据评分与重检索、上下文组装、带引用生成、忠实度校验；Prompt 版本化 | 五路路由跑通；开发集与 naive 有对照 |
-| M6 | 记忆：会话窗口与摘要、用户版本、token 预算 | 多轮追问与版本题答对 |
-| M7 | 服务与可靠性：REST + SSE、MCP、三级缓存、超时 / 重试 / 熔断 / 降级、限流、压测 | MCP 可被 Claude Code 调用；关掉精排仍能答；有 QPS 与 P95 |
-| M8 | 观测与坏例：trace 与成本、输出后处理、反馈接口、干预库、坏例进回归集 | 任意回答可按 trace_id 复盘 |
-| M9 | 收尾：测试集跑一次、完整消融、错误归因、README、一键复现 | 最终报告与可复现仓库 |
+| [M0](harness/build/phase-00-skeleton.md) | 骨架：目录、pyproject、Docker Compose（PostgreSQL + pgvector）、配置、providers 接口与假实现、poe 任务、CI | `uv run poe check` 通过；数据库能起 |
+| [M1](harness/build/phase-01-ingest.md) | 数据管线：按固定 commit 下载、mdx 清洗、父子切块、元数据、嵌入、增量入库 | 182 篇入库；重复运行无重复块；输出数据报告 |
+| [M2](harness/build/phase-02-retrieval.md) | 检索：BM25、向量、RRF、精排、版本过滤、父块扩展、`/retrieve`；模型对比 | 返回带分数的候选；选定模型 |
+| [M3](harness/build/phase-03-evaluation.md) | 评测：评测集（100 题）、并行评测器、评审、报告 | `uv run poe eval-dev` 一条命令出报告 |
+| [M4](harness/build/phase-04-baselines.md) | 基线：无检索、naive RAG | 两条基线入报告 |
+| [M5](harness/build/phase-05-orchestration.md) | 编排：护栏、路由、改写、分解、证据评分与重检索、上下文组装、带引用生成、忠实度校验；Prompt 版本化 | 五路路由跑通；开发集与 naive 有对照 |
+| [M6](harness/build/phase-06-memory.md) | 记忆：会话窗口与摘要、用户版本、token 预算 | 多轮追问与版本题答对 |
+| [M7](harness/build/phase-07-service.md) | 服务与可靠性：REST + SSE、MCP、三级缓存、超时 / 重试 / 熔断 / 降级、限流、压测 | MCP 可被 Claude Code 调用；关掉精排仍能答；有 QPS 与 P95 |
+| [M8](harness/build/phase-08-observability.md) | 观测与坏例：trace 与成本、输出后处理、反馈接口、干预库、坏例进回归集 | 任意回答可按 trace_id 复盘 |
+| [M9](harness/build/phase-09-wrapup.md) | 收尾：测试集跑一次、完整消融、错误归因、README、一键复现 | 最终报告与可复现仓库 |
 
-## 8. 开发方式
+## 7. 开发方式
 
-- 编码规则见 [coding-standards.md](coding-standards.md)，流程见 [workflow.md](workflow.md)，已定决策见 [decisions.md](decisions.md)。
-- 每个里程碑：Spec（作者批准）→ Plan → Implement → Verify（作者合并 PR）；任务清单写在 `docs/specs/` 的 Spec 里。
-- 测试集放在仓库外，只在 M9 由作者手动跑一次；评测数据与评测代码只读。
-- 每天的开发过程记在 [implementation-log](implementation-log/README.md)；里程碑完成时在其 Spec 的「记录」里写总结。
-- 需要人工的地方：M1 看数据报告；M3 确认 100 道题；M9 看最终结果。
+- 文档分工见 [AGENTS.md](AGENTS.md)；编码规则见 [CODING-STANDARDS.md](CODING-STANDARDS.md)，流程见 [WORKFLOW.md](WORKFLOW.md)，可复用的提示词见 [PROMPTS.md](PROMPTS.md)。
+- 每个阶段：计划（`harness/build/phase-NN-*.md`）→ 实现 → 验证；重要决定记进 `harness/context/phase-NN-*-context.md`；实际做了什么、测试结果记进 `harness/build-log.md`。
+- 测试集放在仓库外，只在 phase-09 由作者手动跑一次；评测数据与评测代码只读。
+- 需要人工的地方：phase-01 看数据报告；phase-03 确认 100 道题；phase-09 看最终结果。
 
-## 9. 许可
+## 8. 待办与阻塞
 
-- 代码：MIT（见 `LICENSE`）。
-- Dify 文档：CC BY 4.0，不入库，README 注明来源。
-- 评测集：改编自 Dify 文档，按 CC BY 4.0 发布并注明来源。
+> 代码都已完成（见 build-log）。下面是**没有被验证过**或**需要作者提供**的事，不要当成已经成立的结论。操作步骤见 [docs/eval/runbook.md](docs/eval/runbook.md)。
+
+### 8.1 需要作者提供或操作（阻塞真实数字）
+
+| 编号 | 事项 | 影响 | 怎么做 |
+|---|---|---|---|
+| A1 | 用 Gemini 出评测题（开发集 ~70、测试集 ~30） | 没有它，所有「效果」数字都出不来；phase-02 的模型对比只是 28 题冒烟集上的暂定结论 | [PROMPTS.md §6](PROMPTS.md)、[runbook](docs/eval/runbook.md) §1 |
+| A2 | `DEEPSEEK_API_KEY` | 真实生成、真实 LLM 评审、真实路由 / 评分 / 校验的提示词效果、`/chat` 的真实延迟 | 写进 `.env` |
+| A3 | 评审校准：人工标 20 条，一致率 ≥ 85% | 低于它，自动评审的结果不能用来比较方案 | [runbook](docs/eval/runbook.md) §3 |
+| A4 | 测试集只跑一次 | 最终报告 | [runbook](docs/eval/runbook.md) §5 + [报告模板](docs/final-report-template.md) |
+| A5 | 在 Claude Code 里注册 MCP 并试用；确认 `.claude/settings.json` 的 deny 规则（禁止编辑 `backend/eval/data/`）生效 | 只验证了 stdio 子进程能列工具，没在真实客户端里调用 | [runbook](docs/eval/runbook.md) §6 |
+| A6 | 决定：版本未知时是否默认自部署版（现在是不过滤） | 版本类题的表现 | 见 [phase-05 决策](harness/context/phase-05-orchestration-context.md) |
+| A7 | GitHub 合并 / CI 要求 | 目前所有提交都在 `2026-10-16-framework-build`，没有 PR、没合并 main | 作者说之后再说 |
+
+没有这些时：把代码、假实现和测试做完，把阻塞写进 build-log 和最终报告，**不要停下来等**，接着做不依赖它们的任务。
+
+### 8.2 代码层面没验证的
+
+- 真实模型下：路由准确率、改写 / 分解 / 证据评分 / 忠实度校验的提示词效果。**提示词都是第一版**，要用开发集调；每次改动新增 `_v2` 文件，不要覆盖。
+- 追问独立化、摘要的质量（没有多轮评测集）。
+- 评审：Gemini 主评 + Claude 复评的双评审只支持 `claude -p` 命令行和 DeepSeek；本机没有 `gemini` 命令行。评审调用的费用没有计进报告的成本。
+- 压测数字只测了假对话模型 + 真实检索：`/retrieve` 冷查询 QPS 4.8、P95 870 毫秒（精排在 GPU 上串行，是瓶颈）。
+- HTTP 模式的 MCP（只验证了 stdio）；`traces` 表没有保留期清理。
+- 日文版：只保留可行性（SudachiPy），没有做。
+
+### 8.3 设计上的取舍（可以推翻）
+
+- 黑名单默认空表（`app/orchestration/postprocess.py` 的 `BLOCKED_TERMS`）。
+- 答案缓存键不含对话模型名，换模型后要重启服务。
+- 限流只按 IP；没有鉴权。
+- Contextual Retrieval 只做了免费简化版（标题路径拼进检索文本），大模型生成上下文留作备选，要看开发集的错误归因再决定。

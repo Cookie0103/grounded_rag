@@ -1,6 +1,8 @@
 # M0：工程骨架
 
-状态：完成（2026-10-16）
+状态：完成（2026-10-16，验收证据见 [build-log](../build-log.md)）
+
+> 这是计划和记录，不是完成证据；进度以 build-log 为准。
 
 ## 需求
 
@@ -24,7 +26,7 @@
   - 成功：200，`{"status": "ok", "database": "ok", "trace_id": "..."}`
   - 数据库不可用：503，`{"error": {"code": "DEPENDENCY_UNAVAILABLE", "message": "数据库不可用"}, "trace_id": "..."}`
 - 所有响应都带 `X-Trace-Id` 响应头。请求如果带了 `X-Trace-Id`（只含字母、数字、短横线，长度不超过 64），就沿用它；否则生成 `uuid4().hex`。
-- 统一错误格式（coding-standards §4）：
+- 统一错误格式（CODING-STANDARDS.md §4）：
 
 | 情况 | 状态码 | code |
 |---|---|---|
@@ -195,7 +197,7 @@ class Reranker(Protocol):
     async def rerank(self, query: str, documents: list[str]) -> list[float]: ...   # 每个文档一个 0～1 分数，顺序与输入一致
 ```
 
-查询和文档的嵌入要分开，原因见 [RAG 笔记 §2](../implementation-log/2026-10-16/notes-rag.md)：Qwen3-Embedding 只给查询加指令。
+查询和文档的嵌入要分开，原因见 [RAG 笔记 §2](../archive/2026-10-16/notes-rag.md)：Qwen3-Embedding 只给查询加指令。
 
 `fakes.py`：所有假实现都是确定性的，并且有“语义”，这样 M2 的检索测试才有意义。
 
@@ -272,7 +274,7 @@ skip_covered = true
 root_package = "app"
 
 [[tool.importlinter.contracts]]
-name = "分层依赖方向（coding-standards §3）"
+name = "分层依赖方向（CODING-STANDARDS.md §3）"
 type = "layers"
 layers = [
     "app.api",
@@ -291,7 +293,7 @@ serve = "uvicorn app.api.main:create_app --factory --reload"
 ```
 
 注意：
-- 以后新增模块时，按 coding-standards §3 的方向把它加进 `layers`。这属于落实已定规则，不算“改检查配置”，不用先问。`eval` 在 M3 加入 `files` 和 `coverage.source`。
+- 以后新增模块时，按 CODING-STANDARDS.md §3 的方向把它加进 `layers`。这属于落实已定规则，不算“改检查配置”，不用先问。`eval` 在 M3 加入 `files` 和 `coverage.source`。
 - `"app.providers | app.db"` 表示这两层同级、互不依赖。如果当前 import-linter 版本不支持 `|` 写法，查官方文档换成等价写法，并在日志里记一笔。
 - ruff 的 `banned-api` 写的是模块名，要用 AC4 确认 `from openai import X` 这种写法也会被拦住；拦不住就查 ruff 文档调整，并记在日志里。
 
@@ -421,7 +423,7 @@ CI 用的数据库连接串与 `Settings` 的默认值一致，所以不需要�
 - [x] T4 数据库：docker-compose、engine、alembic、0001 迁移、集成测试 → AC2
 - [x] T5 API：create_app、trace 中间件、统一错误、`/health` 及测试 → AC3
 - [x] T6 CI 与 README：`ci.yml`；README 写项目一句话介绍、快速开始（启动数据库、安装、检查、运行）、目录说明、文档索引 → AC6、AC8
-- [x] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（workflow §4.3），写日志，推送（暂不开 PR）
+- [x] T7 收尾：完整跑一遍 `poe check` 和 `poe test-int`，做一次对抗性自审（WORKFLOW.md §4.3），写日志，推送（暂不开 PR）
 
 ## 阻塞
 

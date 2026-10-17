@@ -1,12 +1,14 @@
 # M3：评测
 
-状态：已批准（长程任务模式，agent 自批）
+状态：完成（2026-10-16，验收证据见 [build-log](../build-log.md)）
+
+> 这是计划和记录，不是完成证据；进度以 build-log 为准。
 
 ## 需求
 
 ### 目标
 
-1. 评测框架：读题 → 让被测系统回答 → 评审打标签 → 代码按规则换算分数 → 出报告。规则以 [notes-evaluation §7](../implementation-log/2026-10-16/notes-evaluation.md) 为准。
+1. 评测框架：读题 → 让被测系统回答 → 评审打标签 → 代码按规则换算分数 → 出报告。规则以 [notes-evaluation §7](../archive/2026-10-16/notes-evaluation.md) 为准。
 2. 评审可以接真实的大模型（DeepSeek、命令行里的 Claude / Gemini）；没有密钥时用假评审跑通全流程。
 3. 帮作者出题：题目格式校验、把清洗后的语料导出成能喂给 Gemini 的文件、一份可以直接粘贴的出题提示词。
 4. 一条命令出报告：`poe eval-dev`。
@@ -72,7 +74,7 @@
 
 ## 阻塞
 
-- 正式的开发集和测试集要作者用 Gemini 出（见 `docs/eval/gemini-question-prompt.md`）；真实评审要密钥或可用的命令行。
+- 正式的开发集和测试集要作者用 Gemini 出（见 `PROMPTS.md`）；真实评审要密钥或可用的命令行。
 
 ## 记录
 

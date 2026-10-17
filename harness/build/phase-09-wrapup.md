@@ -1,6 +1,8 @@
 # M9：收尾
 
-状态：已批准（长程任务模式，agent 自批）
+状态：完成（2026-10-16，验收证据见 [build-log](../build-log.md)）
+
+> 这是计划和记录，不是完成证据；进度以 build-log 为准。
 
 ## 需求
 
@@ -34,4 +36,4 @@
 2026-10-16 完成。
 - AC2：`ChatPipeline(grade=, verify=)` 开关 + `NaiveRagSystem(mode=, rerank=)`；`--system hybrid-rag|routed` 在 `CHAT_MODEL=fake` 下跑通。
 - AC3：见 HANDOFF 的最终状态。
-- 剩下的都是需要作者的事，见 [known-gaps.md](../known-gaps.md)。
+- 剩下的都是需要作者的事，见 [known-gaps.md](../../PLANS.md)。

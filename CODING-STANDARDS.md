@@ -1,6 +1,6 @@
 # 代码规范
 
-适用于 `backend/` 下全部代码：`app/`、`tests/`、`eval/`、`scripts/`、`migrations/`。命令都在 `backend/` 目录下执行；文中路径除 `docs/`、`data/`、`.cache/` 外都相对于 `backend/`。
+适用于 `backend/` 下全部代码：`app/`、`tests/`、`eval/`、`scripts/`、`migrations/`。命令都在 `backend/` 目录下执行；文中路径除 `harness/`、`docs/`、`data/`、`.cache/` 外都相对于 `backend/`。
 标 **[自动]** 的条目由 `uv run poe check` 或 CI 检查，违反直接失败；其余靠自查和评审。
 
 ## 1. 原则
@@ -102,7 +102,7 @@ scripts：可调用任意层；任何模块不得 import scripts
 - **`.cache/`**：AI 生成的临时内容、中间结果、LLM 响应缓存、评审输出、模型缓存、用量记录。已 gitignore，可随时删除。
 - **`data/`**：下载的原始文档，已 gitignore。
 - 不在仓库根目录或源码目录放临时文件。
-- 文档的位置和写法见 `docs/workflow.md` §6。
+- 文档的位置和写法见 `WORKFLOW.md` §6。
 
 ## 11. 评测纪律
 

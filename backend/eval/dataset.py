@@ -1,4 +1,8 @@
-"""评测题的读取和校验。字段含义见 docs/specs/M3-evaluation.md 和 notes-evaluation §7.1。"""
+"""评测题的读取和校验。
+
+字段含义见 harness/build/phase-03-evaluation.md
+和 harness/archive/2026-10-16/notes-evaluation.md §7.1。
+"""
 
 import json
 from collections import Counter
