@@ -1,9 +1,13 @@
 import asyncio
+import json
 from pathlib import Path
 
+from app.providers.fakes import FakeChatModel
 from eval.dataset import Question
 from eval.runner import load_cache, run_system
-from eval.systems import SystemAnswer
+from eval.systems import NaiveRagSystem, SystemAnswer
+
+from .test_systems import StubRetriever
 
 
 def _questions(count: int) -> list[Question]:
@@ -70,3 +74,40 @@ async def test_cached_questions_are_not_asked_again(tmp_path: Path) -> None:
 def test_missing_cache_file_means_empty() -> None:
     assert load_cache(None) == {}
     assert load_cache(Path("nope.jsonl")) == {}
+
+
+async def test_evidence_and_exact_context_survive_jsonl_cache_round_trip(tmp_path: Path) -> None:
+    cache = tmp_path / "answers.jsonl"
+    retriever = StubRetriever()
+    system = NaiveRagSystem(retriever, FakeChatModel(responses=["答"]))
+
+    first = await run_system(system, _questions(1), cache_path=cache)
+    second = await run_system(system, _questions(1), cache_path=cache)
+
+    assert len(retriever.calls) == 1
+    assert second == first
+    retrieval = second[0].steps[0].details
+    generation = second[0].steps[1].details
+    assert retrieval is not None
+    assert generation is not None
+    assert retrieval.retrievals[0].query == "问"
+    assert retrieval.retrievals[0].candidates[0].chunk.text == "正文"
+    assert generation.context == "父块正文"
+
+
+def test_old_cache_without_steps_remains_readable(tmp_path: Path) -> None:
+    cache = tmp_path / "old.jsonl"
+    record = {
+        "question_id": "old",
+        "answer": "答",
+        "route": "SINGLE",
+        "retrieved_docs": ["d"],
+        "contexts": ["原文"],
+        "latency_ms": 1.0,
+    }
+    cache.write_text(json.dumps(record), encoding="utf-8")
+
+    loaded = load_cache(cache)["old"]
+
+    assert loaded.answer == "答"
+    assert loaded.steps == ()

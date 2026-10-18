@@ -110,6 +110,11 @@ async def test_every_answer_is_saved_with_the_request_trace_id() -> None:
     assert record.retrieved_docs == ["doc-a"]
     assert record.citations[0]["document_id"] == "doc-a"
     assert [step["name"] for step in record.steps][:2] == ["guard", "route"]
+    retrieval = next(step["details"] for step in record.steps if step["name"] == "retrieve")
+    assert retrieval["retrievals"][0]["query"] == "改写"
+    assert retrieval["retrievals"][0]["candidates"][0]["chunk"]["id"] == "cp1"
+    generation = next(step["details"] for step in record.steps if step["name"] == "generate")
+    assert generation["context"] == "[1] 文档：doc-a｜doc-a 标题\ndoc-a 的正文"
 
 
 async def test_requests_without_a_trace_id_get_a_fresh_one_each() -> None:

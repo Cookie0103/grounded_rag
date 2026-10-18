@@ -36,10 +36,11 @@ from app.orchestration.models import (
     ChatResponse,
     Citation,
     Step,
+    StepDetails,
 )
 from app.providers.base import ChatMessage, ChatModel, Completion
 from app.providers.deepseek import cost_cny
-from app.retrieval.retriever import ParentContext, Retriever
+from app.retrieval.retriever import ParentContext, RetrievalResult, Retriever
 
 logger = logging.getLogger(__name__)
 MAX_SUBQUESTIONS = 3
@@ -89,9 +90,13 @@ class State(TypedDict, total=False):
     degraded: bool
 
 
-def _record(state: State, name: str, started: float, note: str = "") -> list[Step]:
+def _record(
+    state: State, name: str, started: float, note: str = "", details: StepDetails | None = None
+) -> list[Step]:
     steps = [*state.get("steps", [])]
-    steps.append(Step(name=name, ms=(time.perf_counter() - started) * 1000, note=note))
+    steps.append(
+        Step(name=name, ms=(time.perf_counter() - started) * 1000, note=note, details=details)
+    )
     return steps
 
 
@@ -357,8 +362,10 @@ class ChatPipeline:
         known = {parent.id for parent in parents}
         doc_ids = [*state.get("doc_ids", [])]
         degraded = state.get("degraded", False)
+        results: list[RetrievalResult] = []
         for query in state["queries"]:
             result = await self._retriever.retrieve(query, top_k=FINAL_TOP_K, editions=editions)
+            results.append(result)
             degraded = degraded or result.degraded
             for parent in result.parents:
                 if parent.id not in known:
@@ -375,18 +382,33 @@ class ChatPipeline:
             "all_citations": citations,
             "context_text": context_text,
             "used_queries": [*state.get("used_queries", []), *state["queries"]],
-            "steps": _record(state, "retrieve", started, f"{len(parents)} 个父块"),
+            "steps": _record(
+                state,
+                "retrieve",
+                started,
+                f"{len(parents)} 个父块",
+                StepDetails(retrievals=results),
+            ),
         }
 
     async def _grade(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
         if not self._grade_enabled:
-            return {"sufficient": True, "steps": _record(state, "grade", started, "已关闭")}
+            return {
+                "sufficient": True,
+                "steps": _record(state, "grade", started, "已关闭", StepDetails(sufficient=True)),
+            }
         if not state["parents"]:
             return {
                 "sufficient": False,
                 "missing": state["question"],
-                "steps": _record(state, "grade", started, "没有检索到任何内容"),
+                "steps": _record(
+                    state,
+                    "grade",
+                    started,
+                    "没有检索到任何内容",
+                    StepDetails(sufficient=False, missing=state["question"]),
+                ),
             }
         output = await state["meter"].ask(
             prompts.render(
@@ -400,14 +422,22 @@ class ChatPipeline:
         if data is None:
             return {
                 "sufficient": True,
-                "steps": _record(state, "grade", started, "输出不合法，按足够处理"),
+                "steps": _record(
+                    state, "grade", started, "输出不合法，按足够处理", StepDetails(sufficient=True)
+                ),
             }
         sufficient = as_bool(data.get("sufficient"), True)
         missing = str(data.get("missing", "")).strip()
         return {
             "sufficient": sufficient,
             "missing": missing,
-            "steps": _record(state, "grade", started, "足够" if sufficient else f"不足：{missing}"),
+            "steps": _record(
+                state,
+                "grade",
+                started,
+                "足够" if sufficient else f"不足：{missing}",
+                StepDetails(sufficient=sufficient, missing=missing),
+            ),
         }
 
     async def _retry_query(self, state: State) -> dict[str, Any]:
@@ -450,7 +480,13 @@ class ChatPipeline:
             "answer": answer,
             "citations": used,
             "regenerations": state["regenerations"] + (1 if regenerating else 0),
-            "steps": _record(state, "generate", started, f"引用 {[c.index for c in used]}"),
+            "steps": _record(
+                state,
+                "generate",
+                started,
+                f"引用 {[c.index for c in used]}",
+                StepDetails(context=state["context_text"]),
+            ),
         }
 
     async def _verify(self, state: State) -> dict[str, Any]:

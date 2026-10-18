@@ -11,7 +11,7 @@ from app.core.config import Settings
 from app.core.errors import DependencyUnavailableError
 from app.core.resilience import TokenBucketLimiter
 from app.orchestration.factory import Services
-from app.orchestration.models import ChatRequest, ChatResponse, Citation, Step
+from app.orchestration.models import ChatRequest, ChatResponse, Citation, Step, StepDetails
 from app.retrieval.retriever import RetrievalResult
 
 
@@ -40,6 +40,7 @@ class StubChat:
             citations=[Citation(index=1, document_id="d", heading_path="标题")],
             retrieved_docs=["d"],
             contexts=["很长的上下文，不应该返回给调用方"],
+            steps=[Step(name="generate", ms=1, details=StepDetails(context="实际上下文"))],
             cost_cny=0.01,
         )
 
@@ -70,6 +71,7 @@ async def test_chat_returns_answer_citations_steps_and_the_trace_id(
     assert body["citations"] == [{"index": 1, "document_id": "d", "heading_path": "标题"}]
     assert body["trace_id"] == response.headers["X-Trace-Id"]
     assert "contexts" not in body
+    assert body["steps"][0]["details"]["context"] == "实际上下文"
     assert chat.requests == [ChatRequest(question="一次最多上传几个文件", edition="cloud")]
 
 

@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from app.core.records import FeedbackIn, TraceRecord
 from app.db.observability import PostgresInterventionStore, PostgresTraceStore
+from app.orchestration.models import Step, StepDetails
+from app.retrieval.retriever import Candidate, ChunkInfo, ParentContext, RetrievalResult
 
 pytestmark = pytest.mark.integration
 
@@ -29,11 +31,25 @@ def _record(trace_id: str, **kw: object) -> TraceRecord:
 
 async def test_trace_round_trip_keeps_json_fields(engine: AsyncEngine) -> None:
     store = PostgresTraceStore(engine)
+    retrieval = RetrievalResult(
+        "版本限制",
+        [Candidate(1, ChunkInfo("c1", "a", "p1", "标题", "子块正文", "cloud"), rrf_score=0.1)],
+        [ParentContext("p1", "a", "标题", "父块正文")],
+    )
     record = _record(
         "t1",
         edition="cloud",
         cost_cny=0.02,
-        steps=[{"name": "guard", "ms": 1.5, "note": "通过"}],
+        steps=[
+            step.model_dump(mode="json")
+            for step in (
+                Step(name="retrieve", ms=1.5, details=StepDetails(retrievals=[retrieval])),
+                Step(
+                    name="grade", ms=1, details=StepDetails(sufficient=False, missing="缺少默认值")
+                ),
+                Step(name="generate", ms=2, details=StepDetails(context="[1] 原样\n上下文")),
+            )
+        ],
         retrieved_docs=["a", "b"],
         citations=[{"index": 1, "document_id": "a", "heading_path": "标题"}],
     )

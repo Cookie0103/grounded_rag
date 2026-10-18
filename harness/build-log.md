@@ -5,9 +5,11 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-17（文档整理为 harness 结构）
+最后更新：2026-10-18（补齐实验过程记录）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
+- **本轮**：分支 `2026-10-18-evidence-tracing` 完成 [phase-10 实验过程记录](build/phase-10-evidence-tracing.md)。每轮查询、检索返回候选、缺失项和实际生成上下文进入现有步骤，随 trace 与评测 JSONL 保存；本轮验证见下方当日活动记录，尚未推送或运行远程 CI。
+- **本机配置**：`DATABASE_URL` 格式错误；本轮集成测试只临时覆盖为本地容器端口 15432，未改 `.env`。作者启动服务前需修正该项。
 - **没有的**：真实模型下的效果数字。缺 Gemini 出的评测题、`DEEPSEEK_API_KEY`、20 条人工评审标注。清单见 [PLANS.md §8](../PLANS.md)，操作步骤见 [docs/eval/runbook.md](../docs/eval/runbook.md)。
 - **下一步**：作者提供上述三样后，按 runbook 跑开发集 → 校准评审 → 调提示词（新增 `_v2` 文件）→ 测试集只跑一次 → 填 [最终报告模板](../docs/final-report-template.md)。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
@@ -28,8 +30,9 @@
 | [phase-07 服务](build/phase-07-service.md) | 完成 | SSE、MCP（仅验证 stdio）、缓存、降级、限流、压测 |
 | [phase-08 观测](build/phase-08-observability.md) | 完成 | trace、反馈、干预库、后处理、坏例导出 |
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
+| [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
 
-最终测试状态（最后一次完整运行，2026-10-16）：`poe check` 421 passed，覆盖率 95%；`poe test-int` 32 passed；`poe test-gpu` 3 passed。
+最终测试状态（2026-10-18）：`poe check` 426 passed，覆盖率 94.97%；`poe test-int` 32 passed。GPU 测试本轮未重跑，上次记录（2026-10-16）为 3 passed。
 
 ## 活动记录（追加）
 
@@ -82,3 +85,15 @@
   - `docs/eval/gemini-question-prompt.md` → `PROMPTS.md §6`
   - 新建 `harness/code_review/`（空，放 review 输出）
 - `docs/` 只剩给人看的：`eval/runbook.md`、`final-report-template.md`。
+
+### 2026-10-18 · 实验过程记录（分支 `2026-10-18-evidence-tracing`）
+
+- 作者要求补齐每轮查询、召回 chunk、缺失信息和最终实际交给生成模型的上下文。先查找并复用 `Step`、`RetrievalResult`、`SystemAnswer.to_json/from_json`、`PostgresTraceStore`；新增可选 `StepDetails`，没有重复定义 chunk 或新建日志系统。
+- 编排在每个检索步骤保存各 query 的返回结果、候选文本/分数/排名与父块，在评分步骤保存充分性和缺失信息，在每次生成步骤保存实际资料字符串（保留引用编号及截断结果）。服务降级保留已完成步骤。
+- 无检索、只检索、朴素/混合基线及完整系统的步骤由已有 JSONL 缓存落盘；旧缓存仍可读。trace 沿用 `steps` JSONB，无迁移；REST/SSE 的步骤详情同步可见。
+- 红灯：新增两条编排回归测试先运行，均因缺少 `Step.details` 失败。实现后定向测试 70 passed；追加生成后期失败的降级回归，由下述完整检查覆盖。
+- 验证：`uv --cache-dir ../.cache/uv run --no-sync poe check` → 格式、lint、分层、mypy 全通过，426 passed，覆盖率 94.97%。`poe test-int` → 32 passed（独立 `grounded_rag_test` 库，含嵌套详情 JSON 往返与 MCP stdio）。
+- 环境处理：沙箱无法启动 uv 管理的 Python，验证在已批准的沙箱外运行；首次集成测试因本机 `DATABASE_URL` 格式错误失败。启动已有 compose 数据库后，按容器实际端口 15432 临时覆盖测试连接地址并通过，未修改 `.env` 或安装依赖。
+- 已读作者公开的 Notion 进度和评测第 7 节；已确认现有 `.cache/gemini-pack/part-01.md`、`part-02.md` 合计 182 篇文档。运行手册补充“语料/导出/开发题/测试题”解释与 20+50+30 的关系，以及过程字段查看方式、旧缓存隔离要求。
+- 自查：[phase-10 Codex](code_review/2026-10-18-phase-10-codex.md)；决定见 [phase-10 context](context/phase-10-evidence-tracing-context.md)。本轮未运行真实模型、未读封存测试题、未改评分规则或评审 Prompt。
+- 边界：记录检索器最终返回候选；未完成节点的部分状态不保证保存。旧缓存不能自动追补过程。首次记录后仍需作者准备正式题集、确认模型配置并校准评审。

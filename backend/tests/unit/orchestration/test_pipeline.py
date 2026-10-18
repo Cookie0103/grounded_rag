@@ -233,6 +233,54 @@ async def test_insufficient_evidence_retries_with_a_new_query_then_answers() -> 
     assert not response.abstained
 
 
+async def test_records_each_query_and_missing_evidence_across_retrieval_rounds() -> None:
+    chat = _happy(
+        router=_json(route="MULTI"),
+        decompose=_json(queries=["子问题一", "子问题二"]),
+        grade=[_json(sufficient=False, missing="缺少版本限制"), GRADE_OK],
+        retry_query=_json(query="版本限制"),
+    )
+    retriever = StubRetriever({"版本限制": [("p2", "doc-b")]})
+
+    response = await _ask(chat, retriever)
+
+    rounds = [step.details for step in response.steps if step.name == "retrieve"]
+    assert all(details is not None for details in rounds)
+    assert [[r.query for r in d.retrievals] for d in rounds if d] == [
+        ["子问题一", "子问题二"],
+        ["版本限制"],
+    ]
+    last = rounds[-1]
+    assert last is not None
+    assert last.retrievals[0].candidates[0].chunk.id == "cp2"
+    assert last.retrievals[0].parents[0].text == "doc-b 的正文"
+    grades = [step.details for step in response.steps if step.name == "grade"]
+    assert [(d.sufficient, d.missing) for d in grades if d] == [
+        (False, "缺少版本限制"),
+        (True, ""),
+    ]
+
+
+async def test_generation_record_contains_only_the_context_actually_sent_to_the_model(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("app.orchestration.context.MAX_CONTEXT_CHARS", 60)
+    chat = _happy()
+    retriever = StubRetriever({"改写后的问题": [("p1", "doc-a"), ("p2", "doc-b")]})
+
+    response = await _ask(chat, retriever)
+
+    generation = next(step for step in response.steps if step.name == "generate")
+    assert generation.details is not None
+    context = generation.details.context
+    assert isinstance(context, str)
+    prompt_context = chat.prompts["generate"][0].split("## 资料\n\n")[1].split("\n\n## 问题")[0]
+    assert context == prompt_context
+    assert "[1] 文档：doc-a" in context
+    assert "doc-b" not in context
+    assert response.contexts == ["doc-a 的正文", "doc-b 的正文"]
+
+
 async def test_evidence_that_never_becomes_sufficient_abstains_after_two_retries() -> None:
     chat = _happy(grade=_json(sufficient=False, missing="x"), retry_query=_json(query="再试"))
     retriever = StubRetriever()

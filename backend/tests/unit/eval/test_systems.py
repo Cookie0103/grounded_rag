@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 import pytest
 
-from app.orchestration.models import ChatRequest, ChatResponse
+from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
 from app.providers.deepseek import cost_cny
 from app.providers.fakes import FakeChatModel
 from app.retrieval.retriever import (
@@ -52,6 +52,7 @@ async def test_no_retrieval_baseline_asks_the_model_with_only_the_question() -> 
     assert answer.contexts == ()
     assert "知识库最多上传几个文件" in chat.calls[0][0].content
     assert answer.cost_cny == pytest.approx(cost_cny(*_tokens(chat)))
+    assert answer.steps[0].details == StepDetails(context="")
 
 
 async def test_naive_rag_uses_vector_search_without_rerank() -> None:
@@ -69,6 +70,9 @@ async def test_naive_rag_uses_vector_search_without_rerank() -> None:
     assert "父块正文" in prompt
     assert "知识库最多上传几个文件" in prompt
     assert answer.cost_cny > 0
+    assert answer.steps[0].details is not None
+    assert answer.steps[0].details.retrievals[0].candidates[0].chunk.id == "c0"
+    assert answer.steps[1].details == StepDetails(context="父块正文")
 
 
 async def test_retrieval_only_system_still_returns_no_answer() -> None:
@@ -76,6 +80,8 @@ async def test_retrieval_only_system_still_returns_no_answer() -> None:
 
     assert answer.answer is None
     assert answer.retrieved_docs == ("a", "b")
+    assert answer.steps[0].details is not None
+    assert answer.steps[0].details.retrievals[0].query == QUESTION.question
 
 
 def _tokens(chat: FakeChatModel) -> tuple[int, int]:
@@ -88,7 +94,12 @@ async def test_full_system_maps_the_pipeline_response() -> None:
         async def answer(self, request: ChatRequest) -> ChatResponse:
             assert (request.question, request.edition) == ("知识库最多上传几个文件", "cloud")
             return ChatResponse(
-                answer="答", route="SINGLE", retrieved_docs=["a"], contexts=["c"], cost_cny=0.5
+                answer="答",
+                route="SINGLE",
+                retrieved_docs=["a"],
+                contexts=["c"],
+                cost_cny=0.5,
+                steps=[Step(name="generate", ms=1, details=StepDetails(context="[1] c"))],
             )
 
     answer = await FullSystem(StubPipeline()).answer(QUESTION)  # type: ignore[arg-type]
@@ -99,6 +110,7 @@ async def test_full_system_maps_the_pipeline_response() -> None:
         ("a",),
         0.5,
     )
+    assert answer.steps[0].details == StepDetails(context="[1] c")
 
 
 async def test_naive_rag_can_be_switched_to_hybrid_with_rerank_for_the_ablation() -> None:

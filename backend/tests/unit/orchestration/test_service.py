@@ -85,6 +85,7 @@ async def test_second_identical_question_is_served_from_the_answer_cache() -> No
     assert second.answer == first.answer
     assert len(chat.kinds) == calls_after_first  # 没有再调模型
     assert len(retriever.queries) == 1
+    assert second.steps == first.steps
 
 
 async def test_cache_key_includes_edition_and_sessions_are_never_cached() -> None:
@@ -124,6 +125,11 @@ async def test_generation_outage_degrades_to_retrieved_snippets(error: Exception
     assert [c.document_id for c in response.citations] == ["doc-a"]
     assert response.retrieved_docs == ["doc-a"]
     assert not response.abstained
+    fallback = response.steps[-1]
+    assert fallback.name == "fallback_retrieve"
+    assert fallback.details is not None
+    assert fallback.details.retrievals[0].query == "怎么上传"
+    assert fallback.details.context is None  # 这次没有生成调用
 
 
 async def test_timeout_degrades_too() -> None:
@@ -132,6 +138,37 @@ async def test_timeout_degrades_too() -> None:
     response = await service.answer(ChatRequest(question="怎么上传"))
 
     assert response.degraded
+
+
+async def test_generation_failure_keeps_completed_retrieval_steps(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    chat = _chat()
+    original = chat.complete
+
+    async def fail_generation(
+        messages: list[ChatMessage], *, json_mode: bool = False
+    ) -> Completion:
+        if "只能**根据下面编号" in messages[-1].content:
+            raise DependencyUnavailableError("生成失败")
+        return await original(messages, json_mode=json_mode)
+
+    monkeypatch.setattr(chat, "complete", fail_generation)
+
+    response = await _service(chat).answer(ChatRequest(question="怎么上传"))
+
+    assert response.degraded
+    assert [step.name for step in response.steps] == [
+        "guard",
+        "route",
+        "rewrite",
+        "retrieve",
+        "grade",
+        "fallback_retrieve",
+    ]
+    retrieval = response.steps[3].details
+    assert retrieval is not None
+    assert retrieval.retrievals[0].query == "改写"
 
 
 async def test_config_errors_are_not_hidden_by_degradation() -> None:

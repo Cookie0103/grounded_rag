@@ -2,6 +2,8 @@
 
 from pydantic import BaseModel, Field
 
+from app.retrieval.retriever import RetrievalResult
+
 DIRECT, SINGLE, MULTI, CLARIFY, REFUSE = "DIRECT", "SINGLE", "MULTI", "CLARIFY", "REFUSE"
 ROUTES = (DIRECT, SINGLE, MULTI, CLARIFY, REFUSE)
 
@@ -21,10 +23,20 @@ class Citation(BaseModel):
     heading_path: str
 
 
+class StepDetails(BaseModel):
+    """检索、证据判断和实际生成上下文，随步骤一起落盘。"""
+
+    retrievals: list[RetrievalResult] = Field(default_factory=list)
+    sufficient: bool | None = None
+    missing: str | None = None
+    context: str | None = None
+
+
 class Step(BaseModel):
     name: str
     ms: float
     note: str = ""
+    details: StepDetails | None = None
 
 
 class ChatResponse(BaseModel):

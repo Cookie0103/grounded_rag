@@ -12,7 +12,14 @@ from app.core.errors import BudgetExceededError, DependencyUnavailableError
 from app.core.records import TraceRecord
 from app.core.trace import NO_TRACE, new_trace_id, trace_id_var
 from app.orchestration import prompts
-from app.orchestration.models import ABSTAIN_TEXT, ChatRequest, ChatResponse, Citation, Step
+from app.orchestration.models import (
+    ABSTAIN_TEXT,
+    ChatRequest,
+    ChatResponse,
+    Citation,
+    Step,
+    StepDetails,
+)
 from app.orchestration.observe import InterventionStore, TraceStore
 from app.orchestration.pipeline import ChatPipeline
 from app.orchestration.postprocess import postprocess
@@ -111,16 +118,19 @@ class ChatService:
             yield cached.model_copy(update={"cached": True})
             return
         final: ChatResponse | None = None
+        steps: list[Step] = []
         try:
             async with asyncio.timeout(self._timeout):
                 async for item in self._pipeline.stream(request):
                     if isinstance(item, ChatResponse):
                         final = item
                     else:
+                        steps.append(item)
                         yield item
         except (DependencyUnavailableError, BudgetExceededError, TimeoutError) as error:
             logger.warning("生成不可用，降级为检索片段：%r", error)
             final = await self._fallback(request)
+            final = final.model_copy(update={"steps": [*steps, *final.steps]})
         if final is None:
             raise RuntimeError("编排没有产出 ChatResponse")
         final = self._postprocess(final)
@@ -163,6 +173,13 @@ class ChatService:
             citations=citations,
             retrieved_docs=list(dict.fromkeys(c.chunk.document_id for c in result.candidates)),
             contexts=[parent.text for parent in result.parents],
+            steps=[
+                Step(
+                    name="fallback_retrieve",
+                    ms=result.timings_ms.get("total", 0.0),
+                    details=StepDetails(retrievals=[result]),
+                )
+            ],
             degraded=True,
             abstained=not blocks,
         )

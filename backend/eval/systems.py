@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Protocol
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
-from app.orchestration.models import ChatRequest
+from app.orchestration.models import ChatRequest, Step, StepDetails
 from app.orchestration.pipeline import ChatPipeline
 from app.providers.base import ChatMessage, ChatModel, Completion
 from app.providers.deepseek import cost_cny
@@ -25,9 +25,12 @@ class SystemAnswer:
     latency_ms: float
     cost_cny: float = 0.0
     error: str | None = None
+    steps: tuple[Step, ...] = ()
 
     def to_json(self) -> dict[str, Any]:
-        return asdict(self)
+        data = asdict(self)
+        data["steps"] = [step.model_dump(mode="json") for step in self.steps]
+        return data
 
     @staticmethod
     def from_json(data: dict[str, Any]) -> "SystemAnswer":
@@ -40,6 +43,7 @@ class SystemAnswer:
             latency_ms=data["latency_ms"],
             cost_cny=data.get("cost_cny", 0.0),
             error=data.get("error"),
+            steps=tuple(Step.model_validate(step) for step in data.get("steps", [])),
         )
 
 
@@ -76,6 +80,13 @@ class RetrievalOnlySystem:
             ),
             contexts=tuple(parent.text for parent in result.parents),
             latency_ms=(time.perf_counter() - started) * 1000,
+            steps=(
+                Step(
+                    name="retrieve",
+                    ms=result.timings_ms.get("total", 0.0),
+                    details=StepDetails(retrievals=[result]),
+                ),
+            ),
         )
 
 
@@ -103,6 +114,13 @@ class NoRetrievalSystem:
             contexts=(),
             latency_ms=(time.perf_counter() - started) * 1000,
             cost_cny=_completion_cost(completion),
+            steps=(
+                Step(
+                    name="generate",
+                    ms=(time.perf_counter() - started) * 1000,
+                    details=StepDetails(context=""),
+                ),
+            ),
         )
 
 
@@ -141,11 +159,13 @@ class NaiveRagSystem:
             mode=self._mode,
         )
         contexts = tuple(parent.text for parent in result.parents)
+        context = "\n\n---\n\n".join(contexts)
         prompt = fill_template(
             "baseline_naive_rag_v1.md",
             question=question.question,
-            contexts="\n\n---\n\n".join(contexts),
+            contexts=context,
         )
+        generated = time.perf_counter()
         completion = await self._chat.complete([ChatMessage(role="user", content=prompt)])
         return SystemAnswer(
             question_id=question.id,
@@ -157,6 +177,18 @@ class NaiveRagSystem:
             contexts=contexts,
             latency_ms=(time.perf_counter() - started) * 1000,
             cost_cny=_completion_cost(completion),
+            steps=(
+                Step(
+                    name="retrieve",
+                    ms=(generated - started) * 1000,
+                    details=StepDetails(retrievals=[result]),
+                ),
+                Step(
+                    name="generate",
+                    ms=(time.perf_counter() - generated) * 1000,
+                    details=StepDetails(context=context),
+                ),
+            ),
         )
 
 
@@ -183,4 +215,5 @@ class FullSystem:
             contexts=tuple(response.contexts),
             latency_ms=(time.perf_counter() - started) * 1000,
             cost_cny=response.cost_cny,
+            steps=tuple(response.steps),
         )
