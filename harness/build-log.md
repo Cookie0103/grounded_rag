@@ -5,15 +5,15 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（首批12题已修订、第二批12题已交审；既有修改已汇总提交并推送）
+最后更新：2026-10-19（phase-16进行中：修订24题并补齐剩余46题）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-15](build/phase-15-dev70-repair-batch02.md) 完成两批交审材料。[24题合并审阅稿](../docs/eval/dev70/review-24.md)包含修订dev021～032、新增dev033～044、参考答案、要点及真实来源；[修订记录](../docs/eval/dev70/revision-log.md)逐项对应反馈。两批共9单跳/11多跳/3拒答与纠正/1模糊，其中3链式。未运行RAG/基线或新评分。[全70题台账](../docs/eval/dev70/README.md)记录剩余46题配额。等价来源OR评分仍须适配，不能直接按旧Recall@5报正式分数。
+- **当前任务**：[phase-16](build/phase-16-dev70-completion.md) 进行中。作者已转交Claude复审并授权自主修订指定旧题、先校验46题蓝图后一次补齐dev045～090；不再每12题停审。固定182篇语料已在本机恢复并核对Git blob，现有模型在Mac MPS通过冒烟，数据库向量恢复进行中。旧题修订、蓝图和机械校验正在独立核验；尚未完成新增46题或检索自测。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功。作者要求汇总推送后，既有4项未提交修改已提交为`433ae94`，该分支首次推送到origin成功并建立跟踪；未检查远程CI结果。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
-- **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
+- **本机配置**：当前Mac已恢复锁定Python依赖与原定Qwen3嵌入/精排，MPS真实冒烟通过。本项目PostgreSQL/pgvector在5432，182篇/1252父块/2090子块及2090条Qwen3向量已恢复并与源全量比对；未补本轮不需要的BGE向量。`.env`保留作者设置，任务命令临时使用MPS和batch=4。旧Windows/RTX5070Ti及Langfuse结果为另一台电脑的历史证据。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：作者/Claude审24题及三道链式的必要性 → 按反馈修订并分批补剩余46题 → 适配等价来源OR召回、审定新70金标/评审版本 → 新70比较系统/基线 → 冻结系统 → 作者在隔离环境运行封存30 test。版本不明允许合理反问或完整条件答案。未读封存题，最终站点未部署。
+- **下一步**：统一校验46题蓝图，替换薄弱链式候选 → 两组各23题及证据 → 原题不传edition单次检索 → 完整70题独立复核与交审。正式评分的OR来源适配和作者/Claude审定仍是后续步骤。
 - **当前手动试跑**：已按作者要求保持 `poe serve` 在 http://127.0.0.1:8000 运行，`/health` 与 `/chat` 已真实验证。后续先检查 8000 是否已有服务，避免重复启动。作者可在 `/docs` 用独立 session_id 手动检查完整步骤，再准备首批开发题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -216,3 +216,18 @@
 - 提交前完整`uv --cache-dir ../.cache/uv run --no-sync poe check`通过：格式、lint、分层、mypy通过，433 passed、35 deselected、覆盖率94.85%；git diff --check通过，提交密钥/大文件钩子通过。
 - 已提交为433ae94（feat(eval): 提交隐藏版本选项并统一评测题量口径）。先fetch并确认远端无同名分支，再执行`git push -u origin 2026-10-19-cloud-tracing`，返回new branch成功，建立origin同名跟踪；此前24题及观测等本地提交随整条分支同步推送。没有合并main、强推或创建PR。
 - 本条为推送后的交接记录，随日志提交同步到同名分支；远端最终HEAD与本地HEAD核对见Git引用。未运行RAG、付费评测或检查远程CI。
+
+
+### 2026-10-19 · 新70题补齐启动（phase-16）
+
+- 作者提供Claude复审，明确本轮修订12个点名ID并自主补剩余46题，两半各23题；旧20独立回归、去重覆盖90题。需求与任务记录于phase-16，阶段审批按作者长程授权处理。
+- 本机为Mac新checkout，无data/.cache/.venv，Docker仅有Travel Agent数据库；已恢复固定commit的182篇公开语料，全部Git blob SHA匹配。已有Compose启动本项目新数据库并执行既有0001～0005迁移。未改schema或迁移源文件。
+- 现有uv全局exclude-newer与锁文件版本冲突，直接uv sync --frozen恢复已有锁定依赖和gpu extra，未升级依赖、未改锁文件。子进程uv缓存曾访问沙箱外，改用项目UV_CACHE_DIR及UV_NO_SYNC后运行规定检查。
+- 初始poe check：格式/lint/分层/mypy通过，433 passed、35 deselected，覆盖率94.85%，原始输出.cache/dev70-completion/check.log。
+- 作者选择允许MPS/CPU适配。原定Qwen3嵌入/精排在MPS真实冒烟成功：1024维，相关片段得分0.99995、无关片段0.00060。只对命令覆盖设备和batch，未更改.env、预算配置或业务代码；未调DeepSeek。入库正在执行，尚不能声称检索环境完全恢复。
+
+### 2026-10-19 · phase-16 T1/T2：语料恢复与12题复审修订
+
+- T1完成：MPS入库182篇、2090子块，随后只读比对全部文档内容哈希、1252父块和2090子块的ID/文本/父子关系一致。只恢复Qwen3向量，不把另一台电脑的BGE向量数量当作本机事实。
+- T2完成：修订dev021/024/029/030/031/033/034/035/036/037/041/043，其余12题问题行与证据对象原样。独立snapshot校验无硬失败（旧题局限单列legacy_observation）。dev030换OAuth差异，dev041采用字段名字符集合保住3父块；批量字段候选因落同父块被拒并替换。
+- 证据重建47处、4对孪生逐字差异归档；本机全量数据库比对后修订来源标记verified。题干、参考答案、JSONL、evidence和24题审阅稿同步。未跑完整系统/无检索基线/付费评分；新46蓝图仍在设计，尚未声称完成。

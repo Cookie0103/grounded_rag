@@ -1,22 +1,10 @@
 {
-  "status": "draft_pending_claude_and_author_review",
-  "updated_at": "2026-10-19T13:14:14.717131+00:00",
-  "corpus_repo": "langgenius/dify-docs",
-  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
-  "ingest_version": "1",
-  "database_verified": true,
-  "source_license": "CC BY 4.0",
-  "source_workflow": "阅读冻结原文→独立写题和参考答案→定位真实块→静态核验；未运行RAG或看被测系统答案",
-  "formal_dataset": "70开发+30测试；旧20另作回归",
-  "paid_calls": 0,
-  "baseline_run": false,
-  "rag_run": false,
-  "dataset_version": "dev70-batch01-v2-draft",
+  "status": "draft_pending_external_review",
   "question_count": 12,
   "questions": [
     {
       "question_id": "dev021",
-      "reference_answer": "应等到首个data事件workflow_started。第一帧ping只用于保活，不能当作业务受理信号。",
+      "reference_answer": "受理看首个data事件workflow_started；Workflow正常结束看workflow_finished。第一帧ping只是保活。",
       "behavior_group": "single",
       "behavior_subtype": "short",
       "expected_behavior": "answered",
@@ -30,15 +18,16 @@
         ]
       ],
       "n_docs": 1,
-      "n_subasks": 1,
+      "n_subasks": 2,
       "subasks": [
-        "Workflow受理信号是哪帧？"
+        "Workflow受理事件",
+        "Workflow终止事件"
       ],
       "hardness_tag": "short",
-      "most_likely_failure": "把HTTP连接或ping当成运行已受理。",
+      "most_likely_failure": "将ping当受理信号，或把Chatbot的message_end套为Workflow终止事件。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
-      "route_rationale": "1个小问；链式归MULTI，不按文档篇数定类。",
+      "route_rationale": "同一篇资料的独立事实，保留原SINGLE标注；不将小问数直接等同路由。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -58,16 +47,20 @@
                   "direct_evidence": {
                     "chunk_id": "api-reference/guides/streaming#c2",
                     "excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                    "text": "除 `ping` 外，每个事件以一行 `data: ` 的形式到达，携带一个 JSON 对象，并以一个空行结束。\n\n根据 `event` 字段决定如何处理，并跳过所有不以 `data: ` 开头的行：保活用的 `ping` 形式是一行不带 `data:` 载荷的 `event: ping`。\n\nChatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "api-reference/guides/streaming#p2",
                     "heading_path": "处理流式响应 > 解析事件流",
+                    "text": "除 `ping` 外，每个事件以一行 `data: ` 的形式到达，携带一个 JSON 对象，并以一个空行结束。\n\n根据 `event` 字段决定如何处理，并跳过所有不以 `data: ` 开头的行：保活用的 `ping` 形式是一行不带 `data:` 载荷的 `event: ping`。\n\nChatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。\n\n```python\nimport json\nimport requests\n\nbody = {\n    \"query\": \"What are this month's top issues?\",\n    \"inputs\": {},\n    \"user\": \"customer-4821\",\n    \"response_mode\": \"streaming\",\n}\n\nwith requests.post(url, headers=headers, json=body, stream=True) as r:\n    for line in r.iter_lines(decode_unicode=True):\n        if not line or not line.startswith(\"data: \"):\n            continue  # 跳过空行分隔符和 ping 行\n        event = json.loads(line[len(\"data: \"):])\n        handle(event)\n```\n\n实际传输中，事件流如下所示：\n\n```text\nevent: ping\n\ndata: {\"event\": \"workflow_started\", \"task_id\": \"c3800678-…\", \"workflow_run_id\": \"fb47b2e6-…\", \"data\": {…}}\n\ndata: {\"event\": \"node_finished\", \"task_id\": \"c3800678-…\", \"workflow_run_id\": \"fb47b2e6-…\", \"data\": {…}}\n```\n\n**提示：**\n使用 curl 测试时，加上 `-N`（`--no-buffer`）参数，事件即可实时逐条打印，而不是等运行结束后一次性输出。",
                     "contains_excerpt": true
                   },
                   "cleaned_character_offset": 518,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
@@ -76,32 +69,36 @@
         },
         {
           "nugget_index": 1,
-          "text": "第一帧ping只表示连接保活。",
-          "importance": "okay",
+          "text": "Workflow应用以workflow_finished作为终止事件。",
+          "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "api-reference/guides/streaming",
-                  "heading_path": "处理流式响应 > 解析事件流",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L27-L27",
+                  "heading_path": "处理流式响应 > 按事件类型分发",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L78-L78",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
-                  "raw_line_start": 27,
-                  "raw_line_end": 27,
-                  "original_excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                  "raw_line_start": 78,
+                  "raw_line_end": 78,
+                  "original_excerpt": "    - Workflow 应用为 `workflow_finished`",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/streaming#c2",
-                    "excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                    "chunk_id": "api-reference/guides/streaming#c5",
+                    "excerpt": "- Workflow 应用为 `workflow_finished`",
+                    "text": "会收到哪些事件取决于应用类型。事件契约详见 发送对话消息、执行工作流 和 发送消息 页面中的事件表。\n\n通常至少要做到：\n\n1. 按顺序拼接回复片段：\n\n    - Chatbot 和 Chatflow 应用为 `message` 事件\n    - 旧版 Agent 和 Agent 应用为 `agent_message` 事件\n\n    Agent 应用在收尾时会额外返回一个重复完整回答的 `message` 事件，将其视为最终回答即可，不要再追加拼接。\n\n2. 在正确的终止事件上收尾：\n    - Chatbot、旧版 Agent 和 Agent 应用为 `message_end`\n    - Chatflow 应用为 `message_end` 后跟 `workflow_finished`（两个事件都会到达，且按此顺序）\n    - Workflow 应用为 `workflow_finished`\n3. 将 `error` 事件上报给调用方。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/streaming#p2",
-                    "heading_path": "处理流式响应 > 解析事件流",
+                    "parent_id": "api-reference/guides/streaming#p3",
+                    "heading_path": "处理流式响应 > 按事件类型分发",
+                    "text": "会收到哪些事件取决于应用类型。事件契约详见 发送对话消息、执行工作流 和 发送消息 页面中的事件表。\n\n通常至少要做到：\n\n1. 按顺序拼接回复片段：\n\n    - Chatbot 和 Chatflow 应用为 `message` 事件\n    - 旧版 Agent 和 Agent 应用为 `agent_message` 事件\n\n    Agent 应用在收尾时会额外返回一个重复完整回答的 `message` 事件，将其视为最终回答即可，不要再追加拼接。\n\n2. 在正确的终止事件上收尾：\n    - Chatbot、旧版 Agent 和 Agent 应用为 `message_end`\n    - Chatflow 应用为 `message_end` 后跟 `workflow_finished`（两个事件都会到达，且按此顺序）\n    - Workflow 应用为 `workflow_finished`\n3. 将 `error` 事件上报给调用方。",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 518,
+                  "cleaned_character_offset": 1821,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
@@ -114,7 +111,7 @@
       "counterpart_docs": [],
       "author_review_status": "pending_claude_and_author_review",
       "notes": [
-        "保留为短问校准题；同一句中的受理判断只设一个vital，不假称多跳。"
+        "改为明确询问受理与终止两个不同阶段；未把首帧ping和受理信号的正反表述充作独立事实。"
       ],
       "all_equivalent_gold_docs": [
         "api-reference/guides/streaming"
@@ -479,7 +476,7 @@
     },
     {
       "question_id": "dev024",
-      "reference_answer": "用迭代节点，错误处理选“错误时继续”；失败项保留null占位，其余项继续。",
+      "reference_answer": "用迭代节点，错误处理选“错误时继续”；失败元素在输出数组中用null占位，其余项继续处理。",
       "behavior_group": "single",
       "behavior_subtype": "neighbor",
       "expected_behavior": "answered",
@@ -493,15 +490,16 @@
         ]
       ],
       "n_docs": 1,
-      "n_subasks": 1,
+      "n_subasks": 2,
       "subasks": [
-        "一批独立输入逐项处理，失败后要占位续跑，怎么配？"
+        "选择节点和错误处理策略",
+        "失败元素的输出值"
       ],
       "hardness_tag": "neighbor",
       "most_likely_failure": "把循环当独立数组处理，或误选移除失败结果。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
-      "route_rationale": "1个小问；链式归MULTI，不按文档篇数定类。",
+      "route_rationale": "同一篇资料的独立事实，保留原SINGLE标注；不将小问数直接等同路由。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -512,33 +510,6 @@
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/nodes/iteration",
-                  "heading_path": "迭代",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L8-L8",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
-                  "raw_line_start": 8,
-                  "raw_line_end": 8,
-                  "original_excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/nodes/iteration#c0",
-                    "excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/nodes/iteration#p0",
-                    "heading_path": "迭代",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 0,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
-                }
-              ]
-            },
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/nodes/iteration",
                   "heading_path": "迭代 > 错误处理",
                   "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L73-L73",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
@@ -548,16 +519,20 @@
                   "direct_evidence": {
                     "chunk_id": "self-host/use-dify/nodes/iteration#c5",
                     "excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                    "text": "配置如何处理单个数组元素的处理失败：\n\n**终止** - 出现任何错误时停止处理并返回错误消息\n\n**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null\n\n**移除失败结果** - 跳过失败的项目并仅返回成功的结果\n\n输入输出对应示例：\n- 输入：`[1, 2, 3]`\n- 错误时继续的输出：`[result-1, null, result-3]`\n- 移除失败的输出：`[result-1, result-3]`",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "self-host/use-dify/nodes/iteration#p5",
                     "heading_path": "迭代 > 错误处理",
+                    "text": "配置如何处理单个数组元素的处理失败：\n\n**终止** - 出现任何错误时停止处理并返回错误消息\n\n**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null\n\n**移除失败结果** - 跳过失败的项目并仅返回成功的结果\n\n输入输出对应示例：\n- 输入：`[1, 2, 3]`\n- 错误时继续的输出：`[result-1, null, result-3]`\n- 移除失败的输出：`[result-1, result-3]`",
                     "contains_excerpt": true
                   },
                   "cleaned_character_offset": 711,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
                 }
               ]
@@ -566,32 +541,36 @@
         },
         {
           "nugget_index": 1,
-          "text": "失败元素的结果用null占位。",
-          "importance": "okay",
+          "text": "失败元素在输出数组中用null占位。",
+          "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/nodes/iteration",
                   "heading_path": "迭代 > 错误处理",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L73-L73",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L77-L80",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
-                  "raw_line_start": 73,
-                  "raw_line_end": 73,
-                  "original_excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                  "raw_line_start": 77,
+                  "raw_line_end": 80,
+                  "original_excerpt": "输入输出对应示例：\n- 输入：`[1, 2, 3]`\n- 错误时继续的输出：`[result-1, null, result-3]`\n- 移除失败的输出：`[result-1, result-3]`",
                   "direct_evidence": {
                     "chunk_id": "self-host/use-dify/nodes/iteration#c5",
-                    "excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                    "excerpt": "- 错误时继续的输出：`[result-1, null, result-3]`",
+                    "text": "配置如何处理单个数组元素的处理失败：\n\n**终止** - 出现任何错误时停止处理并返回错误消息\n\n**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null\n\n**移除失败结果** - 跳过失败的项目并仅返回成功的结果\n\n输入输出对应示例：\n- 输入：`[1, 2, 3]`\n- 错误时继续的输出：`[result-1, null, result-3]`\n- 移除失败的输出：`[result-1, result-3]`",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "self-host/use-dify/nodes/iteration#p5",
                     "heading_path": "迭代 > 错误处理",
+                    "text": "配置如何处理单个数组元素的处理失败：\n\n**终止** - 出现任何错误时停止处理并返回错误消息\n\n**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null\n\n**移除失败结果** - 跳过失败的项目并仅返回成功的结果\n\n输入输出对应示例：\n- 输入：`[1, 2, 3]`\n- 错误时继续的输出：`[result-1, null, result-3]`\n- 移除失败的输出：`[result-1, result-3]`",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 711,
+                  "cleaned_character_offset": 809,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
                 }
               ]
@@ -606,7 +585,7 @@
       "counterpart_docs": [],
       "author_review_status": "pending_claude_and_author_review",
       "notes": [
-        "配置选择只设一个vital；占位结果用于复核，不再拆成第二个得分点。"
+        "题干分别问配置选择和输出结构；两条vital是操作与结果表示，不是续跑/不终止的正反重复。"
       ],
       "distractor_evidence": [
         {
@@ -622,16 +601,20 @@
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/nodes/loop#c0",
                 "excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/nodes/loop#p0",
                 "heading_path": "循环",
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 0,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
             }
           ]
@@ -651,16 +634,20 @@
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/nodes/iteration#c0",
                 "excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
+                "text": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。\n\n迭代节点处理工作流",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/nodes/iteration#p0",
                 "heading_path": "迭代",
+                "text": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。\n\n迭代节点处理工作流",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 0,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
             }
           ]
@@ -678,16 +665,20 @@
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/nodes/loop#c0",
                 "excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/nodes/loop#p0",
                 "heading_path": "循环",
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 0,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
             }
           ]
@@ -1253,7 +1244,7 @@
     },
     {
       "question_id": "dev029",
-      "reference_answer": "语义分类选问题分类器，由大语言模型理解输入并挑选分类；明确字段或变量的比较规则选If-Else。",
+      "reference_answer": "语义分类用问题分类器，由大语言模型理解输入并选择分类；字段规则用If-Else评估变量条件。若IF不满足，可添加多个ELIF分支，按顺序检查附加条件。",
       "behavior_group": "multi",
       "behavior_subtype": "parallel_compare",
       "expected_behavior": "answered",
@@ -1271,16 +1262,17 @@
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 2,
+      "n_subasks": 3,
       "subasks": [
-        "语义分流选型",
-        "字段规则分流选型"
+        "语义分流节点",
+        "字段规则分流节点",
+        "增设后续分支及检查顺序"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "混淆模型语义分类与确定性的条件比较。",
+      "most_likely_failure": "只答两个节点名字，遗漏多ELIF及IF为假后顺序检查。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
-      "route_rationale": "2个小问；链式归MULTI，不按文档篇数定类。",
+      "route_rationale": "需要综合不同规则或版本的独立事实，保留MULTI标注。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -1300,16 +1292,20 @@
                   "direct_evidence": {
                     "chunk_id": "self-host/use-dify/nodes/question-classifier#c0",
                     "excerpt": "问题分类器节点对用户输入进行智能分类，将对话路由到不同的工作流路径。无需构建复杂的条件逻辑，只需定义分类，让大语言模型基于语义理解判断最契合的一项。",
+                    "text": "问题分类器节点对用户输入进行智能分类，将对话路由到不同的工作流路径。无需构建复杂的条件逻辑，只需定义分类，让大语言模型基于语义理解判断最契合的一项。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "self-host/use-dify/nodes/question-classifier#p0",
                     "heading_path": "问题分类器",
+                    "text": "问题分类器节点对用户输入进行智能分类，将对话路由到不同的工作流路径。无需构建复杂的条件逻辑，只需定义分类，让大语言模型基于语义理解判断最契合的一项。",
                     "contains_excerpt": true
                   },
                   "cleaned_character_offset": 0,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "91bbd8853e58585e7403154d69866276f4c92be61a446d033fa06fb79d6c5eb5"
                 }
               ]
@@ -1334,16 +1330,58 @@
                   "direct_evidence": {
                     "chunk_id": "self-host/use-dify/nodes/ifelse#c0",
                     "excerpt": "If-Else 节点通过根据你定义的条件将执行路由到不同路径，为你的工作流添加决策逻辑。它评估变量并确定你的工作流应该遵循哪个分支。",
+                    "text": "If-Else 节点通过根据你定义的条件将执行路由到不同路径，为你的工作流添加决策逻辑。它评估变量并确定你的工作流应该遵循哪个分支。\n\nIf-Else 条件分支示例",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "self-host/use-dify/nodes/ifelse#p0",
                     "heading_path": "If-Else",
+                    "text": "If-Else 节点通过根据你定义的条件将执行路由到不同路径，为你的工作流添加决策逻辑。它评估变量并确定你的工作流应该遵循哪个分支。\n\nIf-Else 条件分支示例",
                     "contains_excerpt": true
                   },
                   "cleaned_character_offset": 0,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "source_file_sha256": "636685337803847224709bfc792984caeed12a29534ffec8995cdb501b67b0b0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "If-Else可以添加多个ELIF分支，在IF为假后按顺序检查附加条件。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/ifelse",
+                  "heading_path": "If-Else > 分支逻辑",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/ifelse.mdx#L20-L20",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/ifelse.mdx",
+                  "raw_line_start": 20,
+                  "raw_line_end": 20,
+                  "original_excerpt": "**ELIF 路径** 在 IF 条件为假时提供按顺序检查的附加条件。你可以添加多个 ELIF 分支来处理复杂逻辑。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/ifelse#c1",
+                    "excerpt": "**ELIF 路径** 在 IF 条件为假时提供按顺序检查的附加条件。你可以添加多个 ELIF 分支来处理复杂逻辑。",
+                    "text": "该节点支持多个分支路径来处理复杂的决策树：\n\n**IF 路径** 在主要条件评估为真时执行。\n\n**ELIF 路径** 在 IF 条件为假时提供按顺序检查的附加条件。你可以添加多个 ELIF 分支来处理复杂逻辑。\n\n**ELSE 路径** 作为没有条件匹配时的后备选项，确保你的工作流始终有路径可循。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/ifelse#p1",
+                    "heading_path": "If-Else > 分支逻辑",
+                    "text": "该节点支持多个分支路径来处理复杂的决策树：\n\n**IF 路径** 在主要条件评估为真时执行。\n\n**ELIF 路径** 在 IF 条件为假时提供按顺序检查的附加条件。你可以添加多个 ELIF 分支来处理复杂逻辑。\n\n**ELSE 路径** 作为没有条件匹配时的后备选项，确保你的工作流始终有路径可循。",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 141,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
                   "source_file_sha256": "636685337803847224709bfc792984caeed12a29534ffec8995cdb501b67b0b0"
                 }
               ]
@@ -1356,7 +1394,8 @@
       "counterpart_docs": [],
       "author_review_status": "pending_claude_and_author_review",
       "notes": [
-        "重写dev029，移除与dev022重复的调试改值事实。两篇各给一种选择的依据。"
+        "重写dev029，移除与dev022重复的调试改值事实。两篇各给一种选择的依据。",
+        "冻结分类器页没有可据的类别数上限，因此采用If-Else的多ELIF与顺序检查细节，合计3条独立vital。"
       ],
       "all_equivalent_gold_docs": [
         "self-host/use-dify/nodes/ifelse",
@@ -1366,64 +1405,70 @@
     },
     {
       "question_id": "dev030",
-      "reference_answer": "Sandbox：每批最多1个文件、单个最大15 MB。社区版默认：每批最多5个文件、单个最大15 MB；社区版可通过相应环境变量调整，故这里报文档默认值。",
+      "reference_answer": "云版默认客户端使用Dify预先配置并维护的OAuth参数，无需额外设置即可一键添加凭据。自部署文档给出的流程是先在第三方平台注册OAuth应用，再在Dify的自定义客户端设置中填写Client ID和Client Secret，点击“保存并授权”。云版也提供自定义方式，这里比较其默认方式与自部署文档的流程。",
       "behavior_group": "multi",
       "behavior_subtype": "parallel_compare",
       "expected_behavior": "answered",
       "requires_corrects_premise": false,
       "gold_docs": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "gold_doc_groups": [
         [
-          "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme"
+          "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
         ],
         [
-          "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+          "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 2,
+      "n_subasks": 4,
       "subasks": [
-        "Sandbox的两个上传上限",
-        "社区版默认的两个上传上限"
+        "云版默认客户端的准备要求",
+        "自部署在第三方平台的准备",
+        "自部署在Dify填入的凭据",
+        "完成授权的按钮"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "把云版付费套餐50个/50 MB套给Sandbox，或混用社区默认值。",
+      "most_likely_failure": "把云版默认参数套给自部署，漏掉第三方应用注册或客户端凭据；反过来声称云版不能自定义。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
-      "route_rationale": "2个小问；链式归MULTI，不按文档篇数定类。",
+      "route_rationale": "需要综合不同规则或版本的独立事实，保留MULTI标注。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "Sandbox单次上传上限为1个文件。",
+          "text": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置即可添加凭据。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-                  "heading_path": "上传本地文件",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L21-L21",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-                  "raw_line_start": 21,
-                  "raw_line_end": 21,
-                  "original_excerpt": "| 单次上传文件数 | 1 | 50 |",
+                  "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L100-L100",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 100,
+                  "raw_line_end": 100,
+                  "original_excerpt": "    默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
                   "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                    "excerpt": "| 单次上传文件数 | 1 | 50 |",
+                    "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+                    "excerpt": "默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                    "heading_path": "上传本地文件",
+                    "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。\n\n**授权流程**\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 192,
+                  "cleaned_character_offset": 1045,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
-                  "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
                 }
               ]
             }
@@ -1431,33 +1476,37 @@
         },
         {
           "nugget_index": 1,
-          "text": "Sandbox单文件大小上限为15 MB。",
+          "text": "自部署授权数据源前需在第三方平台注册OAuth应用。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-                  "heading_path": "上传本地文件",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L22-L22",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-                  "raw_line_start": 22,
-                  "raw_line_end": 22,
-                  "original_excerpt": "| 单个文件大小 | 15 MB | 50 MB |",
+                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L92-L92",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 92,
+                  "raw_line_end": 92,
+                  "original_excerpt": "使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
                   "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                    "excerpt": "| 单个文件大小 | 15 MB | 50 MB |",
+                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+                    "excerpt": "使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                    "heading_path": "上传本地文件",
+                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 213,
+                  "cleaned_character_offset": 1006,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
-                  "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
             }
@@ -1465,33 +1514,37 @@
         },
         {
           "nugget_index": 2,
-          "text": "社区版默认单次上传上限为5个文件。",
+          "text": "自部署在Dify自定义客户端中填写Client ID和Client Secret。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme",
-                  "heading_path": "上传本地文件",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L17-L17",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-                  "raw_line_start": 17,
-                  "raw_line_end": 17,
-                  "original_excerpt": "- 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
+                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 105,
+                  "raw_line_end": 105,
+                  "original_excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                    "excerpt": "- 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
+                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
+                    "excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "text": "**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                    "heading_path": "上传本地文件",
+                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 128,
+                  "cleaned_character_offset": 1209,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
-                  "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
             }
@@ -1499,48 +1552,82 @@
         },
         {
           "nugget_index": 3,
-          "text": "社区版默认单文件大小上限为15 MB。",
+          "text": "填写自定义客户端参数后，点击“保存并授权”完成OAuth授权。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme",
-                  "heading_path": "上传本地文件",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L19-L19",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-                  "raw_line_start": 19,
-                  "raw_line_end": 19,
-                  "original_excerpt": "- 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）",
+                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 105,
+                  "raw_line_end": 105,
+                  "original_excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                    "excerpt": "- 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）",
+                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
+                    "excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "text": "**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                    "heading_path": "上传本地文件",
+                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 182,
+                  "cleaned_character_offset": 1209,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
-                  "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
+                  "reconstruct_verified": true,
+                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
             }
           ]
         }
       ],
-      "boundary_evidence": [],
-      "distractor_docs": [],
-      "counterpart_docs": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      "boundary_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+              "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L104-L104",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+              "raw_line_start": 104,
+              "raw_line_end": 104,
+              "original_excerpt": "    自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
+              "direct_evidence": {
+                "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+                "excerpt": "自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
+                "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。\n\n**授权流程**\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 1104,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
+            }
+          ]
+        }
       ],
+      "distractor_docs": [],
+      "counterpart_docs": [],
       "author_review_status": "pending_claude_and_author_review",
       "notes": [
-        "重写dev030为真正跨两版对照，不再拿云版登录的一句话充多跳。每个限制各自计一个vital；edition为null，版本由题干给出。"
+        "重写dev030为真正跨两版对照，不再拿云版登录的一句话充多跳。每个限制各自计一个vital；edition为null，版本由题干给出。",
+        "整体替换上传数值题。差异限定为冻结文档明确写出的云版默认方式与自部署自定义流程；不推断自部署运行时绝不存在默认客户端。"
       ],
       "counterpart_evidence": [
         {
@@ -1556,16 +1643,20 @@
               "direct_evidence": {
                 "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
                 "excerpt": "| 单次上传文件数 | 1 | 50 |",
+                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n上传限制因套餐而异（了解更多）：\n\n| | Sandbox | Professional 和 Team |\n|:--|:--|:--|\n| 单次上传文件数 | 1 | 50 |\n\n| 单个文件大小 | 15 MB | 50 MB |\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
                 "heading_path": "上传本地文件",
+                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n上传限制因套餐而异（了解更多）：\n\n| | Sandbox | Professional 和 Team |\n|:--|:--|:--|\n| 单次上传文件数 | 1 | 50 |\n\n| 单个文件大小 | 15 MB | 50 MB |\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。\n\n    提取的图片 URL 会保留在分段文本中，但你可以放心删除这些 URL 以保持文本整洁，这不会影响已提取的图片。\n\n    若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并索引以供检索。\n\n    每个分段最多支持 10 个图片附件，超出的图片不会被提取。\n\n    以上提取规则适用于如下图片类型：\n\n    - DOCX 和 XLSX 文件中嵌入的图片\n\n        **提示：**\n        其他文件类型（如 PDF）中嵌入的图片，可通过在 知识流水线 中使用合适的文档提取插件进行提取。\n\n    - 在任何文件类型中，通过以下 Markdown 语法引用、URL 可访问的图片：\n\n        - `![alt text](image_url)`\n        - `![alt text](image_url \"optional title\")`",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 192,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
             }
           ]
@@ -1579,31 +1670,35 @@
               "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
               "raw_line_start": 17,
               "raw_line_end": 17,
-              "original_excerpt": "- 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
+              "original_excerpt": "    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
                 "excerpt": "- 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
+                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）\n\n    - 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
                 "heading_path": "上传本地文件",
+                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）\n\n    - 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。\n\n    提取的图片 URL 会保留在分段文本中，但你可以放心删除这些 URL 以保持文本整洁，这不会影响已提取的图片。\n\n    若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并索引以供检索。\n\n    每个分段最多支持 10 个图片附件（通过 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 设置），超出的图片不会被提取。图片尺寸限制由 `ATTACHMENT_IMAGE_FILE_SIZE_LIMIT` 控制。\n\n    以上提取规则适用于如下图片类型：\n\n    - DOCX 和 XLSX 文件中嵌入的图片\n\n        **提示：**\n        其他文件类型（如 PDF）中嵌入的图片，可通过在知识流水线中使用合适的文档提取插件进行提取。\n\n    - 在任何文件类型中，通过以下 Markdown 语法引用、URL 可访问的图片：\n\n        - `![alt text](image_url)`\n        - `![alt text](image_url \"optional title\")`",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 128,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
             }
           ]
         }
       ],
       "all_equivalent_gold_docs": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "twin_comparison_ids": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme <=> self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ]
     },
     {
@@ -1625,7 +1720,7 @@
       "most_likely_failure": "编造event_id或24小时等默认值。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
-      "route_rationale": "按最终边界行为标注；不把路由标签当作边界是否处理正确的唯一依据。",
+      "route_rationale": "冻结资料无依据，不预设具体路由；expected_route=null，按是否承认资料不足评估边界。",
       "nugget_evidence": [],
       "boundary_evidence": [
         {
@@ -1641,16 +1736,20 @@
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/nodes/trigger/webhook-trigger#c1",
                 "excerpt": "3. 当订阅的事件发生时，外部系统会将包含事件数据的 HTTP 请求发送到先前提供的 webhook URL。一旦请求被成功接收和处理，你的 Workflow 会被触发，而提取到的事件数据也将成为下游节点可引用的变量。",
+                "text": "1. 在 Workflow 中添加 Webhook 触发器后，系统将自动生成一个 webhook URL 作为监听外部 HTTP 请求的专用端点。\n\n    **说明：**\n    将 `TRIGGER_URL` 环境变量（默认 `http://localhost`）设为此 URL 应使用的基础前缀。将其指向调用该 webhook 的外部系统可访问的公共域名或 IP 地址。\n\n2. 你使用此 URL 在外部系统中创建一个 webhook，订阅期望关注的事件。然后，在 Dify 中配置 Webhook 触发器，定义其如何处理接收到的请求并提取请求中的事件数据。\n\n    **注意：**\n    在测试场景中，请始终使用测试专用的 webhook URL，以分离测试与生产数据。\n\n3. 当订阅的事件发生时，外部系统会将包含事件数据的 HTTP 请求发送到先前提供的 webhook URL。一旦请求被成功接收和处理，你的 Workflow 会被触发，而提取到的事件数据也将成为下游节点可引用的变量。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/nodes/trigger/webhook-trigger#p0",
                 "heading_path": "Webhook 触发器",
+                "text": "**说明：**\n触发器仅适用于 Workflow 应用。\n\nWebhook 允许一个系统自动向另一个系统发送实时数据。当某个特定事件发生时，源系统将事件详情打包进一个 HTTP 请求，并发送至目标系统的指定 URL。\n\n遵循相同的机制，Webhook 触发器能够让 Workflow 在外部事件发生时自动运行：\n\n1. 在 Workflow 中添加 Webhook 触发器后，系统将自动生成一个 webhook URL 作为监听外部 HTTP 请求的专用端点。\n\n    **说明：**\n    将 `TRIGGER_URL` 环境变量（默认 `http://localhost`）设为此 URL 应使用的基础前缀。将其指向调用该 webhook 的外部系统可访问的公共域名或 IP 地址。\n\n2. 你使用此 URL 在外部系统中创建一个 webhook，订阅期望关注的事件。然后，在 Dify 中配置 Webhook 触发器，定义其如何处理接收到的请求并提取请求中的事件数据。\n\n    **注意：**\n    在测试场景中，请始终使用测试专用的 webhook URL，以分离测试与生产数据。\n\n3. 当订阅的事件发生时，外部系统会将包含事件数据的 HTTP 请求发送到先前提供的 webhook URL。一旦请求被成功接收和处理，你的 Workflow 会被触发，而提取到的事件数据也将成为下游节点可引用的变量。\n\n**提示：**\n若目标外部系统有可用的触发器集成，推荐使用 集成触发器。",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 500,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
             }
           ]
@@ -1668,16 +1767,20 @@
               "direct_evidence": {
                 "chunk_id": "self-host/use-dify/nodes/trigger/plugin-trigger#c2",
                 "excerpt": "订阅是一个用于监听外部系统事件的 webhook。每个触发器集成在每个工作空间中最多支持 10 个订阅。",
+                "text": "订阅是一个用于监听外部系统事件的 webhook。每个触发器集成在每个工作空间中最多支持 10 个订阅。\n\n**什么是 webhook？**\nWebhook 允许一个系统自动向另一个系统发送实时数据。当某个事件发生时，源系统将事件详情打包为 HTTP 请求，发送至目标系统提供的 URL。\n\n**注意：**\n**前提条件：设置回调 URL 基础前缀**\n\nDify 通过将 `TRIGGER_URL` 环境变量与触发器集成专属路径拼接，生成每个订阅的回调 URL。该变量默认值为 `http://localhost`，外部系统无法访问。创建订阅前，将 `TRIGGER_URL` 设为外部系统可访问的公共域名或 IP 地址，然后重启 Dify。",
                 "contains_excerpt": true
               },
               "supporting_parent": {
                 "parent_id": "self-host/use-dify/nodes/trigger/plugin-trigger#p2",
                 "heading_path": "集成触发器 > 创建订阅",
+                "text": "订阅是一个用于监听外部系统事件的 webhook。每个触发器集成在每个工作空间中最多支持 10 个订阅。\n\n**什么是 webhook？**\nWebhook 允许一个系统自动向另一个系统发送实时数据。当某个事件发生时，源系统将事件详情打包为 HTTP 请求，发送至目标系统提供的 URL。\n\n**注意：**\n**前提条件：设置回调 URL 基础前缀**\n\nDify 通过将 `TRIGGER_URL` 环境变量与触发器集成专属路径拼接，生成每个订阅的回调 URL。该变量默认值为 `http://localhost`，外部系统无法访问。创建订阅前，将 `TRIGGER_URL` 设为外部系统可访问的公共域名或 IP 地址，然后重启 Dify。\n\nDify 支持两种创建订阅的方式，具体取决于触发器集成支持的选项。\n\n- **自动**：你选择要订阅的事件，Dify 在外部系统中自动创建 webhook。这需要先通过 OAuth 或 API key 授权，以便 Dify 代表你完成配置。\n- **手动**：你使用 Dify 提供的回调 URL 自行在外部系统中创建 webhook，无需授权。\n\n**OAuth（自动）**\n1. 选择 **通过 OAuth 创建** > **自定义**。\n2. 在外部系统中，使用 Dify 提供的回调 URL 创建一个 OAuth 应用。\n3. 返回 Dify，输入应用的客户端 ID 和客户端密钥，然后点击 **保存并授权**。\n    **说明：** 保存后，同一凭据可在后续订阅中复用。\n4. 填写订阅名称，选择要订阅的事件，并配置其他必需设置。\n\n    **提示：**\n    建议订阅所有可用事件。触发器只会响应订阅中涵盖的事件，因此一个涵盖广泛的订阅可被后续添加的触发器复用，无需再创建新订阅。\n5. 点击 **创建**。\n\n**API Key（自动）**\n1. 选择 **通过 API Key 创建**。\n2. 输入所需的验证信息，然后点击 **验证**。\n3. 填写订阅名称，选择要订阅的事件，并配置其他必需设置。\n\n    **提示：**\n    建议订阅所有可用事件。触发器只会响应订阅中涵盖的事件，因此一个涵盖广泛的订阅可被后续添加的触发器复用，无需再创建新订阅。\n4. 点击 **创建**。\n\n**粘贴 URL 创建新订阅（手动）**\n1. 选择 **粘贴 URL 以创建新订阅**。\n2. 填写订阅名称，并使用 Dify 提供的回调 URL 在外部系统中创建 webhook。\n3. （可选）测试：触发一个已订阅的事件，然后在 **手动设置** 页面底部的 **请求日志** 中查看接收到的请求和 Dify 的响应。\n\n4. 点击 **创建**。",
                 "contains_excerpt": true
               },
               "cleaned_character_offset": 520,
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
+              "reconstruct_verified": true,
+              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
               "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
             }
           ]
@@ -1686,7 +1789,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "author_review_status": "pending_claude_and_author_review",
-      "notes": [],
+      "notes": [
+        "按复审要求取消REFUSE路由标签，其余题意与无依据金标保持。"
+      ],
       "no_answer_audit": {
         "documents_scanned": 182,
         "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
@@ -1777,7 +1882,8 @@
             "why_no_answer": "说明触发方式和工作流入口，不含事件去重状态或保留策略。"
           }
         ],
-        "conclusion": "零命中加相关页人工范围复核，只支持“冻结资料无依据”。"
+        "conclusion": "零命中加相关页人工范围复核，只支持“冻结资料无依据”。",
+        "rechecked_this_run": true
       },
       "all_equivalent_gold_docs": [],
       "twin_comparison_ids": []

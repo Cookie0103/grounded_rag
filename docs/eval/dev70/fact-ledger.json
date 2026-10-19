@@ -1,5 +1,5 @@
 {
-  "scope": "dev021-dev044；仅正式新开发题，不含旧20回归",
+  "scope": "dev021-dev044；新开发题事实；旧20独立用于交叉查重",
   "facts": [
     {
       "question_id": "dev021",
@@ -11,6 +11,19 @@
         {
           "chunk_id": "api-reference/guides/streaming#c2",
           "parent_id": "api-reference/guides/streaming#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev021",
+      "fact": "Workflow应用以workflow_finished作为终止事件。",
+      "documents": [
+        "api-reference/guides/streaming"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/streaming#c5",
+          "parent_id": "api-reference/guides/streaming#p3"
         }
       ]
     },
@@ -106,9 +119,18 @@
       ],
       "evidence": [
         {
-          "chunk_id": "self-host/use-dify/nodes/iteration#c0",
-          "parent_id": "self-host/use-dify/nodes/iteration#p0"
-        },
+          "chunk_id": "self-host/use-dify/nodes/iteration#c5",
+          "parent_id": "self-host/use-dify/nodes/iteration#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev024",
+      "fact": "失败元素在输出数组中用null占位。",
+      "documents": [
+        "self-host/use-dify/nodes/iteration"
+      ],
+      "evidence": [
         {
           "chunk_id": "self-host/use-dify/nodes/iteration#c5",
           "parent_id": "self-host/use-dify/nodes/iteration#p5"
@@ -276,60 +298,91 @@
       ]
     },
     {
-      "question_id": "dev030",
-      "fact": "Sandbox单次上传上限为1个文件。",
+      "question_id": "dev029",
+      "fact": "If-Else可以添加多个ELIF分支，在IF为假后按顺序检查附加条件。",
       "documents": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "self-host/use-dify/nodes/ifelse"
       ],
       "evidence": [
         {
-          "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-          "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+          "chunk_id": "self-host/use-dify/nodes/ifelse#c1",
+          "parent_id": "self-host/use-dify/nodes/ifelse#p1"
         }
       ]
     },
     {
       "question_id": "dev030",
-      "fact": "Sandbox单文件大小上限为15 MB。",
+      "fact": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置即可添加凭据。",
       "documents": [
-        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "evidence": [
         {
-          "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-          "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6"
         }
       ]
     },
     {
       "question_id": "dev030",
-      "fact": "社区版默认单次上传上限为5个文件。",
+      "fact": "自部署授权数据源前需在第三方平台注册OAuth应用。",
       "documents": [
-        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "evidence": [
         {
-          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+          "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+          "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6"
         }
       ]
     },
     {
       "question_id": "dev030",
-      "fact": "社区版默认单文件大小上限为15 MB。",
+      "fact": "自部署在Dify自定义客户端中填写Client ID和Client Secret。",
       "documents": [
-        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "evidence": [
         {
-          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+          "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
+          "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6"
+        }
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "fact": "填写自定义客户端参数后，点击“保存并授权”完成OAuth授权。",
+      "documents": [
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
+          "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6"
         }
       ]
     },
     {
       "question_id": "dev033",
-      "fact": "在文档列表将这些文档禁用。",
+      "fact": "在文档列表禁用这些文档，可临时排除检索。",
+      "documents": [
+        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+        "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c0",
+          "parent_id": "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1",
+          "parent_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev033",
+      "fact": "归档后的文档为只读，不能直接编辑。",
       "documents": [
         "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
         "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
@@ -359,8 +412,25 @@
       ]
     },
     {
+      "question_id": "dev034",
+      "fact": "字符串上限可由API容器的CODE_MAX_STRING_LENGTH配置调整。",
+      "documents": [
+        "self-host/use-dify/nodes/code"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/code#c6",
+          "parent_id": "self-host/use-dify/nodes/code#p5"
+        },
+        {
+          "chunk_id": "self-host/use-dify/nodes/code#c6",
+          "parent_id": "self-host/use-dify/nodes/code#p5"
+        }
+      ]
+    },
+    {
       "question_id": "dev035",
-      "fact": "应使用变量赋值器写入会话变量。",
+      "fact": "使用变量赋值器将偏好写入会话变量。",
       "documents": [
         "self-host/use-dify/nodes/variable-assigner"
       ],
@@ -368,6 +438,19 @@
         {
           "chunk_id": "self-host/use-dify/nodes/variable-assigner#c0",
           "parent_id": "self-host/use-dify/nodes/variable-assigner#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev035",
+      "fact": "会话变量在同一聊天会话的多个轮次间持续存在。",
+      "documents": [
+        "self-host/use-dify/nodes/variable-assigner"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/variable-assigner#c1",
+          "parent_id": "self-host/use-dify/nodes/variable-assigner#p1"
         }
       ]
     },
@@ -385,8 +468,34 @@
       ]
     },
     {
+      "question_id": "dev036",
+      "fact": "MCP服务器URL本身包含身份验证凭据，因此需要保密。",
+      "documents": [
+        "self-host/use-dify/publish/publish-mcp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/publish-mcp#c1",
+          "parent_id": "self-host/use-dify/publish/publish-mcp#p1"
+        }
+      ]
+    },
+    {
       "question_id": "dev037",
       "fact": "云版支持GitHub、Google、邮箱验证码登录。",
+      "documents": [
+        "cloud/use-dify/workspace/personal-account-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/personal-account-management#c1",
+          "parent_id": "cloud/use-dify/workspace/personal-account-management#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev037",
+      "fact": "邮箱相同的不同登录方式自动关联为同一账户。",
       "documents": [
         "cloud/use-dify/workspace/personal-account-management"
       ],
@@ -524,7 +633,7 @@
     },
     {
       "question_id": "dev041",
-      "fact": "重命名弹窗不能修改字段值类型。",
+      "fact": "元数据字段名允许的字符集合为小写字母、数字和下划线。",
       "documents": [
         "cloud/use-dify/knowledge/metadata",
         "self-host/use-dify/knowledge/metadata"
@@ -598,5 +707,6 @@
       ]
     }
   ],
+  "old20_comparison_source": "docs/eval/dev20/questions.jsonl",
   "semantic_review_pending": true
 }
