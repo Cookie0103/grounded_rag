@@ -1,0 +1,5105 @@
+{
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "method": "原文字节哈希+原文逐字符差异+清洗文本逐行差异；不把路径或翻译提示差异误当答案差异。题点等价时另列OR金标。",
+  "comparisons": {
+    "cloud/use-dify/knowledge/external-knowledge-api <=> self-host/use-dify/knowledge/external-knowledge-api": {
+      "documents": [
+        "cloud/use-dify/knowledge/external-knowledge-api",
+        "self-host/use-dify/knowledge/external-knowledge-api"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/external-knowledge-api": "f0fa5ea394fc07e95365d945ba892f0a10201f9af7568d6ec8c600d1eaab0137",
+        "self-host/use-dify/knowledge/external-knowledge-api": "8fd70fb7084470e942638a3c8b6d24bc5da828df1db2d577a65e234113f84727"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 110,
+          "a_end": 111,
+          "b_start": 110,
+          "b_end": 112,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 112,
+          "a_end": 112,
+          "b_start": 113,
+          "b_end": 116,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 113,
+          "a_end": 115,
+          "b_start": 117,
+          "b_end": 119,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 227,
+          "a_end": 228,
+          "b_start": 231,
+          "b_end": 233,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 229,
+          "a_end": 229,
+          "b_start": 234,
+          "b_end": 237,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 230,
+          "a_end": 232,
+          "b_start": 238,
+          "b_end": 240,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme <=> self-host/use-dify/knowledge/create-knowledge/import-text-data/readme": {
+      "documents": [
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 63,
+          "a_end": 64,
+          "b_start": 63,
+          "b_end": 65,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 65,
+          "a_end": 65,
+          "b_start": 66,
+          "b_end": 69,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 66,
+          "a_end": 68,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 267,
+          "a_end": 316,
+          "b_start": 271,
+          "b_end": 271,
+          "a_text": "上传限制因套餐而异（[了解更多](https://dify.ai/zh/pricing)）：\n\n|",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 317,
+          "a_end": 318,
+          "b_start": 272,
+          "b_end": 272,
+          "a_text": "|",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 319,
+          "a_end": 326,
+          "b_start": 273,
+          "b_end": 273,
+          "a_text": "Sandbox",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 327,
+          "a_end": 328,
+          "b_start": 274,
+          "b_end": 274,
+          "a_text": "|",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 329,
+          "a_end": 353,
+          "b_start": 275,
+          "b_end": 275,
+          "a_text": "Professional 和 Team |\n|:",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 354,
+          "a_end": 366,
+          "b_start": 276,
+          "b_end": 276,
+          "a_text": "-|:--|:--|\n|",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 369,
+          "a_end": 369,
+          "b_start": 279,
+          "b_end": 282,
+          "a_text": "",
+          "b_text": "最多可"
+        },
+        {
+          "operation": "insert",
+          "a_start": 371,
+          "a_end": 371,
+          "b_start": 284,
+          "b_end": 288,
+          "a_text": "",
+          "b_text": " 5 个"
+        },
+        {
+          "operation": "replace",
+          "a_start": 373,
+          "a_end": 374,
+          "b_start": 290,
+          "b_end": 293,
+          "a_text": "数",
+          "b_text": "（通过"
+        },
+        {
+          "operation": "replace",
+          "a_start": 375,
+          "a_end": 376,
+          "b_start": 294,
+          "b_end": 319,
+          "a_text": "|",
+          "b_text": "`UPLOAD_FILE_BATCH_LIMIT`"
+        },
+        {
+          "operation": "replace",
+          "a_start": 377,
+          "a_end": 378,
+          "b_start": 320,
+          "b_end": 325,
+          "a_text": "1",
+          "b_text": "设置）\n\n"
+        },
+        {
+          "operation": "delete",
+          "a_start": 379,
+          "a_end": 380,
+          "b_start": 326,
+          "b_end": 326,
+          "a_text": "|",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 381,
+          "a_end": 383,
+          "b_start": 327,
+          "b_end": 327,
+          "a_text": "50",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 384,
+          "a_end": 387,
+          "b_start": 328,
+          "b_end": 330,
+          "a_text": "|\n|",
+          "b_text": " -"
+        },
+        {
+          "operation": "insert",
+          "a_start": 392,
+          "a_end": 392,
+          "b_start": 335,
+          "b_end": 336,
+          "a_text": "",
+          "b_text": "最"
+        },
+        {
+          "operation": "replace",
+          "a_start": 393,
+          "a_end": 396,
+          "b_start": 337,
+          "b_end": 339,
+          "a_text": "小 |",
+          "b_text": "支持"
+        },
+        {
+          "operation": "insert",
+          "a_start": 402,
+          "a_end": 402,
+          "b_start": 345,
+          "b_end": 348,
+          "a_text": "",
+          "b_text": "（通过"
+        },
+        {
+          "operation": "replace",
+          "a_start": 403,
+          "a_end": 404,
+          "b_start": 349,
+          "b_end": 373,
+          "a_text": "|",
+          "b_text": "`UPLOAD_FILE_SIZE_LIMIT`"
+        },
+        {
+          "operation": "replace",
+          "a_start": 405,
+          "a_end": 412,
+          "b_start": 374,
+          "b_end": 378,
+          "a_text": "50 MB |",
+          "b_text": "设置）\n"
+        },
+        {
+          "operation": "insert",
+          "a_start": 655,
+          "a_end": 655,
+          "b_start": 621,
+          "b_end": 660,
+          "a_text": "",
+          "b_text": "（通过 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 设置）"
+        },
+        {
+          "operation": "insert",
+          "a_start": 666,
+          "a_end": 666,
+          "b_start": 671,
+          "b_end": 717,
+          "a_text": "",
+          "b_text": "。图片尺寸限制由 `ATTACHMENT_IMAGE_FILE_SIZE_LIMIT` 控制"
+        },
+        {
+          "operation": "delete",
+          "a_start": 769,
+          "a_end": 770,
+          "b_start": 820,
+          "b_end": 820,
+          "a_text": " ",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 782,
+          "a_end": 783,
+          "b_start": 832,
+          "b_end": 834,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 784,
+          "a_end": 784,
+          "b_start": 835,
+          "b_end": 838,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 785,
+          "a_end": 787,
+          "b_start": 839,
+          "b_end": 841,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 833,
+          "a_end": 834,
+          "b_start": 887,
+          "b_end": 887,
+          "a_text": " ",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
+        "+++ self-host/use-dify/knowledge/create-knowledge/import-text-data/readme",
+        "@@ -7,12 +7,10 @@",
+        " ",
+        " 2. 选择 **导入已有文本** 作为数据源，然后上传文件。",
+        " ",
+        "-上传限制因套餐而异（了解更多）：",
+        "+    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
+        " ",
+        "-| | Sandbox | Professional 和 Team |",
+        "-|:--|:--|:--|",
+        "-| 单次上传文件数 | 1 | 50 |",
+        "-| 单个文件大小 | 15 MB | 50 MB |",
+        "+    - 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）",
+        "+",
+        " ---",
+        " ",
+        " **对于文件中的图片**",
+        "@@ -23,14 +21,14 @@",
+        " ",
+        "     若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并索引以供检索。",
+        " ",
+        "-    每个分段最多支持 10 个图片附件，超出的图片不会被提取。",
+        "+    每个分段最多支持 10 个图片附件（通过 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 设置），超出的图片不会被提取。图片尺寸限制由 `ATTACHMENT_IMAGE_FILE_SIZE_LIMIT` 控制。",
+        " ",
+        "     以上提取规则适用于如下图片类型：",
+        " ",
+        "     - DOCX 和 XLSX 文件中嵌入的图片",
+        " ",
+        "         **提示：**",
+        "-        其他文件类型（如 PDF）中嵌入的图片，可通过在 知识流水线 中使用合适的文档提取插件进行提取。",
+        "+        其他文件类型（如 PDF）中嵌入的图片，可通过在知识流水线中使用合适的文档提取插件进行提取。",
+        " ",
+        "     - 在任何文件类型中，通过以下 Markdown 语法引用、URL 可访问的图片：",
+        " "
+      ]
+    },
+    "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents <=> self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": {
+      "documents": [
+        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+        "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": "177109ed3847e4fb8efbf9ffc097b7f11c71c9ecb6f590cb80ca78f1f100c08e",
+        "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": "ff8cf0be2745c632316d51f60563340207aab7ff986147d5e344626d787f32ae"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 84,
+          "a_end": 85,
+          "b_start": 84,
+          "b_end": 86,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 86,
+          "a_end": 86,
+          "b_start": 87,
+          "b_end": 90,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 87,
+          "a_end": 89,
+          "b_start": 91,
+          "b_end": 93,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 646,
+          "a_end": 646,
+          "b_start": 650,
+          "b_end": 695,
+          "a_text": "",
+          "b_text": "|\n| 生成摘要 | 自动为文档中的所有分段生成摘要。启用 **摘要自动生成** 后可用。"
+        },
+        {
+          "operation": "replace",
+          "a_start": 652,
+          "a_end": 675,
+          "b_start": 701,
+          "b_end": 707,
+          "a_text": "在 Dify Cloud 上，长时间未更新或未",
+          "b_text": "已有的摘要将"
+        },
+        {
+          "operation": "replace",
+          "a_start": 676,
+          "a_end": 818,
+          "b_start": 708,
+          "b_end": 710,
+          "a_text": "检索的文档会自动禁用以优化性能。<br/><br/>不同订阅计划的未活跃时长如下：<ul><li>Sandbox：7 天</li><li>Professional & Team：30 天</li></ul>Professional 和 Team 用户可 **一键** 重新启用这些文档",
+          "b_text": "覆盖"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1286,
+          "a_end": 1423,
+          "b_start": 1178,
+          "b_end": 1178,
+          "a_text": "<Info>「添加分段」适用于 <Badge color=\"blue\">Professional</Badge> 和 <Badge color=\"blue\">Team</Badge> 套餐。[了解更多](https://dify.ai/zh/pricing)。</Info>",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 1812,
+          "a_end": 1812,
+          "b_start": 1567,
+          "b_end": 1569,
+          "a_text": "",
+          "b_text": "默认"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1849,
+          "a_end": 1849,
+          "b_start": 1606,
+          "b_end": 1654,
+          "a_text": "",
+          "b_text": "。可通过环境变量 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 调整该数量限制"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+        "+++ self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+        "@@ -12,7 +12,8 @@",
+        " | 添加 | 导入新文档。|",
+        " | 修改分段设置 | 修改文档的分段设置（不包括分段结构）。**说明：** 每个文档可拥有独立的分段设置，但分段结构在整个知识库中共享，且一旦设置无法更改。|",
+        " | 删除 | 永久删除文档。**删除不可撤销**。|",
+        "-| 启用 / 禁用 | 临时将文档纳入或排除检索。**注意：** 在 Dify Cloud 上，长时间未更新或未被检索的文档会自动禁用以优化性能。 不同订阅计划的未活跃时长如下：Sandbox：7 天；Professional & Team：30 天；Professional 和 Team 用户可 **一键** 重新启用这些文档。|",
+        "+| 启用 / 禁用 | 临时将文档纳入或排除检索。|",
+        "+| 生成摘要 | 自动为文档中的所有分段生成摘要。启用 **摘要自动生成** 后可用。**注意：** 已有的摘要将被覆盖。|",
+        " | 归档 / 取消归档 | 将不再需要检索但仍需保留的文档归档。归档文档为只读，可随时取消归档。|",
+        " | 编辑 | 通过编辑分段内容修改文档。详见 管理分段。|",
+        " | 重命名 | 修改文档名称。|",
+        "@@ -28,12 +29,12 @@",
+        " ",
+        " | 操作 | 说明 |",
+        " |:-------- |:---------------------|",
+        "-| 添加 | 新增或批量新增分段。 对于采用父子分段模式的文档，可同时新增父分段和子分段。**说明：** 「添加分段」适用于 Professional 和 Team 套餐。了解更多。|",
+        "+| 添加 | 新增或批量新增分段。 对于采用父子分段模式的文档，可同时新增父分段和子分段。|",
+        " | 删除 | 永久删除分段。**删除不可撤销**。|",
+        " | 启用 / 禁用 | 临时将分段纳入或排除检索。已禁用的分段不可编辑。|",
+        " | 编辑 | 修改分段内容。已编辑的分段将标记为 **已编辑**。 对于采用父子分段模式的知识库：编辑父分段时，可选择重新生成其子分段或保持原有的子分段不变。编辑子分段不会改变其父分段。|",
+        " | 添加 / 编辑 / 删除关键词 | 为分段添加或修改关键词（最多 10 个），以提升其可检索性。仅适用于使用经济索引方式的知识库。|",
+        "-| 添加 / 删除图片附件 | 在对应分段中，删除从文档中提取的图片或上传新图片。 提取的图片 URL 会保留在分段文本中，你可以安全地删除这些 URL 以保持文本简洁，这不会影响已提取的图片。**注意：** 每个分段最多支持 10 张图片附件，在检索中将被一同返回；超过数量的图片不会被提取。**提示：** 若选择多模态嵌入模型（带有 **Vision** 图标），提取的图片也将被向量化并索引以供检索。|",
+        "+| 添加 / 删除图片附件 | 在对应分段中，删除从文档中提取的图片或上传新图片。 提取的图片 URL 会保留在分段文本中，你可以安全地删除这些 URL 以保持文本简洁，这不会影响已提取的图片。**注意：** 每个分段默认最多支持 10 张图片附件，在检索中将被一同返回；超过数量的图片不会被提取。可通过环境变量 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 调整该数量限制。**提示：** 若选择多模态嵌入模型（带有 **Vision** 图标），提取的图片也将被向量化并索引以供检索。|",
+        " | 添加 / 编辑 / 删除摘要 | 为分段添加、修改或删除摘要。 摘要同样会被向量化并索引以供检索。当摘要与查询匹配时，其对应的分段也会被返回。**提示：** 为多个分段添加相同的摘要，可实现分组检索，使相关分段能够一同返回（受 Top K 限制）。|",
+        " ",
+        " ## 最佳实践"
+      ]
+    },
+    "cloud/use-dify/workspace/personal-account-management <=> self-host/use-dify/workspace/personal-account-management": {
+      "documents": [
+        "cloud/use-dify/workspace/personal-account-management",
+        "self-host/use-dify/workspace/personal-account-management"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/personal-account-management": "699efa0372ae940f2a0e1c16a0d140237216c710dc517a2434ee9dbefc2235b2",
+        "self-host/use-dify/workspace/personal-account-management": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+      },
+      "character_diff": [
+        {
+          "operation": "delete",
+          "a_start": 35,
+          "a_end": 43,
+          "b_start": 35,
+          "b_end": 35,
+          "a_text": "在所有工作空间中",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 48,
+          "a_end": 49,
+          "b_start": 40,
+          "b_end": 48,
+          "a_text": "和",
+          "b_text": "、登录方式与界面"
+        },
+        {
+          "operation": "delete",
+          "a_start": 51,
+          "a_end": 53,
+          "b_start": 50,
+          "b_end": 50,
+          "a_text": "设置",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 100,
+          "a_end": 101,
+          "b_start": 97,
+          "b_end": 99,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 102,
+          "a_end": 102,
+          "b_start": 100,
+          "b_end": 103,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 103,
+          "a_end": 105,
+          "b_start": 104,
+          "b_end": 106,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 163,
+          "a_end": 176,
+          "b_start": 164,
+          "b_end": 166,
+          "a_text": "跨越你所属的所有工作空间。",
+          "b_text": "保存"
+        },
+        {
+          "operation": "delete",
+          "a_start": 180,
+          "a_end": 182,
+          "b_start": 170,
+          "b_end": 170,
+          "a_text": "设置",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 192,
+          "a_end": 195,
+          "b_start": 180,
+          "b_end": 181,
+          "a_text": "会跟随",
+          "b_text": "。"
+        },
+        {
+          "operation": "replace",
+          "a_start": 196,
+          "a_end": 205,
+          "b_start": 182,
+          "b_end": 183,
+          "a_text": "到任何地方，而每个",
+          "b_text": "在"
+        },
+        {
+          "operation": "replace",
+          "a_start": 209,
+          "a_end": 215,
+          "b_start": 187,
+          "b_end": 188,
+          "a_text": "都保持其自己",
+          "b_text": "中"
+        },
+        {
+          "operation": "replace",
+          "a_start": 216,
+          "a_end": 220,
+          "b_start": 189,
+          "b_end": 191,
+          "a_text": "团队动态",
+          "b_text": "角色"
+        },
+        {
+          "operation": "insert",
+          "a_start": 223,
+          "a_end": 223,
+          "b_start": 194,
+          "b_end": 208,
+          "a_text": "",
+          "b_text": "由工作空间所有者或管理员设置"
+        },
+        {
+          "operation": "replace",
+          "a_start": 235,
+          "a_end": 239,
+          "b_start": 220,
+          "b_end": 228,
+          "a_text": "首次登录",
+          "b_text": "管理员账户在安装"
+        },
+        {
+          "operation": "delete",
+          "a_start": 240,
+          "a_end": 243,
+          "b_start": 229,
+          "b_end": 229,
+          "a_text": "会自动",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 245,
+          "a_end": 245,
+          "b_start": 231,
+          "b_end": 249,
+          "a_text": "",
+          "b_text": "，使用部署阶段设置的邮箱和密码。其他"
+        },
+        {
+          "operation": "replace",
+          "a_start": 247,
+          "a_end": 362,
+          "b_start": 251,
+          "b_end": 252,
+          "a_text": "。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。\n\n## 多",
+          "b_text": "由"
+        },
+        {
+          "operation": "delete",
+          "a_start": 366,
+          "a_end": 512,
+          "b_start": 256,
+          "b_end": 256,
+          "a_text": "访问\n\n你的个人账户可以属于多个工作空间。每个工作空间都有自己的团队、应用和计费，但你的个人资料在所有工作空间中保持一致。\n\n**切换工作空间**：使用左上角的工作空间选择器在你有权访问的工作空间之间切换。\n\n**工作空间独立性**：你的角色和权限是按工作空间设置的。你可能在一个工作空间中是",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 515,
+          "a_end": 527,
+          "b_start": 259,
+          "b_end": 262,
+          "a_text": "，在另一个工作空间中是成",
+          "b_text": "或管理"
+        },
+        {
+          "operation": "insert",
+          "a_start": 528,
+          "a_end": 528,
+          "b_start": 263,
+          "b_end": 267,
+          "a_text": "",
+          "b_text": "邀请添加"
+        },
+        {
+          "operation": "insert",
+          "a_start": 543,
+          "a_end": 543,
+          "b_start": 282,
+          "b_end": 285,
+          "a_text": "",
+          "b_text": " **"
+        },
+        {
+          "operation": "insert",
+          "a_start": 557,
+          "a_end": 557,
+          "b_start": 299,
+          "b_end": 302,
+          "a_text": "",
+          "b_text": "** "
+        },
+        {
+          "operation": "delete",
+          "a_start": 560,
+          "a_end": 562,
+          "b_start": 305,
+          "b_end": 305,
+          "a_text": "你的",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 568,
+          "a_end": 584,
+          "b_start": 311,
+          "b_end": 311,
+          "a_text": "。更改适用于你所属的所有工作空间",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 601,
+          "a_end": 604,
+          "b_start": 328,
+          "b_end": 329,
+          "a_text": "。这将",
+          "b_text": "，"
+        },
+        {
+          "operation": "delete",
+          "a_start": 609,
+          "a_end": 611,
+          "b_start": 334,
+          "b_end": 334,
+          "a_text": "基于",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 616,
+          "a_end": 617,
+          "b_start": 339,
+          "b_end": 339,
+          "a_text": "的",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 619,
+          "a_end": 631,
+          "b_start": 341,
+          "b_end": 341,
+          "a_text": "，并在所有工作空间中显示",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 645,
+          "a_end": 647,
+          "b_start": 355,
+          "b_end": 357,
+          "a_text": "所有",
+          "b_text": "其他"
+        },
+        {
+          "operation": "delete",
+          "a_start": 651,
+          "a_end": 655,
+          "b_start": 361,
+          "b_end": 361,
+          "a_text": "中向团队",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 657,
+          "a_end": 657,
+          "b_start": 363,
+          "b_end": 365,
+          "a_text": "",
+          "b_text": "面前"
+        },
+        {
+          "operation": "delete",
+          "a_start": 666,
+          "a_end": 667,
+          "b_start": 374,
+          "b_end": 374,
+          "a_text": "够",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 703,
+          "a_end": 725,
+          "b_start": 410,
+          "b_end": 410,
+          "a_text": "。更改你的邮箱会影响使用旧地址的所有工作空间",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 800,
+          "a_end": 802,
+          "b_start": 485,
+          "b_end": 485,
+          "a_text": "你的",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 804,
+          "a_end": 804,
+          "b_start": 487,
+          "b_end": 490,
+          "a_text": "",
+          "b_text": "，选择"
+        },
+        {
+          "operation": "replace",
+          "a_start": 805,
+          "a_end": 807,
+          "b_start": 491,
+          "b_end": 493,
+          "a_text": "→ ",
+          "b_text": "**"
+        },
+        {
+          "operation": "insert",
+          "a_start": 809,
+          "a_end": 809,
+          "b_start": 495,
+          "b_end": 497,
+          "a_text": "",
+          "b_text": "**"
+        },
+        {
+          "operation": "delete",
+          "a_start": 832,
+          "a_end": 833,
+          "b_start": 520,
+          "b_end": 520,
+          "a_text": "可",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 835,
+          "a_end": 841,
+          "b_start": 522,
+          "b_end": 529,
+          "a_text": "以下任一方式",
+          "b_text": "邮箱地址和密码"
+        },
+        {
+          "operation": "replace",
+          "a_start": 843,
+          "a_end": 844,
+          "b_start": 531,
+          "b_end": 569,
+          "a_text": "：",
+          "b_text": "。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。"
+        },
+        {
+          "operation": "replace",
+          "a_start": 846,
+          "a_end": 847,
+          "b_start": 571,
+          "b_end": 577,
+          "a_text": "-",
+          "b_text": "<Tip>\n"
+        },
+        {
+          "operation": "replace",
+          "a_start": 848,
+          "a_end": 851,
+          "b_start": 578,
+          "b_end": 582,
+          "a_text": "**G",
+          "b_text": " 在 D"
+        },
+        {
+          "operation": "insert",
+          "a_start": 852,
+          "a_end": 852,
+          "b_start": 583,
+          "b_end": 588,
+          "a_text": "",
+          "b_text": "fy En"
+        },
+        {
+          "operation": "replace",
+          "a_start": 853,
+          "a_end": 861,
+          "b_start": 589,
+          "b_end": 599,
+          "a_text": "Hub**：通过",
+          "b_text": "erprise 中，"
+        },
+        {
+          "operation": "replace",
+          "a_start": 862,
+          "a_end": 875,
+          "b_start": 600,
+          "b_end": 604,
+          "a_text": "的 GitHub 账户进行",
+          "b_text": "可以使用"
+        },
+        {
+          "operation": "insert",
+          "a_start": 882,
+          "a_end": 882,
+          "b_start": 611,
+          "b_end": 626,
+          "a_text": "",
+          "b_text": "或 SAML 单点登录代替密码"
+        },
+        {
+          "operation": "replace",
+          "a_start": 885,
+          "a_end": 886,
+          "b_start": 629,
+          "b_end": 658,
+          "a_text": "\n",
+          "b_text": "如需了解更多，请 [联系销售](https://share"
+        },
+        {
+          "operation": "replace",
+          "a_start": 887,
+          "a_end": 891,
+          "b_start": 659,
+          "b_end": 666,
+          "a_text": " **G",
+          "b_text": "na2.hsf"
+        },
+        {
+          "operation": "insert",
+          "a_start": 892,
+          "a_end": 892,
+          "b_start": 667,
+          "b_end": 672,
+          "a_text": "",
+          "b_text": "rms.c"
+        },
+        {
+          "operation": "replace",
+          "a_start": 893,
+          "a_end": 895,
+          "b_start": 673,
+          "b_end": 692,
+          "a_text": "gl",
+          "b_text": "m/1O3Rajx4URXm88Uzn"
+        },
+        {
+          "operation": "replace",
+          "a_start": 896,
+          "a_end": 924,
+          "b_start": 693,
+          "b_end": 705,
+          "a_text": "**：通过你的 Google 账户进行 OAuth 登录",
+          "b_text": "XYpCw40s9fk)"
+        },
+        {
+          "operation": "replace",
+          "a_start": 926,
+          "a_end": 955,
+          "b_start": 707,
+          "b_end": 713,
+          "a_text": "- **邮箱验证码**：一次性验证码会发送到你的邮箱地址。",
+          "b_text": "</Tip>"
+        },
+        {
+          "operation": "replace",
+          "a_start": 964,
+          "a_end": 966,
+          "b_start": 722,
+          "b_end": 745,
+          "a_text": "社交",
+          "b_text": "使用高强度的独立密码并定期更换。不要与他人共享"
+        },
+        {
+          "operation": "replace",
+          "a_start": 968,
+          "a_end": 1022,
+          "b_start": 747,
+          "b_end": 749,
+          "a_text": "（GitHub 或 Google）沿用你所选供应商的安全机制。可在该供应商的平台上检查安全设置并监控登录活动",
+          "b_text": "凭据"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1024,
+          "a_end": 1141,
+          "b_start": 751,
+          "b_end": 751,
+          "a_text": "\n你的个人设置会跟随你到任何地方，但每个工作空间都有自己的角色和权限。\n\n<Warning>\n更改你的邮箱地址会影响所有工作空间。如果你只想为某个工作空间更改邮箱，请考虑让该工作空间邀请新邮箱作为单独的用户账户。\n</Warning>",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/personal-account-management",
+        "+++ self-host/use-dify/workspace/personal-account-management",
+        "@@ -1,46 +1,32 @@",
+        "-你的个人账户跨越你所属的所有工作空间。个人资料设置、语言偏好和登录凭据会跟随你到任何地方，而每个工作空间都保持其自己的团队动态和权限。",
+        "+你的个人账户保存个人资料、语言偏好和登录凭据。你在工作空间中的角色和权限由工作空间所有者或管理员设置。",
+        " ",
+        " ## 账户设置",
+        " ",
+        "-首次登录时会自动创建账户。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。",
+        "-",
+        "-## 多工作空间访问",
+        "-",
+        "-你的个人账户可以属于多个工作空间。每个工作空间都有自己的团队、应用和计费，但你的个人资料在所有工作空间中保持一致。",
+        "-",
+        "-**切换工作空间**：使用左上角的工作空间选择器在你有权访问的工作空间之间切换。",
+        "-",
+        "-**工作空间独立性**：你的角色和权限是按工作空间设置的。你可能在一个工作空间中是所有者，在另一个工作空间中是成员。",
+        "+管理员账户在安装时创建，使用部署阶段设置的邮箱和密码。其他账户由工作空间所有者或管理员邀请添加。",
+        " ",
+        " ## 个人资料管理",
+        " ",
+        "-在设置 → 账户 → 个人资料中更新你的个人资料信息。更改适用于你所属的所有工作空间。",
+        "+在 **设置 → 账户 → 个人资料** 中更新个人资料信息。",
+        " ",
+        "-**头像**：上传自定义头像。这将替换默认的基于姓名首字母的头像，并在所有工作空间中显示。",
+        "+**头像**：上传自定义头像，替换默认的姓名首字母头像。",
+        " ",
+        "-**显示名称**：你在所有工作空间中向团队成员显示的名称。选择能够帮助队友识别你的名称。",
+        "+**显示名称**：你在其他工作空间成员面前显示的名称。选择能帮助队友识别你的名称。",
+        " ",
+        "-**邮箱地址**：你的主要登录凭据和唯一标识符。更改你的邮箱会影响使用旧地址的所有工作空间。",
+        "+**邮箱地址**：你的主要登录凭据和唯一标识符。",
+        " ",
+        " ## 语言和界面",
+        " ",
+        " **显示语言**：可用语言包括英语、简体中文和繁体中文。此设置影响界面元素，但不影响你的应用内容。",
+        " ",
+        "-**更改语言**：点击你的头像 → 语言，然后选择你偏好的语言。",
+        "+**更改语言**：点击头像，选择 **语言**，然后选择你偏好的语言。",
+        " ",
+        " ## 登录方式",
+        " ",
+        "-可使用以下任一方式登录：",
+        "+使用邮箱地址和密码登录。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。",
+        " ",
+        "-- **GitHub**：通过你的 GitHub 账户进行 OAuth 登录。",
+        "-- **Google**：通过你的 Google 账户进行 OAuth 登录。",
+        "-- **邮箱验证码**：一次性验证码会发送到你的邮箱地址。",
+        "+**提示：**",
+        "+在 Dify Enterprise 中，你可以使用 OAuth 或 SAML 单点登录代替密码登录。如需了解更多，请 联系销售。",
+        " ",
+        " ## 安全",
+        " ",
+        "-社交登录（GitHub 或 Google）沿用你所选供应商的安全机制。可在该供应商的平台上检查安全设置并监控登录活动。",
+        "-",
+        "-你的个人设置会跟随你到任何地方，但每个工作空间都有自己的角色和权限。",
+        "-",
+        "-**警告：**",
+        "-更改你的邮箱地址会影响所有工作空间。如果你只想为某个工作空间更改邮箱，请考虑让该工作空间邀请新邮箱作为单独的用户账户。",
+        "+使用高强度的独立密码并定期更换。不要与他人共享登录凭据。"
+      ]
+    },
+    "cloud/use-dify/knowledge/metadata <=> self-host/use-dify/knowledge/metadata": {
+      "documents": [
+        "cloud/use-dify/knowledge/metadata",
+        "self-host/use-dify/knowledge/metadata"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/metadata": "72a18ef75331052c7e7e2b1aa46d1dbabc6369c608f0ff33623c2a835e923c9c",
+        "self-host/use-dify/knowledge/metadata": "71fe1d4ba9593b1b0de971305c4d9624a6b77fc8e6988a23aa30178e4269aee8"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 82,
+          "a_end": 83,
+          "b_start": 82,
+          "b_end": 84,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 84,
+          "a_end": 84,
+          "b_start": 85,
+          "b_end": 88,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 85,
+          "a_end": 87,
+          "b_start": 89,
+          "b_end": 91,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 8635,
+          "a_end": 8636,
+          "b_start": 8639,
+          "b_end": 8641,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 8637,
+          "a_end": 8637,
+          "b_start": 8642,
+          "b_end": 8645,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 8638,
+          "a_end": 8640,
+          "b_start": 8646,
+          "b_end": 8648,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/monitor/logs <=> self-host/use-dify/monitor/logs": {
+      "documents": [
+        "cloud/use-dify/monitor/logs",
+        "self-host/use-dify/monitor/logs"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/monitor/logs": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452",
+        "self-host/use-dify/monitor/logs": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 43,
+          "a_end": 45,
+          "b_start": 43,
+          "b_end": 46,
+          "a_text": "了解",
+          "b_text": "并配置"
+        },
+        {
+          "operation": "delete",
+          "a_start": 51,
+          "a_end": 64,
+          "b_start": 52,
+          "b_end": 52,
+          "a_text": "，并管理已归档的工作流日志",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 110,
+          "a_end": 111,
+          "b_start": 98,
+          "b_end": 100,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 112,
+          "a_end": 112,
+          "b_start": 101,
+          "b_end": 104,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 113,
+          "a_end": 115,
+          "b_start": 105,
+          "b_end": 107,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 345,
+          "a_end": 346,
+          "b_start": 337,
+          "b_end": 339,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 347,
+          "a_end": 347,
+          "b_start": 340,
+          "b_end": 343,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 348,
+          "a_end": 350,
+          "b_start": 344,
+          "b_end": 346,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1124,
+          "a_end": 1125,
+          "b_start": 1120,
+          "b_end": 1122,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1126,
+          "a_end": 1126,
+          "b_start": 1123,
+          "b_end": 1126,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1127,
+          "a_end": 1129,
+          "b_start": 1127,
+          "b_end": 1129,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1519,
+          "a_end": 1532,
+          "b_start": 1519,
+          "b_end": 1519,
+          "a_text": "Sandbox 计划的各类",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1534,
+          "a_end": 1560,
+          "b_start": 1521,
+          "b_end": 1523,
+          "a_text": "均保留 30 天，更早的记录会被永久删除，之后升级也",
+          "b_text": "默认"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1561,
+          "a_end": 1705,
+          "b_start": 1524,
+          "b_end": 1525,
+          "a_text": "法找回。\n\n<Badge color=\"blue\">Professional</Badge> 和 <Badge color=\"blue\">Team</Badge> 套餐的保留规则取决于日志类型：\n\n- **对话日志**（聊天助手、Chatflow、Agent 和文本生成应用）：在订阅有效",
+          "b_text": "限"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1706,
+          "a_end": 1709,
+          "b_start": 1526,
+          "b_end": 1526,
+          "a_text": "内持续",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 1712,
+          "a_end": 1712,
+          "b_start": 1529,
+          "b_end": 1540,
+          "a_text": "",
+          "b_text": "如需定时清理旧日志：\n"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1726,
+          "a_end": 1727,
+          "b_start": 1554,
+          "b_end": 1558,
+          "a_text": "（",
+          "b_text": "：将 `"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1728,
+          "a_end": 1729,
+          "b_start": 1559,
+          "b_end": 1593,
+          "a_text": "o",
+          "b_text": "ORKFLOW_LOG_CLEANUP_ENABLED` 设为 `t"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1730,
+          "a_end": 1735,
+          "b_start": 1594,
+          "b_end": 1600,
+          "a_text": "kflow",
+          "b_text": "ue`，并将"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1736,
+          "a_end": 1744,
+          "b_start": 1601,
+          "b_end": 1634,
+          "a_text": "应用）：近期运行",
+          "b_text": "`WORKFLOW_LOG_RETENTION_DAYS` 设为要"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1746,
+          "a_end": 1761,
+          "b_start": 1636,
+          "b_end": 1642,
+          "a_text": "在 **日志** 页面；超过约",
+          "b_text": "的天数（默认"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1763,
+          "a_end": 1788,
+          "b_start": 1644,
+          "b_end": 1646,
+          "a_text": " 个月的运行会转入按月归档，可下载为 CSV 文件",
+          "b_text": "0）"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1789,
+          "a_end": 1789,
+          "b_start": 1647,
+          "b_end": 1653,
+          "a_text": "",
+          "b_text": "完整变量列表"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1793,
+          "a_end": 1915,
+          "b_start": 1657,
+          "b_end": 1657,
+          "a_text": "管理归档日志](#管理归档日志-professional-team)。\n\n## 管理归档日志 <Badge color=\"blue\">Professional</Badge> <Badge color=\"blue\">Team</Badge>\n\n",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1918,
+          "a_end": 1920,
+          "b_start": 1660,
+          "b_end": 1660,
+          "a_text": "运行",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1922,
+          "a_end": 1959,
+          "b_start": 1662,
+          "b_end": 1663,
+          "a_text": "超过约 3 个月后，每月会以工作空间为单位打包归档一次。工作空间所有者和管",
+          "b_text": "清"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1960,
+          "a_end": 2145,
+          "b_start": 1664,
+          "b_end": 1674,
+          "a_text": "员可在 **设置** > **归档日志** 中找到这些归档。\n\n### 下载\n\n1. 点击目标月份的 **准备下载**。准备在后台进行，你可离开页面稍后再回来。\n2. 按钮变为 **下载** 后，点击即可保存文件。已准备好的下载在 24 小时内有效。\n\n每次下载是一个 ZIP 文件，其中的 CSV 文件涵盖工作空间当月的全部工作流运行：\n\n| 文件 | 内容 |\n|:",
+          "b_text": "](/zh/self"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2146,
+          "a_end": 2163,
+          "b_start": 1675,
+          "b_end": 1676,
+          "a_text": "----|:-----|\n| `w",
+          "b_text": "h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2164,
+          "a_end": 2167,
+          "b_start": 1677,
+          "b_end": 1683,
+          "a_text": "rkf",
+          "b_text": "st/dep"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2169,
+          "a_end": 2171,
+          "b_start": 1685,
+          "b_end": 1694,
+          "a_text": "w_",
+          "b_text": "y/configu"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2172,
+          "a_end": 2226,
+          "b_start": 1695,
+          "b_end": 1695,
+          "a_text": "uns.csv` | 每次运行一行：状态、输入、输出、耗时与 token 用量 |\n| `workflow_",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2227,
+          "a_end": 2292,
+          "b_start": 1696,
+          "b_end": 1696,
+          "a_text": "pp_logs.csv` | 将每次运行与所属应用及发起运行的终端用户或账户关联 |\n| `workflow_node_execu",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2296,
+          "a_end": 2300,
+          "b_start": 1700,
+          "b_end": 1703,
+          "a_text": "s.cs",
+          "b_text": "/en"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2301,
+          "a_end": 2326,
+          "b_start": 1704,
+          "b_end": 1705,
+          "a_text": "` | 每次运行中各节点的执行记录 |\n| `wo",
+          "b_text": "i"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2327,
+          "a_end": 2345,
+          "b_start": 1706,
+          "b_end": 1706,
+          "a_text": "kflow_node_executi",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2347,
+          "a_end": 2357,
+          "b_start": 1708,
+          "b_end": 1712,
+          "a_text": "_offload.c",
+          "b_text": "ment"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2358,
+          "a_end": 2438,
+          "b_start": 1713,
+          "b_end": 1714,
+          "a_text": "v` | 单独存储的超大节点输入与输出 |\n| `workflow_pauses.csv`、`workflow_pause_reasons.csv` | 等待人",
+          "b_text": "#"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2439,
+          "a_end": 2543,
+          "b_start": 1715,
+          "b_end": 1717,
+          "a_text": "介入的运行产生的暂停记录 |\n| `workflow_trigger_logs.csv` | 启动运行的触发器调用记录 |\n\n<Tip>\n如需提取单个应用的历史记录，可按 `app_id` 列筛选，运行与应用",
+          "b_text": "作流"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2545,
+          "a_end": 2555,
+          "b_start": 1719,
+          "b_end": 1722,
+          "a_text": " CSV 中均有此列",
+          "b_text": "清理)"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2556,
+          "a_end": 2563,
+          "b_start": 1723,
+          "b_end": 1725,
+          "a_text": "应用 ID 是",
+          "b_text": "\n-"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2566,
+          "a_end": 2572,
+          "b_start": 1728,
+          "b_end": 1732,
+          "a_text": "Studio",
+          "b_text": "对话消息"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2574,
+          "a_end": 2574,
+          "b_start": 1734,
+          "b_end": 1736,
+          "a_text": "",
+          "b_text": "：将"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2575,
+          "a_end": 2577,
+          "b_start": 1737,
+          "b_end": 1866,
+          "a_text": "中该",
+          "b_text": "`ENABLE_CLEAN_MESSAGES` 设为 `true`，并将 `SANDBOX_EXPIRED_RECORDS_RETENTION_DAYS` 设为要保留的天数（默认 30）。\n\n清理由每日定时任务执行，设置变量后不会立即删除数据。处理敏感数据的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2579,
+          "a_end": 2585,
+          "b_start": 1868,
+          "b_end": 1874,
+          "a_text": " URL 里",
+          "b_text": "建议设置更短"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2586,
+          "a_end": 2592,
+          "b_start": 1875,
+          "b_end": 1879,
+          "a_text": "一长串标识符",
+          "b_text": "保留窗口"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2594,
+          "a_end": 2631,
+          "b_start": 1881,
+          "b_end": 1881,
+          "a_text": "</Tip>\n\n### 删除\n\n只有工作空间所有者才能删除某个月的归档。\n",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/monitor/logs",
+        "+++ self-host/use-dify/monitor/logs",
+        "@@ -49,36 +49,9 @@",
+        " ",
+        " 删除对话或清理过期日志时，其中上传的文件不会被一并删除。",
+        " ",
+        "-Sandbox 计划的各类日志均保留 30 天，更早的记录会被永久删除，之后升级也无法找回。",
+        "+日志默认无限期保留。如需定时清理旧日志：",
+        " ",
+        "-Professional 和 Team 套餐的保留规则取决于日志类型：",
+        "+- **工作流运行日志**：将 `WORKFLOW_LOG_CLEANUP_ENABLED` 设为 `true`，并将 `WORKFLOW_LOG_RETENTION_DAYS` 设为要保留的天数（默认 30）。完整变量列表详见 工作流日志清理。",
+        "+- **对话消息**：将 `ENABLE_CLEAN_MESSAGES` 设为 `true`，并将 `SANDBOX_EXPIRED_RECORDS_RETENTION_DAYS` 设为要保留的天数（默认 30）。",
+        " ",
+        "-- **对话日志**（聊天助手、Chatflow、Agent 和文本生成应用）：在订阅有效期内持续保留。",
+        "-- **工作流运行日志**（Workflow 应用）：近期运行保留在 **日志** 页面；超过约 3 个月的运行会转入按月归档，可下载为 CSV 文件。详见 管理归档日志。",
+        "-",
+        "-## 管理归档日志 Professional Team",
+        "-",
+        "-工作流运行日志超过约 3 个月后，每月会以工作空间为单位打包归档一次。工作空间所有者和管理员可在 **设置** > **归档日志** 中找到这些归档。",
+        "-",
+        "-### 下载",
+        "-",
+        "-1. 点击目标月份的 **准备下载**。准备在后台进行，你可离开页面稍后再回来。",
+        "-2. 按钮变为 **下载** 后，点击即可保存文件。已准备好的下载在 24 小时内有效。",
+        "-",
+        "-每次下载是一个 ZIP 文件，其中的 CSV 文件涵盖工作空间当月的全部工作流运行：",
+        "-",
+        "-| 文件 | 内容 |",
+        "-|:-----|:-----|",
+        "-| `workflow_runs.csv` | 每次运行一行：状态、输入、输出、耗时与 token 用量 |",
+        "-| `workflow_app_logs.csv` | 将每次运行与所属应用及发起运行的终端用户或账户关联 |",
+        "-| `workflow_node_executions.csv` | 每次运行中各节点的执行记录 |",
+        "-| `workflow_node_execution_offload.csv` | 单独存储的超大节点输入与输出 |",
+        "-| `workflow_pauses.csv`、`workflow_pause_reasons.csv` | 等待人工介入的运行产生的暂停记录 |",
+        "-| `workflow_trigger_logs.csv` | 启动运行的触发器调用记录 |",
+        "-",
+        "-**提示：**",
+        "-如需提取单个应用的历史记录，可按 `app_id` 列筛选，运行与应用日志 CSV 中均有此列。应用 ID 是 **Studio** 中该应用 URL 里的一长串标识符。",
+        "-",
+        "-### 删除",
+        "-",
+        "-只有工作空间所有者才能删除某个月的归档。",
+        "+清理由每日定时任务执行，设置变量后不会立即删除数据。处理敏感数据的应用建议设置更短的保留窗口。"
+      ]
+    },
+    "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source": {
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a",
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 62,
+          "a_end": 63,
+          "b_start": 62,
+          "b_end": 64,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 64,
+          "a_end": 64,
+          "b_start": 65,
+          "b_end": 68,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 65,
+          "a_end": 67,
+          "b_start": 69,
+          "b_end": 71,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2167,
+          "a_end": 2177,
+          "b_start": 2171,
+          "b_end": 2173,
+          "a_text": "Dify 提供默认和",
+          "b_text": "使用"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2180,
+          "a_end": 2182,
+          "b_start": 2176,
+          "b_end": 2176,
+          "a_text": "两种",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2192,
+          "a_end": 2194,
+          "b_start": 2186,
+          "b_end": 2276,
+          "a_text": "配置",
+          "b_text": "授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2196,
+          "a_end": 2196,
+          "b_start": 2278,
+          "b_end": 2282,
+          "a_text": "",
+          "b_text": "尤为适用"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2284,
+          "a_end": 2471,
+          "b_start": 2370,
+          "b_end": 2370,
+          "a_text": "<Tabs>\n  <Tab title=\"默认\">\n    默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n  </Tab>\n\n  <Tab title=\"自定义\">\n    自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。\n\n    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2480,
+          "a_end": 2485,
+          "b_start": 2379,
+          "b_end": 2379,
+          "a_text": "\n    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2564,
+          "a_end": 2565,
+          "b_start": 2458,
+          "b_end": 2458,
+          "a_text": "\n",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2568,
+          "a_end": 2569,
+          "b_start": 2461,
+          "b_end": 2462,
+          "a_text": " ",
+          "b_text": "\n"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2580,
+          "a_end": 2584,
+          "b_start": 2473,
+          "b_end": 2473,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2658,
+          "a_end": 2662,
+          "b_start": 2547,
+          "b_end": 2547,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2672,
+          "a_end": 2676,
+          "b_start": 2557,
+          "b_end": 2557,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2754,
+          "a_end": 2755,
+          "b_start": 2635,
+          "b_end": 2635,
+          "a_text": "\n",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2758,
+          "a_end": 2759,
+          "b_start": 2638,
+          "b_end": 2639,
+          "a_text": " ",
+          "b_text": "\n"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2770,
+          "a_end": 2774,
+          "b_start": 2650,
+          "b_end": 2650,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2848,
+          "a_end": 2852,
+          "b_start": 2724,
+          "b_end": 2724,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2861,
+          "a_end": 2878,
+          "b_start": 2733,
+          "b_end": 2733,
+          "a_text": "  </Tab>\n</Tabs>\n",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "+++ self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "@@ -43,16 +43,9 @@",
+        " 2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。",
+        " ",
+        " #### OAuth 客户端设置",
+        "-Dify 提供默认和自定义两种 OAuth 客户端配置方式。",
+        "-",
+        "-**默认**",
+        "-默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
+        "-",
+        "-**自定义**",
+        "-自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
+        "+使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
+        " ",
+        " **授权流程**",
+        "-",
+        " 1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。",
+        " ",
+        " 2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。"
+      ]
+    },
+    "cloud/use-dify/knowledge/connect-external-knowledge-base <=> self-host/use-dify/knowledge/connect-external-knowledge-base": {
+      "documents": [
+        "cloud/use-dify/knowledge/connect-external-knowledge-base",
+        "self-host/use-dify/knowledge/connect-external-knowledge-base"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/connect-external-knowledge-base": "b5b126250cfab2ecea40d0e4c2ac9b331446f34323ecdb3278368a6ac00c56f8",
+        "self-host/use-dify/knowledge/connect-external-knowledge-base": "fe41e0c323b8d6569f66180d8aa10d5aeafa4e0bb88f835bdba38c2c6721332e"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 144,
+          "a_end": 145,
+          "b_start": 144,
+          "b_end": 146,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 146,
+          "a_end": 146,
+          "b_start": 147,
+          "b_end": 150,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 147,
+          "a_end": 149,
+          "b_start": 151,
+          "b_end": 153,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1113,
+          "a_end": 1114,
+          "b_start": 1117,
+          "b_end": 1119,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1115,
+          "a_end": 1115,
+          "b_start": 1120,
+          "b_end": 1123,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1116,
+          "a_end": 1118,
+          "b_start": 1124,
+          "b_end": 1126,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2335,
+          "a_end": 2336,
+          "b_start": 2343,
+          "b_end": 2345,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2337,
+          "a_end": 2337,
+          "b_start": 2346,
+          "b_end": 2349,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2338,
+          "a_end": 2340,
+          "b_start": 2350,
+          "b_end": 2352,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2415,
+          "a_end": 2415,
+          "b_start": 2427,
+          "b_end": 2719,
+          "a_text": "",
+          "b_text": "连接被拒绝或超时\n\nDify 通过基于 Squid 的 SSRF 代理路由出站 HTTP 请求。如果你的外部知识服务与 Dify 运行在同一主机上，或其域名未添加到白名单中，代理会阻止该请求。\n\n要允许连接，请将你的服务域名添加到 `docker/ssrf_proxy/squid.conf.template` 的 `allowed_domains` ACL 中：\n\n```text\nacl allowed_domains dstdomain .marketplace.dify.ai .your-kb-service.com\n```\n\n编辑后请重启 SSRF 代理容器。\n\n### "
+        },
+        {
+          "operation": "replace",
+          "a_start": 2464,
+          "a_end": 2465,
+          "b_start": 2768,
+          "b_end": 2770,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2466,
+          "a_end": 2466,
+          "b_start": 2771,
+          "b_end": 2774,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2467,
+          "a_end": 2469,
+          "b_start": 2775,
+          "b_end": 2777,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/connect-external-knowledge-base",
+        "+++ self-host/use-dify/knowledge/connect-external-knowledge-base",
+        "@@ -62,6 +62,18 @@",
+        " ",
+        " ## 常见问题",
+        " ",
+        "+### 连接被拒绝或超时",
+        "+",
+        "+Dify 通过基于 Squid 的 SSRF 代理路由出站 HTTP 请求。如果你的外部知识服务与 Dify 运行在同一主机上，或其域名未添加到白名单中，代理会阻止该请求。",
+        "+",
+        "+要允许连接，请将你的服务域名添加到 `docker/ssrf_proxy/squid.conf.template` 的 `allowed_domains` ACL 中：",
+        "+",
+        "+```text",
+        "+acl allowed_domains dstdomain .marketplace.dify.ai .your-kb-service.com",
+        "+```",
+        "+",
+        "+编辑后请重启 SSRF 代理容器。",
+        "+",
+        " ### API 响应格式问题",
+        " ",
+        " 如果检索失败或返回意外结果，请根据 外部知识库 API 规范 验证你的 API 响应。"
+      ]
+    },
+    "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline": {
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+        "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline": "c24753feb231553298fbba1b5d47c47d3165ad9e2dbc8b042d58e93459516ab0",
+        "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline": "47b5e5f1a281eeb9b12227bea6f0d9e0b5c90b98c6d9044583d33042166fb190"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 70,
+          "a_end": 71,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 72,
+          "a_end": 72,
+          "b_start": 73,
+          "b_end": 76,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 73,
+          "a_end": 75,
+          "b_start": 77,
+          "b_end": 79,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration <=> self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration": {
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+        "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration": "c9f16024b4b0aa66f9506d3805493a1dc364cf2d87ecaad7a99015ab5d5ea847",
+        "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration": "04944795466b60ecae1c561bc7650cefa16cd5c97b6056e80c7d9242f2b3f2e3"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 70,
+          "a_end": 71,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 72,
+          "a_end": 72,
+          "b_start": 73,
+          "b_end": 76,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 73,
+          "a_end": 75,
+          "b_start": 77,
+          "b_end": 79,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1809,
+          "a_end": 1809,
+          "b_start": 1813,
+          "b_end": 1823,
+          "a_text": "",
+          "b_text": "          "
+        },
+        {
+          "operation": "insert",
+          "a_start": 1820,
+          "a_end": 1820,
+          "b_start": 1834,
+          "b_end": 1844,
+          "a_text": "",
+          "b_text": "----------"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1865,
+          "a_end": 1873,
+          "b_start": 1889,
+          "b_end": 1889,
+          "a_text": "Sandbox ",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 1877,
+          "a_end": 1877,
+          "b_start": 1893,
+          "b_end": 1895,
+          "a_text": "",
+          "b_text": "默认"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1878,
+          "a_end": 1879,
+          "b_start": 1896,
+          "b_end": 1898,
+          "a_text": "1",
+          "b_text": "20"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1883,
+          "a_end": 1896,
+          "b_start": 1902,
+          "b_end": 1902,
+          "a_text": "；Professional",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1897,
+          "a_end": 1898,
+          "b_start": 1903,
+          "b_end": 1903,
+          "a_text": "和",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1899,
+          "a_end": 1903,
+          "b_start": 1904,
+          "b_end": 1904,
+          "a_text": "Team",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1904,
+          "a_end": 1908,
+          "b_start": 1905,
+          "b_end": 1905,
+          "a_text": "每次最多",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1909,
+          "a_end": 1911,
+          "b_start": 1906,
+          "b_end": 1906,
+          "a_text": "50",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1912,
+          "a_end": 1913,
+          "b_start": 1907,
+          "b_end": 1932,
+          "a_text": "个",
+          "b_text": "                         "
+        },
+        {
+          "operation": "replace",
+          "a_start": 1925,
+          "a_end": 1926,
+          "b_start": 1944,
+          "b_end": 1945,
+          "a_text": "单",
+          "b_text": "每"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1929,
+          "a_end": 1929,
+          "b_start": 1948,
+          "b_end": 1950,
+          "a_text": "",
+          "b_text": "默认"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1936,
+          "a_end": 1936,
+          "b_start": 1957,
+          "b_end": 1963,
+          "a_text": "",
+          "b_text": "可通过 `U"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1937,
+          "a_end": 1948,
+          "b_start": 1964,
+          "b_end": 1985,
+          "a_text": "rofessional",
+          "b_text": "LOAD_FILE_SIZE_LIMIT`"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1949,
+          "a_end": 1963,
+          "b_start": 1986,
+          "b_end": 1988,
+          "a_text": "和 Team 为 50 MB",
+          "b_text": "配置"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1968,
+          "a_end": 1968,
+          "b_start": 1993,
+          "b_end": 1994,
+          "a_text": "",
+          "b_text": "存"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1969,
+          "a_end": 1970,
+          "b_start": 1995,
+          "b_end": 1995,
+          "a_text": "存",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1975,
+          "a_end": 1983,
+          "b_start": 2000,
+          "b_end": 2006,
+          "a_text": "文档总数与知识库",
+          "b_text": "仅受所配置的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1985,
+          "a_end": 1992,
+          "b_start": 2008,
+          "b_end": 2043,
+          "a_text": "空间因套餐而异",
+          "b_text": "后端限制                               "
+        },
+        {
+          "operation": "replace",
+          "a_start": 4442,
+          "a_end": 4443,
+          "b_start": 4493,
+          "b_end": 4495,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 4444,
+          "a_end": 4444,
+          "b_start": 4496,
+          "b_end": 4499,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 4445,
+          "a_end": 4447,
+          "b_start": 4500,
+          "b_end": 4502,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 5373,
+          "a_end": 5373,
+          "b_start": 5428,
+          "b_end": 5561,
+          "a_text": "",
+          "b_text": "<Tip>\n    可通过环境变量调整以下限制：\n\n    - 最大图片尺寸：`ATTACHMENT_IMAGE_FILE_SIZE_LIMIT`\n\n    - 每个分段的最大附件数量：`SINGLE_CHUNK_ATTACHMENT_LIMIT`\n</Tip>\n\n"
+        },
+        {
+          "operation": "replace",
+          "a_start": 5671,
+          "a_end": 5672,
+          "b_start": 5859,
+          "b_end": 5861,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 5673,
+          "a_end": 5673,
+          "b_start": 5862,
+          "b_end": 5865,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 5674,
+          "a_end": 5676,
+          "b_start": 5866,
+          "b_end": 5868,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 11262,
+          "a_end": 11263,
+          "b_start": 11454,
+          "b_end": 11456,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 11264,
+          "a_end": 11264,
+          "b_start": 11457,
+          "b_end": 11460,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 11265,
+          "a_end": 11267,
+          "b_start": 11461,
+          "b_end": 11463,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 12367,
+          "a_end": 12367,
+          "b_start": 12563,
+          "b_end": 12818,
+          "a_text": "",
+          "b_text": "### 摘要自动生成\n\n自动为所有分段生成摘要，以增强其可检索性。\n\n摘要同样会被向量化并参与检索。当摘要匹配查询时，其对应的分段也会被返回。\n\n你可以稍后手动编辑自动生成的摘要，或为特定文档重新生成摘要。详情请参阅[维护知识库内容](/zh/self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents)。\n\n<Tip>\n  如果你选择了支持视觉的 LLM，摘要将基于分段文本和任何附加的图片一起生成。\n</Tip>\n\n"
+        },
+        {
+          "operation": "replace",
+          "a_start": 12439,
+          "a_end": 12440,
+          "b_start": 12890,
+          "b_end": 12892,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 12441,
+          "a_end": 12441,
+          "b_start": 12893,
+          "b_end": 12896,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 12442,
+          "a_end": 12444,
+          "b_start": 12897,
+          "b_end": 12899,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 14413,
+          "a_end": 14414,
+          "b_start": 14868,
+          "b_end": 14870,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 14415,
+          "a_end": 14415,
+          "b_start": 14871,
+          "b_end": 14874,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 14416,
+          "a_end": 14418,
+          "b_start": 14875,
+          "b_end": 14877,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 16442,
+          "a_end": 16443,
+          "b_start": 16901,
+          "b_end": 16903,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 16444,
+          "a_end": 16444,
+          "b_start": 16904,
+          "b_end": 16907,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 16445,
+          "a_end": 16447,
+          "b_start": 16908,
+          "b_end": 16910,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 16514,
+          "a_end": 16515,
+          "b_start": 16977,
+          "b_end": 16979,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 16516,
+          "a_end": 16516,
+          "b_start": 16980,
+          "b_end": 16983,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 16517,
+          "a_end": 16519,
+          "b_start": 16984,
+          "b_end": 16986,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+        "+++ self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+        "@@ -50,10 +50,10 @@",
+        " **限制**",
+        " ",
+        " | 限制项 | 说明 |",
+        "-| ---- | --------------------------------- |",
+        "-| 文件数量 | Sandbox 每次上传 1 个文件；Professional 和 Team 每次最多 50 个 |",
+        "-| 文件大小 | 单个文件 15 MB；Professional 和 Team 为 50 MB |",
+        "-| 储存限制 | 文档总数与知识库存储空间因套餐而异 |",
+        "+| ---- | ------------------------------------------- |",
+        "+| 文件数量 | 每次上传默认 20 个文件 |",
+        "+| 文件大小 | 每个文件默认 15 MB；可通过 `UPLOAD_FILE_SIZE_LIMIT` 配置 |",
+        "+| 存储限制 | 仅受所配置的存储后端限制 |",
+        " ",
+        " **输出变量**",
+        " ",
+        "@@ -148,6 +148,13 @@",
+        "   - `![替换文本](image_url)`",
+        "   - `![替换文本](image_url \"标题\")`",
+        " ",
+        "+**提示：**",
+        "+可通过环境变量调整以下限制：",
+        "+",
+        "+- 最大图片尺寸：`ATTACHMENT_IMAGE_FILE_SIZE_LIMIT`",
+        "+",
+        "+- 每个分段的最大附件数量：`SINGLE_CHUNK_ATTACHMENT_LIMIT`",
+        "+",
+        " 若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并参与检索。",
+        " ",
+        " #### 文档提取器 (Doc Extractor)",
+        "@@ -331,6 +338,17 @@",
+        " | 通用模式 | 高质量 经济 | Embedding 嵌入模型 关键词数量 | 向量检索 全文检索 混合检索 倒排索引 |",
+        " | 父子模式 | 高质量（仅支持） | Embedding Model 嵌入模型 | 向量检索 全文检索 混合检索 |",
+        " | 问答模式 | 高质量（仅支持） | Embedding Model 嵌入模型 | 向量检索 全文检索 混合检索 |",
+        "+",
+        "+### 摘要自动生成",
+        "+",
+        "+自动为所有分段生成摘要，以增强其可检索性。",
+        "+",
+        "+摘要同样会被向量化并参与检索。当摘要匹配查询时，其对应的分段也会被返回。",
+        "+",
+        "+你可以稍后手动编辑自动生成的摘要，或为特定文档重新生成摘要。详情请参阅维护知识库内容。",
+        "+",
+        "+**提示：**",
+        "+如果你选择了支持视觉的 LLM，摘要将基于分段文本和任何附加的图片一起生成。",
+        " ",
+        " ---",
+        " "
+      ]
+    },
+    "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline": {
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+        "self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline": "22526fd3a864664687e4f1081c7080e477c1b1d4d8b1190f59024057e4ba4ee0",
+        "self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline": "e6a9551f52d617ed76d4cf4b883b6cc40fdf20c9aae5cea67345090ef3e6c196"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 70,
+          "a_end": 71,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 72,
+          "a_end": 72,
+          "b_start": 73,
+          "b_end": 76,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 73,
+          "a_end": 75,
+          "b_start": 77,
+          "b_end": 79,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1278,
+          "a_end": 1458,
+          "b_start": 1282,
+          "b_end": 1282,
+          "a_text": "\n<Info>\n**发布为知识流水线** 仅 <Badge color=\"blue\">Professional</Badge> 和 <Badge color=\"blue\">Team</Badge> 套餐可用。Sandbox 账户无法将流水线发布为可复用模板。[升级套餐](https://dify.ai/zh/pricing) 以解锁此功能。\n</Info>\n",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+        "+++ self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+        "@@ -14,6 +14,3 @@",
+        " ",
+        " **发布为流水线（Publish as a Knowledge Pipeline)**",
+        " 你可以点击发布为知识流水线将该流水线保存为可复用的模版，该模版将出现在自定义模版中。",
+        "-",
+        "-**说明：**",
+        "-**发布为知识流水线** 仅 Professional 和 Team 套餐可用。Sandbox 账户无法将流水线发布为可复用模板。升级套餐 以解锁此功能。"
+      ]
+    },
+    "cloud/use-dify/monitor/integrations/integrate-arize <=> self-host/use-dify/monitor/integrations/integrate-arize": {
+      "documents": [
+        "cloud/use-dify/monitor/integrations/integrate-arize",
+        "self-host/use-dify/monitor/integrations/integrate-arize"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/monitor/integrations/integrate-arize": "0b094daf692a21e3a3122ac96fe8ca6974a9eb7432085728a439b0dcb066c67b",
+        "self-host/use-dify/monitor/integrations/integrate-arize": "a80d989956017989d83fae3a8b9168e40d7c3c2cd33ee948ccc57c013c363b8a"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 65,
+          "a_end": 66,
+          "b_start": 65,
+          "b_end": 67,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 67,
+          "a_end": 67,
+          "b_start": 68,
+          "b_end": 71,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 68,
+          "a_end": 70,
+          "b_start": 72,
+          "b_end": 74,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 302,
+          "a_end": 302,
+          "b_start": 306,
+          "b_end": 316,
+          "a_text": "",
+          "b_text": "-self-host"
+        },
+        {
+          "operation": "insert",
+          "a_start": 400,
+          "a_end": 400,
+          "b_start": 414,
+          "b_end": 419,
+          "a_text": "",
+          "b_text": "本地开发、"
+        },
+        {
+          "operation": "replace",
+          "a_start": 436,
+          "a_end": 437,
+          "b_start": 455,
+          "b_end": 457,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 438,
+          "a_end": 438,
+          "b_start": 458,
+          "b_end": 461,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 439,
+          "a_end": 441,
+          "b_start": 462,
+          "b_end": 464,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/monitor/integrations/integrate-arize",
+        "+++ self-host/use-dify/monitor/integrations/integrate-arize",
+        "@@ -2,7 +2,7 @@",
+        " ",
+        " Arize AX 是 Arize AI 推出的全功能平台，为 LLM 和 Agent 驱动的应用提供可观测性、在线与离线评估、监控和实验能力。它面向生产环境团队、AI 原生公司和企业，支持托管云与企业自部署两种部署方式。",
+        " ",
+        "-如需用于实验或单容器自部署的开源方案，可改用 Phoenix 集成。",
+        "+如需用于本地开发、实验或单容器自部署的开源方案，可改用 Phoenix 集成。",
+        " ",
+        " 追踪数据接入后，可参考 Arize 的 Agent 评估指南 和 LLM 评估指南，了解如何用追踪数据调试故障、评估 Agent 行为、监控模型质量。",
+        " "
+      ]
+    },
+    "cloud/use-dify/monitor/integrations/integrate-langfuse <=> self-host/use-dify/monitor/integrations/integrate-langfuse": {
+      "documents": [
+        "cloud/use-dify/monitor/integrations/integrate-langfuse",
+        "self-host/use-dify/monitor/integrations/integrate-langfuse"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/monitor/integrations/integrate-langfuse": "4b7dbbddff438797e86e904667b04f9e7829774586a22fbffe6cc715cc5d546a",
+        "self-host/use-dify/monitor/integrations/integrate-langfuse": "0bedaf6a08814319a9680968e14bd19524609ccaa1f32578830e17e3086d7444"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 68,
+          "a_end": 69,
+          "b_start": 68,
+          "b_end": 70,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 70,
+          "a_end": 70,
+          "b_start": 71,
+          "b_end": 74,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 71,
+          "a_end": 73,
+          "b_start": 75,
+          "b_end": 77,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/monitor/integrations/integrate-langsmith <=> self-host/use-dify/monitor/integrations/integrate-langsmith": {
+      "documents": [
+        "cloud/use-dify/monitor/integrations/integrate-langsmith",
+        "self-host/use-dify/monitor/integrations/integrate-langsmith"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/monitor/integrations/integrate-langsmith": "d983b4c1ff82aedb2ca0765a3aa28d20a1a39810a46ae3a5b5be4f1d0108108b",
+        "self-host/use-dify/monitor/integrations/integrate-langsmith": "e9a8141f5da0cee3986274a2ba1b078382f99ca7239d75ecdead06cbb196d456"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 69,
+          "a_end": 70,
+          "b_start": 69,
+          "b_end": 71,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 71,
+          "a_end": 71,
+          "b_start": 72,
+          "b_end": 75,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 72,
+          "a_end": 74,
+          "b_start": 76,
+          "b_end": 78,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/monitor/integrations/integrate-phoenix <=> self-host/use-dify/monitor/integrations/integrate-phoenix": {
+      "documents": [
+        "cloud/use-dify/monitor/integrations/integrate-phoenix",
+        "self-host/use-dify/monitor/integrations/integrate-phoenix"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/monitor/integrations/integrate-phoenix": "874b35df4d2df0f327cdcebb1a9772aa7a00845fd8d053e901a31693d8b0d6d7",
+        "self-host/use-dify/monitor/integrations/integrate-phoenix": "29ec947079b2fd5de8b5b24a9097c4d78a5309553c00d01c7fa545fd0a74de89"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 67,
+          "a_end": 68,
+          "b_start": 67,
+          "b_end": 69,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 69,
+          "a_end": 69,
+          "b_start": 70,
+          "b_end": 73,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 70,
+          "a_end": 72,
+          "b_start": 74,
+          "b_end": 76,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 311,
+          "a_end": 311,
+          "b_start": 315,
+          "b_end": 325,
+          "a_text": "",
+          "b_text": "-self-host"
+        },
+        {
+          "operation": "insert",
+          "a_start": 380,
+          "a_end": 380,
+          "b_start": 394,
+          "b_end": 398,
+          "a_text": "",
+          "b_text": "开发阶段"
+        },
+        {
+          "operation": "insert",
+          "a_start": 381,
+          "a_end": 381,
+          "b_start": 399,
+          "b_end": 434,
+          "a_text": "",
+          "b_text": "在本地运行 Phoenix，也可在自有基础设施上以单容器方式自部署，或"
+        },
+        {
+          "operation": "delete",
+          "a_start": 428,
+          "a_end": 493,
+          "b_start": 481,
+          "b_end": 481,
+          "a_text": "，也可在自有基础设施上自部署 Phoenix（单个容器即可运行）。Dify 从服务端发送追踪数据，因此自部署的端点需要能从公网访问",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 543,
+          "a_end": 544,
+          "b_start": 531,
+          "b_end": 533,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 545,
+          "a_end": 545,
+          "b_start": 534,
+          "b_end": 537,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 546,
+          "a_end": 548,
+          "b_start": 538,
+          "b_end": 540,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/monitor/integrations/integrate-phoenix",
+        "+++ self-host/use-dify/monitor/integrations/integrate-phoenix",
+        "@@ -2,7 +2,7 @@",
+        " ",
+        " Arize Phoenix 是 Arize AI 推出的开源平台，基于 OpenTelemetry 构建，为 LLM 工作流和 Agent 提供可观测性、评估、提示工程和实验能力。",
+        " ",
+        "-可使用 Arize 托管的 Phoenix Cloud，也可在自有基础设施上自部署 Phoenix（单个容器即可运行）。Dify 从服务端发送追踪数据，因此自部署的端点需要能从公网访问。",
+        "+开发阶段可在本地运行 Phoenix，也可在自有基础设施上以单容器方式自部署，或使用 Arize 托管的 Phoenix Cloud。",
+        " ",
+        " 如需面向生产环境团队、AI 原生公司和企业的全功能平台，可改用 Arize 集成 接入 Arize AX。",
+        " "
+      ]
+    },
+    "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension <=> self-host/use-dify/workspace/api-extension/external-data-tool-api-extension": {
+      "documents": [
+        "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+        "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension": "d8792b05b0f64dfa61f2db0676adf72bcf66edc0edba9aec9c7af93e7defc304",
+        "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension": "c5414b192cde7f4b7466924d94e9d3c477c4527f84f588e69c644c94064eb9fb"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 63,
+          "a_end": 64,
+          "b_start": 63,
+          "b_end": 65,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 65,
+          "a_end": 65,
+          "b_start": 66,
+          "b_end": 69,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 66,
+          "a_end": 68,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 169,
+          "a_end": 170,
+          "b_start": 173,
+          "b_end": 175,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 171,
+          "a_end": 171,
+          "b_start": 176,
+          "b_end": 179,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 172,
+          "a_end": 174,
+          "b_start": 180,
+          "b_end": 182,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/workspace/app-management <=> self-host/use-dify/workspace/app-management": {
+      "documents": [
+        "cloud/use-dify/workspace/app-management",
+        "self-host/use-dify/workspace/app-management"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/app-management": "2a16c12dc7b0b51a4e75cebde00309b29e1932b6185b6dffec7da0db53466cba",
+        "self-host/use-dify/workspace/app-management": "9162d0539da207865089bfa1605ea947f619ca3c93e32cd449118616e66bf211"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 63,
+          "a_end": 64,
+          "b_start": 63,
+          "b_end": 65,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 65,
+          "a_end": 65,
+          "b_start": 66,
+          "b_end": 69,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 66,
+          "a_end": 68,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1979,
+          "a_end": 1986,
+          "b_start": 1983,
+          "b_end": 1987,
+          "a_text": "平台始终运行最",
+          "b_text": "导入由更"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1987,
+          "a_end": 1987,
+          "b_start": 1988,
+          "b_end": 1999,
+          "a_text": "",
+          "b_text": "版本的 Dify 创建"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1993,
+          "a_end": 2001,
+          "b_start": 2005,
+          "b_end": 2005,
+          "a_text": "版本，因此导入的",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2003,
+          "a_end": 2007,
+          "b_start": 2007,
+          "b_end": 2016,
+          "a_text": "始终兼容",
+          "b_text": "前，可能需要先升级"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/app-management",
+        "+++ self-host/use-dify/workspace/app-management",
+        "@@ -78,7 +78,7 @@",
+        " 3. 如果 DSL 版本低于当前平台，会出现警告",
+        " 4. 使用文件中的所有配置创建应用",
+        " ",
+        "-**版本兼容性**：平台始终运行最新的 DSL 版本，因此导入的文件始终兼容。",
+        "+**版本兼容性**：导入由更新版本的 Dify 创建的 DSL 文件前，可能需要先升级。",
+        " ",
+        " **说明：**",
+        " Dify DSL 是 AI 应用 YAML 格式捕获完整的应用配置。"
+      ]
+    },
+    "cloud/use-dify/workspace/model-providers <=> self-host/use-dify/workspace/model-providers": {
+      "documents": [
+        "cloud/use-dify/workspace/model-providers",
+        "self-host/use-dify/workspace/model-providers"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/model-providers": "049efa4e1248614bc0272dc1f6b6b1ea3cd1918ebc1034d63655b9c8960e6f8b",
+        "self-host/use-dify/workspace/model-providers": "94dbd653408d5da7773da1f4c9830ed3595e3194fe1c0c2f5162336363e07e2b"
+      },
+      "character_diff": [
+        {
+          "operation": "insert",
+          "a_start": 33,
+          "a_end": 33,
+          "b_start": 33,
+          "b_end": 51,
+          "a_text": "",
+          "b_text": "为工作空间添加模型供应商，让应用能够"
+        },
+        {
+          "operation": "replace",
+          "a_start": 35,
+          "a_end": 37,
+          "b_start": 53,
+          "b_end": 73,
+          "a_text": "你的",
+          "b_text": " LLM、Embedding 模型及其他"
+        },
+        {
+          "operation": "replace",
+          "a_start": 41,
+          "a_end": 65,
+          "b_start": 77,
+          "b_end": 79,
+          "a_text": "消息额度调用模型，或连接你自己的供应商账户和密钥",
+          "b_text": "服务"
+        },
+        {
+          "operation": "replace",
+          "a_start": 112,
+          "a_end": 113,
+          "b_start": 126,
+          "b_end": 128,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 114,
+          "a_end": 114,
+          "b_start": 129,
+          "b_end": 132,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 115,
+          "a_end": 117,
+          "b_start": 133,
+          "b_end": 135,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 156,
+          "a_end": 160,
+          "b_start": 174,
+          "b_end": 174,
+          "a_text": "你构建的",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 163,
+          "a_end": 177,
+          "b_start": 177,
+          "b_end": 177,
+          "a_text": "AI 应用都运行在模型之上。",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 182,
+          "a_end": 193,
+          "b_start": 182,
+          "b_end": 191,
+          "a_text": "Cloud 提供了热门",
+          "b_text": "应用都至少需要一个"
+        },
+        {
+          "operation": "delete",
+          "a_start": 195,
+          "a_end": 211,
+          "b_start": 193,
+          "b_end": 193,
+          "a_text": "，当你需要更多时，也可连接自己的",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 214,
+          "a_end": 216,
+          "b_start": 196,
+          "b_end": 196,
+          "a_text": "账户",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 217,
+          "a_end": 224,
+          "b_start": 197,
+          "b_end": 214,
+          "a_text": "\n\n模型在整个",
+          "b_text": "安装供应商并填入 API 密钥后，"
+        },
+        {
+          "operation": "replace",
+          "a_start": 229,
+          "a_end": 236,
+          "b_start": 219,
+          "b_end": 220,
+          "a_text": "共享，因此团队",
+          "b_text": "的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 238,
+          "a_end": 239,
+          "b_start": 222,
+          "b_end": 226,
+          "a_text": "人",
+          "b_text": "应用都能"
+        },
+        {
+          "operation": "insert",
+          "a_start": 241,
+          "a_end": 241,
+          "b_start": 228,
+          "b_end": 229,
+          "a_text": "",
+          "b_text": "它"
+        },
+        {
+          "operation": "delete",
+          "a_start": 242,
+          "a_end": 247,
+          "b_start": 230,
+          "b_end": 230,
+          "a_text": "都是同一批",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 262,
+          "a_end": 262,
+          "b_start": 245,
+          "b_end": 283,
+          "a_text": "",
+          "b_text": "API 密钥授予工作空间范围的模型访问权限，并会通过各供应商的账户直接计费。"
+        },
+        {
+          "operation": "delete",
+          "a_start": 283,
+          "a_end": 318,
+          "b_start": 304,
+          "b_end": 304,
+          "a_text": "你添加的任何密钥都在整个工作空间内生效，并通过你自己的供应商账户计费。",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 334,
+          "a_end": 382,
+          "b_start": 320,
+          "b_end": 322,
+          "a_text": "使用 AI 消息额度调用模型\n\nDify Cloud 为你提供 AI 消息额度，用于调用一组热门",
+          "b_text": "添加"
+        },
+        {
+          "operation": "delete",
+          "a_start": 385,
+          "a_end": 738,
+          "b_start": 325,
+          "b_end": 325,
+          "a_text": "的模型，因此无需自己的 API 密钥即可开始。\n\n从 **集成** > **模型供应商**（或 [Marketplace](https://marketplace.dify.ai/)）安装其中一个供应商，其模型即可使用。每次 AI 回复都会消耗你的 AI 消息额度。\n\n一次 AI 回复即一次模型调用（一次输入和一次输出），无论消耗多少 token，都计为一次回复。一次回复消耗的额度取决于模型，模型越大消耗越多。\n\n哪些供应商受 AI 消息额度支持、以及各模型的额度消耗，详见 [Dify 定价页面](https://dify.ai/pricing)。\n\n## 在受支持的供应商上使用你自己的账户\n\n当你需要更高的速率限制，或希望通过自己的供应商账户计费时，可在受支持的供应商上添加自己的 API 密钥。",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 765,
+          "a_end": 798,
+          "b_start": 352,
+          "b_end": 352,
+          "a_text": "安装该供应商（如尚未安装）。\n\n2. 点击其卡片上的 **设置**",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 799,
+          "a_end": 1034,
+          "b_start": 353,
+          "b_end": 353,
+          "a_text": "然后填入 API 密钥及其他必要信息。Dify 会先验证密钥，再将该供应商投入使用。\n\n你的密钥和 AI 消息额度可同时存在。在供应商卡片上设置 **使用优先级**，即可控制 Dify 优先使用哪一个并回退到另一个，这样在额度用尽后，你添加的密钥便可自动接管。\n\n## 连接 AI 消息额度不支持的供应商\n\n若要使用 AI 消息额度不支持的供应商，需先安装它并通过你自己的账户运行。AI 消息额度不适用于这类供应商。\n\n1. 在 **集成** > **模型供应商** 中",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1053,
+          "a_end": 1055,
+          "b_start": 372,
+          "b_end": 374,
+          "a_text": "打开",
+          "b_text": "访问"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1100,
+          "a_end": 1106,
+          "b_start": 419,
+          "b_end": 425,
+          "a_text": "查看完整列表",
+          "b_text": "获取更多选项"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1114,
+          "a_end": 1115,
+          "b_start": 433,
+          "b_end": 439,
+          "a_text": "该",
+          "b_text": "完成后，点击"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1118,
+          "a_end": 1121,
+          "b_start": 442,
+          "b_end": 446,
+          "a_text": "，点击",
+          "b_text": "卡片上的"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1138,
+          "a_end": 1138,
+          "b_start": 463,
+          "b_end": 465,
+          "a_text": "",
+          "b_text": "（以"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1139,
+          "a_end": 1139,
+          "b_start": 466,
+          "b_end": 472,
+          "a_text": "",
+          "b_text": "供应商要求的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1141,
+          "a_end": 1145,
+          "b_start": 474,
+          "b_end": 518,
+          "a_text": "必要信息",
+          "b_text": "凭据，如自定义端点 URL 或组织 ID）。Dify 会先验证凭据，再将该供应商投入使用"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1160,
+          "a_end": 1164,
+          "b_start": 533,
+          "b_end": 536,
+          "a_text": "授权某个",
+          "b_text": "大多数"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1167,
+          "a_end": 1167,
+          "b_start": 539,
+          "b_end": 550,
+          "a_text": "",
+          "b_text": "自带模型，授权其中一个"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1177,
+          "a_end": 1180,
+          "b_start": 560,
+          "b_end": 561,
+          "a_text": "，因此",
+          "b_text": "。"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1198,
+          "a_end": 1200,
+          "b_start": 579,
+          "b_end": 582,
+          "a_text": "手动",
+          "b_text": "要自行"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1203,
+          "a_end": 1204,
+          "b_start": 585,
+          "b_end": 676,
+          "a_text": "例",
+          "b_text": "通常有两种情况：\n\n- 你运行着自己的推理服务器（如 Ollama 或 Xinference），Dify 无法得知你加载了哪些模型。\n- 供应商列出了自己的模型，但你需要的特定模型（"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1214,
+          "a_end": 1214,
+          "b_start": 686,
+          "b_end": 691,
+          "a_text": "",
+          "b_text": "）不在其中"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1247,
+          "a_end": 1247,
+          "b_start": 724,
+          "b_end": 731,
+          "a_text": "",
+          "b_text": "如果某个供应商"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1252,
+          "a_end": 1252,
+          "b_start": 736,
+          "b_end": 737,
+          "a_text": "",
+          "b_text": "的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1256,
+          "a_end": 1260,
+          "b_start": 741,
+          "b_end": 743,
+          "a_text": "的供应商",
+          "b_text": "，则"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1281,
+          "a_end": 1281,
+          "b_start": 764,
+          "b_end": 767,
+          "a_text": "",
+          "b_text": "自定义"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1311,
+          "a_end": 1312,
+          "b_start": 797,
+          "b_end": 799,
+          "a_text": "该",
+          "b_text": "现有"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1342,
+          "a_end": 1344,
+          "b_start": 829,
+          "b_end": 831,
+          "a_text": "密钥",
+          "b_text": "凭据"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1358,
+          "a_end": 1360,
+          "b_start": 845,
+          "b_end": 846,
+          "a_text": "，或",
+          "b_text": "、"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1370,
+          "a_end": 1370,
+          "b_start": 856,
+          "b_end": 870,
+          "a_text": "",
+          "b_text": "，或将不同模型指向不同服务器"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1385,
+          "a_end": 1385,
+          "b_start": 885,
+          "b_end": 888,
+          "a_text": "",
+          "b_text": "或端点"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1386,
+          "a_end": 1386,
+          "b_start": 889,
+          "b_end": 906,
+          "a_text": "",
+          "b_text": "\n\n密钥的管理位置取决于模型类型："
+        },
+        {
+          "operation": "replace",
+          "a_start": 1403,
+          "a_end": 1404,
+          "b_start": 923,
+          "b_end": 926,
+          "a_text": "其",
+          "b_text": "供应商"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1416,
+          "a_end": 1416,
+          "b_start": 938,
+          "b_end": 940,
+          "a_text": "",
+          "b_text": "统一"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1445,
+          "a_end": 1450,
+          "b_start": 969,
+          "b_end": 972,
+          "a_text": "供应商自带",
+          "b_text": "预定义"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1568,
+          "a_end": 1570,
+          "b_start": 1090,
+          "b_end": 1090,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1593,
+          "a_end": 1595,
+          "b_start": 1113,
+          "b_end": 1113,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1603,
+          "a_end": 1605,
+          "b_start": 1121,
+          "b_end": 1121,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1676,
+          "a_end": 1678,
+          "b_start": 1192,
+          "b_end": 1192,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1691,
+          "a_end": 1693,
+          "b_start": 1205,
+          "b_end": 1205,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1701,
+          "a_end": 1703,
+          "b_start": 1213,
+          "b_end": 1213,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1778,
+          "a_end": 1780,
+          "b_start": 1288,
+          "b_end": 1288,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1789,
+          "a_end": 1791,
+          "b_start": 1297,
+          "b_end": 1297,
+          "a_text": "  ",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1823,
+          "a_end": 1826,
+          "b_start": 1329,
+          "b_end": 1333,
+          "a_text": "自定义",
+          "b_text": "你添加的"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1834,
+          "a_end": 1836,
+          "b_start": 1341,
+          "b_end": 1343,
+          "a_text": "密钥",
+          "b_text": "凭据"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1843,
+          "a_end": 1845,
+          "b_start": 1350,
+          "b_end": 1352,
+          "a_text": "密钥",
+          "b_text": "凭据"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1874,
+          "a_end": 1878,
+          "b_start": 1381,
+          "b_end": 1381,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1917,
+          "a_end": 1921,
+          "b_start": 1420,
+          "b_end": 1420,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1929,
+          "a_end": 1933,
+          "b_start": 1428,
+          "b_end": 1428,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2012,
+          "a_end": 2016,
+          "b_start": 1507,
+          "b_end": 1507,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2026,
+          "a_end": 2030,
+          "b_start": 1517,
+          "b_end": 1517,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2069,
+          "a_end": 2073,
+          "b_start": 1556,
+          "b_end": 1556,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2081,
+          "a_end": 2085,
+          "b_start": 1564,
+          "b_end": 1564,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2161,
+          "a_end": 2165,
+          "b_start": 1640,
+          "b_end": 1640,
+          "a_text": "    ",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2178,
+          "a_end": 2182,
+          "b_start": 1653,
+          "b_end": 1655,
+          "a_text": "选择应用",
+          "b_text": "设置"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2184,
+          "a_end": 2187,
+          "b_start": 1657,
+          "b_end": 1657,
+          "a_text": "使用的",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 2191,
+          "a_end": 2191,
+          "b_start": 1661,
+          "b_end": 1692,
+          "a_text": "",
+          "b_text": "点击工具栏中的 **默认模型设置**，为每个类别指定回退模型。"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2192,
+          "a_end": 2192,
+          "b_start": 1693,
+          "b_end": 1695,
+          "a_text": "",
+          "b_text": "单独"
+        },
+        {
+          "operation": "replace",
+          "a_start": 2203,
+          "a_end": 2210,
+          "b_start": 1706,
+          "b_end": 1710,
+          "a_text": "回退到工作空间",
+          "b_text": "使用这些"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2213,
+          "a_end": 2239,
+          "b_start": 1713,
+          "b_end": 1713,
+          "a_text": "。点击右上角的 **默认模型**，为每项任务分别设置",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 2255,
+          "a_end": 2257,
+          "b_start": 1729,
+          "b_end": 1732,
+          "a_text": "常规",
+          "b_text": "默认的"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2261,
+          "a_end": 2269,
+          "b_start": 1736,
+          "b_end": 1736,
+          "a_text": " 任务的默认模型",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 2295,
+          "a_end": 2297,
+          "b_start": 1762,
+          "b_end": 1762,
+          "a_text": "内容",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 2353,
+          "a_end": 2353,
+          "b_start": 1818,
+          "b_end": 1820,
+          "a_text": "",
+          "b_text": "输入"
+        },
+        {
+          "operation": "insert",
+          "a_start": 2377,
+          "a_end": 2377,
+          "b_start": 1844,
+          "b_end": 1846,
+          "a_text": "",
+          "b_text": "回复"
+        },
+        {
+          "operation": "delete",
+          "a_start": 2384,
+          "a_end": 2901,
+          "b_start": 1853,
+          "b_end": 1853,
+          "a_text": "\n## 通过负载均衡将请求分散到多个密钥 <Badge color=\"blue\">Professional</Badge> <Badge color=\"blue\">Team</Badge>\n\n当一个密钥同时处理大量请求时，可能触发供应商的速率限制并开始失败。\n\n使用负载均衡，可将同一模型的请求分散到多个密钥，让任何单个密钥都不会成为瓶颈。Dify 会依次轮询这些密钥，并让触发限制的密钥休息一分钟后再重试。\n\n1. 在列表中找到目标模型，点击 **配置**，选择 **负载均衡**。\n\n2. 点击 **添加凭据**，将密钥加入池中。\n\n    <Tip>\n    可将配额更高或速度更快的密钥重复添加，让更多流量流向它。\n    </Tip>\n\n    <Frame>\n    ![为负载均衡添加凭据](/images/use-dify/workspace/add-load-balancing-credential.png)\n    </Frame>\n\n3. 启用至少两个密钥，然后点击 **保存**。使用负载均衡的模型会在列表中显示标识。\n\n<Info>\n你可随时切换回单个密钥，负载均衡的配置会保留以备后用。\n</Info>\n",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/model-providers",
+        "+++ self-host/use-dify/workspace/model-providers",
+        "@@ -1,86 +1,49 @@",
+        "-你构建的每个 AI 应用都运行在模型之上。Dify Cloud 提供了热门模型，当你需要更多时，也可连接自己的供应商账户。",
+        "-",
+        "-模型在整个工作空间内共享，因此团队所有人使用的都是同一批模型。",
+        "+每个 Dify 应用都至少需要一个模型供应商。安装供应商并填入 API 密钥后，工作空间内的所有应用都能使用它的模型。",
+        " ",
+        " **警告：**",
+        "-只有工作空间所有者和管理员可以管理供应商。你添加的任何密钥都在整个工作空间内生效，并通过你自己的供应商账户计费。",
+        "+API 密钥授予工作空间范围的模型访问权限，并会通过各供应商的账户直接计费。只有工作空间所有者和管理员可以管理供应商。",
+        " ",
+        "-## 使用 AI 消息额度调用模型",
+        "+## 添加供应商",
+        " ",
+        "-Dify Cloud 为你提供 AI 消息额度，用于调用一组热门供应商的模型，因此无需自己的 API 密钥即可开始。",
+        "+1. 在 **集成** > **模型供应商** 中，浏览 **安装模型供应商** 区域，或访问 Marketplace 获取更多选项。",
+        " ",
+        "-从 **集成** > **模型供应商**（或 Marketplace）安装其中一个供应商，其模型即可使用。每次 AI 回复都会消耗你的 AI 消息额度。",
+        "-",
+        "-一次 AI 回复即一次模型调用（一次输入和一次输出），无论消耗多少 token，都计为一次回复。一次回复消耗的额度取决于模型，模型越大消耗越多。",
+        "-",
+        "-哪些供应商受 AI 消息额度支持、以及各模型的额度消耗，详见 Dify 定价页面。",
+        "-",
+        "-## 在受支持的供应商上使用你自己的账户",
+        "-",
+        "-当你需要更高的速率限制，或希望通过自己的供应商账户计费时，可在受支持的供应商上添加自己的 API 密钥。",
+        "-",
+        "-1. 在 **集成** > **模型供应商** 中安装该供应商（如尚未安装）。",
+        "-",
+        "-2. 点击其卡片上的 **设置**，然后填入 API 密钥及其他必要信息。Dify 会先验证密钥，再将该供应商投入使用。",
+        "-",
+        "-你的密钥和 AI 消息额度可同时存在。在供应商卡片上设置 **使用优先级**，即可控制 Dify 优先使用哪一个并回退到另一个，这样在额度用尽后，你添加的密钥便可自动接管。",
+        "-",
+        "-## 连接 AI 消息额度不支持的供应商",
+        "-",
+        "-若要使用 AI 消息额度不支持的供应商，需先安装它并通过你自己的账户运行。AI 消息额度不适用于这类供应商。",
+        "-",
+        "-1. 在 **集成** > **模型供应商** 中浏览 **安装模型供应商** 区域，或打开 Marketplace 查看完整列表。",
+        "-",
+        "-2. 安装该供应商，点击 **设置**，填入 API 密钥及其他必要信息。",
+        "+2. 安装完成后，点击供应商卡片上的 **设置**，填入 API 密钥（以及供应商要求的其他凭据，如自定义端点 URL 或组织 ID）。Dify 会先验证凭据，再将该供应商投入使用。",
+        " ",
+        " ## 添加自定义模型",
+        " ",
+        "-授权某个供应商后，它的模型即可使用，因此只有当你需要的模型不在列表中时，才需手动添加，例如新发布或微调的模型。",
+        "+大多数供应商自带模型，授权其中一个后，它的模型即可使用。只有当你需要的模型不在列表中时，才需要自行添加，通常有两种情况：",
+        " ",
+        "-点击供应商卡片上的 **添加模型**，为模型填写名称和凭据。只提供固定一组模型的供应商不会显示此选项。",
+        "+- 你运行着自己的推理服务器（如 Ollama 或 Xinference），Dify 无法得知你加载了哪些模型。",
+        "+- 供应商列出了自己的模型，但你需要的特定模型（如新发布或微调的模型）不在其中。",
+        "+",
+        "+点击供应商卡片上的 **添加模型**，为模型填写名称和凭据。如果某个供应商只提供固定的一组模型，则不会显示此选项。",
+        " ",
+        " **说明：**",
+        "-若添加的模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到该模型上，而不会创建重复的模型。",
+        "+若添加的自定义模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到现有模型上，而不会创建重复的模型。",
+        " ",
+        "-## 管理密钥",
+        "+## 管理凭据",
+        " ",
+        "-当你想隔离开发与生产环境，或在多个账户间分摊用量时，可为一个供应商添加多个密钥。",
+        "+当你想隔离开发与生产环境、在多个账户间分摊用量，或将不同模型指向不同服务器时，可为一个供应商添加多个密钥或端点。",
+        " ",
+        "-- 对于供应商自带的模型，点击其卡片上的 **配置**，管理这些模型共享的密钥。",
+        "+密钥的管理位置取决于模型类型：",
+        "+",
+        "+- 对于供应商自带的模型，点击供应商卡片上的 **配置**，统一管理这些模型共享的密钥。",
+        " ",
+        " - 对于你添加的自定义模型，点击该模型的 **配置**，管理它自己的密钥。",
+        " ",
+        "     **警告：**",
+        "-    自定义模型依赖于自己的密钥。删除它唯一的密钥时，该模型也会一并删除。",
+        "+    你添加的模型依赖于自己的凭据。删除它唯一的凭据时，该模型也会一并删除。",
+        " ",
+        "-    点击供应商卡片上的 **管理凭据**，可在同一处查看所有自定义模型的密钥。",
+        "+点击供应商卡片上的 **管理凭据**，可在同一处查看所有自定义模型的密钥。",
+        " ",
+        "-    即使移除模型后，密钥仍保留在此处，方便你日后重新添加该模型而无需再次录入。",
+        "+即使移除模型后，密钥仍保留在此处，方便你日后重新添加该模型而无需再次录入。",
+        " ",
+        "-## 选择应用默认使用的模型",
+        "+## 设置默认模型",
+        " ",
+        "-未指定模型的应用和节点会回退到工作空间默认值。点击右上角的 **默认模型**，为每项任务分别设置：",
+        "+点击工具栏中的 **默认模型设置**，为每个类别指定回退模型。未单独指定模型的应用和节点会使用这些默认值：",
+        " ",
+        "-- **系统推理模型**：常规 LLM 任务的默认模型。",
+        "-- **Embedding 模型**：用于知识库内容的索引和检索。",
+        "+- **系统推理模型**：默认的 LLM。",
+        "+- **Embedding 模型**：用于知识库的索引和检索。",
+        " - **Rerank 模型**：按相关性对检索结果重新排序。",
+        "-- **语音转文本模型**：将音频转换为文本。",
+        "-- **文本转语音模型**：将文本转换为音频。",
+        "-",
+        "-## 通过负载均衡将请求分散到多个密钥 Professional Team",
+        "-",
+        "-当一个密钥同时处理大量请求时，可能触发供应商的速率限制并开始失败。",
+        "-",
+        "-使用负载均衡，可将同一模型的请求分散到多个密钥，让任何单个密钥都不会成为瓶颈。Dify 会依次轮询这些密钥，并让触发限制的密钥休息一分钟后再重试。",
+        "-",
+        "-1. 在列表中找到目标模型，点击 **配置**，选择 **负载均衡**。",
+        "-",
+        "-2. 点击 **添加凭据**，将密钥加入池中。",
+        "-",
+        "-    **提示：**",
+        "-    可将配额更高或速度更快的密钥重复添加，让更多流量流向它。",
+        "-",
+        "-3. 启用至少两个密钥，然后点击 **保存**。使用负载均衡的模型会在列表中显示标识。",
+        "-",
+        "-**说明：**",
+        "-你可随时切换回单个密钥，负载均衡的配置会保留以备后用。",
+        "+- **语音转文本模型**：将音频输入转换为文本。",
+        "+- **文本转语音模型**：将文本回复转换为音频。"
+      ]
+    },
+    "cloud/use-dify/workspace/team-members-management <=> self-host/use-dify/workspace/team-members-management": {
+      "documents": [
+        "cloud/use-dify/workspace/team-members-management",
+        "self-host/use-dify/workspace/team-members-management"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/team-members-management": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
+        "self-host/use-dify/workspace/team-members-management": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 96,
+          "a_end": 97,
+          "b_start": 96,
+          "b_end": 98,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 98,
+          "a_end": 98,
+          "b_start": 99,
+          "b_end": 102,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 99,
+          "a_end": 101,
+          "b_start": 103,
+          "b_end": 105,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 194,
+          "a_end": 329,
+          "b_start": 198,
+          "b_end": 198,
+          "a_text": "。\n\n## 团队规模限制\n\n工作空间可包含的成员数量取决于订阅计划：\n\n- **Sandbox**：1 个成员\n- **Professional**：3 个成员\n- **Team**：50 个成员\n\n如需提高团队规模上限，可在 **设置** > **账单** 中升级计划",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 569,
+          "a_end": 570,
+          "b_start": 438,
+          "b_end": 440,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 571,
+          "a_end": 571,
+          "b_start": 441,
+          "b_end": 444,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 572,
+          "a_end": 574,
+          "b_start": 445,
+          "b_end": 447,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 635,
+          "a_end": 635,
+          "b_start": 508,
+          "b_end": 650,
+          "a_text": "",
+          "b_text": "<Tip>\n在 Dify Enterprise 中，你可以创建自定义角色，为成员精细分配应用和知识库的访问权限。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)。\n</Tip>\n\n"
+        },
+        {
+          "operation": "insert",
+          "a_start": 657,
+          "a_end": 657,
+          "b_start": 672,
+          "b_end": 955,
+          "a_text": "",
+          "b_text": "\n\n<Note>\n**前提条件**：\n\n- 将 `CONSOLE_WEB_URL` 设为受邀者可访问的地址，不要用 `localhost`。所有邀请链接都基于它生成。\n- 通过 `MAIL_TYPE` 配置邮件服务，Dify 才能发送邀请邮件。\n\n详见 [`CONSOLE_WEB_URL`](/zh/self-host/deploy/configuration/environments#console_web_url) 和 [邮件配置](/zh/self-host/deploy/configuration/environments#邮件配置)。\n</Note>"
+        },
+        {
+          "operation": "replace",
+          "a_start": 752,
+          "a_end": 753,
+          "b_start": 1050,
+          "b_end": 1052,
+          "a_text": "会",
+          "b_text": "默认"
+        },
+        {
+          "operation": "insert",
+          "a_start": 763,
+          "a_end": 763,
+          "b_start": 1062,
+          "b_end": 1092,
+          "a_text": "",
+          "b_text": "（可通过 `INVITE_EXPIRY_HOURS` 调整）"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1021,
+          "a_end": 1021,
+          "b_start": 1350,
+          "b_end": 1757,
+          "a_text": "",
+          "b_text": "\n<Note>\n验证码通过邮件发送，因此转移所有权需要先配置好邮件服务（`MAIL_TYPE`）。详见 [邮件配置](/zh/self-host/deploy/configuration/environments#邮件配置)。\n</Note>\n\n## 故障排查\n\n| 现象 | 排查方向 |\n|:--|:--|\n| 受邀者收不到邀请邮件 | 只有配置了 `MAIL_TYPE` 才会发送邮件。也可从 **邀请已发送** 对话框复制邀请链接，直接分享给对方。 |\n| 邀请链接打不开，或指向 `localhost` | 所有链接都基于 `CONSOLE_WEB_URL` 生成。将它设为受邀者可访问的地址。 |\n| 邀请链接已过期 | 链接默认有效期为 72 小时。对同一邮箱重新发起邀请，即可生成新链接。 |\n| 转移所有权时收不到验证码 | 验证码发送到所有者的邮箱，因此必须配置 `MAIL_TYPE`。 |\n"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/team-members-management",
+        "+++ self-host/use-dify/workspace/team-members-management",
+        "@@ -1,14 +1,4 @@",
+        " 在 **设置** > **成员** 中添加和管理工作空间成员。每个成员的访问权限由其角色决定。",
+        "-",
+        "-## 团队规模限制",
+        "-",
+        "-工作空间可包含的成员数量取决于订阅计划：",
+        "-",
+        "-- **Sandbox**：1 个成员",
+        "-- **Professional**：3 个成员",
+        "-- **Team**：50 个成员",
+        "-",
+        "-如需提高团队规模上限，可在 **设置** > **账单** 中升级计划。",
+        " ",
+        " ## 角色",
+        " ",
+        "@@ -22,13 +12,24 @@",
+        " **说明：**",
+        " **所有者**、**管理员** 和 **编辑者** 角色可 **创建** 知识库；而谁能 **查看和使用** 某个已有知识库，则由该知识库自身的设置控制。详见 调整知识库设置。",
+        " ",
+        "+**提示：**",
+        "+在 Dify Enterprise 中，你可以创建自定义角色，为成员精细分配应用和知识库的访问权限。如需了解更多，请 联系销售。",
+        "+",
+        " ## 添加成员",
+        " ",
+        " 所有者和管理员可添加成员。",
+        " ",
+        "+**注意：**",
+        "+**前提条件**：",
+        "+",
+        "+- 将 `CONSOLE_WEB_URL` 设为受邀者可访问的地址，不要用 `localhost`。所有邀请链接都基于它生成。",
+        "+- 通过 `MAIL_TYPE` 配置邮件服务，Dify 才能发送邀请邮件。",
+        "+",
+        "+详见 `CONSOLE_WEB_URL` 和 邮件配置。",
+        "+",
+        " 点击 **添加**，输入一个或多个邮箱地址，选择角色并发送邀请。系统会向每个地址发送一封含邀请链接的邮件。这些链接也会显示在 **邀请已发送** 对话框中，可直接复制并分享。",
+        " ",
+        "-邀请链接会在 72 小时后过期；若对方未及时接受，可再次邀请以发送新链接。",
+        "+邀请链接默认在 72 小时后过期（可通过 `INVITE_EXPIRY_HOURS` 调整）；若对方未及时接受，可再次邀请以发送新链接。",
+        " ",
+        " ## 管理成员",
+        " ",
+        "@@ -37,3 +38,15 @@",
+        " **移除成员**：所有者和管理员可移除任意成员，被移除后成员会立即失去工作空间访问权限。其创建的应用与知识库仍保留在工作空间中。任何人都无法移除所有者。",
+        " ",
+        " **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+        "+",
+        "+**注意：**",
+        "+验证码通过邮件发送，因此转移所有权需要先配置好邮件服务（`MAIL_TYPE`）。详见 邮件配置。",
+        "+",
+        "+## 故障排查",
+        "+",
+        "+| 现象 | 排查方向 |",
+        "+|:--|:--|",
+        "+| 受邀者收不到邀请邮件 | 只有配置了 `MAIL_TYPE` 才会发送邮件。也可从 **邀请已发送** 对话框复制邀请链接，直接分享给对方。 |",
+        "+| 邀请链接打不开，或指向 `localhost` | 所有链接都基于 `CONSOLE_WEB_URL` 生成。将它设为受邀者可访问的地址。 |",
+        "+| 邀请链接已过期 | 链接默认有效期为 72 小时。对同一邮箱重新发起邀请，即可生成新链接。 |",
+        "+| 转移所有权时收不到验证码 | 验证码发送到所有者的邮箱，因此必须配置 `MAIL_TYPE`。 |"
+      ]
+    },
+    "cloud/use-dify/workspace/tools <=> self-host/use-dify/workspace/tools": {
+      "documents": [
+        "cloud/use-dify/workspace/tools",
+        "self-host/use-dify/workspace/tools"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": true,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/tools": "2731167eb523bc8e089bcac61430f190bc92dd16825e11ea268dd53f878a3a83",
+        "self-host/use-dify/workspace/tools": "3945b8c8f985cc1463a3e1976272fcdb8fd56d569d934e9aff09ce674b206fc8"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 123,
+          "a_end": 124,
+          "b_start": 123,
+          "b_end": 125,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 125,
+          "a_end": 125,
+          "b_start": 126,
+          "b_end": 129,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 126,
+          "a_end": 128,
+          "b_start": 130,
+          "b_end": 132,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 271,
+          "a_end": 272,
+          "b_start": 275,
+          "b_end": 277,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 273,
+          "a_end": 273,
+          "b_start": 278,
+          "b_end": 281,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 274,
+          "a_end": 276,
+          "b_start": 282,
+          "b_end": 284,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 317,
+          "a_end": 318,
+          "b_start": 325,
+          "b_end": 327,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 319,
+          "a_end": 319,
+          "b_start": 328,
+          "b_end": 331,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 320,
+          "a_end": 322,
+          "b_start": 332,
+          "b_end": 334,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 380,
+          "a_end": 381,
+          "b_start": 392,
+          "b_end": 394,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 382,
+          "a_end": 382,
+          "b_start": 395,
+          "b_end": 398,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 383,
+          "a_end": 385,
+          "b_start": 399,
+          "b_end": 401,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 444,
+          "a_end": 445,
+          "b_start": 460,
+          "b_end": 462,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 446,
+          "a_end": 446,
+          "b_start": 463,
+          "b_end": 466,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 447,
+          "a_end": 449,
+          "b_start": 467,
+          "b_end": 469,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1430,
+          "a_end": 1431,
+          "b_start": 1450,
+          "b_end": 1452,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1432,
+          "a_end": 1432,
+          "b_start": 1453,
+          "b_end": 1456,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1433,
+          "a_end": 1435,
+          "b_start": 1457,
+          "b_end": 1459,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": []
+    },
+    "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion <=> self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion": {
+      "documents": [
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion": "db449bf7733e5eb6878527f753d9e82ea3745d4c29b3a21f71c35c98b7914bcd",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 70,
+          "a_end": 71,
+          "b_start": 70,
+          "b_end": 72,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 72,
+          "a_end": 72,
+          "b_start": 73,
+          "b_end": 76,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 73,
+          "a_end": 75,
+          "b_start": 77,
+          "b_end": 79,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "insert",
+          "a_start": 193,
+          "a_end": 193,
+          "b_start": 197,
+          "b_end": 201,
+          "a_text": "",
+          "b_text": "在授权 "
+        },
+        {
+          "operation": "replace",
+          "a_start": 200,
+          "a_end": 202,
+          "b_start": 208,
+          "b_end": 216,
+          "a_text": "通过",
+          "b_text": "之前，需要先创建"
+        },
+        {
+          "operation": "replace",
+          "a_start": 203,
+          "a_end": 204,
+          "b_start": 217,
+          "b_end": 220,
+          "a_text": "D",
+          "b_text": "Not"
+        },
+        {
+          "operation": "replace",
+          "a_start": 205,
+          "a_end": 207,
+          "b_start": 221,
+          "b_end": 223,
+          "a_text": "fy",
+          "b_text": "on"
+        },
+        {
+          "operation": "delete",
+          "a_start": 208,
+          "a_end": 211,
+          "b_start": 224,
+          "b_end": 224,
+          "a_text": "预置的",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 213,
+          "a_end": 215,
+          "b_start": 226,
+          "b_end": 236,
+          "a_text": "连接",
+          "b_text": "并设置相应的环境变量"
+        },
+        {
+          "operation": "replace",
+          "a_start": 216,
+          "a_end": 237,
+          "b_start": 237,
+          "b_end": 243,
+          "a_text": "完成一次工作空间授权即可开始导入，无需自行",
+          "b_text": "详见下文 ["
+        },
+        {
+          "operation": "replace",
+          "a_start": 247,
+          "a_end": 249,
+          "b_start": 253,
+          "b_end": 271,
+          "a_text": "应用",
+          "b_text": "集成](#配置-notion-集成)"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1193,
+          "a_end": 1193,
+          "b_start": 1215,
+          "b_end": 2667,
+          "a_text": "",
+          "b_text": "\n### 配置 Notion 集成\n\nNotion 提供两种集成方式：**内部集成**（internal integration）和**公开集成**（public integration）。如果集成仅在自己的 Notion 工作空间内使用，选择内部集成；如果要分发给他人安装，选择公开集成。两种方式的具体区别参阅 [Notion 官方文档](https://developers.notion.com/guides/get-started/authorization)。\n\n#### 使用内部集成\n\n在 Notion 的[集成设置页面](https://www.notion.so/my-integrations)创建集成。默认情况下，所有集成都以内部集成开始，并与你选择的 Notion 工作空间相关联，因此你需要是工作空间所有者才能创建集成。\n\n点击 **New integration**，类型默认为 **Internal**（不可修改）。选择关联的工作空间，输入集成名称并上传 logo，然后点击 **Submit**。\n\n<Frame>\n  ![](https://assets-docs.dify.ai/2024/12/223a190a2e61e488fb821c5e3f0e9883.png)\n</Frame>\n\n在 **Capabilities** 选项卡下按需更新集成设置，然后在 **Secrets** 下点击 **Show** 复制密钥。\n\n<Frame>\n  ![创建集成后，你可在 Capabilities 选项卡下按需更新其设置](https://assets-docs.dify.ai/2024/12/83c1f1699ec4165b56ae8fea304d35f5.png)\n</Frame>\n\n在 Dify 部署的 `.env` 文件中配置以下环境变量：\n\n```\nNOTION_INTEGRATION_TYPE=internal\nNOTION_INTERNAL_SECRET=your-internal-secret\n```\n\n#### 使用公开集成\n\n将内部集成升级为公开集成。进入集成的 **Distribution** 页面，切换开关以公开集成。你需要在 **Organization Information** 表单中填写公司名称、网站、重定向 URL 等信息，然后点击 **Submit**。\n\n<Frame>\n  ![](https://assets-docs.dify.ai/2024/12/c37759d54f8e72685e1cacffa23d2e9f.png)\n</Frame>\n\n成功公开集成后，可在 **Keys** 选项卡中获取集成密钥：\n\n<Frame>\n  ![在集成设置页面成功公开集成后](https://assets-docs.dify.ai/2024/12/c4af8b95298c6b86d80406bec09c31e7.png)\n</Frame>\n\n在 Dify 部署的 `.env` 文件中配置以下环境变量：\n\n```\nNOTION_INTEGRATION_TYPE=public\nNOTION_CLIENT_SECRET=your-client-secret\nNOTION_CLIENT_ID=your-client-id\n```\n\n重启 Dify 以加载新的环境变量。之后即可按上述步骤授权 Notion 并导入数据。\n"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+        "+++ self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+        "@@ -1,7 +1,7 @@",
+        " Dify 知识库支持从 Notion 导入，并支持后续的数据自动同步。",
+        " ",
+        " **说明：**",
+        "-Notion 通过 Dify 预置的集成连接。完成一次工作空间授权即可开始导入，无需自行配置 Notion 应用。",
+        "+在授权 Notion 之前，需要先创建 Notion 集成并设置相应的环境变量。详见下文 配置 Notion 集成。",
+        " ",
+        " ### 授权验证",
+        " ",
+        "@@ -22,3 +22,38 @@",
+        " ### 同步 Notion 数据",
+        " ",
+        " 如果你的 Notion 内容有更新，可以在知识库的 **文档列表页** 中点击对应内容页的 **同步** 按钮进行数据同步。同步文档涉及嵌入过程，因此将消耗嵌入模型的 Tokens。",
+        "+",
+        "+### 配置 Notion 集成",
+        "+",
+        "+Notion 提供两种集成方式：**内部集成**（internal integration）和**公开集成**（public integration）。如果集成仅在自己的 Notion 工作空间内使用，选择内部集成；如果要分发给他人安装，选择公开集成。两种方式的具体区别参阅 Notion 官方文档。",
+        "+",
+        "+#### 使用内部集成",
+        "+",
+        "+在 Notion 的集成设置页面创建集成。默认情况下，所有集成都以内部集成开始，并与你选择的 Notion 工作空间相关联，因此你需要是工作空间所有者才能创建集成。",
+        "+",
+        "+点击 **New integration**，类型默认为 **Internal**（不可修改）。选择关联的工作空间，输入集成名称并上传 logo，然后点击 **Submit**。",
+        "+",
+        "+在 **Capabilities** 选项卡下按需更新集成设置，然后在 **Secrets** 下点击 **Show** 复制密钥。",
+        "+",
+        "+在 Dify 部署的 `.env` 文件中配置以下环境变量：",
+        "+",
+        "+```",
+        "+NOTION_INTEGRATION_TYPE=internal",
+        "+NOTION_INTERNAL_SECRET=your-internal-secret",
+        "+```",
+        "+",
+        "+#### 使用公开集成",
+        "+",
+        "+将内部集成升级为公开集成。进入集成的 **Distribution** 页面，切换开关以公开集成。你需要在 **Organization Information** 表单中填写公司名称、网站、重定向 URL 等信息，然后点击 **Submit**。",
+        "+",
+        "+成功公开集成后，可在 **Keys** 选项卡中获取集成密钥：",
+        "+",
+        "+在 Dify 部署的 `.env` 文件中配置以下环境变量：",
+        "+",
+        "+```",
+        "+NOTION_INTEGRATION_TYPE=public",
+        "+NOTION_CLIENT_SECRET=your-client-secret",
+        "+NOTION_CLIENT_ID=your-client-id",
+        "+```",
+        "+",
+        "+重启 Dify 以加载新的环境变量。之后即可按上述步骤授权 Notion 并导入数据。"
+      ]
+    },
+    "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods <=> self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods": {
+      "documents": [
+        "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+        "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods": "b0bbf3bffeb76f2133d045ad43f055f1d4d208f56c254d644b6141c214878879",
+        "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods": "dd66767d4d463604edcd391b9786636199aacb944055cfea37cbcac138382869"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 90,
+          "a_end": 91,
+          "b_start": 90,
+          "b_end": 92,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 92,
+          "a_end": 92,
+          "b_start": 93,
+          "b_end": 96,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 93,
+          "a_end": 95,
+          "b_start": 97,
+          "b_end": 99,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 536,
+          "a_end": 648,
+          "b_start": 540,
+          "b_end": 540,
+          "a_text": "这些向量会计入工作空间的知识库存储空间，各套餐的容量与达到上限后的影响详见 [知识库数据存储空间限制](/zh/cloud/use-dify/knowledge/knowledge-storage-limit)。\n\n    ",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 958,
+          "a_end": 958,
+          "b_start": 850,
+          "b_end": 1418,
+          "a_text": "",
+          "b_text": "\n\n    ### Q&A 模式\n\n    开启该模式后，系统将对已上传的文本进行分段。总结内容后为每个分段自动生成 Q&A 匹配对。\n\n    与常见的 「Q to P」（用户问题匹配文本段落）策略不同，Q&A 模式采用 「Q to Q」（问题匹配问题）策略。\n\n    这种方法特别有效，因为常见问题文档中的文本 **通常是具备完整语法结构的自然语言**。\n\n    > **Q to Q** 策略使问题和答案的匹配更加清晰，并能更好地支持高频或高相似度问题的场景。\n\n    <Frame>\n      ![问答分块](https://assets-docs.dify.ai/2024/12/70960a237d4f5eaed2dbf46a2cca2bf7.png)\n    </Frame>\n\n    当用户提问时，系统会找出与之最相似的问题，然后返回对应的分段作为答案。这种方式更加精确，因为它直接针对用户问题进行匹配，可以更准确地帮助用户检索真正需要的信息。\n\n    <Frame>\n      ![Q to P 与 Q to Q 的索引模式区别](https://assets-docs.dify.ai/2024/12/8745ccabff56290eae329a9d3592f745.png)\n    </Frame>"
+        },
+        {
+          "operation": "replace",
+          "a_start": 4739,
+          "a_end": 4740,
+          "b_start": 5199,
+          "b_end": 5201,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 4741,
+          "a_end": 4741,
+          "b_start": 5202,
+          "b_end": 5205,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 4742,
+          "a_end": 4744,
+          "b_start": 5206,
+          "b_end": 5208,
+          "a_text": "ud",
+          "b_text": "st"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+        "+++ self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+        "@@ -15,14 +15,24 @@",
+        " ",
+        " 这些向量可理解为多维空间中的坐标点。两个点越接近，它们的语义越相似。这使得系统能够基于语义相似度（而不仅仅是关键词匹配）找到相关信息。",
+        " ",
+        "-这些向量会计入工作空间的知识库存储空间，各套餐的容量与达到上限后的影响详见 知识库数据存储空间限制。",
+        "-",
+        " **提示：**",
+        " 若要启用跨模态检索（即基于语义相关性同时检索文本和图片），需选择多模态嵌入模型（带有 **Vision** 图标）。从文档中提取的图片将被嵌入并索引以供检索。",
+        " ",
+        " 使用此类嵌入模型的知识库，其卡片上标有 **Multimodal**。",
+        " ",
+        " 高质量索引方式支持三种检索策略：向量检索、全文检索或混合检索。详见 指定检索设置。",
+        "+",
+        "+### Q&A 模式",
+        "+",
+        "+开启该模式后，系统将对已上传的文本进行分段。总结内容后为每个分段自动生成 Q&A 匹配对。",
+        "+",
+        "+与常见的 「Q to P」（用户问题匹配文本段落）策略不同，Q&A 模式采用 「Q to Q」（问题匹配问题）策略。",
+        "+",
+        "+这种方法特别有效，因为常见问题文档中的文本 **通常是具备完整语法结构的自然语言**。",
+        "+",
+        "+> **Q to Q** 策略使问题和答案的匹配更加清晰，并能更好地支持高频或高相似度问题的场景。",
+        "+",
+        "+当用户提问时，系统会找出与之最相似的问题，然后返回对应的分段作为答案。这种方式更加精确，因为它直接针对用户问题进行匹配，可以更准确地帮助用户检索真正需要的信息。",
+        " ",
+        " **经济**",
+        " "
+      ]
+    },
+    "cloud/use-dify/workspace/readme <=> self-host/use-dify/workspace/readme": {
+      "documents": [
+        "cloud/use-dify/workspace/readme",
+        "self-host/use-dify/workspace/readme"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/readme": "8c579ca34e23663568cc8d34e799acf855d5dbfce1bf5f743ddc18d463f66b87",
+        "self-host/use-dify/workspace/readme": "2e288e7e16234c2d2cbedad2a688970113e4d533d8d6c532b01d6252f1bdc1b4"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 143,
+          "a_end": 144,
+          "b_start": 143,
+          "b_end": 145,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 145,
+          "a_end": 145,
+          "b_start": 146,
+          "b_end": 149,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 146,
+          "a_end": 148,
+          "b_start": 150,
+          "b_end": 152,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 237,
+          "a_end": 238,
+          "b_start": 241,
+          "b_end": 242,
+          "a_text": "、",
+          "b_text": "和"
+        },
+        {
+          "operation": "delete",
+          "a_start": 240,
+          "a_end": 243,
+          "b_start": 244,
+          "b_end": 244,
+          "a_text": "和账单",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 363,
+          "a_end": 547,
+          "b_start": 364,
+          "b_end": 364,
+          "a_text": "```\n🏢 你的组织\n└── 📁 工作空间\n    ├── 🤖 应用（聊天机器人、工作流、Agent）\n    ├── 📊 知识库（文档、嵌入向量）\n    ├── 👥 团队成员（角色和权限） \n    ├── 🧠 模型供应商（API 密钥、配置）\n    ├── 🔧 集成（模型供应商、工具、自定义代码）\n    └── 💳 账单（订阅、限制、使用情况）\n```\n\n",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 612,
+          "a_end": 615,
+          "b_start": 429,
+          "b_end": 429,
+          "a_text": "和账单",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 629,
+          "a_end": 633,
+          "b_start": 443,
+          "b_end": 445,
+          "a_text": "首次登录",
+          "b_text": "安装"
+        },
+        {
+          "operation": "delete",
+          "a_start": 635,
+          "a_end": 665,
+          "b_start": 447,
+          "b_end": 447,
+          "a_text": "自动创建工作空间，你将成为拥有完全权限的所有者。每个账户只能",
+          "b_text": ""
+        },
+        {
+          "operation": "insert",
+          "a_start": 673,
+          "a_end": 673,
+          "b_start": 455,
+          "b_end": 476,
+          "a_text": "",
+          "b_text": "，使用你在初始化阶段设置的管理员邮箱和密码"
+        },
+        {
+          "operation": "replace",
+          "a_start": 677,
+          "a_end": 681,
+          "b_start": 480,
+          "b_end": 483,
+          "a_text": "Info",
+          "b_text": "Tip"
+        },
+        {
+          "operation": "insert",
+          "a_start": 683,
+          "a_end": 683,
+          "b_start": 485,
+          "b_end": 507,
+          "a_text": "",
+          "b_text": "  在 Dify Enterprise 中，"
+        },
+        {
+          "operation": "delete",
+          "a_start": 684,
+          "a_end": 689,
+          "b_start": 508,
+          "b_end": 508,
+          "a_text": "的个人账户",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 691,
+          "a_end": 696,
+          "b_start": 510,
+          "b_end": 512,
+          "a_text": "同时归属于",
+          "b_text": "运行"
+        },
+        {
+          "operation": "replace",
+          "a_start": 702,
+          "a_end": 716,
+          "b_start": 518,
+          "b_end": 519,
+          "a_text": "。通过左上角的工作空间选择器",
+          "b_text": "，"
+        },
+        {
+          "operation": "replace",
+          "a_start": 717,
+          "a_end": 719,
+          "b_start": 520,
+          "b_end": 536,
+          "a_text": "它们",
+          "b_text": "不同法律实体、监管环境或客户项目"
+        },
+        {
+          "operation": "replace",
+          "a_start": 721,
+          "a_end": 723,
+          "b_start": 538,
+          "b_end": 621,
+          "a_text": "切换",
+          "b_text": "实现完全隔离。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)"
+        },
+        {
+          "operation": "replace",
+          "a_start": 727,
+          "a_end": 731,
+          "b_start": 625,
+          "b_end": 628,
+          "a_text": "Info",
+          "b_text": "Tip"
+        },
+        {
+          "operation": "delete",
+          "a_start": 845,
+          "a_end": 848,
+          "b_start": 742,
+          "b_end": 742,
+          "a_text": "账单、",
+          "b_text": ""
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/readme",
+        "+++ self-host/use-dify/workspace/readme",
+        "@@ -1,35 +1,24 @@",
+        "-工作空间是你团队在 Dify 中的完整 AI 环境。它包含并隔离你的组织所需的一切：应用、知识库、团队成员、模型配置、集成和账单。",
+        "+工作空间是你团队在 Dify 中的完整 AI 环境。它包含并隔离你的组织所需的一切：应用、知识库、团队成员、模型配置和集成。",
+        " ",
+        " ## 工作空间概念模型",
+        " ",
+        " Dify 中的每个资源都属于一个工作空间。当你创建应用时，它会继承工作空间的模型配置。当你添加团队成员时，他们会根据其角色获得对工作空间资源的访问权限。当你配置模型或安装集成时，它们对整个工作空间都可用。",
+        " ",
+        "-```",
+        "-🏢 你的组织",
+        "-└── 📁 工作空间",
+        "-    ├── 🤖 应用（聊天机器人、工作流、Agent）",
+        "-    ├── 📊 知识库（文档、嵌入向量）",
+        "-    ├── 👥 团队成员（角色和权限）",
+        "-    ├── 🧠 模型供应商（API 密钥、配置）",
+        "-    ├── 🔧 集成（模型供应商、工具、自定义代码）",
+        "-    └── 💳 账单（订阅、限制、使用情况）",
+        "-```",
+        "-",
+        "-这种以工作空间为核心的设计意味着你的资源与其他组织完全隔离，团队成员只能访问他们被允许查看的内容，你只需为整个工作空间配置一次模型和账单。",
+        "+这种以工作空间为核心的设计意味着你的资源与其他组织完全隔离，团队成员只能访问他们被允许查看的内容，你只需为整个工作空间配置一次模型。",
+        " ",
+        " ## 工作空间创建",
+        " ",
+        "-首次登录时会自动创建工作空间，你将成为拥有完全权限的所有者。每个账户只能创建一个工作空间。",
+        "+安装时会创建一个工作空间，使用你在初始化阶段设置的管理员邮箱和密码。",
+        " ",
+        "-**说明：**",
+        "-你的个人账户可以同时归属于多个工作空间。通过左上角的工作空间选择器在它们之间切换。",
+        "+**提示：**",
+        "+在 Dify Enterprise 中，你可以运行多个工作空间，在不同法律实体、监管环境或客户项目之间实现完全隔离。如需了解更多，请 联系销售。",
+        " ",
+        " ## 资源如何连接",
+        " ",
+        " 你构建的应用可以使用工作空间中配置的任何模型供应商，访问所有工作空间知识库，并使用已安装的集成。团队成员根据其工作空间权限查看应用。",
+        " ",
+        " 工作空间角色决定对所有资源的访问权限：",
+        "-- **所有者** 控制账单、模型供应商和工作空间设置",
+        "+- **所有者** 控制模型供应商和工作空间设置",
+        " - **管理员** 管理团队成员并配置模型和集成",
+        " - **编辑者** 构建应用并管理知识库",
+        " - **成员** 使用已发布的应用"
+      ]
+    },
+    "cloud/use-dify/workspace/plugins <=> self-host/use-dify/workspace/plugins": {
+      "documents": [
+        "cloud/use-dify/workspace/plugins",
+        "self-host/use-dify/workspace/plugins"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/plugins": "2d9127209a2f263dd9b0478c69d723955056a419c62d2948618ecb7bbbf1933e",
+        "self-host/use-dify/workspace/plugins": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 123,
+          "a_end": 124,
+          "b_start": 123,
+          "b_end": 125,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 125,
+          "a_end": 125,
+          "b_start": 126,
+          "b_end": 129,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 126,
+          "a_end": 128,
+          "b_start": 130,
+          "b_end": 132,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 312,
+          "a_end": 313,
+          "b_start": 316,
+          "b_end": 318,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 314,
+          "a_end": 314,
+          "b_start": 319,
+          "b_end": 322,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 315,
+          "a_end": 317,
+          "b_start": 323,
+          "b_end": 325,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 400,
+          "a_end": 401,
+          "b_start": 408,
+          "b_end": 410,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 402,
+          "a_end": 402,
+          "b_start": 411,
+          "b_end": 414,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 403,
+          "a_end": 405,
+          "b_start": 415,
+          "b_end": 417,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 504,
+          "a_end": 505,
+          "b_start": 516,
+          "b_end": 518,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 506,
+          "a_end": 506,
+          "b_start": 519,
+          "b_end": 522,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 507,
+          "a_end": 509,
+          "b_start": 523,
+          "b_end": 525,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 627,
+          "a_end": 628,
+          "b_start": 643,
+          "b_end": 645,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 629,
+          "a_end": 629,
+          "b_start": 646,
+          "b_end": 649,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 630,
+          "a_end": 632,
+          "b_start": 650,
+          "b_end": 652,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 720,
+          "a_end": 721,
+          "b_start": 740,
+          "b_end": 742,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 722,
+          "a_end": 722,
+          "b_start": 743,
+          "b_end": 746,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 723,
+          "a_end": 725,
+          "b_start": 747,
+          "b_end": 749,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 803,
+          "a_end": 804,
+          "b_start": 827,
+          "b_end": 829,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 805,
+          "a_end": 805,
+          "b_start": 830,
+          "b_end": 833,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 806,
+          "a_end": 808,
+          "b_start": 834,
+          "b_end": 836,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1060,
+          "a_end": 1062,
+          "b_start": 1088,
+          "b_end": 1088,
+          "a_text": "如果",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1063,
+          "a_end": 1074,
+          "b_start": 1089,
+          "b_end": 1089,
+          "a_text": "市场安装时打开的是其他",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1080,
+          "a_end": 1085,
+          "b_start": 1095,
+          "b_end": 1095,
+          "a_text": "环境而非你",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1087,
+          "a_end": 1091,
+          "b_start": 1097,
+          "b_end": 1103,
+          "a_text": "Dify",
+          "b_text": "**集成**"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1092,
+          "a_end": 1097,
+          "b_start": 1104,
+          "b_end": 1114,
+          "a_text": "Cloud",
+          "b_text": "页面打开市场时，点击"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1098,
+          "a_end": 1102,
+          "b_start": 1115,
+          "b_end": 1151,
+          "a_text": "工作空间",
+          "b_text": "**安装** 即可将集成安装到当前部署。\n\n    以其他方式打开市场时"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1103,
+          "a_end": 1105,
+          "b_start": 1152,
+          "b_end": 1154,
+          "a_text": "清除",
+          "b_text": "先在"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1118,
+          "a_end": 1120,
+          "b_start": 1167,
+          "b_end": 1170,
+          "a_text": "保存",
+          "b_text": "填写你"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1121,
+          "a_end": 1121,
+          "b_start": 1171,
+          "b_end": 1173,
+          "a_text": "",
+          "b_text": "部署"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1126,
+          "a_end": 1130,
+          "b_start": 1178,
+          "b_end": 1179,
+          "a_text": "即可重新",
+          "b_text": "再"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1132,
+          "a_end": 1144,
+          "b_start": 1181,
+          "b_end": 1191,
+          "a_text": "到 Dify Cloud",
+          "b_text": "。浏览器会记住该目标"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1349,
+          "a_end": 1349,
+          "b_start": 1396,
+          "b_end": 1560,
+          "a_text": "",
+          "b_text": "\n\n<Tip>\n  在 Dify Enterprise 中，管理员可在整个部署范围内限制安装来源，仅允许官方集成、官方及认证合作伙伴的集成，或仅允许从市场安装。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)。\n</Tip>"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/plugins",
+        "+++ self-host/use-dify/workspace/plugins",
+        "@@ -25,10 +25,15 @@",
+        " - **市场**：来自 Dify、合作伙伴和社区开发者的集成。每项集成都在发布前经过审核和测试，之后由发布者维护。",
+        " ",
+        "   **说明：**",
+        "-  如果从市场安装时打开的是其他 Dify 环境而非你的 Dify Cloud 工作空间，清除 **安装偏好设置** 中保存的 URL 即可重新安装到 Dify Cloud。",
+        "+  从 Dify 的 **集成** 页面打开市场时，点击 **安装** 即可将集成安装到当前部署。",
+        "+",
+        "+  以其他方式打开市场时，先在 **安装偏好设置** 中填写你的部署 URL 再安装。浏览器会记住该目标。",
+        " ",
+        " - **GitHub**：通过 URL 和版本从任意公共仓库安装。",
+        " - **本地集成包**：用于私有或内部集成的自定义 `.difypkg` 包。",
+        "+",
+        "+**提示：**",
+        "+在 Dify Enterprise 中，管理员可在整个部署范围内限制安装来源，仅允许官方集成、官方及认证合作伙伴的集成，或仅允许从市场安装。如需了解更多，请 联系销售。",
+        " ",
+        " ## 权限与更新",
+        " "
+      ]
+    }
+  }
+}

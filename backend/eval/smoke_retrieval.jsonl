@@ -1,0 +1,28 @@
+{"id": "s01", "question": "知识库一次最多可以上传几个文件", "edition": "self_host", "gold_docs": ["self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"], "lexical": "similar"}
+{"id": "s02", "question": "UPLOAD_FILE_SIZE_LIMIT 是做什么的", "edition": "self_host", "gold_docs": ["self-host/deploy/configuration/environments"], "lexical": "similar"}
+{"id": "s03", "question": "怎么用 Docker Compose 部署 Dify", "edition": "self_host", "gold_docs": ["self-host/deploy/quick-start/docker-compose"], "lexical": "similar"}
+{"id": "s04", "question": "If-Else 节点怎么用", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/ifelse"], "lexical": "similar"}
+{"id": "s05", "question": "怎么把应用发布成 MCP 服务器", "edition": "self_host", "gold_docs": ["self-host/use-dify/publish/publish-mcp"], "lexical": "similar"}
+{"id": "s06", "question": "怎么从用户说的话里提取出结构化的参数", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/parameter-extractor"], "lexical": "distant"}
+{"id": "s07", "question": "怎么在我自己的网站里放一个聊天窗口", "edition": "self_host", "gold_docs": ["self-host/use-dify/publish/webapp/embedding-in-websites"], "lexical": "distant"}
+{"id": "s08", "question": "怎么把 Notion 里的内容导入知识库", "edition": "self_host", "gold_docs": ["self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"], "lexical": "similar"}
+{"id": "s09", "question": "怎么查看应用的运行日志", "edition": "self_host", "gold_docs": ["self-host/use-dify/monitor/logs"], "lexical": "similar"}
+{"id": "s10", "question": "怎么集成 Langfuse 来监控应用", "edition": "self_host", "gold_docs": ["self-host/use-dify/monitor/integrations/integrate-langfuse"], "lexical": "similar"}
+{"id": "s11", "question": "怎么对一个列表里的每一项重复执行同样的处理", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/iteration"], "lexical": "distant"}
+{"id": "s12", "question": "Chatflow 和 Workflow 有什么区别", "edition": "self_host", "gold_docs": ["self-host/use-dify/build/workflow-chatflow"], "lexical": "similar"}
+{"id": "s13", "question": "怎么设置父子分段模式", "edition": "self_host", "gold_docs": ["self-host/use-dify/knowledge/create-knowledge/chunking-and-cleaning-text"], "lexical": "similar"}
+{"id": "s14", "question": "混合检索和重排序怎么设置", "edition": "self_host", "gold_docs": ["self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"], "lexical": "similar"}
+{"id": "s15", "question": "怎么通过 API 调用知识库", "edition": "self_host", "gold_docs": ["api-reference/guides/knowledge"], "lexical": "similar"}
+{"id": "s16", "question": "调用 API 遇到限流和报错怎么处理", "edition": "self_host", "gold_docs": ["api-reference/guides/errors"], "lexical": "distant"}
+{"id": "s17", "question": "怎么用 Cloudflare Workers 部署自定义端点", "edition": "self_host", "gold_docs": ["self-host/use-dify/workspace/api-extension/cloudflare-worker"], "lexical": "similar"}
+{"id": "s18", "question": "怎么给知识库里的文档加元数据", "edition": "self_host", "gold_docs": ["self-host/use-dify/knowledge/metadata"], "lexical": "similar"}
+{"id": "s19", "question": "怎么回到应用之前保存过的版本", "edition": "self_host", "gold_docs": ["self-host/use-dify/build/version-control"], "lexical": "distant"}
+{"id": "s20", "question": "怎么只调试其中一个节点", "edition": "self_host", "gold_docs": ["self-host/use-dify/debug/step-run"], "lexical": "distant"}
+{"id": "s21", "question": "怎么让应用每天定时自动运行", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/trigger/schedule-trigger"], "lexical": "distant"}
+{"id": "s22", "question": "怎么用 Webhook 触发工作流", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/trigger/webhook-trigger"], "lexical": "similar"}
+{"id": "s23", "question": "怎么单独启动前端的 Docker 容器", "edition": "self_host", "gold_docs": ["self-host/deploy/advanced-deployments/start-the-frontend-docker-container"], "lexical": "similar"}
+{"id": "s24", "question": "怎么把 Weaviate 客户端升级到 v4", "edition": "self_host", "gold_docs": ["self-host/deploy/troubleshooting/weaviate-v4-migration"], "lexical": "similar"}
+{"id": "s25", "question": "怎么过滤用户输入里的违规内容", "edition": "self_host", "gold_docs": ["self-host/use-dify/workspace/api-extension/moderation-api-extension"], "lexical": "distant"}
+{"id": "s26", "question": "怎么邀请同事加入工作空间", "edition": "self_host", "gold_docs": ["self-host/use-dify/workspace/team-members-management"], "lexical": "distant"}
+{"id": "s27", "question": "怎么在应用里使用知识检索节点", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/knowledge-retrieval"], "lexical": "similar"}
+{"id": "s28", "question": "变量聚合器是干什么的", "edition": "self_host", "gold_docs": ["self-host/use-dify/nodes/variable-aggregator"], "lexical": "similar"}

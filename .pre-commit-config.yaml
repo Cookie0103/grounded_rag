@@ -1,0 +1,15 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.1            # 与 backend/uv.lock 里的 ruff 版本一致
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        types_or: [python, pyi]   # 默认也会处理 Markdown 里的代码块，docs 不要被改
+      - id: ruff-format
+        types_or: [python, pyi]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=1000]

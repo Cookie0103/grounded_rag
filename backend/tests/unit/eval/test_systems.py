@@ -1,0 +1,126 @@
+from collections.abc import Sequence
+
+import pytest
+
+from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
+from app.providers.deepseek import cost_cny
+from app.providers.fakes import FakeChatModel
+from app.retrieval.retriever import (
+    HYBRID,
+    Candidate,
+    ChunkInfo,
+    ParentContext,
+    RetrievalResult,
+)
+from eval.dataset import Question
+from eval.systems import FullSystem, NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem
+
+QUESTION = Question("q1", "知识库最多上传几个文件", ("a",), edition="cloud")
+
+
+class StubRetriever:
+    def __init__(self) -> None:
+        self.calls: list[dict[str, object]] = []
+
+    async def retrieve(
+        self,
+        query: str,
+        *,
+        top_k: int = 5,
+        editions: Sequence[str] | None = None,
+        rerank: bool = True,
+        mode: str = HYBRID,
+    ) -> RetrievalResult:
+        self.calls.append({"top_k": top_k, "editions": editions, "rerank": rerank, "mode": mode})
+        chunks = [
+            ChunkInfo(f"c{i}", doc, "p", "标题", "正文", "common") for i, doc in enumerate("aab")
+        ]
+        return RetrievalResult(
+            query,
+            [Candidate(rank=i, chunk=chunk) for i, chunk in enumerate(chunks, start=1)],
+            [ParentContext("p", "a", "标题", "父块正文")],
+        )
+
+
+async def test_no_retrieval_baseline_asks_the_model_with_only_the_question() -> None:
+    chat = FakeChatModel(responses=["最多 5 个"])
+
+    answer = await NoRetrievalSystem(chat).answer(QUESTION)
+
+    assert answer.answer == "最多 5 个"
+    assert answer.retrieved_docs == ()
+    assert answer.contexts == ()
+    assert "知识库最多上传几个文件" in chat.calls[0][0].content
+    assert answer.cost_cny == pytest.approx(cost_cny(*_tokens(chat)))
+    assert answer.steps[0].details == StepDetails(context="", output="最多 5 个")
+
+
+async def test_naive_rag_uses_vector_search_without_rerank() -> None:
+    retriever, chat = StubRetriever(), FakeChatModel(responses=["答案"])
+
+    answer = await NaiveRagSystem(retriever, chat).answer(QUESTION)
+
+    assert retriever.calls == [
+        {"top_k": 5, "editions": ("cloud", "common"), "rerank": False, "mode": "vector"}
+    ]
+    assert answer.answer == "答案"
+    assert answer.retrieved_docs == ("a", "b")
+    assert answer.contexts == ("父块正文",)
+    prompt = chat.calls[0][0].content
+    assert "父块正文" in prompt
+    assert "知识库最多上传几个文件" in prompt
+    assert answer.cost_cny > 0
+    assert answer.steps[0].details is not None
+    assert answer.steps[0].details.retrievals[0].candidates[0].chunk.id == "c0"
+    assert answer.steps[1].details == StepDetails(context="父块正文", output="答案")
+
+
+async def test_retrieval_only_system_still_returns_no_answer() -> None:
+    answer = await RetrievalOnlySystem(StubRetriever()).answer(QUESTION)
+
+    assert answer.answer is None
+    assert answer.retrieved_docs == ("a", "b")
+    assert answer.steps[0].details is not None
+    assert answer.steps[0].details.retrievals[0].query == QUESTION.question
+
+
+def _tokens(chat: FakeChatModel) -> tuple[int, int]:
+    prompt_chars = sum(len(m.content) for m in chat.calls[0])
+    return prompt_chars // 2, len("最多 5 个") // 2
+
+
+async def test_full_system_maps_the_pipeline_response() -> None:
+    class StubPipeline:
+        async def answer(self, request: ChatRequest) -> ChatResponse:
+            assert (request.question, request.edition) == ("知识库最多上传几个文件", "cloud")
+            return ChatResponse(
+                answer="答",
+                route="SINGLE",
+                retrieved_docs=["a"],
+                contexts=["c"],
+                cost_cny=0.5,
+                steps=[Step(name="generate", ms=1, details=StepDetails(context="[1] c"))],
+            )
+
+    answer = await FullSystem(StubPipeline()).answer(QUESTION)  # type: ignore[arg-type]
+
+    assert (answer.answer, answer.route, answer.retrieved_docs, answer.cost_cny) == (
+        "答",
+        "SINGLE",
+        ("a",),
+        0.5,
+    )
+    assert answer.steps[0].details == StepDetails(context="[1] c")
+
+
+async def test_naive_rag_can_be_switched_to_hybrid_with_rerank_for_the_ablation() -> None:
+    retriever = StubRetriever()
+    system = NaiveRagSystem(
+        retriever, FakeChatModel(responses=["答"]), mode="hybrid", rerank=True, name="混合 + 精排"
+    )
+
+    await system.answer(QUESTION)
+
+    assert system.name == "混合 + 精排"
+    assert retriever.calls[0]["rerank"] is True
+    assert retriever.calls[0]["mode"] == "hybrid"

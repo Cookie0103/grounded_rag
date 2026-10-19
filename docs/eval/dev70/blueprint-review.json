@@ -1,0 +1,2654 @@
+{
+  "status": "blueprint_passed_independent_review_for_formal_authoring",
+  "reviewer_role": "同模型独立agent审题；未参与候选编写；不冒充作者或Claude审定",
+  "scope": "新增46题蓝图；旧20和现24仅查重。正式题、精确all_of证据和检索自测尚未验收。",
+  "candidate_sha256": "7b4f049a447988ce05925c6786531f8400222f0815921690cb71e44f7a31f976",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "corpus_files_sha256_checked": 182,
+  "raw_source_records_checked": 123,
+  "unique_fact_count": 113,
+  "forbidden_sources_read": false,
+  "old_question_sets_reviewed": [
+    "docs/eval/dev20/questions.jsonl",
+    "docs/eval/dev20/evidence.json",
+    "docs/eval/dev70/questions.jsonl",
+    "docs/eval/dev70/evidence.json"
+  ],
+  "reviewed_count": 46,
+  "accept_count": 46,
+  "reject_count": 0,
+  "pending_replacement_ids": [],
+  "resolved_reject_history": [
+    {
+      "id": "dev051",
+      "initial_reason": "现为模型依描述决策、细化描述提升判断、不能跨库重排三条；L130/L132/L135分别支持，已补足意图所问的操作。",
+      "resolution": "现为模型依描述决策、细化描述提升判断、不能跨库重排三条；L130/L132/L135分别支持，已补足意图所问的操作。"
+    },
+    {
+      "id": "dev055",
+      "initial_reason": "code诊断到模型配置层，再到管理权限与唯一凭据删除后果，形成故障分类到配置生命周期桥接；同义自部署权限/删除来源已并入OR，未问的重试和空间范围已删。故障与修复若合并计算，仍有至少三条独立事实。",
+      "resolution": "code诊断到模型配置层，再到管理权限与唯一凭据删除后果，形成故障分类到配置生命周期桥接；同义自部署权限/删除来源已并入OR，未问的重试和空间范围已删。故障与修复若合并计算，仍有至少三条独立事实。"
+    },
+    {
+      "id": "dev059",
+      "initial_reason": "现明确比较旧版Agent与文本生成两对象，四条原子事实分别为Agent仅流式、会话变量跨轮保留、completion无状态、completion可阻塞；L17/L29及completion L9/L17逐项支持，已删未问的API/Web隔离和聊天助手事件。",
+      "resolution": "现明确比较旧版Agent与文本生成两对象，四条原子事实分别为Agent仅流式、会话变量跨轮保留、completion无状态、completion可阻塞；L17/L29及completion L9/L17逐项支持，已删未问的API/Web隔离和聊天助手事件。"
+    },
+    {
+      "id": "dev066",
+      "initial_reason": "当前已换知识流水线文件源：Cloud L79正面给1/50，自部署同名L79正面给默认20，是真实版本答案差异。明确知识流水线上下文，不能把它泛化为旧dev015/016即用型上传的5/1/50。",
+      "resolution": "当前已换知识流水线文件源：Cloud L79正面给1/50，自部署同名L79正面给默认20，是真实版本答案差异。明确知识流水线上下文，不能把它泛化为旧dev015/016即用型上传的5/1/50。"
+    },
+    {
+      "id": "dev078",
+      "initial_reason": "现意图明确问进入等待与结束响应的两个事件；Chatflow L47提供第二篇没有的workflow_paused，再凭其form_token处理本地附件引用和拒绝后同token重试。第二篇不再单独覆盖全部所问，四条事件/状态/文件规则独立。",
+      "resolution": "现意图明确问进入等待与结束响应的两个事件；Chatflow L47提供第二篇没有的workflow_paused，再凭其form_token处理本地附件引用和拒绝后同token重试。第二篇不再单独覆盖全部所问，四条事件/状态/文件规则独立。"
+    },
+    {
+      "id": "dev080",
+      "initial_reason": "现只比较密钥和项目名之外的Space ID/空间主机名，并问Phoenix密钥类型，三条独立事实；Arize L37、Phoenix L87/L73直接支持。已去除“取唯一URL标识符”的歧义及多余空间创建步骤。",
+      "resolution": "现只比较密钥和项目名之外的Space ID/空间主机名，并问Phoenix密钥类型，三条独立事实；Arize L37、Phoenix L87/L73直接支持。已去除“取唯一URL标识符”的歧义及多余空间创建步骤。"
+    },
+    {
+      "id": "dev056",
+      "initial_reason": "SimpleQ&A模板与自动生成Q&A流程混同。",
+      "resolution": "首篇LLM生成问答模板明确产出问答模式；第二篇L42提供分段、总结、逐段生成顺序，L46提供适合的完整自然语言文体，三项独立。已避免将SimpleQ&A的表格直接配对强套生成流程。Cloud同名索引页不含该Q&A节，第二跳只保留self-host正确。"
+    }
+  ],
+  "global_counts": {
+    "half_distribution": [
+      {
+        "half": 1,
+        "count": 23,
+        "groups": {
+          "single": 10,
+          "multi": 8,
+          "refuse_correct": 3,
+          "clarify": 2
+        },
+        "subtypes": {
+          "synonym": 3,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 2,
+          "single_version": 1,
+          "chain": 4,
+          "parallel_compare": 2,
+          "scattered_ordered": 2,
+          "out_of_database": 2,
+          "false_premise": 1,
+          "version_unspecified": 1,
+          "missing_slot": 1
+        }
+      },
+      {
+        "half": 2,
+        "count": 23,
+        "groups": {
+          "single": 9,
+          "multi": 9,
+          "refuse_correct": 3,
+          "clarify": 2
+        },
+        "subtypes": {
+          "synonym": 2,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 1,
+          "single_version": 2,
+          "chain": 3,
+          "parallel_compare": 4,
+          "scattered_ordered": 2,
+          "out_of_database": 1,
+          "false_premise": 1,
+          "unrelated": 1,
+          "version_unspecified": 1,
+          "missing_slot": 1
+        }
+      }
+    ],
+    "gold_documents_with_equivalent_sources": 69,
+    "nodes_documents": 7,
+    "low_coverage_documents": 27,
+    "scenario_tag_count": 38,
+    "condition_tag_count": 17,
+    "one_vital_ids": [
+      "dev053"
+    ],
+    "duplicate_new46_gold_documents": {}
+  },
+  "synonym_review": [
+    {
+      "id": "dev045",
+      "title_overlap_3chars": [],
+      "whitelist": []
+    },
+    {
+      "id": "dev046",
+      "title_overlap_3chars": [],
+      "whitelist": []
+    },
+    {
+      "id": "dev047",
+      "title_overlap_3chars": [],
+      "whitelist": []
+    },
+    {
+      "id": "dev068",
+      "title_overlap_3chars": [],
+      "whitelist": []
+    },
+    {
+      "id": "dev069",
+      "title_overlap_3chars": [],
+      "whitelist": []
+    }
+  ],
+  "scattered_review": [
+    {
+      "id": "dev061",
+      "cleaned_characters": 9408,
+      "parent_ids": [
+        "self-host/deploy/advanced-deployments/local-source-code#p2",
+        "self-host/deploy/advanced-deployments/local-source-code#p5",
+        "self-host/deploy/advanced-deployments/local-source-code#p7"
+      ]
+    },
+    {
+      "id": "dev062",
+      "cleaned_characters": 79316,
+      "parent_ids": [
+        "self-host/deploy/configuration/environments#p10",
+        "self-host/deploy/configuration/environments#p11",
+        "self-host/deploy/configuration/environments#p9"
+      ]
+    },
+    {
+      "id": "dev084",
+      "cleaned_characters": 16351,
+      "parent_ids": [
+        "self-host/deploy/troubleshooting/weaviate-v4-migration#p1",
+        "self-host/deploy/troubleshooting/weaviate-v4-migration#p10",
+        "self-host/deploy/troubleshooting/weaviate-v4-migration#p6"
+      ]
+    },
+    {
+      "id": "dev085",
+      "cleaned_characters": 6225,
+      "parent_ids": [
+        "self-host/use-dify/build/new-agent/build#p10",
+        "self-host/use-dify/build/new-agent/build#p11",
+        "self-host/use-dify/build/new-agent/build#p12",
+        "self-host/use-dify/build/new-agent/build#p9"
+      ]
+    }
+  ],
+  "no_answer_independent_scan": [
+    {
+      "id": "dev063",
+      "raw_documents_scanned": 182,
+      "zero_match_terms": [
+        "RPO",
+        "RTO",
+        "恢复点目标",
+        "恢复时间目标",
+        "灾备承诺",
+        "灾难恢复目标",
+        "故障切换时限",
+        "跨机房灾备",
+        "recovery point objective",
+        "recovery time objective"
+      ],
+      "zero_count": 10,
+      "nonzero": {},
+      "method": "中英文忽略大小写；纯英文词项加字母边界，排除private/PowerPoint内伪匹配；人工读近邻再判断无答案。"
+    },
+    {
+      "id": "dev064",
+      "raw_documents_scanned": 182,
+      "zero_match_terms": [
+        "税务",
+        "税号",
+        "消费税",
+        "纳税",
+        "开票",
+        "账单抬头",
+        "invoice",
+        "VAT",
+        "JCT",
+        "适格请求书",
+        "发票注册号",
+        "税务登记号"
+      ],
+      "zero_count": 12,
+      "nonzero": {
+        "发票": [
+          "cloud/use-dify/workspace/subscription-management"
+        ]
+      },
+      "method": "中英文忽略大小写；纯英文词项加字母边界，排除private/PowerPoint内伪匹配；人工读近邻再判断无答案。"
+    },
+    {
+      "id": "dev086",
+      "raw_documents_scanned": 182,
+      "zero_match_terms": [
+        "CVE",
+        "漏洞报告",
+        "漏洞赏金",
+        "漏洞奖励",
+        "security.txt",
+        "bug bounty",
+        "漏洞受理",
+        "响应时限",
+        "安全热线",
+        "补丁承诺"
+      ],
+      "zero_count": 10,
+      "nonzero": {},
+      "method": "中英文忽略大小写；纯英文词项加字母边界，排除private/PowerPoint内伪匹配；人工读近邻再判断无答案。"
+    }
+  ],
+  "chain_reviews": [
+    {
+      "id": "dev055",
+      "decision": "accept",
+      "substantive_bridge": "诊断标识→配置修复→凭据生命周期",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "self-host/use-dify/workspace/plugins",
+          "raw_line_start": 52,
+          "raw_line_end": 52,
+          "original_excerpt": "工作空间所有者和管理员可在 **集成** 页面底部的 **权限** 中，设置谁能安装和调试集成。每项权限都可以设为所有人可用、仅管理员可用或无人可用：",
+          "why_not_sufficient": "同样讲所有者、管理员、权限和调试密钥，但不回答自定义模型删除唯一凭据的生命周期。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "self-host/use-dify/workspace/tools",
+          "raw_line_start": 25,
+          "raw_line_end": 25,
+          "original_excerpt": "        部分工具插件（如 Google 和 GitHub）使用前需要鉴权。可在 **集成** > **工具** > **工具插件** 中设置工作空间级凭据，或在应用或节点内的工具设置中配置。",
+          "why_not_sufficient": "同样讲工作空间凭据和工具鉴权，但不提供模型错误code或模型唯一凭据删除结果。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev056",
+      "decision": "accept",
+      "substantive_bridge": "LLM生成模板→问答模式→生成顺序与自然语言前提",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "self-host/use-dify/knowledge/test-retrieval",
+          "raw_line_start": 8,
+          "raw_line_end": 8,
+          "original_excerpt": "在知识库中，点击左侧边栏的 **检索测试** 图标，进入测试页面。在这里，可模拟用户提问以测试知识库的检索效果，并尝试不同的检索设置以获得最佳结果。",
+          "why_not_sufficient": "同样讲知识库/检索设置及测试，不给LLM生成模板与问答模式映射或生成顺序/文体条件。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "self-host/use-dify/build/chatbot",
+          "raw_line_start": 92,
+          "raw_line_end": 92,
+          "original_excerpt": "每当用户发送消息时，该消息会作为搜索查询从知识库中检索相关内容，然后作为上下文注入提示词供模型使用。",
+          "why_not_sufficient": "同样讲问题作为查询与检索上下文，不给材料生成顺序和完整自然语言适用条件。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev057",
+      "decision": "accept",
+      "substantive_bridge": "部署协议条件→可用授权模式→对应权限与凭据流程",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+          "raw_line_start": 7,
+          "raw_line_end": 7,
+          "original_excerpt": "Dify 支持多种外部数据源的连接，为了确保数据安全和访问控制，不同的数据源需要进行相应的授权配置。根据数据源的特性，Dify 提供两种主要的授权方式：**API Key** 和 **OAuth**，以确保你能够安全地访问和导入所需的数据。",
+          "why_not_sufficient": "同样讲授权凭据与OAuth，但不决定HTTP下Notion内部模式及Notion工作空间所有者权限。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
+          "raw_line_start": 13,
+          "raw_line_end": 13,
+          "original_excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
+          "why_not_sufficient": "同样讲API和鉴权密钥，不给Notion内部授权模式/创建权限和NOTION变量。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev058",
+      "decision": "accept",
+      "substantive_bridge": "订阅状态变更→套餐实体→额度及超额旧数据行为",
+      "second_document_keyword_count": 5,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "cloud/use-dify/knowledge/knowledge-request-rate-limit",
+          "raw_line_start": 14,
+          "raw_line_end": 14,
+          "original_excerpt": "-   **Sandbox**：10 次/分钟",
+          "why_not_sufficient": "同样讲套餐/知识库限制，但给请求频率，不给存储容量或取消后超额数据保留。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "self-host/use-dify/knowledge/readme",
+          "raw_line_start": 12,
+          "raw_line_end": 12,
+          "original_excerpt": "这得益于检索增强生成（RAG）技术。其核心在于：LLM 不再只依赖预训练的公开数据，还会将你的自定义知识作为额外的事实来源：",
+          "why_not_sufficient": "同样讲知识库、内容、检索和建库路线，不提供Cloud订阅转Sandbox的容量与超额处理。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev077",
+      "decision": "accept",
+      "substantive_bridge": "API响应持久化标识→控制台精确定位与原参数重演",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "self-host/use-dify/debug/history-and-logs",
+          "raw_line_start": 44,
+          "raw_line_end": 44,
+          "original_excerpt": "准确显示工作流的执行过程，包括哪些节点按什么顺序运行、每个节点耗时多长，以及数据在节点间如何流动。这对于找出瓶颈和理解具有分支或循环的复杂工作流很有用。",
+          "why_not_sufficient": "同样讲执行追踪和每节点耗时，不给API两个ID含义、真实日志按运行ID查找及按此参数测试入口。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "cloud/use-dify/monitor/analysis",
+          "raw_line_start": 8,
+          "raw_line_end": 8,
+          "original_excerpt": "该仪表盘随时间跟踪四个指标，以展示你的应用的表现：",
+          "why_not_sufficient": "同样讲应用监控和token指标，但为聚合趋势，不提供单次运行定位和原参数重演。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev078",
+      "decision": "accept",
+      "substantive_bridge": "暂停事件产物→表单状态机与恢复关联",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "api-reference/guides/workflow",
+          "raw_line_start": 37,
+          "raw_line_end": 37,
+          "original_excerpt": "    运行的事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
+          "why_not_sufficient": "同样包含暂停事件和句柄，是第一步的邻近来源；没有本地附件upload_file_id及被拒绝后同token重试的第二步规则。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "api-reference/guides/streaming",
+          "raw_line_start": 99,
+          "raw_line_end": 99,
+          "original_excerpt": "对由工作流驱动的运行（Workflow 和 Chatflow 应用），连接断开并非致命问题。可用 [流式获取工作流事件](/zh/api-reference/workflow-runs/stream-workflow-events) 重新打开事件流，传入 `workflow_run_id` 和发起运行时所用的同一个 `user`。`user` 不一致会返回 404。",
+          "why_not_sufficient": "同样讲暂停/恢复/同user，但不提供表单本地附件映射或拒绝后的表单/令牌状态。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    },
+    {
+      "id": "dev079",
+      "decision": "accept",
+      "substantive_bridge": "教程数据交接→格式语法及缺失值处理",
+      "second_document_keyword_count": 6,
+      "second_subask_identifier_leak_review": "本意图未直给第二篇标题/特有标识；正式措辞仍受逐题guardrail约束。",
+      "generic_distractor_proof": [
+        {
+          "document_id": "self-host/use-dify/nodes/llm",
+          "raw_line_start": 125,
+          "raw_line_end": 125,
+          "original_excerpt": "大型语言模型提示词支持 Jinja2 模板以进行高级变量处理。当你使用 Jinja2 模式（`edition_type: \"jinja2\"`）时，你可以：",
+          "why_not_sufficient": "同样支持变量/条件/Jinja2，可能误导把排版放回模型；无本题所问default兜底完整说明与课程的模板交接。",
+          "checked_by": "independent_reviewer"
+        },
+        {
+          "document_id": "self-host/use-dify/nodes/answer",
+          "raw_line_start": 16,
+          "raw_line_end": 16,
+          "original_excerpt": "直接回复节点提供了一个灵活的文本编辑器，你可以使用固定文本、来自先前节点的变量或两者的组合来制作响应。",
+          "why_not_sufficient": "同样将固定文本与变量组合，但只给变量插入，不提供default过滤器和嵌套对象/数组语法契约。",
+          "checked_by": "independent_reviewer"
+        }
+      ]
+    }
+  ],
+  "global_observations": [
+    "全部来源逐行核对，事实语义与来源合取另行人工核查；不能把raw支持当成单chunk完整支持。",
+    "七链至少四类实质桥接：诊断到配置、协议到授权分支、套餐状态到数值额度、持久ID到UI复现；另有模板到处理顺序、暂停事件到表单状态、课程到节点语法。",
+    "全部90题按文档和事实查重：新46未发现与旧20/现24同doc同fact复考；同文档但不同事实的具体差异见相关逐题说明。",
+    "dev066 Cloud侧1/50与旧即用型数字相同，但问题限定另一个知识流水线文件源行为，自部署默认20构成新的明确版本差异。正式题不可泛化成旧上传问题。",
+    "仅dev053单vital；非短单跳与多跳均可保留足够独立事实。没有将未被问到的凭据范围或API/Web隔离凑为必答。",
+    "未运行无检索基线或系统，不能断言不靠文档猜对；短问、默认值与并发覆盖等仍有经验可猜风险。",
+    "正式题长度、顿号列问限制、第二问答案词泄漏、精确chunk/parent all_of及单次检索必须继续复核；本报告仅批准蓝图进入写题。"
+  ],
+  "questions": [
+    {
+      "id": "dev045",
+      "decision": "accept",
+      "reason": "三条事实分别考节点打包入口、外部变量成为输入、实例副本不随原组合更新；L20、L22、L56-58逐项支持，不是同义复述。正式题须让“接上”要求赋值映射而不只答输入变量名称。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "选中要复用的节点，右键创建Snippet。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/snippet",
+              "raw_lines": [
+                20,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "所选节点引用的外部变量会成为组合的输入变量。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/snippet",
+              "raw_lines": [
+                22,
+                22
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "插入的是副本，原组合之后改动不影响已使用的画布。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/snippet",
+              "raw_lines": [
+                56,
+                58
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "ace6e6c8de324a82d70d53b9131ed2d35d216dfce8244b5c3e680ab75b1dbe52",
+      "formal_authoring_guardrails": [
+        "正式答案需说明插入后为每个输入变量映射实际工作流变量，别只返回输入变量类别。"
+      ]
+    },
+    {
+      "id": "dev046",
+      "decision": "accept",
+      "reason": "平台快捷键及冲突时备用入口，与@node限定当前画布，是两类独立操作事实；均由L12-15/L27明确支持。全部标题无连续三字重合。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "macOS按⌘K、Windows/Linux按Ctrl K；冲突时可用侧边栏按钮。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/goto-anything",
+              "raw_lines": [
+                12,
+                15
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "使用@node只搜当前打开的工作流或知识流水线画布节点。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/goto-anything",
+              "raw_lines": [
+                27,
+                27
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "17b677a4e071dd430e1897ede70957d37f53090e2a4ce63527471428ad3ebc14",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev047",
+      "decision": "accept",
+      "reason": "同元素最后编辑生效和评论跨版本保留是两条独立规则；L23/L27直接支持。无标题三字重合；并发覆盖可凭经验猜测，评论保留仍须文档，难度留待基线。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "可同时编辑；同一元素冲突时以最后一次编辑为准。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/workflow-collaboration",
+              "raw_lines": [
+                23,
+                23
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "画布评论跨工作流版本保留。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/workflow-collaboration",
+              "raw_lines": [
+                27,
+                27
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "05dd1d2014b5d3d958ca0e2e957643cee18fa54b4f223a268d889066a950d672",
+      "formal_authoring_guardrails": [
+        "并发覆盖规则有经验猜测风险；未运行无检索基线，不能标成低可猜。"
+      ]
+    },
+    {
+      "id": "dev048",
+      "decision": "accept",
+      "reason": "音频/视频大小与各自环境变量映射互相独立；原文明确50/100MB。四个上传类别构成相似数字行，不泄漏答案数字。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "音频上传默认单个上限50MB。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/additional-features",
+              "raw_lines": [
+                80,
+                80
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "音频大小上限由UPLOAD_AUDIO_FILE_SIZE_LIMIT调整。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/additional-features",
+              "raw_lines": [
+                80,
+                80
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "f99c81fd7e6ef0215aeb03e8fd8a4df36e4efb3ab182247df70565565ef1b01a",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev049",
+      "decision": "accept",
+      "reason": "两计划席位上限与提高上限的账单入口是独立事实；Sandbox/Professional/Team三行可作近数干扰。与旧dev005邀请有效期、dev014知识库权限不同。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "转移所有权的验证码发送到当前所有者邮箱。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/team-members-management",
+              "raw_lines": [
+                47,
+                47
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "转移完成后原所有者变更为普通成员。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/team-members-management",
+              "raw_lines": [
+                47,
+                47
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "90a93f6c39d371b99fd7c71a20e9a2131c2b1f1aa03373d6e39d70e082a7ab49",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev050",
+      "decision": "accept",
+      "reason": "沙箱可执行安装及读写文件，与能力/每次任务的配置分离不同；旧Agent工具决策干扰原文明示。不可将“旧Agent绝对不能使用文件”加成金标。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "新Agent在自己的沙箱中运行命令、安装程序、读写文件。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/overview",
+              "raw_lines": [
+                25,
+                25
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "能力配置与每次任务分离；能力包括角色/模型/Skill/工具/文件，任务是一次消息或节点指令。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/overview",
+              "raw_lines": [
+                33,
+                41
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "b0af2b976f2b6ffeffe413e9faaf0006127c27b205afd22e73022fbe2e92bc74",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev051",
+      "decision": "accept",
+      "reason": "现为模型依描述决策、细化描述提升判断、不能跨库重排三条；L130/L132/L135分别支持，已补足意图所问的操作。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "模型逐查询按知识库描述相关性决定是否需要检索。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/agent",
+              "raw_lines": [
+                130,
+                130
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "写详细知识库描述能让模型更准确判断相关性。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/agent",
+              "raw_lines": [
+                132,
+                132
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "多个知识库的结果不会被跨库重排序。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/agent",
+              "raw_lines": [
+                135,
+                135
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "ac57791c5a1645afead2b2ba35c7c1d18bae2d025f363e4eb86c938f94a2655a",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev052",
+      "decision": "accept",
+      "reason": "恢复到草稿和需另行发布是两条规则，L88-95/L36直接支持；“完全替换草稿”可保留解释，不宜让未问的数据丢失警告独立扣分。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "恢复旧版只重新载入草稿，且完全替换当前草稿。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/version-control",
+              "raw_lines": [
+                88,
+                95
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "须点击发布>发布更新才使草稿上线。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/version-control",
+              "raw_lines": [
+                36,
+                36
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "863266f02a986349576e8460fabef07bb554e2130b8336d069d593dafcff08d5",
+      "formal_authoring_guardrails": [
+        "只问是否上线时，不把“没有未保存工作”的警告另设vital。"
+      ]
+    },
+    {
+      "id": "dev053",
+      "decision": "accept",
+      "reason": "CONSOLE_URL与APP_URL分别配置两域由L29明确支持；仅一条vital，属于短问允许例外。必须保留变量名，不能只靠泛泛“可以”算完整。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "控制台域和Web应用域不同时，可分别设置CONSOLE_URL和APP_URL。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container",
+              "raw_lines": [
+                29,
+                29
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "4807d5b01f1903b906d07c663edb52ce7f1abea78abb6836f580ddd165713050",
+      "formal_authoring_guardrails": [
+        "唯一单vital短问需保留两配置项名称作为必答，泛答可以不完整。"
+      ]
+    },
+    {
+      "id": "dev054",
+      "decision": "accept",
+      "reason": "安装时创建工作空间与初始化管理员邮箱密码是时间/身份两项；Cloud首次登录创建的原文构成真实不同。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "社区部署安装时创建工作空间。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/workspace/readme",
+              "raw_lines": [
+                20,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "使用初始化时设置的管理员邮箱和密码。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/workspace/readme",
+              "raw_lines": [
+                20,
+                20
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "247d89e0c8b547818e6ec11b00a2863a00617e7dadaa323534d80e1932d1a1cc",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev055",
+      "decision": "accept",
+      "reason": "code诊断到模型配置层，再到管理权限与唯一凭据删除后果，形成故障分类到配置生命周期桥接；同义自部署权限/删除来源已并入OR，未问的重试和空间范围已删。故障与修复若合并计算，仍有至少三条独立事实。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "provider_not_initialize表示应用模型没有有效凭据，属于400。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/errors",
+              "raw_lines": [
+                35,
+                37
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "需在Dify中修复应用的模型配置。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/errors",
+              "raw_lines": [
+                42,
+                42
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "只有工作空间所有者和管理员可以管理供应商。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/model-providers",
+              "raw_lines": [
+                13,
+                13
+              ]
+            },
+            {
+              "document_id": "self-host/use-dify/workspace/model-providers",
+              "raw_lines": [
+                11,
+                11
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "自定义模型唯一密钥删除时，该模型也一并删除。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/model-providers",
+              "raw_lines": [
+                73,
+                73
+              ]
+            },
+            {
+              "document_id": "self-host/use-dify/workspace/model-providers",
+              "raw_lines": [
+                54,
+                54
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "e14a7854af282943890b1ccc80c294c34bc4b6c9efa26cdd6606777645b081c7",
+      "formal_authoring_guardrails": [
+        "后问保持“该处/该条目”指代，不提前给模型供应商标题；不要重新加未问的重试或空间级密钥范围为必答。"
+      ]
+    },
+    {
+      "id": "dev056",
+      "chunk_mapping_advisories": [],
+      "decision": "accept",
+      "reason": "首篇LLM生成问答模板明确产出问答模式；第二篇L42提供分段、总结、逐段生成顺序，L46提供适合的完整自然语言文体，三项独立。已避免将SimpleQ&A的表格直接配对强套生成流程。Cloud同名索引页不含该Q&A节，第二跳只保留self-host正确。",
+      "correction": null,
+      "formal_authoring_guardrails": [
+        "第二跳Q&A自动生成/完整自然语言只在self-host有支持段；正式题明确自部署上下文，或在题卡写清证据适用范围，不能默认Cloud未知内容相同。",
+        "别在第二问直接给分段、总结内容、Q&A匹配对、完整语法结构、自然语言等识别性答案词。"
+      ],
+      "facts": [
+        {
+          "index": 0,
+          "text": "需要LLM自动生成结构化问答时选择LLM生成问答模板，其分段结构为问答模式。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+              "raw_lines": [
+                44,
+                44
+              ]
+            },
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+              "raw_lines": [
+                44,
+                44
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "该模式先将上传文本分段，总结内容后为每个分段自动生成匹配对。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+              "raw_lines": [
+                42,
+                42
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "具备完整语法结构的自然语言常见问题文档更适合这种方法。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+              "raw_lines": [
+                44,
+                44
+              ]
+            },
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+              "raw_lines": [
+                46,
+                46
+              ]
+            }
+          ]
+        }
+      ],
+      "reviewed_question_sha256": "d410047d36817717b894e934b0c9d0f0acd479ad8656e1a9804c8f81222a2c40"
+    },
+    {
+      "id": "dev057",
+      "chunk_mapping_advisories": [],
+      "decision": "accept",
+      "reason": "HTTP排除公开OAuth并选择内部集成，之后查对应模式的Notion所有者权限、两项.env及重启加载；第一篇缺权限与重启、第二篇缺HTTP/HTTPS模式选择依据，真有条件分支依赖。完整all_sources含L70与L73-74，支持配置事实。",
+      "correction": null,
+      "formal_authoring_guardrails": [
+        "第二问用该方式指代，不泄内部集成、NOTION变量或Secrets/Show等特有词；不把Notion所有者写成Dify管理员。"
+      ],
+      "facts": [
+        {
+          "index": 0,
+          "text": "Notion OAuth仅支持HTTPS，本地HTTP部署必须使用内部集成。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/integrations",
+              "raw_lines": [
+                9,
+                9
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "创建该内部集成需要是Notion工作空间所有者。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+              "raw_lines": [
+                56,
+                56
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "Dify的.env需设置NOTION_INTEGRATION_TYPE=internal并将NOTION_INTERNAL_SECRET设为该密钥。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+              "raw_lines": [
+                70,
+                70
+              ]
+            },
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+              "raw_lines": [
+                73,
+                74
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "配置后需重启Dify加载新的环境变量。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+              "raw_lines": [
+                99,
+                99
+              ]
+            }
+          ]
+        }
+      ],
+      "reviewed_question_sha256": "04ac4ba289815005a3b1367bc7e4a2989f1c7ce7ff531c1ec9e36629d32d11ec"
+    },
+    {
+      "id": "dev058",
+      "chunk_mapping_advisories": [],
+      "decision": "accept",
+      "reason": "第一篇从取消付费确定已付周期结束后转Sandbox，第二篇再选Sandbox容量50MB和降级超额数据保留/可检索规则；容量选择依赖前步计划实体。数据保留不等于可检索，两项可独立成立。",
+      "correction": null,
+      "formal_authoring_guardrails": [
+        "第二问不得给Sandbox或50MB；50MB是知识库存储容量，不是单文件大小。",
+        "四条事实虽使用三处源，数据保留和仍可检索需独立评分，不能互相替代。"
+      ],
+      "facts": [
+        {
+          "index": 0,
+          "text": "取消付费后当前计划保留到已付费周期结束，随后恢复Sandbox。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/subscription-management",
+              "raw_lines": [
+                22,
+                22
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Sandbox知识库存储空间上限为50 MB。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+              "raw_lines": [
+                15,
+                15
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "套餐降级后超过新限额的现有数据不会被删除。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+              "raw_lines": [
+                53,
+                53
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "套餐降级后现有数据即便超额，应用仍可正常检索。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+              "raw_lines": [
+                53,
+                53
+              ]
+            }
+          ]
+        }
+      ],
+      "reviewed_question_sha256": "1a58644777d4dd6c1b1fe7b700760a7bfb488843caeec8e2211dcddfd0737720"
+    },
+    {
+      "id": "dev059",
+      "decision": "accept",
+      "reason": "现明确比较旧版Agent与文本生成两对象，四条原子事实分别为Agent仅流式、会话变量跨轮保留、completion无状态、completion可阻塞；L17/L29及completion L9/L17逐项支持，已删未问的API/Web隔离和聊天助手事件。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "旧版Agent应用仅支持流式返回。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/chat",
+              "raw_lines": [
+                17,
+                17
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "对话API会话变量在多轮间保留。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/chat",
+              "raw_lines": [
+                29,
+                29
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "文本生成调用之间不保留会话状态。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/completion",
+              "raw_lines": [
+                9,
+                9
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "文本生成支持阻塞返回，完成后一次性返回内容。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/completion",
+              "raw_lines": [
+                17,
+                17
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "d88f81eb7da0e3fb1ccf7c94abf423f818908722500d0d746a3bb15f62aeda33",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev060",
+      "decision": "accept",
+      "reason": "聊天多线程各自记忆、Workflow离散任务、CSV每行执行及UTF-8要求，至少三项独立；L91-103/L20/L88-108支持。编码与每行运行跨父块，正式证据须拆来源。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "聊天Web应用每个对话线程维护各自记忆和上下文。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/webapp/chatflow-webapp",
+              "raw_lines": [
+                103,
+                103
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Workflow网页用于产生特定输出的离散任务。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+              "raw_lines": [
+                20,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "批处理CSV中每一行成为一次Workflow执行。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+              "raw_lines": [
+                88,
+                88
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "批处理CSV应使用Unicode UTF-8编码。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+              "raw_lines": [
+                108,
+                108
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact2每行执行在批处理步骤父块，UTF-8在批处理优势父块，须多来源。"
+      ],
+      "reviewed_question_sha256": "de5ead2701a78f389e450755f805a4e81dbe5dab8cd9a2639f51d97950a61a41",
+      "formal_authoring_guardrails": [
+        "CSV每行一次执行与UTF-8来自不同父块，正式证据拆all_of。"
+      ]
+    },
+    {
+      "id": "dev061",
+      "decision": "accept",
+      "reason": "中间件先启动、Windows worker池参数、beat调度服务分别来自p2/p5/p7；清洗9408字符，满足三父块和长文门槛。命令事实为Dify具体配置，不仅是启动服务常识。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "API之前先用middleware配置启动数据库、沙箱和插件守护进程。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+              "raw_lines": [
+                33,
+                41
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Windows Worker使用solo池并加without-gossip和without-mingle。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+              "raw_lines": [
+                124,
+                128
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "调试celery定时任务或运行定时触发器时需另起beat服务。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+              "raw_lines": [
+                201,
+                204
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "ba98ccce5d0fcffa36be0e579f09247fbd487c9c6a118f515b04eabc8869ab66",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev062",
+      "decision": "accept",
+      "reason": "外部URL/内部URL/签名时效三个配置分属p9/p10/p11，清洗79316字符；现L89-93/L99-103/L109-111与各父标题相符。变量名来自标题而非无名段落猜配。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "FILES_URL用于文件预览下载签名URL，空时回退CONSOLE_API_URL；两者皆空无法预览。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/configuration/environments",
+              "raw_lines": [
+                89,
+                93
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "INTERNAL_FILES_URL供容器内部取文件，空时回退FILES_URL，内部无法访问公网时需单独设。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/configuration/environments",
+              "raw_lines": [
+                99,
+                103
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "FILES_ACCESS_TIMEOUT控制签名URL秒级时效，过期需重新请求。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/configuration/environments",
+              "raw_lines": [
+                109,
+                111
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "9ae3bb200209cbe8a6dc0d00d16a74cb0ab5920ec948f805ecf1a3b4b71fd7a9",
+      "formal_authoring_guardrails": [
+        "正式证据保留父标题中的FILES_URL/INTERNAL_FILES_URL/FILES_ACCESS_TIMEOUT，不能只引无名正文再猜配。"
+      ]
+    },
+    {
+      "id": "dev063",
+      "decision": "accept",
+      "reason": "10个灾备承诺近义词全库零命中；近邻备份/迁移、部署高可用介绍、Compose升级均不提供官方RPO/RTO及切换期限，确为缺依据。",
+      "correction": null,
+      "facts": [],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "827e877b0dcaf3d8b9537e9b2bc0d3f2a7bd6af53f2b7933c23af03a0deae825",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev064",
+      "decision": "accept",
+      "reason": "发票一词命中订阅管理仅说可下载；税务/注册号/开票期限等12词无命中。近邻workspace、供应商账单与订阅均无日本税票注册号和期限，拒答边界真实。",
+      "correction": null,
+      "facts": [],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "678c87175e877e8efd6e981306bb439ad792401d069dfd1a039e56fd49c54f42",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev065",
+      "decision": "accept",
+      "reason": "L26直接排除用户输入节点复制；L32-36明确环境资源重新评估，直接矛盾于整套含输入复制并原样继承；操作句式成立。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "除用户输入外所有节点才能跨画布/实例复制粘贴。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/orchestrate-node",
+              "raw_lines": [
+                26,
+                26
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "粘贴时配置迁移，但变量/集成/知识库等资源在目标重新评估。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/orchestrate-node",
+              "raw_lines": [
+                32,
+                36
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "e2f2e76ee89c67e533b53baf808c1408c091ae4ab91fd5e0673828932ba090bc",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev066",
+      "decision": "accept",
+      "reason": "当前已换知识流水线文件源：Cloud L79正面给1/50，自部署同名L79正面给默认20，是真实版本答案差异。明确知识流水线上下文，不能把它泛化为旧dev015/016即用型上传的5/1/50。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "Cloud流水线文件源一次上传量为Sandbox1个，Professional/Team最多50个。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+              "raw_lines": [
+                79,
+                79
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "社区自部署流水线文件源一次默认上传20个文件。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+              "raw_lines": [
+                79,
+                79
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "530b1203a2dedc43019a70f23009f00c96cdd86a932e9061cce31a6090801d31",
+      "formal_authoring_guardrails": [
+        "正式题保持无版本词、edition=null，并限定知识流水线文件源；不能换成泛泛“一次能传几个文件”复刻旧dev017。"
+      ]
+    },
+    {
+      "id": "dev067",
+      "decision": "accept",
+      "reason": "“接收上传”与“使模型理解内容”是两种真实需求；前者起始文件字段且不解析，后者多模态模型及类型开关。与旧PDF筛选/提取题不重复。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "起始文件字段可单文件或文件列表，节点只收集不读取内容。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/user-input",
+              "raw_lines": [
+                85,
+                100
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "模型处理文件要选择具备对应多模态能力的模型并开启文件类型。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/text-generator",
+              "raw_lines": [
+                160,
+                164
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0单文件/列表/不解析横跨子块，父块p2可支持；拆更小quote后严格定位。"
+      ],
+      "reviewed_question_sha256": "d102b0800d40e925092b5db001013dd6ced4433c5b01c050b55dd5bca5e24f81",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev068",
+      "decision": "accept",
+      "reason": "默认值继续运行与输出类型匹配是两项独立规则，原文直接支持；不与迭代错误继续后null占位混淆。存在常识可猜风险，须保留Dify模式名称而不能预判基线结果。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "默认值模式在失败时用备用值替代并继续执行。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+              "raw_lines": [
+                23,
+                24
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "备用值必须与节点输出类型匹配。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+              "raw_lines": [
+                30,
+                31
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "6a465fd367bf39250ac8892f897e8de8e8a285d6c5063e8c54818c1507d7ee88",
+      "formal_authoring_guardrails": [
+        "类型匹配有常识可猜风险；保留Dify模式选择与继续运行要求，待基线验证。"
+      ]
+    },
+    {
+      "id": "dev069",
+      "decision": "accept",
+      "reason": "待审撤回可编辑重提与按最新Community Edition及市场插件审核的提交前条件独立；L15-22支持，全部标题无三字重合。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "待审Pending可撤回到Draft，修改任意内容后重新提交。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+              "raw_lines": [
+                15,
+                17
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "提交前插件须直接从市场安装，并在最新Community Edition至少运行一次；依此审核兼容性。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+              "raw_lines": [
+                20,
+                22
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "417918ee7d625756098efe3ec26b317300f8c24ed12958fc3896044d9546fa23",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev070",
+      "decision": "accept",
+      "reason": "Builder消息附件数量/分类体积和仅作上下文不自动入Skill两类独立事实；数值10/10/15、库容量500、导入50MB为可核对干扰。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "导入Skill包大小默认不超过50MB。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/skills",
+              "raw_lines": [
+                61,
+                61
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "导入Skill包上限用UPLOAD_SKILL_FILE_SIZE_LIMIT调整。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/skills",
+              "raw_lines": [
+                61,
+                61
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "ee9f232b846ea6dfd0933168b04f694651e767b6d2eb38250a38ac0e72632b4c",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev071",
+      "decision": "accept",
+      "reason": "模糊类型采样1024字节与文本数据/二进制文件分流独立；HTTP鉴权旧题不同。数字干扰包括10次/5000ms/10MB，均有原文而未提前泄漏。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "上传前序文件变量使用二进制请求正文。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/http-request",
+              "raw_lines": [
+                95,
+                95
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "二进制响应内容会成为文件变量。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/http-request",
+              "raw_lines": [
+                85,
+                85
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "f6bd5e4d7a0d8de06f615cb9405e17d6be84c7477da53c276763ece5d095c0c3",
+      "formal_authoring_guardrails": [
+        "正式题用“非文本响应”等用户描述，不在题干泄漏答案“二进制”；保留模糊头与采样范围需求。"
+      ]
+    },
+    {
+      "id": "dev072",
+      "decision": "accept",
+      "reason": "标签模型适用范围、text/reasoning_content分流、开关关闭为空/API separated+reasoning_chunk由L141-148支持；与结构化字段提取器功能不同。多事实有绑定关系但非重复计分。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "仅对think标签包裹思考的模型，启用推理标签分离后text只留回答，思考至reasoning_content。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/llm",
+              "raw_lines": [
+                141,
+                148
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "开关关时reasoning_content为空，API开启对应reasoning_format=separated并发reasoning_chunk。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/llm",
+              "raw_lines": [
+                143,
+                145
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0适用范围在相邻子块但同父块p10，须完整all_of映射。"
+      ],
+      "reviewed_question_sha256": "bd9b229a88beca44542a05a361daf2932ce7ee8ff9c2b681eb99e51900f38554",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev073",
+      "decision": "accept",
+      "reason": "上轮依赖/渐进状态适配循环与三种终止出口独立；迭代独立数组元素干扰明确。现fact0跨p0/p1，应在正式证据保留状态管理来源。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "循环的每轮基于前一轮结果继续构建，而不是独立处理数组元素。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/loop",
+              "raw_lines": [
+                8,
+                8
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "满足终止条件、达到最大次数或退出循环节点任一即停；无条件则到最大次数。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/loop",
+              "raw_lines": [
+                46,
+                53
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0 p0支持上轮结果，状态持久累积在p1；补后者来源或缩小fact措辞。"
+      ],
+      "reviewed_question_sha256": "4bb3e5487d6f946115ac952186c2677fe836e939fc326ec3debcd7b2306017d2",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev074",
+      "decision": "accept",
+      "reason": "追踪定位瓶颈与节点面板最后运行输入/输出/时间是两个入口/用途事实，L44/L52支持；不与旧API运行汇总接口题重复。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "追踪展示节点顺序、每步耗时和节点间数据流。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/debug/history-and-logs",
+              "raw_lines": [
+                44,
+                44
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "节点配置面板最后运行可看该节点最近输入、输出和时间。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/debug/history-and-logs",
+              "raw_lines": [
+                52,
+                52
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "3e9b53eb640e62db8ee95d64a81f7b0ab583ba09b709638e04247707c40160a2",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev075",
+      "decision": "accept",
+      "reason": "Cloud套餐限制和发布后进入自定义模板是独立事实；L54/L48-49明确。自部署缺该限制段只能用于记录文档差异，不应衍生自部署套餐行为金标。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "云端将流水线保存为可复用模板仅Professional/Team，Sandbox不可。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+              "raw_lines": [
+                54,
+                54
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "发布为流水线后模板出现在自定义模板中供复用。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+              "raw_lines": [
+                48,
+                49
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "119cff0fa2085fc16cd5199761ebe80577dcc43ba7328db569360c5b90198418",
+      "formal_authoring_guardrails": [
+        "Sandbox成功保存需升级后才成立，正式问法应采用条件表达；不可因self-host缺限制段就推断其所有计划行为。"
+      ]
+    },
+    {
+      "id": "dev076",
+      "decision": "accept",
+      "reason": "当前替换候选的Cloud自动禁用7/30天及Professional/Team一键恢复由同一表格明确；与旧dev033手动禁用/归档、旧dev010子分段提示事实不同。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "云端长时间未更新或未检索文档会自动禁用：Sandbox未活跃7天，Professional/Team30天。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+              "raw_lines": [
+                27,
+                27
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Professional和Team可一键重新启用被自动禁用的文档。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+              "raw_lines": [
+                27,
+                27
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "1d0394fd3e8e77a30c0b569178b322a582ed77483cc01edb9f8a24e5c68a744d",
+      "formal_authoring_guardrails": [
+        "只把Cloud文档自动禁用时长/恢复行为作为必答，不重复要求旧dev033手动禁用的检索效果。"
+      ]
+    },
+    {
+      "id": "dev077",
+      "chunk_mapping_advisories": [],
+      "decision": "accept",
+      "reason": "API workflow L24先从task_id与workflow_run_id选出持久运行ID，再用该ID在日志页搜索、逐节点追踪、原参数重新测试；后续三项UI操作由logs L33/L48/L50独立支持。不是只跳到日志页面的导航，且不复用旧日志保留/API汇总事实。",
+      "correction": null,
+      "formal_authoring_guardrails": [
+        "第二问不泄日志、运行ID、按此参数测试等定位词；重演是按原输入新测试，不是恢复原运行。"
+      ],
+      "facts": [
+        {
+          "index": 0,
+          "text": "应保存workflow_run_id，它标识运行结束后持久保存的记录。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/workflow",
+              "raw_lines": [
+                24,
+                24
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "在应用日志页可直接粘贴运行ID查找对应运行。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/logs",
+              "raw_lines": [
+                8,
+                8
+              ]
+            },
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "raw_lines": [
+                8,
+                8
+              ]
+            },
+            {
+              "document_id": "self-host/use-dify/monitor/logs",
+              "raw_lines": [
+                33,
+                33
+              ]
+            },
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "raw_lines": [
+                33,
+                33
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "点击该次运行可查看逐节点的执行追踪。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/logs",
+              "raw_lines": [
+                48,
+                48
+              ]
+            },
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "raw_lines": [
+                48,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "点击“按此参数测试”会在编辑器中使用该次运行输入重新执行。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/logs",
+              "raw_lines": [
+                50,
+                50
+              ]
+            },
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "raw_lines": [
+                50,
+                50
+              ]
+            }
+          ]
+        }
+      ],
+      "reviewed_question_sha256": "17ed2fca23126c9463eb9f0bfffbf0876328c16921909c96ab688bcc5451ffdd"
+    },
+    {
+      "id": "dev078",
+      "decision": "accept",
+      "reason": "现意图明确问进入等待与结束响应的两个事件；Chatflow L47提供第二篇没有的workflow_paused，再凭其form_token处理本地附件引用和拒绝后同token重试。第二篇不再单独覆盖全部所问，四条事件/状态/文件规则独立。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "Chatflow的human_input_required事件携带form_token交互句柄。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/chatflow",
+              "raw_lines": [
+                47,
+                47
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "随后workflow_paused事件结束原来的流。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/chatflow",
+              "raw_lines": [
+                47,
+                47
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "本地文件先上传，返回id在表单提交中以upload_file_id引用。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/human-input-flow",
+              "raw_lines": [
+                33,
+                33
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "提交被拒绝时表单保持不变，可修正输入后以同一form_token重新提交。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "api-reference/guides/human-input-flow",
+              "raw_lines": [
+                44,
+                44
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "800bee73ae0275ce8b9e2046e4db6513ad1a99361c79792670f910b3e6558f2c",
+      "formal_authoring_guardrails": [
+        "保持首问两个事件的明确需求；后问不泄form_token/upload_file_id或人工介入API标题。"
+      ]
+    },
+    {
+      "id": "dev079",
+      "decision": "accept",
+      "reason": "第9课确定正文/客户名交接到模板，第二篇提供嵌套取值与缺省处理的Jinja2语法；保留本轮唯一课程到节点形态。后问需保持“该环节”，不可泄漏模板/Jinja2/default等词。多父块复合事实正式证据须拆。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "第9课在Agent之后、输出之前插入模板转换节点。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "learn/tutorials/workflow-101/lesson-09",
+              "raw_lines": [
+                35,
+                35
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "模板的body输入对应Agent的text输出。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "learn/tutorials/workflow-101/lesson-09",
+              "raw_lines": [
+                45,
+                45
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "模板可用点号或括号访问嵌套对象属性或数组元素。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/template",
+              "raw_lines": [
+                20,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "模板可用default过滤器为缺失字段提供默认值。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/template",
+              "raw_lines": [
+                76,
+                76
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0 Agent只给正文与添加模板/变量配置跨课程父块；fact1 Jinja2在template p0、嵌套语法在p1。"
+      ],
+      "reviewed_question_sha256": "db1a9b02e8346ca85b72cc4203a1a209439520465ee093c5edd50f41f584e861",
+      "formal_authoring_guardrails": [
+        "课程到节点仅此一题；后问用该环节，不出现模板/Jinja2/default。",
+        "课程正文约束、节点及变量交接跨父块；模板语言与嵌套语法也跨父块，正式证据拆all_of。"
+      ]
+    },
+    {
+      "id": "dev080",
+      "decision": "accept",
+      "reason": "现只比较密钥和项目名之外的Space ID/空间主机名，并问Phoenix密钥类型，三条独立事实；Arize L37、Phoenix L87/L73直接支持。已去除“取唯一URL标识符”的歧义及多余空间创建步骤。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "Arize AX除API Key和项目名外还需Space ID。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-arize",
+              "raw_lines": [
+                37,
+                37
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Phoenix Cloud除API密钥和项目名外还需空间主机名。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+              "raw_lines": [
+                87,
+                87
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "Phoenix Cloud在空间设置中创建系统密钥。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+              "raw_lines": [
+                73,
+                73
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "6af0bb2f6d26c0eec69cd7b93b2c0f153e27dacee319188f74502d46de9d14b1",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev081",
+      "decision": "accept",
+      "reason": "Langfuse字段、LangSmith字段/PAT、项目名不符自动建项目是三条独立事实；各原文支持。两套追踪服务不同字段具有文档依赖性。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "Langfuse配置需要Host。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+              "raw_lines": [
+                42,
+                42
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "Langfuse配置还需要Public Key。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+              "raw_lines": [
+                42,
+                42
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "LangSmith创建项目凭据时选择Personal Access Token。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+              "raw_lines": [
+                49,
+                49
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "LangSmith配置的项目名不一致会自动创建新项目。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+              "raw_lines": [
+                76,
+                76
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0缩quote为L42字段列表即可完整映射，不需跨到配置段L54。"
+      ],
+      "reviewed_question_sha256": "ef8ec4b222476fd83d79ca097c575c3eb061c39076f6347954bc0008ba4dfbf8",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev082",
+      "decision": "accept",
+      "reason": "OpenAPI导入生成工具、节点调用具体操作、凭证选择与默认凭证维护位置是两层三事实；不复用旧Workflow工具发布或保留输出名事实。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "工作空间可导入OpenAPI规范自动生成工具接口，支持粘贴、URL或示例。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/workspace/tools",
+              "raw_lines": [
+                27,
+                30
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "画布中添加节点>工具，选择具体操作。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/tools",
+              "raw_lines": [
+                15,
+                15
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "具体节点可选择现有凭证或新建，默认凭证在集成>工具>工具插件维护。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/tools",
+              "raw_lines": [
+                17,
+                20
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "43c7311a128ff0e0a07b93703ebe91eb31a86bda8e43d132f738273c7af905aa",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev083",
+      "decision": "accept",
+      "reason": "子域Cookie两项配置、换域名401的CORS/公开URL、不可跨可注册顶级域共享三点独立；源文直接支持。不要把两个症状强行断言为唯一病因。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "前后端不同子域会话丢失应设COOKIE_DOMAIN为共享顶级域、NEXT_PUBLIC_COOKIE_DOMAIN=1后重启。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/quick-start/faqs",
+              "raw_lines": [
+                71,
+                83
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "改域名后401要检查CONSOLE/WEB_API的CORS以及五类API/Web公开URL。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/common-issues",
+              "raw_lines": [
+                23,
+                33
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "Cookie不能跨不同顶级域共享，前后端必须在同一可注册域名下。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/quick-start/faqs",
+              "raw_lines": [
+                83,
+                83
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "8782ed6e79d751e855148cac1cfe82116c67a7680de177d1e53c14dde08efda1",
+      "formal_authoring_guardrails": [
+        "两个排障建议不是唯一病因的排他断言。"
+      ]
+    },
+    {
+      "id": "dev084",
+      "decision": "accept",
+      "reason": "服务器兼容性、外部gRPC/停机、worker迁移命令、验收检索/计数均有原文；16351字符，p1/p6/p10至少三父块。与旧Weaviate逐级服务器备份/回退题不同。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "新v4客户端不兼容1.27以下服务器，1.19自部署须在升Dify前先升级服务器。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+              "raw_lines": [
+                15,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "外置Weaviate迁移前须确认gRPC50051可达并安排停机。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+              "raw_lines": [
+                87,
+                96
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "Docker内schema迁移推荐Worker容器，Dify1.11+使用uv run --no-cache脚本。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+              "raw_lines": [
+                290,
+                308
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "迁移后UI测试检索，大集合需核对对象计数。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+              "raw_lines": [
+                319,
+                322
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "8662da770dbc70119da2f7a1dd481e4b8c05ef3725b16b6586d0c067b2732d1c",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev085",
+      "decision": "accept",
+      "reason": "Build草稿取舍、构建/运行文件长期性、build_note重读、版本恢复长期文件是四种生命周期规则；6225字符且p9/p10/p11/p12四父块，未再发现引用错位。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "构建对话里改动列入Build草稿；应用保留，放弃丢弃配置及长期文件改动。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/build",
+              "raw_lines": [
+                134,
+                137
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "构建期间默认长期文件后续运行可用，运行期创建均临时不改Agent本身。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/build",
+              "raw_lines": [
+                146,
+                150
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "text": "首次应用后生成build_note.md，每次新对话重新读取并与提示词组合。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/build",
+              "raw_lines": [
+                154,
+                156
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "text": "恢复Agent版本同时恢复该版本沙箱长期文件。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/build/new-agent/build",
+              "raw_lines": [
+                179,
+                179
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact1构建长期文件与发布运行临时跨c13/c14，但同父块p10；正式来源需覆盖两者。"
+      ],
+      "reviewed_question_sha256": "8b434bbc3c62c9a32df7c09231a22bd74ebc5752c33bbb373987b3817dc1e8a3",
+      "formal_authoring_guardrails": [
+        "构建长期文件与运行临时分别定位c13/c14，不把同父块支持冒充单子块完整证据。"
+      ]
+    },
+    {
+      "id": "dev086",
+      "decision": "accept",
+      "reason": "10个漏洞响应/补丁承诺词全库零命中；插件审核维护、模板市场审核、部署社区帮助均无官方首次响应和修复期限，缺依据成立。",
+      "correction": null,
+      "facts": [],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "7310fff01718f748577916f6cb1e3ddb01e6081d323f2ee37433ce6e079eedbe",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev087",
+      "decision": "accept",
+      "reason": "仅用户输入流程可发布MCP与两类开始节点互斥由L14/L28-30直接支持，直接反驳保留触发器自动流程发布的操作前提；不只用一般发布常识纠错。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "只有用户输入启动的流程才能发布Web/MCP/后端API或作工具。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/start",
+              "raw_lines": [
+                14,
+                14
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "用户输入与触发器同一画布互斥，需更改节点或删后重加。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/nodes/start",
+              "raw_lines": [
+                28,
+                30
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "b67f4b6f4c929c3bb78ea79fe243fd72828901d93b3101b62538f3e0347abfd1",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev088",
+      "decision": "accept",
+      "reason": "独立PostgreSQL业务系统Patroni跨机房HA实施属于相邻运维领域，但明确超出Dify问答语料范围。近邻仅Dify存储维护/配置/部署，不提供此配置。",
+      "correction": null,
+      "facts": [],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "d46e1a08d7a6a87d5b80ac00d16b54c4b9da7cc2a7b4fa9efba36db50ec1df64",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev089",
+      "decision": "accept",
+      "reason": "Cloud导入DSL始终兼容和自部署较新DSL前可能先升级均为L114正面断言；同一导入需求具有文档明确的不同答案，edition=null与无版本词意图符合。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "Cloud始终运行最新DSL版本，导入文件兼容。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "cloud/use-dify/workspace/app-management",
+              "raw_lines": [
+                114,
+                114
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "自部署导入由较新Dify导出的DSL前可能需升级。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/workspace/app-management",
+              "raw_lines": [
+                114,
+                114
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [],
+      "reviewed_question_sha256": "ccffa0e5faab50697018a8b4c16c75928760d302785c7b8fe35326647246bb8f",
+      "formal_authoring_guardrails": []
+    },
+    {
+      "id": "dev090",
+      "decision": "accept",
+      "reason": "外部RAG检索接入与业务API动态资料追加Prompt是两个真实需求槽位；原文给出不同接法和不同管理边界，不与旧外部检索请求必填字段重复。",
+      "correction": null,
+      "facts": [
+        {
+          "index": 0,
+          "text": "已有外部RAG可接外部知识库，无需迁移，Dify仅检索不能管理外部内容。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/knowledge/connect-external-knowledge-base",
+              "raw_lines": [
+                9,
+                32
+              ]
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "text": "外部数据工具把应用变量/当前输入送给API，返回字符串作为额外Prompt资料。",
+          "raw_quote_support": "supported_by_listed_sources_together",
+          "sources": [
+            {
+              "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+              "raw_lines": [
+                7,
+                15
+              ]
+            }
+          ]
+        }
+      ],
+      "chunk_mapping_advisories": [
+        "fact0仅检索管理边界在后一个子块，但同父块p0；fact1 Prompt用途在p0、输入/字符串契约在p1，需拆来源。"
+      ],
+      "reviewed_question_sha256": "a1eb2998dabb38d23af2d14a41844900a93e79d2fd4149ddd2208c725ee619b0",
+      "formal_authoring_guardrails": [
+        "正式题保留两种需求解释，外部RAG仅检索与业务API字符串入Prompt不能混成同一种接法。"
+      ]
+    }
+  ]
+}
