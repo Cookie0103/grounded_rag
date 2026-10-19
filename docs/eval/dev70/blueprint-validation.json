@@ -1599,13 +1599,13 @@
     }
   ],
   "status": "passed_before_formal_question_writing",
-  "blueprint_sha256": "bec1ca422d32a47e0c8da440595d1179406451acb397872ebe4f055c05afd45d",
+  "blueprint_sha256": "9d12377f9d3e4c64321a53bb6796b75f627a852ca73a71207f38e263a53192cf",
   "semantic_review_file": "blueprint-review.json",
   "internal_semantic_review": {
     "accept": 46,
     "reject": 0,
     "reviewed_source_snapshot_sha256": "7b4f049a447988ce05925c6786531f8400222f0815921690cb71e44f7a31f976",
-    "normalization": "仅补chain.first_document/second_document/dependency，来自已审gold_doc_groups顺序与bridge_explanation；不改事实/原文/题意/配额"
+    "normalization": "仅补chain.first_document/second_document/dependency，来自已审gold_doc_groups顺序与bridge_explanation；不改事实/原文/题意/配额；少覆盖目录按机械工具精确映射统计（27篇），不泛算整个build目录"
   },
   "new70_planned_global_supplement": {
     "unique_gold_documents": 95,
