@@ -9,7 +9,7 @@
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
-- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 进行中。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；20 道开发题和真实 chunk 证据正在制作，尚未运行正式效果评测。E/F/C 新自动评分未实现，不把方案当成运行结果。
+- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 进行中。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 已制作并完成原文 / chunk 交叉核对，收尾自查中，尚未运行正式效果评测。E/F/C 新自动评分未实现，不把方案当成运行结果。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
 - **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
@@ -34,7 +34,7 @@
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
 | [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
 | [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 完成 | 本地、真实云端读回和作者指定 5432 均验证通过 |
-| [phase-12 评测与开发题](build/phase-12-evaluation-dataset.md) | 进行中 | 指标与 Notion 已记录；首批开发题及证据制作、审题和校验进行中 |
+| [phase-12 评测与开发题](build/phase-12-evaluation-dataset.md) | 进行中 | 指标与 Notion 已记录；20 题草案及真实证据已核验，收尾自查中 |
 
 最终检查状态见下方 2026-10-19 活动记录。上次 GPU pytest（2026-10-16）为 3 passed；本轮另行真实离线加载四个 GPU 模型执行推理，未运行正式效果评测。
 
@@ -150,3 +150,11 @@
 - 首次 `uv --cache-dir ../.cache/uv run --no-sync poe check`：格式、lint、分层、mypy 通过；432 passed / 1 failed，唯一失败是本轮前已有 `.env.example` 的 RATE_LIMIT_PER_MINUTE 键名夹入中文。作者收到说明后自行修复，未由 agent 覆盖配置。
 - 重新运行同一完整检查：格式、lint、分层、mypy 全通过，433 passed / 35 deselected，覆盖率 94.85%。首次沙箱内 uv 无法启动其外部 Python，实际验证在批准的沙箱外运行，无安装或升级。
 - `.env` 没有 RATE_LIMIT_PER_MINUTE 时 Settings 默认每 IP 每分钟 30 次；示例文件字段检查与实际默认读取是两回事。本轮未改业务代码/数据库，未运行付费评测、未读封存测试题。
+
+### 2026-10-19 · phase-12 T3：首批开发题草案与真实证据
+
+- GPT-6.1 Sol xhigh 出题 agent 交付 [dev20](../docs/eval/dev20/README.md)：20 道全部 split=dev，7 事实 / 3 归纳 / 4 跨篇 / 2 版本 / 4 边界。可阅读题卡含问题、参考答案、关键点和来源；JSONL 复用 Question，JSON 证据附表不冒充已有自动评分输入。作者审核与跨模型独立审核尚未完成。
+- 从冻结 MDX 提取 51 个必答点，覆盖 18 篇金标文档。复用 clean_mdx、chunk_document 重建语料；只读事务调用 load_chunks / load_parents / document_hashes 与实库核对，182 文档 / 1252 父块 / 2090 子块的 ID、正文、标题路径、父子关系及内容哈希全部一致。临时导出在忽略目录 .cache/dev20-authoring，未改数据库或重算向量。
+- 实际执行 `uv --cache-dir ../.cache/uv run --no-sync poe eval-validate ../docs/eval/dev20/questions.jsonl` → 0 错误、0 提醒。主 agent 逐题审阅并另用临时 root_audit.py 复用现有校验器、清洗和切块：51 要点、69 条含边界的证据条目通过原文行号 / 子块 / 父块 / 标题 / 冻结链接核对；必要摘录均在实际 gold_document_text 截断范围内，缺依据题关键词扫描可复现，本地 Markdown 链接有效。报告在 .cache/dev20-authoring/root-audit.json，不作为效果分数。
+- 修正两类潜在金标偏差：dev015 不把文档所列上传上限扩写成“默认配置”；dev011 的扩展名和 MIME 筛选接受等价方案。dev017 允许正确按版本 / 套餐完整回答；现有 Judge 不读附表，条件答案数值须人工复核。dev020 允许检索后拒答，不能据缺资料断言产品没有 SLA。
+- 初批题目偏自部署、操作场景和长问法；README 明示扩到 70 时补短问、云端、错误前提等覆盖，不能据 20 题推断全部场景。未读取测试题、调用 DeepSeek、运行被测 RAG 或生成正式效果数字。
