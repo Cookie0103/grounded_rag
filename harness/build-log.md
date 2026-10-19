@@ -8,10 +8,10 @@
 最后更新：2026-10-19（云端接入与真实运行核验）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T3：补齐粗召回/精排候选、各次生成和后处理；API/MCP/CLI 与评测接可选 Langfuse。代码和本地验证已完成，真实云端尚未验证，未推送或运行远程 CI。
-- **本机配置**：作者已填 DeepSeek 密钥，真实调用通过；四个 GPU 模型实际推理通过。原数据库容器已启动，根目录 `.env` 的 DATABASE_URL / DB_PORT 已对齐 15432，语料和双模型向量完整。Langfuse 两项项目密钥仍缺，作者表示会配置；不要在日志或聊天暴露值。
-- **没有的**：真实正式评测效果数字、作者题集及人工评审标注、Langfuse 真正接收记录的证据、最终静态站点。单题真实问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
-- **下一步**：作者填好 Langfuse 后验证真实上传，再准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
+- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
+- **本机配置**：DeepSeek 与四个 GPU 模型已验证。作者明确要求 RAG 使用 **5432**：已停止占用端口的 Windows `postgresql-x64-18` 并改为 Manual；根目录 `.env` 的 DATABASE_URL / DB_PORT 和 RAG 容器均为 5432，语料及双向量完整。Travel Agent PostgreSQL 17 容器仍用 5434；原生 PostgreSQL 17 仍用 5433。Langfuse 凭据已配置且认证和记录读回成功；不要输出密钥。
+- **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
+- **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
 ## 阶段状态
@@ -31,7 +31,7 @@
 | [phase-08 观测](build/phase-08-observability.md) | 完成 | trace、反馈、干预库、后处理、坏例导出 |
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
 | [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
-| [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 阻塞（仅真实云端验证） | 本地实现与运行核验完成；Langfuse 凭据待作者填写 |
+| [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 完成 | 本地、真实云端读回和作者指定 5432 均验证通过 |
 
 最终检查状态见下方 2026-10-19 活动记录。上次 GPU pytest（2026-10-16）为 3 passed；本轮另行真实离线加载四个 GPU 模型执行推理，未运行正式效果评测。
 
@@ -113,3 +113,14 @@
 - 实际启动 `uvicorn app.api.main:create_app --factory --host 127.0.0.1 --port 8000`（PREWARM=true）成功；PowerShell 请求 `/health` → HTTP 200、status=ok、database=ok。验证后已停止本轮创建的 HTTP 进程，数据库保持运行，作者可自行 `poe serve`。
 - 运行手册补齐第一批 20 题的出题步骤、五路与改写区别、chunk 检查边界、语料固定 GitHub 来源和父子切分、CLI / REST 命令、云端配置和长期保存。核对官方价格与静态托管资料后选 GitHub Pages；正式题集完成前未发布站点。决定见 [phase-11 context](context/phase-11-cloud-tracing-context.md)，自查见 [phase-11 Codex](code_review/2026-10-19-phase-11-codex.md)。
 - 剩余外部输入：Langfuse PUBLIC_KEY / SECRET_KEY 最后核验仍缺，作者已答复会配置；本轮不能宣称真正上传云端。作者填好并重启后需验证云端接收，才能完成 AC4。正式开发/测试题和人工评审标注也未提供。代码本地提交，暂不推送/开 PR/合并。
+
+### 2026-10-19 · 续：真实云端验收与固定 5432
+
+- 作者填好 Langfuse 日本区凭据并把连接端口改成 5432 后，报 PostgreSQL 密码认证失败。只输出配置是否匹配，确认用户名/密码与 compose 一致；容器内部读取 documents=182 成功，本机 5432 连接失败。查 Windows 服务与进程，确认监听 PID 7976 属于 `postgresql-x64-18` 的子进程（服务 PID 6088），不是 RAG / Travel Agent 容器。
+- 实读容器版本：RAG `postgres --version` → PostgreSQL 16.15，镜像 pgvector/pgvector:pg16；Travel Agent → PostgreSQL 17.11，镜像 postgres:17，映射 5434。原生 PostgreSQL 17 服务的子进程 PID 8024 使用 5433；原生 PostgreSQL 18 原为 Auto、使用 5432。四者独立，不按端口推断版本。
+- 原先临时恢复 15432 验证成功；作者随后明确要求“就要 5432”，并授权关闭 Windows PostgreSQL 18。普通权限 Stop-Service 被 Windows 拒绝后，经 UAC 管理员操作执行 Stop-Service 和 Set-Service -StartupType Manual；复核 State=Stopped、StartMode=Manual，未删除安装或数据，未改 Travel Agent 和原生 PostgreSQL 17。
+- 仅更新根 `.env` 的 DATABASE_URL 端口与 DB_PORT 为 5432，保留所有密钥及其他配置。`docker compose up -d db` 沿用原持久卷重建容器；`docker compose port db 5432` → 0.0.0.0:5432。本机通过 app.db.engine.ping 与 table_counts 实读 documents=182、parent_chunks=1252、chunks=2090、chunk_embeddings=4180。
+- `uv --cache-dir ../.cache/uv run --no-sync python -m scripts.ask "知识库单次最多上传几个文件？" --edition self_host --json` 在 5432 下真实成功，回答最多 5 个并附引用，8 步齐全；输出在忽略目录 `.cache/chat-5432-smoke-2026-10-19.json`，应用 trace_id=`5e422450547c4b80bebf1e0fef17407a`。
+- Langfuse auth_check=True。SDK v5 使用 observations.get_many，按云端 trace_id=`6087e6c7a7a48073197a66fe958a430f` 实读到 9 条记录：根 grounded-rag 与 guard/route/rewrite/retrieve/grade/generate/verify/postprocess。云端原始响应在 `.cache/langfuse-5432-smoke-2026-10-19.json`。此前另一真实请求也核对了云端候选 50/20/5、实际 context 和 output 与本地完全一致；AC4 据真实服务端读回完成。
+- 本续任务没有修改业务代码、依赖、表或评测。更新阶段状态、端口决定和参数解释；手册说明 edition、session_id、python -m、PowerShell 末尾反斜杠和 /docs 与 /health 的区别。当前 HTTP 8000 没有监听，作者需要常驻接口时运行 poe serve；CLI 已实际验证。
+- 端口切换后的提交前复核：`uv --cache-dir ../.cache/uv run --no-sync poe check` → 格式、lint、分层、mypy 通过，433 passed、覆盖率 94.85%；`poe test-int` → 32 passed（5432 上的独立测试库）。文档差异 `git diff --check` 通过，未暂存 `.env` 或缓存。

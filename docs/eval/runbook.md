@@ -154,12 +154,18 @@ uv run poe serve
 
 常驻服务打开 `http://127.0.0.1:8000/docs`，执行 POST /chat。或另开一个 PowerShell：
 
+参数含义：`edition=self_host` 查自部署版和通用文档，`cloud` 查云版和通用文档；不填可由问题/历史判断，仍未确定时不限制。CLI 的值是 `self_host`（下划线），不是 `self-host`。`session_id` 是同一段对话的编号，沿用同一个值就能追问；独立测试可省略或在 JSON 中设为 null，不要把示例 `"string"` 当固定值。
+
+`python -m scripts.ask` 表示按 Python 模块运行 `backend/scripts/ask.py`，不是调用名叫 scripts.ask 的函数；该文件的 main 解析参数，再调用 run 和已有 ChatService。`stream=false` 一次返回完整结果，true 则逐步推送。
+
 ```powershell
 $payload = @{question="知识库单次最多上传几个文件？"; edition="self_host"} | ConvertTo-Json
 $result = Invoke-RestMethod -Uri http://127.0.0.1:8000/chat -Method Post -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($payload))
 $result.answer
 $result.steps | ConvertTo-Json -Depth 30
 ```
+
+本机数据库端口已按作者要求固定为 **5432**。此前密码认证失败是连到了占用 5432 的 Windows PostgreSQL 18；该服务现已停止并改为手动启动，RAG 容器接管 5432。Travel Agent 的 Docker PostgreSQL 17 仍用 5434，不受影响。`.env` 改动后需重启正在运行的 `poe serve`；仅打开 `/docs` 成功不代表数据库可用，应检查 `/health`。PowerShell 的 `docker compose up -d db` 末尾不要加反斜杠，否则服务名会被当成 `db\`。
 
 语料是 **Dify** 文档。冻结来源为 [langgenius/dify-docs 的中文目录](https://github.com/langgenius/dify-docs/tree/c80a31868611b673bd77725a6310c685068a585e/zh)，不是金融 DeFi 文档。下载器通过 GitHub 文件树选择 corpus.py 列出的目录，再下载 raw.githubusercontent.com 的 MDX 原文、校验 Git blob 哈希；没有抓取页面渲染后的 HTML。
 
