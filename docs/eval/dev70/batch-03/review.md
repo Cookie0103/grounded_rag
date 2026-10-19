@@ -10,9 +10,9 @@
 | dev046 | 单跳 / 同义改写 | 3 | SINGLE | 只找眼前画布里的步骤，键盘怎么用？组合键失灵还有何入口？ |
 | dev047 | 单跳 / 同义改写 | 2 | SINGLE | 两人改同一元素谁的会留下？讨论留言会随修订消失吗？ |
 | dev048 | 单跳 / 数值/表格 | 2 | SINGLE | 自建聊天接收录音，单个默认多大，调整上限用哪项配置？ |
-| dev049 | 单跳 / 数值/表格 | 2 | SINGLE | 云端把空间交给同事时，验证码发给谁，交接后我是什么身份？ |
+| dev049 | 单跳 / 数值/表格 | 2 | SINGLE | 交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？ |
 | dev050 | 单跳 / 易混 | 3 | SINGLE | 需要可装程序改文件的沙箱助理，选哪类应用？固定能力和每次任务如何区分？ |
-| dev051 | 单跳 / 易混 | 3 | SINGLE | 旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？ |
+| dev051 | 单跳 / 易混 | 2 | SINGLE | 旧版工具助理为什么漏选资料，怎样改进选库判断？ |
 | dev052 | 单跳 / 短问 | 2 | SINGLE | 恢复旧版后草稿怎样变化，如何更新线上？ |
 | dev053 | 单跳 / 短问 | 1 | SINGLE | 单独跑前端时，两类域名不同用什么配置？ |
 | dev054 | 单跳 / 单问版本 | 2 | SINGLE | 社区部署的空间何时创建，初始管理员凭据从哪来？ |
@@ -20,9 +20,9 @@
 | dev056 | 多跳 / 链式 | 3 | MULTI | 自建库要模型生成结构化问答，用哪个内置方案？其材料产出顺序和适合文体呢？ |
 | dev057 | 多跳 / 链式 | 4 | MULTI | 本地HTTP接Notion用哪种授权？该方式谁能建，凭据怎么配才生效？ |
 | dev058 | 多跳 / 链式 | 4 | MULTI | 云端取消付费何时转免费档？此后知识库容量和超额旧资料的去留与检索呢？ |
-| dev059 | 多跳 / 并列/比较 | 4 | MULTI | 旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？ |
+| dev059 | 多跳 / 并列/比较 | 4 | MULTI | 旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？ |
 | dev060 | 多跳 / 并列/比较 | 4 | MULTI | 聊天页如何隔开多主题记忆？任务页适合什么任务，跑CSV每行含义与编码呢？ |
-| dev061 | 多跳 / 分散/有序 | 3 | MULTI | Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？ |
+| dev061 | 多跳 / 分散/有序 | 3 | MULTI | Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？ |
 | dev062 | 多跳 / 分散/有序 | 4 | MULTI | 自建流程外链预览、容器取文件及旧链接过期，分别查何配置，地址留空会怎样？ |
 | dev063 | 拒答与纠正 / 库内缺依据 | 0 | null | 官方对自部署跨机房灾备承诺的恢复点、恢复时间和切换期限各是多少？ |
 | dev064 | 拒答与纠正 / 库内缺依据 | 0 | null | 云版日本企业付款后，税务发票注册号与申请和开票期限怎样规定？ |
@@ -178,19 +178,29 @@
 </details>
 
 
-## dev049：云端把空间交给同事时，验证码发给谁，交接后我是什么身份？
+## dev049：交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？
 
 参考答案：验证码发到当前所有者的邮箱；交接完成后原所有者变为普通成员。
 
-版本：cloud；预期行为：answered；最可能失败：把验证码发给接收者，或将原负责人保留为管理员。。
+版本：未限定；预期行为：answered；最可能失败：把验证码发给接收者，或将原负责人保留为管理员。。
 
 1. **vital**：转移所有权的验证码发送到当前所有者邮箱。
+   等价来源（任一成立）：
    - [cloud/use-dify/workspace/team-members-management L47–47](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47)；`cloud/use-dify/workspace/team-members-management#c4` / `cloud/use-dify/workspace/team-members-management#p4`。
 
      > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
 
+   - [self-host/use-dify/workspace/team-members-management L50–50](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50)；`self-host/use-dify/workspace/team-members-management#c3` / `self-host/use-dify/workspace/team-members-management#p3`。
+
+     > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
+
 2. **vital**：转移完成后，原所有者变为普通成员。
+   等价来源（任一成立）：
    - [cloud/use-dify/workspace/team-members-management L47–47](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47)；`cloud/use-dify/workspace/team-members-management#c4` / `cloud/use-dify/workspace/team-members-management#p4`。
+
+     > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
+
+   - [self-host/use-dify/workspace/team-members-management L50–50](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50)；`self-host/use-dify/workspace/team-members-management#c3` / `self-host/use-dify/workspace/team-members-management#p3`。
 
      > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
 
@@ -198,6 +208,9 @@
 
 ```json
 {
+  "counterpart_docs": [
+    "self-host/use-dify/workspace/team-members-management"
+  ],
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
@@ -209,6 +222,8 @@
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev050：需要可装程序改文件的沙箱助理，选哪类应用？固定能力和每次任务如何区分？
@@ -259,11 +274,11 @@
 </details>
 
 
-## dev051：旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？
+## dev051：旧版工具助理为什么漏选资料，怎样改进选库判断？
 
-参考答案：模型会按每条查询与知识库描述的相关性决定是否搜索。把描述写详细能改善选择。各库独立检索，不会跨库重排序结果。
+参考答案：旧版Agent会评估每条用户查询与知识库描述的相关性，再决定是否检索；把知识库描述写详细，可以改善相关性判断。
 
-版本：未限定；预期行为：answered；最可能失败：误用聊天助手每条消息都检索的机制，或承诺跨库重排。。
+版本：未限定；预期行为：answered；最可能失败：误套聊天助手每条消息都检索的机制，未说明知识库描述对相关性决策的作用。。
 
 1. **vital**：旧版Agent按每条查询与知识库描述的相关性决定是否检索。
    - [self-host/use-dify/build/agent L130–130](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx#L130-L130)；`self-host/use-dify/build/agent#c7` / `self-host/use-dify/build/agent#p3`。
@@ -275,11 +290,6 @@
 
      > **知识库描述越详细，模型判断相关性就越准确**，从而实现更精准的检索。
 
-3. **vital**：多个知识库的结果不会跨库重排序。
-   - [self-host/use-dify/build/agent L135–135](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx#L135-L135)；`self-host/use-dify/build/agent#c7` / `self-host/use-dify/build/agent#p3`。
-
-     >     Agent 应用没有应用级检索设置。每个知识库都使用各自配置的设置独立检索。添加多个知识库时，由 Agent 决定查询哪些，也不会跨知识库对结果重排序。
-
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
@@ -290,13 +300,15 @@
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
-    "question_characters": 30,
-    "vital_count": 3
+    "question_characters": 23,
+    "vital_count": 2
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev052：恢复旧版后草稿怎样变化，如何更新线上？
@@ -489,8 +501,8 @@
           },
           "cleaned_character_offset": 847,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8",
           "reconstruct_verified": true
         },
@@ -517,8 +529,8 @@
           },
           "cleaned_character_offset": 268,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "3945b8c8f985cc1463a3e1976272fcdb8fd56d569d934e9aff09ce674b206fc8",
           "reconstruct_verified": true
         },
@@ -613,8 +625,8 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "987a63027cb67d9ae3eb91c331351a92c5933e793c2ae2d4e2d48674d5b41a02",
           "reconstruct_verified": true
         },
@@ -641,8 +653,8 @@
           },
           "cleaned_character_offset": 1334,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "7e17eeff2c9b05c9bc0274034c1e2c3b5780aaea3ab7a7bb705933b02fe07cf2",
           "reconstruct_verified": true
         },
@@ -738,8 +750,8 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a",
           "reconstruct_verified": true
         },
@@ -766,8 +778,8 @@
           },
           "cleaned_character_offset": 84,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43",
           "reconstruct_verified": true
         },
@@ -857,8 +869,8 @@
           },
           "cleaned_character_offset": 102,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "5e7b0e826cf599cb2dcc6da33d0b1eb5a488d288546dab3922aaf931602894e2",
           "reconstruct_verified": true
         },
@@ -885,8 +897,8 @@
           },
           "cleaned_character_offset": 98,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "b398f3583244febbdfec6615fea9977b4efe8583df1a065b045e0d30dc234987",
           "reconstruct_verified": true
         },
@@ -900,31 +912,31 @@
 </details>
 
 
-## dev059：旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？
+## dev059：旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？
 
-参考答案：旧版Agent只有流式返回，会话变量跨轮保留。文本生成API调用之间无会话状态，可选阻塞返回，等生成完成一次性拿到内容。
+参考答案：旧版Agent仅支持流式，回复正文由agent_message事件承载（另有agent_thought思考事件）；文本生成可阻塞也可流式，流式正文使用message事件。只要求比较返回方式与正文事件，不考会话记忆。
 
-版本：未限定；预期行为：answered；最可能失败：混用旧版Agent和新Agent，或给无状态文本生成添加跨轮会话。。
+版本：未限定；预期行为：answered；最可能失败：混用Agent的agent_message与普通message事件，或错误承诺旧版Agent支持阻塞返回。。
 
 1. **vital**：旧版Agent应用仅支持流式返回。
    - [api-reference/guides/chat L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L17-L17)；`api-reference/guides/chat#c1` / `api-reference/guides/chat#p1`。
 
-     > - **[发送对话消息](/zh/api-reference/chat-messages/send-chat-message)**：向聊天助手或旧版 Agent 应用发送用户提问。阻塞式返回在回复完成后一次性返回全部内容；旧版 Agent 应用仅支持流式返回。
+     > 旧版 Agent 应用仅支持流式返回。
 
-2. **vital**：对话API的会话变量跨多轮保留。
-   - [api-reference/guides/chat L29–29](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L29-L29)；`api-reference/guides/chat#c2` / `api-reference/guides/chat#p2`。
-
-     > - **[获取会话变量](/zh/api-reference/conversations/list-conversation-variables)**：读取会话在多轮对话间保留的变量值。
-
-3. **vital**：文本生成API的调用之间不保留会话状态。
-   - [api-reference/guides/completion L9–9](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L9-L9)；`api-reference/guides/completion#c0` / `api-reference/guides/completion#p0`。
-
-     > [文本生成应用](/zh/cloud/use-dify/build/text-generator) 运行在 `completion` 模式下，每次调用各自提交输入值并返回一条回复，调用之间不保留会话状态。
-
-4. **vital**：文本生成API支持生成结束后一次性返回的阻塞模式。
+2. **vital**：文本生成API支持阻塞式返回，也支持流式返回。
    - [api-reference/guides/completion L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L17-L17)；`api-reference/guides/completion#c1` / `api-reference/guides/completion#p1`。
 
-     > - **[发送消息](/zh/api-reference/completion-messages/send-completion-message)**：将 `inputs` 中的取值填入应用的提示词模板并生成回复。阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
+     > 阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
+
+3. **vital**：旧版Agent流式正文使用agent_message事件。
+   - [api-reference/guides/chat L9–9](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L9-L9)；`api-reference/guides/chat#c0` / `api-reference/guides/chat#p0`。
+
+     > 聊天助手应用以 `message` 事件流式返回回复，旧版 Agent 应用则返回 `agent_thought` 和 `agent_message` 事件。
+
+4. **vital**：文本生成API流式正文使用message事件。
+   - [api-reference/guides/completion L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L17-L17)；`api-reference/guides/completion#c1` / `api-reference/guides/completion#p1`。
+
+     > 流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
 
 <details><summary>边界、干扰与难度证据</summary>
 
@@ -933,13 +945,15 @@
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
-    "question_characters": 29,
+    "question_characters": 38,
     "vital_count": 4
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev060：聊天页如何隔开多主题记忆？任务页适合什么任务，跑CSV每行含义与编码呢？
@@ -984,9 +998,9 @@
 </details>
 
 
-## dev061：Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？
+## dev061：Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？
 
-参考答案：API前先用middleware配置启动数据库、沙箱和插件守护进程：docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows消费者命令为uv run celery -A app.celery worker -P solo --without-gossip --without-mingle --loglevel INFO -Q dataset,dataset_summary,priority_dataset,priority_pipeline,pipeline,mail,ops_trace,app_deletion,plugin,workflow_storage,conversation,workflow,schedule_poller,schedule_executor,triggered_workflow_dispatcher,trigger_refresh_executor,retention,workflow_based_app_execution；定时调度另开终端运行uv run celery -A app.celery beat。
+参考答案：先用middleware配置启动数据库、沙箱和插件守护进程，可执行docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows的Celery Worker需-P solo --without-gossip --without-mingle兼容选项；定时服务另开终端运行uv run celery -A app.celery beat。文档完整Worker命令中的队列清单不是本题必答项。
 
 版本：self_host；预期行为：answered；最可能失败：Windows误用默认进程池，或遗漏定时任务独立beat服务。。
 
@@ -1034,12 +1048,18 @@
       "self-host/deploy/advanced-deployments/local-source-code#p5",
       "self-host/deploy/advanced-deployments/local-source-code#p7"
     ],
-    "raw_excerpt_prefix_limit": 12000
+    "raw_excerpt_prefix_limit": 12000,
+    "question_characters": 41,
+    "at_most_40": false,
+    "at_most_80": true,
+    "vital_count": 3
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev062：自建流程外链预览、容器取文件及旧链接过期，分别查何配置，地址留空会怎样？

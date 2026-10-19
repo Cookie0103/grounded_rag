@@ -857,12 +857,17 @@
       "question_id": "dev049",
       "fact": "转移所有权的验证码发送到当前所有者邮箱。",
       "documents": [
-        "cloud/use-dify/workspace/team-members-management"
+        "cloud/use-dify/workspace/team-members-management",
+        "self-host/use-dify/workspace/team-members-management"
       ],
       "evidence": [
         {
           "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
           "parent_id": "cloud/use-dify/workspace/team-members-management#p4"
+        },
+        {
+          "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
+          "parent_id": "self-host/use-dify/workspace/team-members-management#p3"
         }
       ]
     },
@@ -870,12 +875,17 @@
       "question_id": "dev049",
       "fact": "转移完成后，原所有者变为普通成员。",
       "documents": [
-        "cloud/use-dify/workspace/team-members-management"
+        "cloud/use-dify/workspace/team-members-management",
+        "self-host/use-dify/workspace/team-members-management"
       ],
       "evidence": [
         {
           "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
           "parent_id": "cloud/use-dify/workspace/team-members-management#p4"
+        },
+        {
+          "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
+          "parent_id": "self-host/use-dify/workspace/team-members-management#p3"
         }
       ]
     },
@@ -942,19 +952,6 @@
     {
       "question_id": "dev051",
       "fact": "写更详细的知识库描述能改善相关性判断。",
-      "documents": [
-        "self-host/use-dify/build/agent"
-      ],
-      "evidence": [
-        {
-          "chunk_id": "self-host/use-dify/build/agent#c7",
-          "parent_id": "self-host/use-dify/build/agent#p3"
-        }
-      ]
-    },
-    {
-      "question_id": "dev051",
-      "fact": "多个知识库的结果不会跨库重排序。",
       "documents": [
         "self-host/use-dify/build/agent"
       ],
@@ -1267,33 +1264,33 @@
     },
     {
       "question_id": "dev059",
-      "fact": "对话API的会话变量跨多轮保留。",
-      "documents": [
-        "api-reference/guides/chat"
-      ],
-      "evidence": [
-        {
-          "chunk_id": "api-reference/guides/chat#c2",
-          "parent_id": "api-reference/guides/chat#p2"
-        }
-      ]
-    },
-    {
-      "question_id": "dev059",
-      "fact": "文本生成API的调用之间不保留会话状态。",
+      "fact": "文本生成API支持阻塞式返回，也支持流式返回。",
       "documents": [
         "api-reference/guides/completion"
       ],
       "evidence": [
         {
-          "chunk_id": "api-reference/guides/completion#c0",
-          "parent_id": "api-reference/guides/completion#p0"
+          "chunk_id": "api-reference/guides/completion#c1",
+          "parent_id": "api-reference/guides/completion#p1"
         }
       ]
     },
     {
       "question_id": "dev059",
-      "fact": "文本生成API支持生成结束后一次性返回的阻塞模式。",
+      "fact": "旧版Agent流式正文使用agent_message事件。",
+      "documents": [
+        "api-reference/guides/chat"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/chat#c0",
+          "parent_id": "api-reference/guides/chat#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev059",
+      "fact": "文本生成API流式正文使用message事件。",
       "documents": [
         "api-reference/guides/completion"
       ],
@@ -1632,19 +1629,6 @@
       ]
     },
     {
-      "question_id": "dev072",
-      "fact": "流式API用reasoning_chunk事件独立返回推理内容。",
-      "documents": [
-        "self-host/use-dify/nodes/llm"
-      ],
-      "evidence": [
-        {
-          "chunk_id": "self-host/use-dify/nodes/llm#c11",
-          "parent_id": "self-host/use-dify/nodes/llm#p10"
-        }
-      ]
-    },
-    {
       "question_id": "dev073",
       "fact": "依赖上一轮结果继续处理应使用循环节点。",
       "documents": [
@@ -1724,40 +1708,27 @@
     },
     {
       "question_id": "dev076",
-      "fact": "云端Sandbox文档的未活跃自动禁用阈值为7天。",
+      "fact": "市场安装目标误指别处时，清除安装偏好设置中保存的URL以恢复安装到Dify Cloud。",
       "documents": [
-        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+        "cloud/use-dify/workspace/plugins"
       ],
       "evidence": [
         {
-          "chunk_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1",
-          "parent_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+          "chunk_id": "cloud/use-dify/workspace/plugins#c2",
+          "parent_id": "cloud/use-dify/workspace/plugins#p2"
         }
       ]
     },
     {
       "question_id": "dev076",
-      "fact": "云端Professional和Team文档的未活跃自动禁用阈值为30天。",
+      "fact": "工作空间所有者和管理员可以在集成页面底部的权限中设置安装权限。",
       "documents": [
-        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+        "cloud/use-dify/workspace/plugins"
       ],
       "evidence": [
         {
-          "chunk_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1",
-          "parent_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
-        }
-      ]
-    },
-    {
-      "question_id": "dev076",
-      "fact": "Professional和Team可一键重新启用被自动禁用的文档。",
-      "documents": [
-        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
-      ],
-      "evidence": [
-        {
-          "chunk_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1",
-          "parent_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+          "chunk_id": "cloud/use-dify/workspace/plugins#c3",
+          "parent_id": "cloud/use-dify/workspace/plugins#p3"
         }
       ]
     },

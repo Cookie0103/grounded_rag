@@ -1,5 +1,7 @@
 # 新增前23题
 
-入口：[审阅稿](review.md)、[题目](questions.jsonl)、[逐题证据](evidence.json)、[机械自检](validation.json)。
+入口：[审阅稿](review.md)、[题目](questions.jsonl)、[逐题证据](evidence.json)、[自检与检索](validation.json)。
 
-10单跳、8多跳（4链式）、3拒答纠正、2模糊。先通过46题蓝图，再制作本半。逐题语义最终复核和新增原样检索在全70合并后完成；本文件不代表正式效果评测。
+10单跳、8多跳（4链式）、3拒答纠正、2模糊。类别与全部子类已按目标核对。蓝图先通过内部核验，再制作本半；最终独立审题提出的问题已逐项修复，原始结论与主agent闭环见[全局审查](../semantic-review.json)。
+
+本半23题均已原样调用一次本机MPS检索，不传edition、不分解；逐题前5在validation.json。作者/Claude最终审定待进行，未运行完整系统或无检索基线，不作为正式效果成绩。

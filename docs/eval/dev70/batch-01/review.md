@@ -327,7 +327,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
         }
       ]
@@ -382,7 +382,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
         }
       ]
@@ -413,7 +413,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
         }
       ]

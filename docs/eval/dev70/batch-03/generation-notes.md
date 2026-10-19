@@ -1,3 +1,5 @@
+> 本文件保留写题作者冻结时的交接记录；最终状态以本批validation.json、../blueprint-amendments.json和../semantic-review.json为准，后续修正不回写为作者初稿已通过。
+
 # batch-03独占草稿
 
 来源、事实、子类和金标OR组固定为通过的蓝图dev045～067；未改canonical、后半批或backend，未提交、未调用模型。

@@ -4767,6 +4767,339 @@
         " - **编辑者** 构建应用并管理知识库",
         " - **成员** 使用已发布的应用"
       ]
+    },
+    "cloud/use-dify/workspace/plugins <=> self-host/use-dify/workspace/plugins": {
+      "documents": [
+        "cloud/use-dify/workspace/plugins",
+        "self-host/use-dify/workspace/plugins"
+      ],
+      "raw_text_identical": false,
+      "raw_bytes_identical": false,
+      "cleaned_text_identical": false,
+      "raw_sha256": {
+        "cloud/use-dify/workspace/plugins": "2d9127209a2f263dd9b0478c69d723955056a419c62d2948618ecb7bbbf1933e",
+        "self-host/use-dify/workspace/plugins": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8"
+      },
+      "character_diff": [
+        {
+          "operation": "replace",
+          "a_start": 123,
+          "a_end": 124,
+          "b_start": 123,
+          "b_end": 125,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 125,
+          "a_end": 125,
+          "b_start": 126,
+          "b_end": 129,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 126,
+          "a_end": 128,
+          "b_start": 130,
+          "b_end": 132,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 312,
+          "a_end": 313,
+          "b_start": 316,
+          "b_end": 318,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 314,
+          "a_end": 314,
+          "b_start": 319,
+          "b_end": 322,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 315,
+          "a_end": 317,
+          "b_start": 323,
+          "b_end": 325,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 400,
+          "a_end": 401,
+          "b_start": 408,
+          "b_end": 410,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 402,
+          "a_end": 402,
+          "b_start": 411,
+          "b_end": 414,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 403,
+          "a_end": 405,
+          "b_start": 415,
+          "b_end": 417,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 504,
+          "a_end": 505,
+          "b_start": 516,
+          "b_end": 518,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 506,
+          "a_end": 506,
+          "b_start": 519,
+          "b_end": 522,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 507,
+          "a_end": 509,
+          "b_start": 523,
+          "b_end": 525,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 627,
+          "a_end": 628,
+          "b_start": 643,
+          "b_end": 645,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 629,
+          "a_end": 629,
+          "b_start": 646,
+          "b_end": 649,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 630,
+          "a_end": 632,
+          "b_start": 650,
+          "b_end": 652,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 720,
+          "a_end": 721,
+          "b_start": 740,
+          "b_end": 742,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 722,
+          "a_end": 722,
+          "b_start": 743,
+          "b_end": 746,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 723,
+          "a_end": 725,
+          "b_start": 747,
+          "b_end": 749,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "replace",
+          "a_start": 803,
+          "a_end": 804,
+          "b_start": 827,
+          "b_end": 829,
+          "a_text": "c",
+          "b_text": "se"
+        },
+        {
+          "operation": "insert",
+          "a_start": 805,
+          "a_end": 805,
+          "b_start": 830,
+          "b_end": 833,
+          "a_text": "",
+          "b_text": "f-h"
+        },
+        {
+          "operation": "replace",
+          "a_start": 806,
+          "a_end": 808,
+          "b_start": 834,
+          "b_end": 836,
+          "a_text": "ud",
+          "b_text": "st"
+        },
+        {
+          "operation": "delete",
+          "a_start": 1060,
+          "a_end": 1062,
+          "b_start": 1088,
+          "b_end": 1088,
+          "a_text": "如果",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1063,
+          "a_end": 1074,
+          "b_start": 1089,
+          "b_end": 1089,
+          "a_text": "市场安装时打开的是其他",
+          "b_text": ""
+        },
+        {
+          "operation": "delete",
+          "a_start": 1080,
+          "a_end": 1085,
+          "b_start": 1095,
+          "b_end": 1095,
+          "a_text": "环境而非你",
+          "b_text": ""
+        },
+        {
+          "operation": "replace",
+          "a_start": 1087,
+          "a_end": 1091,
+          "b_start": 1097,
+          "b_end": 1103,
+          "a_text": "Dify",
+          "b_text": "**集成**"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1092,
+          "a_end": 1097,
+          "b_start": 1104,
+          "b_end": 1114,
+          "a_text": "Cloud",
+          "b_text": "页面打开市场时，点击"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1098,
+          "a_end": 1102,
+          "b_start": 1115,
+          "b_end": 1151,
+          "a_text": "工作空间",
+          "b_text": "**安装** 即可将集成安装到当前部署。\n\n    以其他方式打开市场时"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1103,
+          "a_end": 1105,
+          "b_start": 1152,
+          "b_end": 1154,
+          "a_text": "清除",
+          "b_text": "先在"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1118,
+          "a_end": 1120,
+          "b_start": 1167,
+          "b_end": 1170,
+          "a_text": "保存",
+          "b_text": "填写你"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1121,
+          "a_end": 1121,
+          "b_start": 1171,
+          "b_end": 1173,
+          "a_text": "",
+          "b_text": "部署"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1126,
+          "a_end": 1130,
+          "b_start": 1178,
+          "b_end": 1179,
+          "a_text": "即可重新",
+          "b_text": "再"
+        },
+        {
+          "operation": "replace",
+          "a_start": 1132,
+          "a_end": 1144,
+          "b_start": 1181,
+          "b_end": 1191,
+          "a_text": "到 Dify Cloud",
+          "b_text": "。浏览器会记住该目标"
+        },
+        {
+          "operation": "insert",
+          "a_start": 1349,
+          "a_end": 1349,
+          "b_start": 1396,
+          "b_end": 1560,
+          "a_text": "",
+          "b_text": "\n\n<Tip>\n  在 Dify Enterprise 中，管理员可在整个部署范围内限制安装来源，仅允许官方集成、官方及认证合作伙伴的集成，或仅允许从市场安装。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)。\n</Tip>"
+        }
+      ],
+      "cleaned_unified_diff": [
+        "--- cloud/use-dify/workspace/plugins",
+        "+++ self-host/use-dify/workspace/plugins",
+        "@@ -25,10 +25,15 @@",
+        " - **市场**：来自 Dify、合作伙伴和社区开发者的集成。每项集成都在发布前经过审核和测试，之后由发布者维护。",
+        " ",
+        "   **说明：**",
+        "-  如果从市场安装时打开的是其他 Dify 环境而非你的 Dify Cloud 工作空间，清除 **安装偏好设置** 中保存的 URL 即可重新安装到 Dify Cloud。",
+        "+  从 Dify 的 **集成** 页面打开市场时，点击 **安装** 即可将集成安装到当前部署。",
+        "+",
+        "+  以其他方式打开市场时，先在 **安装偏好设置** 中填写你的部署 URL 再安装。浏览器会记住该目标。",
+        " ",
+        " - **GitHub**：通过 URL 和版本从任意公共仓库安装。",
+        " - **本地集成包**：用于私有或内部集成的自定义 `.difypkg` 包。",
+        "+",
+        "+**提示：**",
+        "+在 Dify Enterprise 中，管理员可在整个部署范围内限制安装来源，仅允许官方集成、官方及认证合作伙伴的集成，或仅允许从市场安装。如需了解更多，请 联系销售。",
+        " ",
+        " ## 权限与更新",
+        " "
+      ]
     }
   }
 }

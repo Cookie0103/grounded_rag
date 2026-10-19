@@ -60,7 +60,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
@@ -98,7 +98,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
@@ -116,7 +116,8 @@
       "all_equivalent_gold_docs": [
         "api-reference/guides/streaming"
       ],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "database_verified": true
     },
     {
       "question_id": "dev022",
@@ -532,7 +533,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
                 }
               ]
@@ -570,7 +571,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
                 }
               ]
@@ -614,7 +615,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
             }
           ]
@@ -647,7 +648,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
             }
           ]
@@ -678,7 +679,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
             }
           ]
@@ -688,7 +689,8 @@
       "all_equivalent_gold_docs": [
         "self-host/use-dify/nodes/iteration"
       ],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "database_verified": true
     },
     {
       "question_id": "dev025",
@@ -1305,7 +1307,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "91bbd8853e58585e7403154d69866276f4c92be61a446d033fa06fb79d6c5eb5"
                 }
               ]
@@ -1343,7 +1345,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "636685337803847224709bfc792984caeed12a29534ffec8995cdb501b67b0b0"
                 }
               ]
@@ -1381,7 +1383,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "636685337803847224709bfc792984caeed12a29534ffec8995cdb501b67b0b0"
                 }
               ]
@@ -1401,7 +1403,8 @@
         "self-host/use-dify/nodes/ifelse",
         "self-host/use-dify/nodes/question-classifier"
       ],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "database_verified": true
     },
     {
       "question_id": "dev030",
@@ -1467,7 +1470,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
                 }
               ]
@@ -1505,7 +1508,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
@@ -1543,7 +1546,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
@@ -1581,7 +1584,7 @@
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": true,
                   "reconstruct_verified": true,
-                  "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
@@ -1616,7 +1619,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
             }
           ]
@@ -1656,7 +1659,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
             }
           ]
@@ -1687,7 +1690,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
             }
           ]
@@ -1699,7 +1702,8 @@
       ],
       "twin_comparison_ids": [
         "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
-      ]
+      ],
+      "database_verified": true
     },
     {
       "question_id": "dev031",
@@ -1749,7 +1753,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
             }
           ]
@@ -1780,7 +1784,7 @@
               "within_current_judge_first_12000_chars": true,
               "database_verified": true,
               "reconstruct_verified": true,
-              "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
             }
           ]
@@ -1886,7 +1890,8 @@
         "rechecked_this_run": true
       },
       "all_equivalent_gold_docs": [],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "database_verified": true
     },
     {
       "question_id": "dev032",

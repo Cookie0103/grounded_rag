@@ -42,3 +42,13 @@ pair_id, comparison = compare_twins(doc_id, index=index)
 - 纯注入且无gold文档可用非空 `acceptance` / `behavioral_acceptance`，nugget的 `all_of` 可空，不伪造引用。
 
 机械检查覆盖两组配额、含OR复用、nodes上限、少覆盖目录、vital数量、形态声明比例、同义题全语料标题三字重合、答案泄漏、链式关键词、分散证据最少父块数（正确处理OR）、清洗长文、近义词零命中、原始行/文件hash/生产子块父块/偏移/heading/url、孪生逐字符差异可重建性、相同清洗文的同组OR、指定旧题保留和点名修订数量。两份“相同事实”的同义改写、独立性、bridge必要性、版本答案差异、歧义合理性等始终列 `requires_independent_semantic_review`。未执行真实检索，未证明数据库，未验证出题时间顺序，也不输出正式评测成绩。
+
+原样单次检索入口（需要项目数据库、已入库向量和本地模型）：
+
+```bash
+HF_HUB_OFFLINE=1 backend/.venv/bin/python docs/eval/dev70/tools/retrieval_selftest.py --device mps
+```
+
+Windows/CUDA电脑可用`--device cuda`，或省略device读取既有配置。每题只调用一次`retriever.retrieve(question)`，不传edition、不分解、不生成或评审答案。JSONL保存实际前5子块及文档、组内OR命中、模型、设备、时间和降级状态。同一query hash和设备/模型已有成功记录时续跑会跳过，不进行挑选重试；更换题目或金标的复测应指定新的`--output`，保留首轮原始记录。最终70条与当前question hash、金标组一致的核对结果见root validation。
+
+上述机械工具的限制与真实运行证据分开：本轮确实完成了70次MPS检索和全量只读DB比对，结果见`../retrieval-selftest.jsonl`与`../runtime-verification.json`；来源helper仍只从文件重建，调用它本身不验证DB。初版蓝图的后续语义修订见`../blueprint-amendments.json`，复跑原版蓝图仅能重现当时的静态条件。

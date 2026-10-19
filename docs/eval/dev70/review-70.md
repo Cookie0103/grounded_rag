@@ -34,9 +34,9 @@
 | dev046 | 单跳 / 同义改写 | 3 | SINGLE | 只找眼前画布里的步骤，键盘怎么用？组合键失灵还有何入口？ |
 | dev047 | 单跳 / 同义改写 | 2 | SINGLE | 两人改同一元素谁的会留下？讨论留言会随修订消失吗？ |
 | dev048 | 单跳 / 数值/表格 | 2 | SINGLE | 自建聊天接收录音，单个默认多大，调整上限用哪项配置？ |
-| dev049 | 单跳 / 数值/表格 | 2 | SINGLE | 云端把空间交给同事时，验证码发给谁，交接后我是什么身份？ |
+| dev049 | 单跳 / 数值/表格 | 2 | SINGLE | 交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？ |
 | dev050 | 单跳 / 易混 | 3 | SINGLE | 需要可装程序改文件的沙箱助理，选哪类应用？固定能力和每次任务如何区分？ |
-| dev051 | 单跳 / 易混 | 3 | SINGLE | 旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？ |
+| dev051 | 单跳 / 易混 | 2 | SINGLE | 旧版工具助理为什么漏选资料，怎样改进选库判断？ |
 | dev052 | 单跳 / 短问 | 2 | SINGLE | 恢复旧版后草稿怎样变化，如何更新线上？ |
 | dev053 | 单跳 / 短问 | 1 | SINGLE | 单独跑前端时，两类域名不同用什么配置？ |
 | dev054 | 单跳 / 单问版本 | 2 | SINGLE | 社区部署的空间何时创建，初始管理员凭据从哪来？ |
@@ -44,9 +44,9 @@
 | dev056 | 多跳 / 链式 | 3 | MULTI | 自建库要模型生成结构化问答，用哪个内置方案？其材料产出顺序和适合文体呢？ |
 | dev057 | 多跳 / 链式 | 4 | MULTI | 本地HTTP接Notion用哪种授权？该方式谁能建，凭据怎么配才生效？ |
 | dev058 | 多跳 / 链式 | 4 | MULTI | 云端取消付费何时转免费档？此后知识库容量和超额旧资料的去留与检索呢？ |
-| dev059 | 多跳 / 并列/比较 | 4 | MULTI | 旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？ |
+| dev059 | 多跳 / 并列/比较 | 4 | MULTI | 旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？ |
 | dev060 | 多跳 / 并列/比较 | 4 | MULTI | 聊天页如何隔开多主题记忆？任务页适合什么任务，跑CSV每行含义与编码呢？ |
-| dev061 | 多跳 / 分散/有序 | 3 | MULTI | Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？ |
+| dev061 | 多跳 / 分散/有序 | 3 | MULTI | Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？ |
 | dev062 | 多跳 / 分散/有序 | 4 | MULTI | 自建流程外链预览、容器取文件及旧链接过期，分别查何配置，地址留空会怎样？ |
 | dev063 | 拒答与纠正 / 库内缺依据 | 0 | null | 官方对自部署跨机房灾备承诺的恢复点、恢复时间和切换期限各是多少？ |
 | dev064 | 拒答与纠正 / 库内缺依据 | 0 | null | 云版日本企业付款后，税务发票注册号与申请和开票期限怎样规定？ |
@@ -57,11 +57,11 @@
 | dev069 | 单跳 / 同义改写 | 3 | SINGLE | 范例待审时能撤回吗，递交前插件来源和试跑环境有何要求？ |
 | dev070 | 单跳 / 数值/表格 | 2 | SINGLE | 导入Skill包默认多大，调上限用哪个配置？ |
 | dev071 | 单跳 / 数值/表格 | 2 | SINGLE | 上传文件给外部存储该选哪种正文，非文本响应会变成什么变量？ |
-| dev072 | 单跳 / 易混 | 4 | SINGLE | 思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？ |
+| dev072 | 单跳 / 易混 | 3 | SINGLE | 思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？ |
 | dev073 | 单跳 / 易混 | 2 | SINGLE | 每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？ |
 | dev074 | 单跳 / 短问 | 2 | SINGLE | 在哪查哪步最慢和单步最近的入出参？ |
 | dev075 | 单跳 / 单问版本 | 2 | SINGLE | 云端Sandbox能存流水线模板吗，获准发布后模板在哪？ |
-| dev076 | 单跳 / 单问版本 | 3 | SINGLE | 云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？ |
+| dev076 | 单跳 / 单问版本 | 2 | SINGLE | 从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？ |
 | dev077 | 多跳 / 链式 | 4 | MULTI | 后端跑完流程后该留哪个持久编号？运营拿它怎样查到各步并按原输入重演？ |
 | dev078 | 多跳 / 链式 | 4 | MULTI | Chatflow等人填写时，携带交互凭证和结束当前响应的事件各是哪一个？用它附本地文件怎样引用，提交被拒后凭证还能复用吗？ |
 | dev079 | 多跳 / 链式 | 4 | MULTI | Dify第9课的固定排版环节放在哪，正文取谁的值？该环节怎样读嵌套姓名并兜底缺失项？ |
@@ -73,7 +73,7 @@
 | dev085 | 多跳 / 分散/有序 | 4 | MULTI | Agent构建时放弃、运行时新增文件、重开对话和恢复旧版，分别怎样影响文件或构建笔记？ |
 | dev086 | 拒答与纠正 / 库内缺依据 | 0 | null | 社区集成报漏洞后，官方承诺多久响应、多久发补丁？ |
 | dev087 | 拒答与纠正 / 错误前提 | 0 | null | 教我保留事件触发器，把同一流程直接发布成MCP服务。 |
-| dev088 | 拒答与纠正 / 无关 | 0 | REFUSE | 给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。 |
+| dev088 | 拒答与纠正 / 无关 | 0 | REFUSE | 我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。 |
 | dev089 | 模糊 / 版本不明 | 0 | CLARIFY | 别人导出的DSL，导入就一定兼容吗？ |
 | dev090 | 模糊 / 缺关键信息 | 0 | CLARIFY | 想把外部系统的资料接进来，怎么配？ |
 
@@ -385,7 +385,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
         }
       ]
@@ -440,7 +440,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
         }
       ]
@@ -471,7 +471,7 @@
           "within_current_judge_first_12000_chars": true,
           "database_verified": true,
           "reconstruct_verified": true,
-          "verification_method": "冻结原文与生产清洗/切块重建；本机182篇、2090子块和1252父块已全量只读比对一致",
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
         }
       ]
@@ -1130,19 +1130,29 @@
 </details>
 
 
-## dev049：云端把空间交给同事时，验证码发给谁，交接后我是什么身份？
+## dev049：交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？
 
 参考答案：验证码发到当前所有者的邮箱；交接完成后原所有者变为普通成员。
 
-版本：cloud；预期行为：answered；最可能失败：把验证码发给接收者，或将原负责人保留为管理员。。
+版本：未限定；预期行为：answered；最可能失败：把验证码发给接收者，或将原负责人保留为管理员。。
 
 1. **vital**：转移所有权的验证码发送到当前所有者邮箱。
+   等价来源（任一成立）：
    - [cloud/use-dify/workspace/team-members-management L47–47](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47)；`cloud/use-dify/workspace/team-members-management#c4` / `cloud/use-dify/workspace/team-members-management#p4`。
 
      > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
 
+   - [self-host/use-dify/workspace/team-members-management L50–50](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50)；`self-host/use-dify/workspace/team-members-management#c3` / `self-host/use-dify/workspace/team-members-management#p3`。
+
+     > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
+
 2. **vital**：转移完成后，原所有者变为普通成员。
+   等价来源（任一成立）：
    - [cloud/use-dify/workspace/team-members-management L47–47](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47)；`cloud/use-dify/workspace/team-members-management#c4` / `cloud/use-dify/workspace/team-members-management#p4`。
+
+     > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
+
+   - [self-host/use-dify/workspace/team-members-management L50–50](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50)；`self-host/use-dify/workspace/team-members-management#c3` / `self-host/use-dify/workspace/team-members-management#p3`。
 
      > **转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。
 
@@ -1150,6 +1160,9 @@
 
 ```json
 {
+  "counterpart_docs": [
+    "self-host/use-dify/workspace/team-members-management"
+  ],
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
@@ -1161,6 +1174,8 @@
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev050：需要可装程序改文件的沙箱助理，选哪类应用？固定能力和每次任务如何区分？
@@ -1211,11 +1226,11 @@
 </details>
 
 
-## dev051：旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？
+## dev051：旧版工具助理为什么漏选资料，怎样改进选库判断？
 
-参考答案：模型会按每条查询与知识库描述的相关性决定是否搜索。把描述写详细能改善选择。各库独立检索，不会跨库重排序结果。
+参考答案：旧版Agent会评估每条用户查询与知识库描述的相关性，再决定是否检索；把知识库描述写详细，可以改善相关性判断。
 
-版本：未限定；预期行为：answered；最可能失败：误用聊天助手每条消息都检索的机制，或承诺跨库重排。。
+版本：未限定；预期行为：answered；最可能失败：误套聊天助手每条消息都检索的机制，未说明知识库描述对相关性决策的作用。。
 
 1. **vital**：旧版Agent按每条查询与知识库描述的相关性决定是否检索。
    - [self-host/use-dify/build/agent L130–130](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx#L130-L130)；`self-host/use-dify/build/agent#c7` / `self-host/use-dify/build/agent#p3`。
@@ -1227,11 +1242,6 @@
 
      > **知识库描述越详细，模型判断相关性就越准确**，从而实现更精准的检索。
 
-3. **vital**：多个知识库的结果不会跨库重排序。
-   - [self-host/use-dify/build/agent L135–135](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx#L135-L135)；`self-host/use-dify/build/agent#c7` / `self-host/use-dify/build/agent#p3`。
-
-     >     Agent 应用没有应用级检索设置。每个知识库都使用各自配置的设置独立检索。添加多个知识库时，由 Agent 决定查询哪些，也不会跨知识库对结果重排序。
-
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
@@ -1242,13 +1252,15 @@
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
-    "question_characters": 30,
-    "vital_count": 3
+    "question_characters": 23,
+    "vital_count": 2
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev052：恢复旧版后草稿怎样变化，如何更新线上？
@@ -1441,8 +1453,8 @@
           },
           "cleaned_character_offset": 847,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8",
           "reconstruct_verified": true
         },
@@ -1469,8 +1481,8 @@
           },
           "cleaned_character_offset": 268,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "3945b8c8f985cc1463a3e1976272fcdb8fd56d569d934e9aff09ce674b206fc8",
           "reconstruct_verified": true
         },
@@ -1565,8 +1577,8 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "987a63027cb67d9ae3eb91c331351a92c5933e793c2ae2d4e2d48674d5b41a02",
           "reconstruct_verified": true
         },
@@ -1593,8 +1605,8 @@
           },
           "cleaned_character_offset": 1334,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "7e17eeff2c9b05c9bc0274034c1e2c3b5780aaea3ab7a7bb705933b02fe07cf2",
           "reconstruct_verified": true
         },
@@ -1690,8 +1702,8 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a",
           "reconstruct_verified": true
         },
@@ -1718,8 +1730,8 @@
           },
           "cleaned_character_offset": 84,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43",
           "reconstruct_verified": true
         },
@@ -1809,8 +1821,8 @@
           },
           "cleaned_character_offset": 102,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "5e7b0e826cf599cb2dcc6da33d0b1eb5a488d288546dab3922aaf931602894e2",
           "reconstruct_verified": true
         },
@@ -1837,8 +1849,8 @@
           },
           "cleaned_character_offset": 98,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
           "source_file_sha256": "b398f3583244febbdfec6615fea9977b4efe8583df1a065b045e0d30dc234987",
           "reconstruct_verified": true
         },
@@ -1852,31 +1864,31 @@
 </details>
 
 
-## dev059：旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？
+## dev059：旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？
 
-参考答案：旧版Agent只有流式返回，会话变量跨轮保留。文本生成API调用之间无会话状态，可选阻塞返回，等生成完成一次性拿到内容。
+参考答案：旧版Agent仅支持流式，回复正文由agent_message事件承载（另有agent_thought思考事件）；文本生成可阻塞也可流式，流式正文使用message事件。只要求比较返回方式与正文事件，不考会话记忆。
 
-版本：未限定；预期行为：answered；最可能失败：混用旧版Agent和新Agent，或给无状态文本生成添加跨轮会话。。
+版本：未限定；预期行为：answered；最可能失败：混用Agent的agent_message与普通message事件，或错误承诺旧版Agent支持阻塞返回。。
 
 1. **vital**：旧版Agent应用仅支持流式返回。
    - [api-reference/guides/chat L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L17-L17)；`api-reference/guides/chat#c1` / `api-reference/guides/chat#p1`。
 
-     > - **[发送对话消息](/zh/api-reference/chat-messages/send-chat-message)**：向聊天助手或旧版 Agent 应用发送用户提问。阻塞式返回在回复完成后一次性返回全部内容；旧版 Agent 应用仅支持流式返回。
+     > 旧版 Agent 应用仅支持流式返回。
 
-2. **vital**：对话API的会话变量跨多轮保留。
-   - [api-reference/guides/chat L29–29](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L29-L29)；`api-reference/guides/chat#c2` / `api-reference/guides/chat#p2`。
-
-     > - **[获取会话变量](/zh/api-reference/conversations/list-conversation-variables)**：读取会话在多轮对话间保留的变量值。
-
-3. **vital**：文本生成API的调用之间不保留会话状态。
-   - [api-reference/guides/completion L9–9](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L9-L9)；`api-reference/guides/completion#c0` / `api-reference/guides/completion#p0`。
-
-     > [文本生成应用](/zh/cloud/use-dify/build/text-generator) 运行在 `completion` 模式下，每次调用各自提交输入值并返回一条回复，调用之间不保留会话状态。
-
-4. **vital**：文本生成API支持生成结束后一次性返回的阻塞模式。
+2. **vital**：文本生成API支持阻塞式返回，也支持流式返回。
    - [api-reference/guides/completion L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L17-L17)；`api-reference/guides/completion#c1` / `api-reference/guides/completion#p1`。
 
-     > - **[发送消息](/zh/api-reference/completion-messages/send-completion-message)**：将 `inputs` 中的取值填入应用的提示词模板并生成回复。阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
+     > 阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
+
+3. **vital**：旧版Agent流式正文使用agent_message事件。
+   - [api-reference/guides/chat L9–9](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L9-L9)；`api-reference/guides/chat#c0` / `api-reference/guides/chat#p0`。
+
+     > 聊天助手应用以 `message` 事件流式返回回复，旧版 Agent 应用则返回 `agent_thought` 和 `agent_message` 事件。
+
+4. **vital**：文本生成API流式正文使用message事件。
+   - [api-reference/guides/completion L17–17](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L17-L17)；`api-reference/guides/completion#c1` / `api-reference/guides/completion#p1`。
+
+     > 流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。
 
 <details><summary>边界、干扰与难度证据</summary>
 
@@ -1885,13 +1897,15 @@
   "hardness_evidence": {
     "source_grounded": true,
     "model_or_retrieval_validation": "not_run",
-    "question_characters": 29,
+    "question_characters": 38,
     "vital_count": 4
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev060：聊天页如何隔开多主题记忆？任务页适合什么任务，跑CSV每行含义与编码呢？
@@ -1936,9 +1950,9 @@
 </details>
 
 
-## dev061：Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？
+## dev061：Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？
 
-参考答案：API前先用middleware配置启动数据库、沙箱和插件守护进程：docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows消费者命令为uv run celery -A app.celery worker -P solo --without-gossip --without-mingle --loglevel INFO -Q dataset,dataset_summary,priority_dataset,priority_pipeline,pipeline,mail,ops_trace,app_deletion,plugin,workflow_storage,conversation,workflow,schedule_poller,schedule_executor,triggered_workflow_dispatcher,trigger_refresh_executor,retention,workflow_based_app_execution；定时调度另开终端运行uv run celery -A app.celery beat。
+参考答案：先用middleware配置启动数据库、沙箱和插件守护进程，可执行docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows的Celery Worker需-P solo --without-gossip --without-mingle兼容选项；定时服务另开终端运行uv run celery -A app.celery beat。文档完整Worker命令中的队列清单不是本题必答项。
 
 版本：self_host；预期行为：answered；最可能失败：Windows误用默认进程池，或遗漏定时任务独立beat服务。。
 
@@ -1986,12 +2000,18 @@
       "self-host/deploy/advanced-deployments/local-source-code#p5",
       "self-host/deploy/advanced-deployments/local-source-code#p7"
     ],
-    "raw_excerpt_prefix_limit": 12000
+    "raw_excerpt_prefix_limit": 12000,
+    "question_characters": 41,
+    "at_most_40": false,
+    "at_most_80": true,
+    "vital_count": 3
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev062：自建流程外链预览、容器取文件及旧链接过期，分别查何配置，地址留空会怎样？
@@ -2330,9 +2350,9 @@
 </details>
 
 
-## dev072：思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？
+## dev072：思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？
 
-参考答案：开启“启用推理标签分离”：text只留最终回答，思考内容进入reasoning_content。只适用于用<think>标签包裹思考的模型；流式API以reasoning_chunk事件独立发送思考内容。
+参考答案：仅适用于以think标签包裹思考的模型；开启“启用推理标签分离”后，text仅保留回答，思考内容移至reasoning_content输出。
 
 版本：self_host；预期行为：answered；最可能失败：忽略条件或套用邻近说明。。
 
@@ -2351,11 +2371,6 @@
 
      > 此设置仅对用 `<think>` 标签包裹推理内容的模型生效。
 
-4. **vital**：流式API用reasoning_chunk事件独立返回推理内容。
-   - [self-host/use-dify/nodes/llm L145–145](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/llm.mdx#L145-L145)；`self-host/use-dify/nodes/llm#c11` / `self-host/use-dify/nodes/llm#p10`。
-
-     > 流式 API 客户端会通过独立的 `reasoning_chunk` 事件接收推理内容，与回答流分开。
-
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
@@ -2364,16 +2379,18 @@
     "self-host/use-dify/nodes/parameter-extractor"
   ],
   "quantitative_evidence": {
-    "question_characters": 35,
+    "question_characters": 27,
     "at_most_40": true,
     "at_most_80": true,
-    "vital_count": 4,
+    "vital_count": 3,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev073：每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？
@@ -2481,45 +2498,42 @@
 </details>
 
 
-## dev076：云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？
+## dev076：从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？
 
-参考答案：Sandbox的未活跃阈值为7天，Professional和Team为30天；Professional和Team可一键重新启用这些文档。这里指云端长时间未更新或未检索导致的自动禁用。
+参考答案：清除“安装偏好设置”中保存的URL，即可重新安装到Dify Cloud。工作空间所有者和管理员可以在“集成”页面底部的“权限”中调整谁能安装和调试集成。
 
-版本：cloud；预期行为：answered；最可能失败：套用日志保留30天，或把付费与Sandbox停用阈值混用。。
+版本：cloud；预期行为：answered；最可能失败：把自部署填入部署URL的步骤套给Cloud，或把权限设置者误判为普通成员。。
 
-1. **vital**：云端Sandbox文档的未活跃自动禁用阈值为7天。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
+1. **vital**：市场安装目标误指别处时，清除安装偏好设置中保存的URL以恢复安装到Dify Cloud。
+   - [cloud/use-dify/workspace/plugins L36–36](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/plugins.mdx#L36-L36)；`cloud/use-dify/workspace/plugins#c2` / `cloud/use-dify/workspace/plugins#p2`。
 
-     > Sandbox：7 天
+     > 如果从市场安装时打开的是其他 Dify 环境而非你的 Dify Cloud 工作空间，清除 **安装偏好设置** 中保存的 URL 即可重新安装到 Dify Cloud。
 
-2. **vital**：云端Professional和Team文档的未活跃自动禁用阈值为30天。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
+2. **vital**：工作空间所有者和管理员可以在集成页面底部的权限中设置安装权限。
+   - [cloud/use-dify/workspace/plugins L46–46](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/plugins.mdx#L46-L46)；`cloud/use-dify/workspace/plugins#c3` / `cloud/use-dify/workspace/plugins#p3`。
 
-     > Professional & Team：30 天
-
-3. **vital**：Professional和Team可一键重新启用被自动禁用的文档。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
-
-     > Professional 和 Team 用户可 **一键** 重新启用这些文档。
+     > 工作空间所有者和管理员可在 **集成** 页面底部的 **权限** 中，设置谁能安装和调试集成。每项权限都可以设为所有人可用、仅管理员可用或无人可用：
 
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
 {
   "counterpart_docs": [
-    "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+    "self-host/use-dify/workspace/plugins"
   ],
   "quantitative_evidence": {
-    "question_characters": 34,
+    "question_characters": 29,
     "at_most_40": true,
     "at_most_80": true,
-    "vital_count": 3,
+    "vital_count": 2,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题reject原自动停用题：self-host只省略该机制，无法证明实际版本不同。改为双版均正面规定的市场安装目标选择；独立审查者已核对并认可此候选，正式来源由主agent严格定位。
 
 
 ## dev077：后端跑完流程后该留哪个持久编号？运营拿它怎样查到各步并按原输入重演？
@@ -2622,9 +2636,10 @@
           },
           "cleaned_character_offset": 246,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577",
+          "reconstruct_verified": true
         }
       },
       {
@@ -2655,9 +2670,10 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -2755,9 +2771,10 @@
           },
           "cleaned_character_offset": 685,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32",
+          "reconstruct_verified": true
         }
       },
       {
@@ -2789,9 +2806,10 @@
           },
           "cleaned_character_offset": 2346,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -2886,9 +2904,10 @@
           },
           "cleaned_character_offset": 2003,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125",
+          "reconstruct_verified": true
         }
       },
       {
@@ -2920,9 +2939,10 @@
           },
           "cleaned_character_offset": 138,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -3315,11 +3335,11 @@
 </details>
 
 
-## dev088：给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。
+## dev088：我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。
 
-参考答案：这属于PostgreSQL/Patroni通用高可用部署，超出冻结Dify文档问答范围，不能据库内资料提供完整配置。
+参考答案：这属于LangGraph RAG服务的PostgreSQL/Patroni高可用运维，超出冻结Dify文档范围；不能据库内资料提供完整配置，应说明范围并建议查相应系统的部署资料。
 
-版本：未限定；预期行为：refused；最可能失败：忽略条件或套用邻近说明。。
+版本：未限定；预期行为：refused；最可能失败：看到RAG与PostgreSQL就误认为库内有对应运维方案，编造Patroni完整配置。。
 
 本题不设可答事实得分点；按拒答/纠正/澄清行为审查。
 
@@ -3328,8 +3348,8 @@
 ```json
 {
   "quantitative_evidence": {
-    "question_characters": 36,
-    "at_most_40": true,
+    "question_characters": 52,
+    "at_most_40": false,
     "at_most_80": true,
     "vital_count": 0,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
@@ -3338,6 +3358,8 @@
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev089：别人导出的DSL，导入就一定兼容吗？

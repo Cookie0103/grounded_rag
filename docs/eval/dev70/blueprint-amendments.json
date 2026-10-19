@@ -1,0 +1,566 @@
+{
+  "original_blueprint_file": "blueprint.json",
+  "original_gate_commit": "f764325",
+  "formal_draft_review_commit": "484680d",
+  "status": "amended_after_final_independent_review",
+  "preserved_original_blueprint": true,
+  "note": "蓝图先验收再写题的历史保留；正式逐事实审查可以reject原方案并替换，不把初验收当作题目永不变的保证。事实与金标以questions.jsonl/evidence.json为准。",
+  "amendments": [
+    {
+      "question_id": "dev049",
+      "before": {
+        "id": "dev049",
+        "question": "云端把空间交给同事时，验证码发给谁，交接后我是什么身份？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": "cloud",
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "cloud/use-dify/workspace/team-members-management"
+        ],
+        "nuggets": [
+          {
+            "text": "转移所有权的验证码发送到当前所有者邮箱。",
+            "importance": "vital"
+          },
+          {
+            "text": "转移完成后，原所有者变为普通成员。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "numeric_table",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "cloud/use-dify/workspace/team-members-management"
+          ]
+        ],
+        "reference_answer": "验证码发到当前所有者的邮箱；交接完成后原所有者变为普通成员。",
+        "most_likely_failure": "把验证码发给接收者，或将原负责人保留为管理员。"
+      },
+      "after": {
+        "id": "dev049",
+        "question": "交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": null,
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "cloud/use-dify/workspace/team-members-management"
+        ],
+        "nuggets": [
+          {
+            "text": "转移所有权的验证码发送到当前所有者邮箱。",
+            "importance": "vital"
+          },
+          {
+            "text": "转移完成后，原所有者变为普通成员。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "numeric_table",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "cloud/use-dify/workspace/team-members-management",
+            "self-host/use-dify/workspace/team-members-management"
+          ]
+        ],
+        "reference_answer": "验证码发到当前所有者的邮箱；交接完成后原所有者变为普通成员。",
+        "most_likely_failure": "把验证码发给接收者，或将原负责人保留为管理员。"
+      },
+      "reason": "补题点等价OR金标"
+    },
+    {
+      "question_id": "dev051",
+      "before": {
+        "id": "dev051",
+        "question": "旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": null,
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "self-host/use-dify/build/agent"
+        ],
+        "nuggets": [
+          {
+            "text": "旧版Agent按每条查询与知识库描述的相关性决定是否检索。",
+            "importance": "vital"
+          },
+          {
+            "text": "写更详细的知识库描述能改善相关性判断。",
+            "importance": "vital"
+          },
+          {
+            "text": "多个知识库的结果不会跨库重排序。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "distant",
+        "behavior_group": "single",
+        "behavior_subtype": "neighbor",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/use-dify/build/agent"
+          ]
+        ],
+        "reference_answer": "模型会按每条查询与知识库描述的相关性决定是否搜索。把描述写详细能改善选择。各库独立检索，不会跨库重排序结果。",
+        "most_likely_failure": "误用聊天助手每条消息都检索的机制，或承诺跨库重排。"
+      },
+      "after": {
+        "id": "dev051",
+        "question": "旧版工具助理为什么漏选资料，怎样改进选库判断？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": null,
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "self-host/use-dify/build/agent"
+        ],
+        "nuggets": [
+          {
+            "text": "旧版Agent按每条查询与知识库描述的相关性决定是否检索。",
+            "importance": "vital"
+          },
+          {
+            "text": "写更详细的知识库描述能改善相关性判断。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "distant",
+        "behavior_group": "single",
+        "behavior_subtype": "neighbor",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/use-dify/build/agent"
+          ]
+        ],
+        "reference_answer": "旧版Agent会评估每条用户查询与知识库描述的相关性，再决定是否检索；把知识库描述写详细，可以改善相关性判断。",
+        "most_likely_failure": "误套聊天助手每条消息都检索的机制，未说明知识库描述对相关性决策的作用。"
+      },
+      "reason": "收窄单跳为选库依据及改善"
+    },
+    {
+      "question_id": "dev059",
+      "before": {
+        "id": "dev059",
+        "question": "旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？",
+        "split": "dev",
+        "type": "reasoning",
+        "unanswerable_category": null,
+        "edition": null,
+        "expected_route": "MULTI",
+        "gold_docs": [
+          "api-reference/guides/chat",
+          "api-reference/guides/completion"
+        ],
+        "nuggets": [
+          {
+            "text": "旧版Agent应用仅支持流式返回。",
+            "importance": "vital"
+          },
+          {
+            "text": "对话API的会话变量跨多轮保留。",
+            "importance": "vital"
+          },
+          {
+            "text": "文本生成API的调用之间不保留会话状态。",
+            "importance": "vital"
+          },
+          {
+            "text": "文本生成API支持生成结束后一次性返回的阻塞模式。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "multi",
+        "behavior_subtype": "parallel_compare",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "api-reference/guides/chat"
+          ],
+          [
+            "api-reference/guides/completion"
+          ]
+        ],
+        "reference_answer": "旧版Agent只有流式返回，会话变量跨轮保留。文本生成API调用之间无会话状态，可选阻塞返回，等生成完成一次性拿到内容。",
+        "most_likely_failure": "混用旧版Agent和新Agent，或给无状态文本生成添加跨轮会话。"
+      },
+      "after": {
+        "id": "dev059",
+        "question": "旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？",
+        "split": "dev",
+        "type": "reasoning",
+        "unanswerable_category": null,
+        "edition": null,
+        "expected_route": "MULTI",
+        "gold_docs": [
+          "api-reference/guides/chat",
+          "api-reference/guides/completion"
+        ],
+        "nuggets": [
+          {
+            "text": "旧版Agent应用仅支持流式返回。",
+            "importance": "vital"
+          },
+          {
+            "text": "文本生成API支持阻塞式返回，也支持流式返回。",
+            "importance": "vital"
+          },
+          {
+            "text": "旧版Agent流式正文使用agent_message事件。",
+            "importance": "vital"
+          },
+          {
+            "text": "文本生成API流式正文使用message事件。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "multi",
+        "behavior_subtype": "parallel_compare",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "api-reference/guides/chat"
+          ],
+          [
+            "api-reference/guides/completion"
+          ]
+        ],
+        "reference_answer": "旧版Agent仅支持流式，回复正文由agent_message事件承载（另有agent_thought思考事件）；文本生成可阻塞也可流式，流式正文使用message事件。只要求比较返回方式与正文事件，不考会话记忆。",
+        "most_likely_failure": "混用Agent的agent_message与普通message事件，或错误承诺旧版Agent支持阻塞返回。"
+      },
+      "reason": "去除与dev035重复的跨轮保留事实"
+    },
+    {
+      "question_id": "dev061",
+      "before": {
+        "id": "dev061",
+        "question": "Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？",
+        "split": "dev",
+        "type": "summary",
+        "unanswerable_category": null,
+        "edition": "self_host",
+        "expected_route": "MULTI",
+        "gold_docs": [
+          "self-host/deploy/advanced-deployments/local-source-code"
+        ],
+        "nuggets": [
+          {
+            "text": "启动API前，用middleware配置启动数据库、沙箱和插件守护进程。",
+            "importance": "vital"
+          },
+          {
+            "text": "Windows的Celery Worker命令使用-P solo --without-gossip --without-mingle。",
+            "importance": "vital"
+          },
+          {
+            "text": "定时任务需另起uv run celery -A app.celery beat服务。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "expert",
+        "phrasing": "natural_long",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "multi",
+        "behavior_subtype": "scattered_ordered",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/deploy/advanced-deployments/local-source-code"
+          ]
+        ],
+        "reference_answer": "API前先用middleware配置启动数据库、沙箱和插件守护进程：docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows消费者命令为uv run celery -A app.celery worker -P solo --without-gossip --without-mingle --loglevel INFO -Q dataset,dataset_summary,priority_dataset,priority_pipeline,pipeline,mail,ops_trace,app_deletion,plugin,workflow_storage,conversation,workflow,schedule_poller,schedule_executor,triggered_workflow_dispatcher,trigger_refresh_executor,retention,workflow_based_app_execution；定时调度另开终端运行uv run celery -A app.celery beat。",
+        "most_likely_failure": "Windows误用默认进程池，或遗漏定时任务独立beat服务。"
+      },
+      "after": {
+        "id": "dev061",
+        "question": "Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？",
+        "split": "dev",
+        "type": "summary",
+        "unanswerable_category": null,
+        "edition": "self_host",
+        "expected_route": "MULTI",
+        "gold_docs": [
+          "self-host/deploy/advanced-deployments/local-source-code"
+        ],
+        "nuggets": [
+          {
+            "text": "启动API前，用middleware配置启动数据库、沙箱和插件守护进程。",
+            "importance": "vital"
+          },
+          {
+            "text": "Windows的Celery Worker命令使用-P solo --without-gossip --without-mingle。",
+            "importance": "vital"
+          },
+          {
+            "text": "定时任务需另起uv run celery -A app.celery beat服务。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "expert",
+        "phrasing": "natural_long",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "multi",
+        "behavior_subtype": "scattered_ordered",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/deploy/advanced-deployments/local-source-code"
+          ]
+        ],
+        "reference_answer": "先用middleware配置启动数据库、沙箱和插件守护进程，可执行docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows的Celery Worker需-P solo --without-gossip --without-mingle兼容选项；定时服务另开终端运行uv run celery -A app.celery beat。文档完整Worker命令中的队列清单不是本题必答项。",
+        "most_likely_failure": "Windows误用默认进程池，或遗漏定时任务独立beat服务。"
+      },
+      "reason": "命令问法与必答点对齐"
+    },
+    {
+      "question_id": "dev072",
+      "before": {
+        "id": "dev072",
+        "question": "思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": "self_host",
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "self-host/use-dify/nodes/llm"
+        ],
+        "nuggets": [
+          {
+            "text": "开启推理标签分离后，text仅保留回答。",
+            "importance": "vital"
+          },
+          {
+            "text": "分离的思考内容进入reasoning_content输出。",
+            "importance": "vital"
+          },
+          {
+            "text": "该开关只适用于以think标签包裹思考的模型。",
+            "importance": "vital"
+          },
+          {
+            "text": "流式API用reasoning_chunk事件独立返回推理内容。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "expert",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "neighbor",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/use-dify/nodes/llm"
+          ]
+        ],
+        "reference_answer": "开启“启用推理标签分离”：text只留最终回答，思考内容进入reasoning_content。只适用于用<think>标签包裹思考的模型；流式API以reasoning_chunk事件独立发送思考内容。",
+        "most_likely_failure": "忽略条件或套用邻近说明。"
+      },
+      "after": {
+        "id": "dev072",
+        "question": "思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？",
+        "split": "dev",
+        "type": "fact_single",
+        "unanswerable_category": null,
+        "edition": "self_host",
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "self-host/use-dify/nodes/llm"
+        ],
+        "nuggets": [
+          {
+            "text": "开启推理标签分离后，text仅保留回答。",
+            "importance": "vital"
+          },
+          {
+            "text": "分离的思考内容进入reasoning_content输出。",
+            "importance": "vital"
+          },
+          {
+            "text": "该开关只适用于以think标签包裹思考的模型。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "expert",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "neighbor",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "self-host/use-dify/nodes/llm"
+          ]
+        ],
+        "reference_answer": "仅适用于以think标签包裹思考的模型；开启“启用推理标签分离”后，text仅保留回答，思考内容移至reasoning_content输出。",
+        "most_likely_failure": "忽略条件或套用邻近说明。"
+      },
+      "reason": "收窄为同一推理分离功能"
+    },
+    {
+      "question_id": "dev088",
+      "before": {
+        "id": "dev088",
+        "question": "给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。",
+        "split": "dev",
+        "type": "unanswerable",
+        "unanswerable_category": "out_of_scope",
+        "edition": null,
+        "expected_route": "REFUSE",
+        "gold_docs": [],
+        "nuggets": [],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "refuse_correct",
+        "behavior_subtype": "unrelated",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [],
+        "reference_answer": "这属于PostgreSQL/Patroni通用高可用部署，超出冻结Dify文档问答范围，不能据库内资料提供完整配置。",
+        "most_likely_failure": "忽略条件或套用邻近说明。"
+      },
+      "after": {
+        "id": "dev088",
+        "question": "我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。",
+        "split": "dev",
+        "type": "unanswerable",
+        "unanswerable_category": "out_of_scope",
+        "edition": null,
+        "expected_route": "REFUSE",
+        "gold_docs": [],
+        "nuggets": [],
+        "persona": "novice",
+        "phrasing": "natural_long",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "refuse_correct",
+        "behavior_subtype": "unrelated",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [],
+        "reference_answer": "这属于LangGraph RAG服务的PostgreSQL/Patroni高可用运维，超出冻结Dify文档范围；不能据库内资料提供完整配置，应说明范围并建议查相应系统的部署资料。",
+        "most_likely_failure": "看到RAG与PostgreSQL就误认为库内有对应运维方案，编造Patroni完整配置。"
+      },
+      "reason": "明确相邻AI框架RAG服务场景"
+    },
+    {
+      "question_id": "dev076",
+      "before": {
+        "id": "dev076",
+        "question": "云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？",
+        "split": "dev",
+        "type": "version",
+        "unanswerable_category": null,
+        "edition": "cloud",
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+        ],
+        "nuggets": [
+          {
+            "text": "云端Sandbox文档的未活跃自动禁用阈值为7天。",
+            "importance": "vital"
+          },
+          {
+            "text": "云端Professional和Team文档的未活跃自动禁用阈值为30天。",
+            "importance": "vital"
+          },
+          {
+            "text": "Professional和Team可一键重新启用被自动禁用的文档。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "single_version",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+          ]
+        ],
+        "reference_answer": "Sandbox的未活跃阈值为7天，Professional和Team为30天；Professional和Team可一键重新启用这些文档。这里指云端长时间未更新或未检索导致的自动禁用。",
+        "most_likely_failure": "套用日志保留30天，或把付费与Sandbox停用阈值混用。"
+      },
+      "after": {
+        "id": "dev076",
+        "question": "从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？",
+        "split": "dev",
+        "type": "version",
+        "unanswerable_category": null,
+        "edition": "cloud",
+        "expected_route": "SINGLE",
+        "gold_docs": [
+          "cloud/use-dify/workspace/plugins"
+        ],
+        "nuggets": [
+          {
+            "text": "市场安装目标误指别处时，清除安装偏好设置中保存的URL以恢复安装到Dify Cloud。",
+            "importance": "vital"
+          },
+          {
+            "text": "工作空间所有者和管理员可以在集成页面底部的权限中设置安装权限。",
+            "importance": "vital"
+          }
+        ],
+        "persona": "novice",
+        "phrasing": "natural_short",
+        "premise": "indirect",
+        "lexical": "similar",
+        "behavior_group": "single",
+        "behavior_subtype": "single_version",
+        "guessable_without_docs": null,
+        "gold_doc_groups": [
+          [
+            "cloud/use-dify/workspace/plugins"
+          ]
+        ],
+        "reference_answer": "清除“安装偏好设置”中保存的URL，即可重新安装到Dify Cloud。工作空间所有者和管理员可以在“集成”页面底部的“权限”中调整谁能安装和调试集成。",
+        "most_likely_failure": "把自部署填入部署URL的步骤套给Cloud，或把权限设置者误判为普通成员。"
+      },
+      "reason": "原题仅Cloud有自动禁用条款，不足以证明两版本真实差异；改为Cloud清除默认目标与自部署填写目标的双边正面操作差异。",
+      "replacement_independent_review": "final_review已核对Cloud L36/L46及self-host L36/L38，认可单问版本与第二vital主题范围。"
+    }
+  ]
+}

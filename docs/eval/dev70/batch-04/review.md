@@ -10,11 +10,11 @@
 | dev069 | 单跳 / 同义改写 | 3 | SINGLE | 范例待审时能撤回吗，递交前插件来源和试跑环境有何要求？ |
 | dev070 | 单跳 / 数值/表格 | 2 | SINGLE | 导入Skill包默认多大，调上限用哪个配置？ |
 | dev071 | 单跳 / 数值/表格 | 2 | SINGLE | 上传文件给外部存储该选哪种正文，非文本响应会变成什么变量？ |
-| dev072 | 单跳 / 易混 | 4 | SINGLE | 思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？ |
+| dev072 | 单跳 / 易混 | 3 | SINGLE | 思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？ |
 | dev073 | 单跳 / 易混 | 2 | SINGLE | 每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？ |
 | dev074 | 单跳 / 短问 | 2 | SINGLE | 在哪查哪步最慢和单步最近的入出参？ |
 | dev075 | 单跳 / 单问版本 | 2 | SINGLE | 云端Sandbox能存流水线模板吗，获准发布后模板在哪？ |
-| dev076 | 单跳 / 单问版本 | 3 | SINGLE | 云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？ |
+| dev076 | 单跳 / 单问版本 | 2 | SINGLE | 从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？ |
 | dev077 | 多跳 / 链式 | 4 | MULTI | 后端跑完流程后该留哪个持久编号？运营拿它怎样查到各步并按原输入重演？ |
 | dev078 | 多跳 / 链式 | 4 | MULTI | Chatflow等人填写时，携带交互凭证和结束当前响应的事件各是哪一个？用它附本地文件怎样引用，提交被拒后凭证还能复用吗？ |
 | dev079 | 多跳 / 链式 | 4 | MULTI | Dify第9课的固定排版环节放在哪，正文取谁的值？该环节怎样读嵌套姓名并兜底缺失项？ |
@@ -26,7 +26,7 @@
 | dev085 | 多跳 / 分散/有序 | 4 | MULTI | Agent构建时放弃、运行时新增文件、重开对话和恢复旧版，分别怎样影响文件或构建笔记？ |
 | dev086 | 拒答与纠正 / 库内缺依据 | 0 | null | 社区集成报漏洞后，官方承诺多久响应、多久发补丁？ |
 | dev087 | 拒答与纠正 / 错误前提 | 0 | null | 教我保留事件触发器，把同一流程直接发布成MCP服务。 |
-| dev088 | 拒答与纠正 / 无关 | 0 | REFUSE | 给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。 |
+| dev088 | 拒答与纠正 / 无关 | 0 | REFUSE | 我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。 |
 | dev089 | 模糊 / 版本不明 | 0 | CLARIFY | 别人导出的DSL，导入就一定兼容吗？ |
 | dev090 | 模糊 / 缺关键信息 | 0 | CLARIFY | 想把外部系统的资料接进来，怎么配？ |
 
@@ -179,9 +179,9 @@
 </details>
 
 
-## dev072：思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？
+## dev072：思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？
 
-参考答案：开启“启用推理标签分离”：text只留最终回答，思考内容进入reasoning_content。只适用于用<think>标签包裹思考的模型；流式API以reasoning_chunk事件独立发送思考内容。
+参考答案：仅适用于以think标签包裹思考的模型；开启“启用推理标签分离”后，text仅保留回答，思考内容移至reasoning_content输出。
 
 版本：self_host；预期行为：answered；最可能失败：忽略条件或套用邻近说明。。
 
@@ -200,11 +200,6 @@
 
      > 此设置仅对用 `<think>` 标签包裹推理内容的模型生效。
 
-4. **vital**：流式API用reasoning_chunk事件独立返回推理内容。
-   - [self-host/use-dify/nodes/llm L145–145](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/llm.mdx#L145-L145)；`self-host/use-dify/nodes/llm#c11` / `self-host/use-dify/nodes/llm#p10`。
-
-     > 流式 API 客户端会通过独立的 `reasoning_chunk` 事件接收推理内容，与回答流分开。
-
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
@@ -213,16 +208,18 @@
     "self-host/use-dify/nodes/parameter-extractor"
   ],
   "quantitative_evidence": {
-    "question_characters": 35,
+    "question_characters": 27,
     "at_most_40": true,
     "at_most_80": true,
-    "vital_count": 4,
+    "vital_count": 3,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev073：每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？
@@ -330,45 +327,42 @@
 </details>
 
 
-## dev076：云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？
+## dev076：从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？
 
-参考答案：Sandbox的未活跃阈值为7天，Professional和Team为30天；Professional和Team可一键重新启用这些文档。这里指云端长时间未更新或未检索导致的自动禁用。
+参考答案：清除“安装偏好设置”中保存的URL，即可重新安装到Dify Cloud。工作空间所有者和管理员可以在“集成”页面底部的“权限”中调整谁能安装和调试集成。
 
-版本：cloud；预期行为：answered；最可能失败：套用日志保留30天，或把付费与Sandbox停用阈值混用。。
+版本：cloud；预期行为：answered；最可能失败：把自部署填入部署URL的步骤套给Cloud，或把权限设置者误判为普通成员。。
 
-1. **vital**：云端Sandbox文档的未活跃自动禁用阈值为7天。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
+1. **vital**：市场安装目标误指别处时，清除安装偏好设置中保存的URL以恢复安装到Dify Cloud。
+   - [cloud/use-dify/workspace/plugins L36–36](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/plugins.mdx#L36-L36)；`cloud/use-dify/workspace/plugins#c2` / `cloud/use-dify/workspace/plugins#p2`。
 
-     > Sandbox：7 天
+     > 如果从市场安装时打开的是其他 Dify 环境而非你的 Dify Cloud 工作空间，清除 **安装偏好设置** 中保存的 URL 即可重新安装到 Dify Cloud。
 
-2. **vital**：云端Professional和Team文档的未活跃自动禁用阈值为30天。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
+2. **vital**：工作空间所有者和管理员可以在集成页面底部的权限中设置安装权限。
+   - [cloud/use-dify/workspace/plugins L46–46](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/plugins.mdx#L46-L46)；`cloud/use-dify/workspace/plugins#c3` / `cloud/use-dify/workspace/plugins#p3`。
 
-     > Professional & Team：30 天
-
-3. **vital**：Professional和Team可一键重新启用被自动禁用的文档。
-   - [cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents L27–27](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents.mdx#L27-L27)；`cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1` / `cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0`。
-
-     > Professional 和 Team 用户可 **一键** 重新启用这些文档。
+     > 工作空间所有者和管理员可在 **集成** 页面底部的 **权限** 中，设置谁能安装和调试集成。每项权限都可以设为所有人可用、仅管理员可用或无人可用：
 
 <details><summary>边界、干扰与难度证据</summary>
 
 ```json
 {
   "counterpart_docs": [
-    "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+    "self-host/use-dify/workspace/plugins"
   ],
   "quantitative_evidence": {
-    "question_characters": 34,
+    "question_characters": 29,
     "at_most_40": true,
     "at_most_80": true,
-    "vital_count": 3,
+    "vital_count": 2,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
   }
 }
 ```
 
 </details>
+
+备注：最终独立审题reject原自动停用题：self-host只省略该机制，无法证明实际版本不同。改为双版均正面规定的市场安装目标选择；独立审查者已核对并认可此候选，正式来源由主agent严格定位。
 
 
 ## dev077：后端跑完流程后该留哪个持久编号？运营拿它怎样查到各步并按原输入重演？
@@ -471,9 +465,10 @@
           },
           "cleaned_character_offset": 246,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577",
+          "reconstruct_verified": true
         }
       },
       {
@@ -504,9 +499,10 @@
           },
           "cleaned_character_offset": 0,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -604,9 +600,10 @@
           },
           "cleaned_character_offset": 685,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32",
+          "reconstruct_verified": true
         }
       },
       {
@@ -638,9 +635,10 @@
           },
           "cleaned_character_offset": 2346,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -735,9 +733,10 @@
           },
           "cleaned_character_offset": 2003,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125",
+          "reconstruct_verified": true
         }
       },
       {
@@ -769,9 +768,10 @@
           },
           "cleaned_character_offset": 138,
           "within_current_judge_first_12000_chars": true,
-          "database_verified": false,
-          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-          "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589"
+          "database_verified": true,
+          "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+          "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589",
+          "reconstruct_verified": true
         }
       }
     ]
@@ -1164,11 +1164,11 @@
 </details>
 
 
-## dev088：给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。
+## dev088：我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。
 
-参考答案：这属于PostgreSQL/Patroni通用高可用部署，超出冻结Dify文档问答范围，不能据库内资料提供完整配置。
+参考答案：这属于LangGraph RAG服务的PostgreSQL/Patroni高可用运维，超出冻结Dify文档范围；不能据库内资料提供完整配置，应说明范围并建议查相应系统的部署资料。
 
-版本：未限定；预期行为：refused；最可能失败：忽略条件或套用邻近说明。。
+版本：未限定；预期行为：refused；最可能失败：看到RAG与PostgreSQL就误认为库内有对应运维方案，编造Patroni完整配置。。
 
 本题不设可答事实得分点；按拒答/纠正/澄清行为审查。
 
@@ -1177,8 +1177,8 @@
 ```json
 {
   "quantitative_evidence": {
-    "question_characters": 36,
-    "at_most_40": true,
+    "question_characters": 52,
+    "at_most_40": false,
     "at_most_80": true,
     "vital_count": 0,
     "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
@@ -1187,6 +1187,8 @@
 ```
 
 </details>
+
+备注：最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。
 
 
 ## dev089：别人导出的DSL，导入就一定兼容吗？

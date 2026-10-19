@@ -59,8 +59,8 @@
                   },
                   "cleaned_character_offset": 256,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a631ffa2d9304b1a96c21f6f6c829feda813d3a99c1efb57e79aec4531f4278e",
                   "reconstruct_verified": true
                 }
@@ -95,8 +95,8 @@
                   },
                   "cleaned_character_offset": 295,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a631ffa2d9304b1a96c21f6f6c829feda813d3a99c1efb57e79aec4531f4278e",
                   "reconstruct_verified": true
                 }
@@ -131,8 +131,8 @@
                   },
                   "cleaned_character_offset": 1204,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a631ffa2d9304b1a96c21f6f6c829feda813d3a99c1efb57e79aec4531f4278e",
                   "reconstruct_verified": true
                 }
@@ -167,8 +167,8 @@
                   },
                   "cleaned_character_offset": 1265,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a631ffa2d9304b1a96c21f6f6c829feda813d3a99c1efb57e79aec4531f4278e",
                   "reconstruct_verified": true
                 }
@@ -181,11 +181,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "正式答案需说明插入后为每个输入变量映射实际工作流变量，别只返回输入变量类别。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -252,8 +252,8 @@
                   },
                   "cleaned_character_offset": 107,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "009a12c0f44ffab05662e7f1c931041d47bea33cba605ad8de5e5b0b29fb1ced",
                   "reconstruct_verified": true
                 }
@@ -288,8 +288,8 @@
                   },
                   "cleaned_character_offset": 377,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "009a12c0f44ffab05662e7f1c931041d47bea33cba605ad8de5e5b0b29fb1ced",
                   "reconstruct_verified": true
                 }
@@ -324,8 +324,8 @@
                   },
                   "cleaned_character_offset": 107,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "009a12c0f44ffab05662e7f1c931041d47bea33cba605ad8de5e5b0b29fb1ced",
                   "reconstruct_verified": true
                 }
@@ -353,8 +353,8 @@
                   },
                   "cleaned_character_offset": 180,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "009a12c0f44ffab05662e7f1c931041d47bea33cba605ad8de5e5b0b29fb1ced",
                   "reconstruct_verified": true
                 }
@@ -367,9 +367,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -434,8 +434,8 @@
                   },
                   "cleaned_character_offset": 151,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2bd677dbc48efb7b1fdd966ab27c2dbecce55c43ebe59aa245e75def78c2ac64",
                   "reconstruct_verified": true
                 }
@@ -470,8 +470,8 @@
                   },
                   "cleaned_character_offset": 214,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2bd677dbc48efb7b1fdd966ab27c2dbecce55c43ebe59aa245e75def78c2ac64",
                   "reconstruct_verified": true
                 }
@@ -484,11 +484,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "并发覆盖规则有经验猜测风险；未运行无检索基线，不能标成低可猜。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -553,8 +553,8 @@
                   },
                   "cleaned_character_offset": 956,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
                   "reconstruct_verified": true
                 }
@@ -589,8 +589,8 @@
                   },
                   "cleaned_character_offset": 956,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
                   "reconstruct_verified": true
                 }
@@ -603,9 +603,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -642,8 +642,8 @@
             },
             "cleaned_character_offset": 874,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
             "reconstruct_verified": true
           }
@@ -670,8 +670,8 @@
             },
             "cleaned_character_offset": 918,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
             "reconstruct_verified": true
           }
@@ -698,8 +698,8 @@
             },
             "cleaned_character_offset": 1000,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
             "reconstruct_verified": true
           }
@@ -718,14 +718,15 @@
       ],
       "gold_doc_groups": [
         [
-          "cloud/use-dify/workspace/team-members-management"
+          "cloud/use-dify/workspace/team-members-management",
+          "self-host/use-dify/workspace/team-members-management"
         ]
       ],
       "n_docs": 1,
       "n_subasks": 2,
       "subasks": [
-        "转移所有权的验证码发送到当前所有者邮箱。",
-        "转移完成后，原所有者变为普通成员。"
+        "转移验证码的收件人",
+        "原所有者转移完成后的角色"
       ],
       "hardness_tag": "numeric_table",
       "most_likely_failure": "把验证码发给接收者，或将原负责人保留为管理员。",
@@ -761,9 +762,34 @@
                   },
                   "cleaned_character_offset": 732,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "self-host/use-dify/workspace/team-members-management",
+                  "heading_path": "管理成员 > 管理成员",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx",
+                  "raw_line_start": 50,
+                  "raw_line_end": 50,
+                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
+                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/workspace/team-members-management#p3",
+                    "heading_path": "管理成员 > 管理成员",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 855,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84",
                   "reconstruct_verified": true
                 }
               ]
@@ -797,9 +823,34 @@
                   },
                   "cleaned_character_offset": 732,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "self-host/use-dify/workspace/team-members-management",
+                  "heading_path": "管理成员 > 管理成员",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx",
+                  "raw_line_start": 50,
+                  "raw_line_end": 50,
+                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
+                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/workspace/team-members-management#p3",
+                    "heading_path": "管理成员 > 管理成员",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 855,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84",
                   "reconstruct_verified": true
                 }
               ]
@@ -809,11 +860,15 @@
       ],
       "boundary_evidence": [],
       "distractor_docs": [],
-      "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "counterpart_docs": [
+        "self-host/use-dify/workspace/team-members-management"
+      ],
+      "notes": [
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+      ],
+      "author_review_status": "primary_verified_after_independent_reject",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -849,8 +904,8 @@
             },
             "cleaned_character_offset": 202,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
             "reconstruct_verified": true
           }
@@ -877,8 +932,8 @@
             },
             "cleaned_character_offset": 236,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
             "reconstruct_verified": true
           }
@@ -905,8 +960,8 @@
             },
             "cleaned_character_offset": 270,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": false,
-            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
             "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
             "reconstruct_verified": true
           }
@@ -914,7 +969,12 @@
       ],
       "twin_comparison_ids": [
         "cloud/use-dify/workspace/team-members-management <=> self-host/use-dify/workspace/team-members-management"
-      ]
+      ],
+      "all_equivalent_gold_docs": [
+        "cloud/use-dify/workspace/team-members-management",
+        "self-host/use-dify/workspace/team-members-management"
+      ],
+      "fact_equivalence_note": "Cloud L47与self-host L50的转移规则逐字一致；虽然全文权限/套餐不同，所问两个事实均可用任一篇作答，edition=null。"
     },
     {
       "question_id": "dev050",
@@ -971,8 +1031,8 @@
                   },
                   "cleaned_character_offset": 480,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
                   "reconstruct_verified": true
                 }
@@ -1007,8 +1067,8 @@
                   },
                   "cleaned_character_offset": 698,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
                   "reconstruct_verified": true
                 }
@@ -1036,8 +1096,8 @@
                   },
                   "cleaned_character_offset": 738,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
                   "reconstruct_verified": true
                 }
@@ -1072,8 +1132,8 @@
                   },
                   "cleaned_character_offset": 815,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
                   "reconstruct_verified": true
                 }
@@ -1101,8 +1161,8 @@
                   },
                   "cleaned_character_offset": 841,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
                   "reconstruct_verified": true
                 }
@@ -1117,9 +1177,9 @@
       ],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1151,8 +1211,8 @@
               },
               "cleaned_character_offset": 480,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef",
               "reconstruct_verified": true
             }
@@ -1180,8 +1240,8 @@
               },
               "cleaned_character_offset": 67,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237",
               "reconstruct_verified": true
             }
@@ -1192,7 +1252,7 @@
     },
     {
       "question_id": "dev051",
-      "reference_answer": "模型会按每条查询与知识库描述的相关性决定是否搜索。把描述写详细能改善选择。各库独立检索，不会跨库重排序结果。",
+      "reference_answer": "旧版Agent会评估每条用户查询与知识库描述的相关性，再决定是否检索；把知识库描述写详细，可以改善相关性判断。",
       "behavior_group": "single",
       "behavior_subtype": "neighbor",
       "expected_behavior": "answered",
@@ -1205,14 +1265,13 @@
         ]
       ],
       "n_docs": 1,
-      "n_subasks": 3,
+      "n_subasks": 2,
       "subasks": [
-        "旧版Agent按每条查询与知识库描述的相关性决定是否检索。",
-        "写更详细的知识库描述能改善相关性判断。",
-        "多个知识库的结果不会跨库重排序。"
+        "漏选的检索决策依据",
+        "如何改善相关性判断"
       ],
       "hardness_tag": "neighbor",
-      "most_likely_failure": "误用聊天助手每条消息都检索的机制，或承诺跨库重排。",
+      "most_likely_failure": "误套聊天助手每条消息都检索的机制，未说明知识库描述对相关性决策的作用。",
       "guessable_without_docs": null,
       "form_tags": [
         "scenario_or_symptom"
@@ -1245,8 +1304,8 @@
                   },
                   "cleaned_character_offset": 1980,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237",
                   "reconstruct_verified": true
                 }
@@ -1281,44 +1340,8 @@
                   },
                   "cleaned_character_offset": 2028,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 2,
-          "text": "多个知识库的结果不会跨库重排序。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/build/agent",
-                  "heading_path": "Agent > 配置 > 基于你的数据生成回复",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx#L135-L135",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/agent.mdx",
-                  "raw_line_start": 135,
-                  "raw_line_end": 135,
-                  "original_excerpt": "    Agent 应用没有应用级检索设置。每个知识库都使用各自配置的设置独立检索。添加多个知识库时，由 Agent 决定查询哪些，也不会跨知识库对结果重排序。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/agent#c7",
-                    "excerpt": "Agent 应用没有应用级检索设置。每个知识库都使用各自配置的设置独立检索。添加多个知识库时，由 Agent 决定查询哪些，也不会跨知识库对结果重排序。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/agent#p3",
-                    "heading_path": "Agent > 配置 > 基于你的数据生成回复",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 2074,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237",
                   "reconstruct_verified": true
                 }
@@ -1332,19 +1355,21 @@
         "self-host/use-dify/build/chatbot"
       ],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "notes": [
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+      ],
+      "author_review_status": "primary_verified_after_independent_reject",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 30,
-        "vital_count": 3
+        "question_characters": 23,
+        "vital_count": 2
       },
       "neighbor_contrast": {
-        "difference": "聊天助手每条消息作为检索查询，并有应用级重排设置。",
+        "difference": "旧版Agent按查询与知识库描述相关性决定是否检索；聊天助手每条消息都会用作检索查询。",
         "gold": {
           "any_of": [
             {
@@ -1367,8 +1392,8 @@
               },
               "cleaned_character_offset": 1980,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237",
               "reconstruct_verified": true
             }
@@ -1396,8 +1421,8 @@
               },
               "cleaned_character_offset": 1334,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "7e17eeff2c9b05c9bc0274034c1e2c3b5780aaea3ab7a7bb705933b02fe07cf2",
               "reconstruct_verified": true
             }
@@ -1458,8 +1483,8 @@
                   },
                   "cleaned_character_offset": 425,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "be1a4929af8ba7b9e1a35657caac031498596769ec864a49cef69ea591d6ed95",
                   "reconstruct_verified": true
                 }
@@ -1487,8 +1512,8 @@
                   },
                   "cleaned_character_offset": 458,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "be1a4929af8ba7b9e1a35657caac031498596769ec864a49cef69ea591d6ed95",
                   "reconstruct_verified": true
                 }
@@ -1523,8 +1548,8 @@
                   },
                   "cleaned_character_offset": 172,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "be1a4929af8ba7b9e1a35657caac031498596769ec864a49cef69ea591d6ed95",
                   "reconstruct_verified": true
                 }
@@ -1537,11 +1562,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "只问是否上线时，不把“没有未保存工作”的警告另设vital。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1603,8 +1628,8 @@
                   },
                   "cleaned_character_offset": 495,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "401825cb832b695fbd27a9ebbd78611b3d22eca622a5883ce8f726614a14996f",
                   "reconstruct_verified": true
                 }
@@ -1639,8 +1664,8 @@
                   },
                   "cleaned_character_offset": 0,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "401825cb832b695fbd27a9ebbd78611b3d22eca622a5883ce8f726614a14996f",
                   "reconstruct_verified": true
                 }
@@ -1653,11 +1678,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "唯一单vital短问需保留两配置项名称作为必答，泛答可以不完整。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1719,8 +1744,8 @@
                   },
                   "cleaned_character_offset": 260,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2e288e7e16234c2d2cbedad2a688970113e4d533d8d6c532b01d6252f1bdc1b4",
                   "reconstruct_verified": true
                 }
@@ -1755,8 +1780,8 @@
                   },
                   "cleaned_character_offset": 260,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "2e288e7e16234c2d2cbedad2a688970113e4d533d8d6c532b01d6252f1bdc1b4",
                   "reconstruct_verified": true
                 }
@@ -1771,9 +1796,9 @@
         "cloud/use-dify/workspace/readme"
       ],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1804,8 +1829,8 @@
               },
               "cleaned_character_offset": 449,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "8c579ca34e23663568cc8d34e799acf855d5dbfce1bf5f743ddc18d463f66b87",
               "reconstruct_verified": true
             }
@@ -1878,8 +1903,8 @@
                   },
                   "cleaned_character_offset": 746,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "3c4435414c2d28ae0683cb7381bc3979b3d13fd269c34611932e1ca372fee90f",
                   "reconstruct_verified": true
                 }
@@ -1914,8 +1939,8 @@
                   },
                   "cleaned_character_offset": 909,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "3c4435414c2d28ae0683cb7381bc3979b3d13fd269c34611932e1ca372fee90f",
                   "reconstruct_verified": true
                 }
@@ -1950,8 +1975,8 @@
                   },
                   "cleaned_character_offset": 104,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "049efa4e1248614bc0272dc1f6b6b1ea3cd1918ebc1034d63655b9c8960e6f8b",
                   "reconstruct_verified": true
                 },
@@ -1975,8 +2000,8 @@
                   },
                   "cleaned_character_offset": 69,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "94dbd653408d5da7773da1f4c9830ed3595e3194fe1c0c2f5162336363e07e2b",
                   "reconstruct_verified": true
                 }
@@ -2011,8 +2036,8 @@
                   },
                   "cleaned_character_offset": 1218,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "049efa4e1248614bc0272dc1f6b6b1ea3cd1918ebc1034d63655b9c8960e6f8b",
                   "reconstruct_verified": true
                 },
@@ -2036,8 +2061,8 @@
                   },
                   "cleaned_character_offset": 783,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "94dbd653408d5da7773da1f4c9830ed3595e3194fe1c0c2f5162336363e07e2b",
                   "reconstruct_verified": true
                 }
@@ -2050,11 +2075,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "后问保持“该处/该条目”指代，不提前给模型供应商标题；不要重新加未问的重试或空间级密钥范围为必答。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -2103,8 +2128,8 @@
               },
               "cleaned_character_offset": 847,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8",
               "reconstruct_verified": true
             },
@@ -2131,8 +2156,8 @@
               },
               "cleaned_character_offset": 268,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "3945b8c8f985cc1463a3e1976272fcdb8fd56d569d934e9aff09ce674b206fc8",
               "reconstruct_verified": true
             },
@@ -2204,8 +2229,8 @@
                   },
                   "cleaned_character_offset": 1143,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "47b5e5f1a281eeb9b12227bea6f0d9e0b5c90b98c6d9044583d33042166fb190",
                   "reconstruct_verified": true
                 },
@@ -2229,8 +2254,8 @@
                   },
                   "cleaned_character_offset": 1143,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c24753feb231553298fbba1b5d47c47d3165ad9e2dbc8b042d58e93459516ab0",
                   "reconstruct_verified": true
                 }
@@ -2265,8 +2290,8 @@
                   },
                   "cleaned_character_offset": 503,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "dd66767d4d463604edcd391b9786636199aacb944055cfea37cbcac138382869",
                   "reconstruct_verified": true
                 }
@@ -2301,8 +2326,8 @@
                   },
                   "cleaned_character_offset": 550,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "dd66767d4d463604edcd391b9786636199aacb944055cfea37cbcac138382869",
                   "reconstruct_verified": true
                 }
@@ -2330,8 +2355,8 @@
                   },
                   "cleaned_character_offset": 610,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "dd66767d4d463604edcd391b9786636199aacb944055cfea37cbcac138382869",
                   "reconstruct_verified": true
                 }
@@ -2344,12 +2369,12 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "第二跳Q&A自动生成/完整自然语言只在self-host有支持段；正式题明确自部署上下文，或在题卡写清证据适用范围，不能默认Cloud未知内容相同。",
         "别在第二问直接给分段、总结内容、Q&A匹配对、完整语法结构、自然语言等识别性答案词。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -2398,8 +2423,8 @@
               },
               "cleaned_character_offset": 0,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "987a63027cb67d9ae3eb91c331351a92c5933e793c2ae2d4e2d48674d5b41a02",
               "reconstruct_verified": true
             },
@@ -2426,8 +2451,8 @@
               },
               "cleaned_character_offset": 1334,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "7e17eeff2c9b05c9bc0274034c1e2c3b5780aaea3ab7a7bb705933b02fe07cf2",
               "reconstruct_verified": true
             },
@@ -2501,8 +2526,8 @@
                   },
                   "cleaned_character_offset": 14,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a1f9723b30153bc9d65b036916a9fadb9a5c6bf896351b9a58c571dda4a19649",
                   "reconstruct_verified": true
                 }
@@ -2537,8 +2562,8 @@
                   },
                   "cleaned_character_offset": 775,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
                   "reconstruct_verified": true
                 }
@@ -2573,8 +2598,8 @@
                   },
                   "cleaned_character_offset": 1018,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
                   "reconstruct_verified": true
                 }
@@ -2602,8 +2627,8 @@
                   },
                   "cleaned_character_offset": 1054,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
                   "reconstruct_verified": true
                 }
@@ -2638,8 +2663,8 @@
                   },
                   "cleaned_character_offset": 1452,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
                   "reconstruct_verified": true
                 }
@@ -2652,11 +2677,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "第二问用该方式指代，不泄内部集成、NOTION变量或Secrets/Show等特有词；不把Notion所有者写成Dify管理员。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -2705,8 +2730,8 @@
               },
               "cleaned_character_offset": 0,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a",
               "reconstruct_verified": true
             },
@@ -2733,8 +2758,8 @@
               },
               "cleaned_character_offset": 84,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43",
               "reconstruct_verified": true
             },
@@ -2806,8 +2831,8 @@
                   },
                   "cleaned_character_offset": 328,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "b72dce3125858ac2ac31759debc6515bba9f192f8f0532504cc45527dfb48765",
                   "reconstruct_verified": true
                 }
@@ -2842,8 +2867,8 @@
                   },
                   "cleaned_character_offset": 106,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149",
                   "reconstruct_verified": true
                 }
@@ -2878,8 +2903,8 @@
                   },
                   "cleaned_character_offset": 817,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149",
                   "reconstruct_verified": true
                 }
@@ -2914,8 +2939,8 @@
                   },
                   "cleaned_character_offset": 817,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149",
                   "reconstruct_verified": true
                 }
@@ -2928,12 +2953,12 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "第二问不得给Sandbox或50MB；50MB是知识库存储容量，不是单文件大小。",
         "四条事实虽使用三处源，数据保留和仍可检索需独立评分，不能互相替代。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -2981,8 +3006,8 @@
               },
               "cleaned_character_offset": 102,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "5e7b0e826cf599cb2dcc6da33d0b1eb5a488d288546dab3922aaf931602894e2",
               "reconstruct_verified": true
             },
@@ -3009,8 +3034,8 @@
               },
               "cleaned_character_offset": 98,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "b398f3583244febbdfec6615fea9977b4efe8583df1a065b045e0d30dc234987",
               "reconstruct_verified": true
             },
@@ -3022,7 +3047,7 @@
     },
     {
       "question_id": "dev059",
-      "reference_answer": "旧版Agent只有流式返回，会话变量跨轮保留。文本生成API调用之间无会话状态，可选阻塞返回，等生成完成一次性拿到内容。",
+      "reference_answer": "旧版Agent仅支持流式，回复正文由agent_message事件承载（另有agent_thought思考事件）；文本生成可阻塞也可流式，流式正文使用message事件。只要求比较返回方式与正文事件，不考会话记忆。",
       "behavior_group": "multi",
       "behavior_subtype": "parallel_compare",
       "expected_behavior": "answered",
@@ -3039,19 +3064,15 @@
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 4,
+      "n_subasks": 2,
       "subasks": [
-        "旧版Agent应用仅支持流式返回。",
-        "对话API的会话变量跨多轮保留。",
-        "文本生成API的调用之间不保留会话状态。",
-        "文本生成API支持生成结束后一次性返回的阻塞模式。"
+        "两种应用支持的返回模式",
+        "两种应用流式正文的事件"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "混用旧版Agent和新Agent，或给无状态文本生成添加跨轮会话。",
+      "most_likely_failure": "混用Agent的agent_message与普通message事件，或错误承诺旧版Agent支持阻塞返回。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -3067,10 +3088,10 @@
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx",
                   "raw_line_start": 17,
                   "raw_line_end": 17,
-                  "original_excerpt": "- **[发送对话消息](/zh/api-reference/chat-messages/send-chat-message)**：向聊天助手或旧版 Agent 应用发送用户提问。阻塞式返回在回复完成后一次性返回全部内容；旧版 Agent 应用仅支持流式返回。",
+                  "original_excerpt": "旧版 Agent 应用仅支持流式返回。",
                   "direct_evidence": {
                     "chunk_id": "api-reference/guides/chat#c1",
-                    "excerpt": "- **发送对话消息**：向聊天助手或旧版 Agent 应用发送用户提问。阻塞式返回在回复完成后一次性返回全部内容；旧版 Agent 应用仅支持流式返回。",
+                    "excerpt": "旧版 Agent 应用仅支持流式返回。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
@@ -3078,10 +3099,10 @@
                     "heading_path": "对话型应用 API > 发送消息并接收流式回复",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 261,
+                  "cleaned_character_offset": 319,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274",
                   "reconstruct_verified": true
                 }
@@ -3091,79 +3112,7 @@
         },
         {
           "nugget_index": 1,
-          "text": "对话API的会话变量跨多轮保留。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
-                {
-                  "document_id": "api-reference/guides/chat",
-                  "heading_path": "对话型应用 API > 管理会话",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L29-L29",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx",
-                  "raw_line_start": 29,
-                  "raw_line_end": 29,
-                  "original_excerpt": "- **[获取会话变量](/zh/api-reference/conversations/list-conversation-variables)**：读取会话在多轮对话间保留的变量值。",
-                  "direct_evidence": {
-                    "chunk_id": "api-reference/guides/chat#c2",
-                    "excerpt": "- **获取会话变量**：读取会话在多轮对话间保留的变量值。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "api-reference/guides/chat#p2",
-                    "heading_path": "对话型应用 API > 管理会话",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 569,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 2,
-          "text": "文本生成API的调用之间不保留会话状态。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
-                {
-                  "document_id": "api-reference/guides/completion",
-                  "heading_path": "文本生成应用 API",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L9-L9",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx",
-                  "raw_line_start": 9,
-                  "raw_line_end": 9,
-                  "original_excerpt": "[文本生成应用](/zh/cloud/use-dify/build/text-generator) 运行在 `completion` 模式下，每次调用各自提交输入值并返回一条回复，调用之间不保留会话状态。",
-                  "direct_evidence": {
-                    "chunk_id": "api-reference/guides/completion#c0",
-                    "excerpt": "文本生成应用 运行在 `completion` 模式下，每次调用各自提交输入值并返回一条回复，调用之间不保留会话状态。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "api-reference/guides/completion#p0",
-                    "heading_path": "文本生成应用 API",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 0,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "fc5dafc7598b781d10ff8282669b92af3da17618fed18c24c8e1b8c13ecef9ef",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 3,
-          "text": "文本生成API支持生成结束后一次性返回的阻塞模式。",
+          "text": "文本生成API支持阻塞式返回，也支持流式返回。",
           "importance": "vital",
           "all_of": [
             {
@@ -3175,10 +3124,10 @@
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx",
                   "raw_line_start": 17,
                   "raw_line_end": 17,
-                  "original_excerpt": "- **[发送消息](/zh/api-reference/completion-messages/send-completion-message)**：将 `inputs` 中的取值填入应用的提示词模板并生成回复。阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
+                  "original_excerpt": "阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
                   "direct_evidence": {
                     "chunk_id": "api-reference/guides/completion#c1",
-                    "excerpt": "- **发送消息**：将 `inputs` 中的取值填入应用的提示词模板并生成回复。阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
+                    "excerpt": "阻塞式返回在生成完成后一次性返回全部内容；流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
@@ -3186,10 +3135,82 @@
                     "heading_path": "文本生成应用 API > 生成文本",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 132,
+                  "cleaned_character_offset": 174,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "fc5dafc7598b781d10ff8282669b92af3da17618fed18c24c8e1b8c13ecef9ef",
+                  "reconstruct_verified": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "旧版Agent流式正文使用agent_message事件。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/chat",
+                  "heading_path": "对话型应用 API",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx#L9-L9",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chat.mdx",
+                  "raw_line_start": 9,
+                  "raw_line_end": 9,
+                  "original_excerpt": "聊天助手应用以 `message` 事件流式返回回复，旧版 Agent 应用则返回 `agent_thought` 和 `agent_message` 事件。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/chat#c0",
+                    "excerpt": "聊天助手应用以 `message` 事件流式返回回复，旧版 Agent 应用则返回 `agent_thought` 和 `agent_message` 事件。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/chat#p0",
+                    "heading_path": "对话型应用 API",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 102,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274",
+                  "reconstruct_verified": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "text": "文本生成API流式正文使用message事件。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/completion",
+                  "heading_path": "文本生成应用 API > 生成文本",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx#L17-L17",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/completion.mdx",
+                  "raw_line_start": 17,
+                  "raw_line_end": 17,
+                  "original_excerpt": "流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/completion#c1",
+                    "excerpt": "流式返回持续输出 `message` 事件，直至 `message_end`（应用开启文字转语音自动播放时还会收到 `tts_message` 事件）。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/completion#p1",
+                    "heading_path": "文本生成应用 API > 生成文本",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 195,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "fc5dafc7598b781d10ff8282669b92af3da17618fed18c24c8e1b8c13ecef9ef",
                   "reconstruct_verified": true
                 }
@@ -3201,15 +3222,17 @@
       "boundary_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "notes": [
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+      ],
+      "author_review_status": "primary_verified_after_independent_reject",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 29,
+        "question_characters": 38,
         "vital_count": 4
       },
       "twin_comparison_ids": []
@@ -3274,8 +3297,8 @@
                   },
                   "cleaned_character_offset": 1082,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "d052519abe9ced6dcfacf1dcc51a57b87c53af5735b8227f385555d80752bd11",
                   "reconstruct_verified": true
                 }
@@ -3310,8 +3333,8 @@
                   },
                   "cleaned_character_offset": 262,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "36cb9d1dbf057967ef1e0b4c5c87e67e11970da09c7d2ab07807b2991d3ac7b4",
                   "reconstruct_verified": true
                 }
@@ -3346,8 +3369,8 @@
                   },
                   "cleaned_character_offset": 925,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "36cb9d1dbf057967ef1e0b4c5c87e67e11970da09c7d2ab07807b2991d3ac7b4",
                   "reconstruct_verified": true
                 }
@@ -3382,8 +3405,8 @@
                   },
                   "cleaned_character_offset": 1113,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "36cb9d1dbf057967ef1e0b4c5c87e67e11970da09c7d2ab07807b2991d3ac7b4",
                   "reconstruct_verified": true
                 }
@@ -3396,11 +3419,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "CSV每行一次执行与UTF-8来自不同父块，正式证据拆all_of。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3412,7 +3435,7 @@
     },
     {
       "question_id": "dev061",
-      "reference_answer": "API前先用middleware配置启动数据库、沙箱和插件守护进程：docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows消费者命令为uv run celery -A app.celery worker -P solo --without-gossip --without-mingle --loglevel INFO -Q dataset,dataset_summary,priority_dataset,priority_pipeline,pipeline,mail,ops_trace,app_deletion,plugin,workflow_storage,conversation,workflow,schedule_poller,schedule_executor,triggered_workflow_dispatcher,trigger_refresh_executor,retention,workflow_based_app_execution；定时调度另开终端运行uv run celery -A app.celery beat。",
+      "reference_answer": "先用middleware配置启动数据库、沙箱和插件守护进程，可执行docker compose --env-file middleware.env -f docker-compose.middleware.yaml -p dify up -d。Windows的Celery Worker需-P solo --without-gossip --without-mingle兼容选项；定时服务另开终端运行uv run celery -A app.celery beat。文档完整Worker命令中的队列清单不是本题必答项。",
       "behavior_group": "multi",
       "behavior_subtype": "scattered_ordered",
       "expected_behavior": "answered",
@@ -3427,9 +3450,9 @@
       "n_docs": 1,
       "n_subasks": 3,
       "subasks": [
-        "启动API前，用middleware配置启动数据库、沙箱和插件守护进程。",
-        "Windows的Celery Worker命令使用-P solo --without-gossip --without-mingle。",
-        "定时任务需另起uv run celery -A app.celery beat服务。"
+        "API启动前的依赖服务",
+        "Windows消费者的兼容选项",
+        "定时服务启动命令"
       ],
       "hardness_tag": "scattered_ordered",
       "most_likely_failure": "Windows误用默认进程池，或遗漏定时任务独立beat服务。",
@@ -3465,8 +3488,8 @@
                   },
                   "cleaned_character_offset": 997,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3494,8 +3517,8 @@
                   },
                   "cleaned_character_offset": 1185,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3530,8 +3553,8 @@
                   },
                   "cleaned_character_offset": 3007,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3559,8 +3582,8 @@
                   },
                   "cleaned_character_offset": 3071,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3595,8 +3618,8 @@
                   },
                   "cleaned_character_offset": 7559,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3624,8 +3647,8 @@
                   },
                   "cleaned_character_offset": 7622,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18",
                   "reconstruct_verified": true
                 }
@@ -3637,10 +3660,12 @@
       "boundary_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "notes": [
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+      ],
+      "author_review_status": "primary_verified_after_independent_reject",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3655,9 +3680,14 @@
           "self-host/deploy/advanced-deployments/local-source-code#p5",
           "self-host/deploy/advanced-deployments/local-source-code#p7"
         ],
-        "raw_excerpt_prefix_limit": 12000
+        "raw_excerpt_prefix_limit": 12000,
+        "question_characters": 41,
+        "at_most_40": false,
+        "at_most_80": true,
+        "vital_count": 3
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "scoring_scope_note": "只判题干明确询问的Windows三项兼容选项，不将完整-Q队列清单强制计分。来源保留文档完整命令便于核对。"
     },
     {
       "question_id": "dev062",
@@ -3716,8 +3746,8 @@
                   },
                   "cleaned_character_offset": 1955,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3745,8 +3775,8 @@
                   },
                   "cleaned_character_offset": 1986,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3781,8 +3811,8 @@
                   },
                   "cleaned_character_offset": 2064,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3817,8 +3847,8 @@
                   },
                   "cleaned_character_offset": 2234,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3846,8 +3876,8 @@
                   },
                   "cleaned_character_offset": 2259,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3875,8 +3905,8 @@
                   },
                   "cleaned_character_offset": 2354,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3911,8 +3941,8 @@
                   },
                   "cleaned_character_offset": 2470,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51",
                   "reconstruct_verified": true
                 }
@@ -3925,11 +3955,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "正式证据保留父标题中的FILES_URL/INTERNAL_FILES_URL/FILES_ACCESS_TIMEOUT，不能只引无名正文再猜配。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3974,9 +4004,9 @@
       "notes": [
         "RPO/RTO/VAT等短英文片段可能命中其他词内部；不把词边界0伪装成原文子串0，另列真实近似长词。"
       ],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4108,9 +4138,9 @@
       "notes": [
         "RPO/RTO/VAT等短英文片段可能命中其他词内部；不把词边界0伪装成原文子串0，另列真实近似长词。"
       ],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4263,9 +4293,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4296,8 +4326,8 @@
               },
               "cleaned_character_offset": 199,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "14ca7249fa25914f0053d8b5a4b0ebc19f772f2fa2e8c9fa3276ded67b2ecac7",
               "reconstruct_verified": true
             }
@@ -4325,8 +4355,8 @@
               },
               "cleaned_character_offset": 367,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "14ca7249fa25914f0053d8b5a4b0ebc19f772f2fa2e8c9fa3276ded67b2ecac7",
               "reconstruct_verified": true
             }
@@ -4354,8 +4384,8 @@
               },
               "cleaned_character_offset": 405,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "14ca7249fa25914f0053d8b5a4b0ebc19f772f2fa2e8c9fa3276ded67b2ecac7",
               "reconstruct_verified": true
             }
@@ -4383,8 +4413,8 @@
               },
               "cleaned_character_offset": 421,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "14ca7249fa25914f0053d8b5a4b0ebc19f772f2fa2e8c9fa3276ded67b2ecac7",
               "reconstruct_verified": true
             }
@@ -4428,11 +4458,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [
         "正式题保持无版本词、edition=null，并限定知识流水线文件源；不能换成泛泛“一次能传几个文件”复刻旧dev017。"
       ],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4463,8 +4493,8 @@
               },
               "cleaned_character_offset": 1170,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "c9f16024b4b0aa66f9506d3805493a1dc364cf2d87ecaad7a99015ab5d5ea847",
               "reconstruct_verified": true
             }
@@ -4492,8 +4522,8 @@
               },
               "cleaned_character_offset": 1180,
               "within_current_judge_first_12000_chars": true,
-              "database_verified": false,
-              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "database_verified": true,
+              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
               "source_file_sha256": "04944795466b60ecae1c561bc7650cefa16cd5c97b6056e80c7d9242f2b3f2e3",
               "reconstruct_verified": true
             }
@@ -4546,9 +4576,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "pending_independent_final_review",
+      "author_review_status": "accepted_by_independent_final_reviewer",
       "authoring_guardrails": [],
-      "database_verified": false,
+      "database_verified": true,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4583,8 +4613,8 @@
                   },
                   "cleaned_character_offset": 998,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
                   "reconstruct_verified": true
                 }
@@ -4612,8 +4642,8 @@
                   },
                   "cleaned_character_offset": 1075,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
                   "reconstruct_verified": true
                 }
@@ -4641,8 +4671,8 @@
                   },
                   "cleaned_character_offset": 1166,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
                   "reconstruct_verified": true
                 }
@@ -4676,8 +4706,8 @@
                   },
                   "cleaned_character_offset": 2520,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "dd13e9ac9073fb2119c385b954a478eb0c95d885a2dfd260f9dd41c2999d5828",
                   "reconstruct_verified": true
                 }
