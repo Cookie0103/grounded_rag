@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "counts": {
+    "documents": 182,
+    "parent_chunks": 1252,
+    "chunks": 2090,
+    "chunk_embeddings": 2090
+  },
+  "all_document_content_hashes_match": true,
+  "all_child_text_ids_parent_links_match": true,
+  "all_parent_text_ids_match": true,
+  "embedding_model": "qwen3-embedding-0.6b",
+  "verification_method": "只读数据库与固定语料生产清洗/分块结果全量比对",
+  "model_smoke": {
+    "device": "mps",
+    "embedding_dimensions": 1024,
+    "embedding_seconds": 54.48,
+    "reranker_scores": [
+      0.9999527931213379,
+      0.0006023541791364551
+    ],
+    "total_seconds": 84.27
+  },
+  "device_override": "仅任务命令MPS/batch4，未改.env",
+  "paid_llm_calls": 0,
+  "project_check": {
+    "command": "UV_CACHE_DIR=<repo>/.cache/uv UV_NO_SYNC=1 uv run --no-sync poe check",
+    "passed": true,
+    "unit_tests_passed": 433,
+    "deselected": 35,
+    "coverage_percent": 94.85,
+    "backend_commit": "bd407dfd72ad3e88c93a1f60ab657319cc0148f0",
+    "backend_source_changed": false
+  },
+  "model_revisions": {
+    "models--Qwen--Qwen3-Reranker-0.6B": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+    "models--Qwen--Qwen3-Embedding-0.6B": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+  },
+  "integration_check": {
+    "command": "UV_CACHE_DIR=<repo>/.cache/uv UV_NO_SYNC=1 uv run --no-sync poe test-int",
+    "passed": true,
+    "tests_passed": 32,
+    "deselected": 436,
+    "database": "grounded_rag_test"
+  }
+}
