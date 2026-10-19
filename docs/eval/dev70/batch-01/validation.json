@@ -1,123 +1,232 @@
 {
   "question_count": 12,
-  "ids": [
-    "dev021",
-    "dev022",
-    "dev023",
-    "dev024",
-    "dev025",
-    "dev026",
-    "dev027",
-    "dev028",
-    "dev029",
-    "dev030",
-    "dev031",
-    "dev032"
-  ],
-  "types": {
-    "fact_single": 4,
-    "summary": 2,
-    "reasoning": 3,
-    "version": 1,
-    "unanswerable": 2
+  "behavior_counts": {
+    "single": 4,
+    "multi": 6,
+    "refuse_correct": 2
   },
-  "routes": {
-    "SINGLE": 5,
-    "MULTI": 7
+  "subtype_counts": {
+    "short": 1,
+    "synonym": 1,
+    "numeric_table": 1,
+    "neighbor": 1,
+    "scattered_ordered": 2,
+    "chain": 1,
+    "parallel_compare": 3,
+    "out_of_database": 1,
+    "false_premise": 1
   },
-  "short_at_most_40_chars": 11,
-  "at_least_half_short": true,
   "lengths": {
-    "dev021": 19,
+    "dev021": 16,
     "dev022": 26,
     "dev023": 20,
     "dev024": 24,
     "dev025": 36,
-    "dev026": 66,
-    "dev027": 40,
+    "dev026": 58,
+    "dev027": 34,
     "dev028": 30,
-    "dev029": 26,
-    "dev030": 29,
+    "dev029": 22,
+    "dev030": 37,
     "dev031": 29,
     "dev032": 33
   },
-  "deployment_prefix_count": 2,
-  "nuggets": 26,
-  "source_records": 40,
-  "unique_gold_documents": 12,
-  "unique_documents_including_boundary_and_distractors": 18,
-  "primary_doc_usage": {
-    "api-reference/guides/end-user-identity": 2,
-    "api-reference/guides/human-input-flow": 1,
-    "api-reference/guides/streaming": 1,
-    "api-reference/guides/workflow": 1,
-    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
-    "cloud/use-dify/workspace/personal-account-management": 1,
-    "learn/tutorials/workflow-101/lesson-09": 1,
-    "self-host/use-dify/debug/variable-inspect": 2,
-    "self-host/use-dify/knowledge/external-knowledge-api": 1,
-    "self-host/use-dify/nodes/iteration": 1,
-    "self-host/use-dify/nodes/template": 1,
-    "self-host/use-dify/nodes/variable-assigner": 1
-  },
-  "all_doc_usage": {
-    "api-reference/guides/end-user-identity": 2,
-    "api-reference/guides/human-input-flow": 1,
-    "api-reference/guides/streaming": 1,
-    "api-reference/guides/workflow": 1,
-    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
-    "cloud/use-dify/workspace/personal-account-management": 1,
-    "learn/tutorials/workflow-101/lesson-09": 1,
-    "self-host/deploy/configuration/environments": 1,
-    "self-host/use-dify/debug/variable-inspect": 2,
-    "self-host/use-dify/knowledge/external-knowledge-api": 1,
-    "self-host/use-dify/nodes/iteration": 1,
-    "self-host/use-dify/nodes/loop": 1,
-    "self-host/use-dify/nodes/template": 1,
-    "self-host/use-dify/nodes/trigger/overview": 1,
-    "self-host/use-dify/nodes/trigger/plugin-trigger": 1,
-    "self-host/use-dify/nodes/trigger/webhook-trigger": 1,
-    "self-host/use-dify/nodes/variable-assigner": 1,
-    "self-host/use-dify/workspace/personal-account-management": 1
-  },
-  "top_level_directories": [
-    "api-reference",
-    "cloud",
-    "learn",
-    "self-host"
+  "short_at_most_40_chars": 11,
+  "minimum_required_short": 8,
+  "max_length": 58,
+  "all_at_most_80": true,
+  "deployment_prefix_ids": [
+    "dev025",
+    "dev027",
+    "dev030"
   ],
-  "max_document_uses": 2,
-  "existing_question_validator_errors": 0,
-  "existing_question_validator_warnings": 0,
-  "corpus_database_counts": {
-    "documents": 182,
-    "parents": 1252,
-    "children": 2090
+  "max_gold_document_uses_in_batch": 1,
+  "gold_document_uses_including_equivalents": {
+    "api-reference/guides/end-user-identity": 1,
+    "api-reference/guides/streaming": 1,
+    "api-reference/guides/workflow": 1,
+    "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+    "cloud/use-dify/knowledge/external-knowledge-api": 1,
+    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
+    "learn/tutorials/workflow-101/lesson-08": 1,
+    "self-host/deploy/troubleshooting/weaviate-server-migration-path": 1,
+    "self-host/use-dify/debug/variable-inspect": 1,
+    "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+    "self-host/use-dify/knowledge/external-knowledge-api": 1,
+    "self-host/use-dify/nodes/agent": 1,
+    "self-host/use-dify/nodes/ifelse": 1,
+    "self-host/use-dify/nodes/iteration": 1,
+    "self-host/use-dify/nodes/question-classifier": 1,
+    "self-host/use-dify/nodes/template": 1
   },
-  "all_quotes_have_verified_raw_lines_child_and_parent": true,
-  "all_sources_within_judge_first_12000": true,
+  "existing_question_validator_issues": [],
+  "guessable_all_null": true,
+  "chains": {
+    "dev027": {
+      "second_document_keywords": [
+        "Agent",
+        "新 Agent",
+        "DIFY_AGENT_SERVER_SECRET_KEY",
+        "DIFY_AGENT_API_TOKEN",
+        "Docker Compose",
+        "随机值"
+      ],
+      "keyword_count": 6,
+      "leaked_keywords": [],
+      "second_title_absent": true,
+      "dependency": "指定课程和检索后位置只在第一篇确定组件；第一篇不给两个凭据字段。第二篇不知道第8课用哪个组件。课程明确从空白创建，无需选择经典推理策略，对应新Agent小节。",
+      "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+    }
+  },
+  "synonyms": {
+    "dev022": {
+      "checked_title_h1_h2_and_official_names": [
+        "变量检查器",
+        "查看变量",
+        "编辑变量",
+        "重置变量"
+      ],
+      "leaks": []
+    }
+  },
+  "numeric_tables": {
+    "dev023": {
+      "answer_literals": [
+        "knowledge_id",
+        "query",
+        "retrieval_setting"
+      ],
+      "none_present_in_question": true
+    }
+  },
+  "scattered": {
+    "dev025": {
+      "distinct_primary_parent_count": 3,
+      "per_vital": [
+        {
+          "fact": "存储用量取决于文档产生的向量数量。",
+          "parents": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#p1"
+          ],
+          "chunks": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#c1"
+          ]
+        },
+        {
+          "fact": "额度满时，编辑分段会被拦截。",
+          "parents": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#p3"
+          ],
+          "chunks": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#c3"
+          ]
+        },
+        {
+          "fact": "删除后账单用量数字延迟刷新。",
+          "parents": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#p4"
+          ],
+          "chunks": [
+            "cloud/use-dify/knowledge/knowledge-storage-limit#c4"
+          ]
+        }
+      ]
+    },
+    "dev026": {
+      "distinct_primary_parent_count": 3,
+      "per_vital": [
+        {
+          "fact": "离线复制备份数据卷时使用cp -a。",
+          "parents": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#p2"
+          ],
+          "chunks": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#c4"
+          ]
+        },
+        {
+          "fact": "对象总量使用GraphQL的Aggregate查询。",
+          "parents": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#p7"
+          ],
+          "chunks": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#c18"
+          ]
+        },
+        {
+          "fact": "失败回退时还原初始备份的数据卷。",
+          "parents": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#p8"
+          ],
+          "chunks": [
+            "self-host/deploy/troubleshooting/weaviate-server-migration-path#c19"
+          ]
+        }
+      ]
+    }
+  },
+  "neighbors": {
+    "dev024": {
+      "gold": {
+        "any_of": [
+          {
+            "document_id": "self-host/use-dify/nodes/iteration",
+            "heading_path": "迭代",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L8-L8",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
+            "raw_line_start": 8,
+            "raw_line_end": 8,
+            "original_excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/nodes/iteration#c0",
+              "excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/nodes/iteration#p0",
+              "heading_path": "迭代",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 0,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+          }
+        ]
+      },
+      "distractor": {
+        "any_of": [
+          {
+            "document_id": "self-host/use-dify/nodes/loop",
+            "heading_path": "循环",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/loop.mdx#L8-L8",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/loop.mdx",
+            "raw_line_start": 8,
+            "raw_line_end": 8,
+            "original_excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/nodes/loop#c0",
+              "excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/nodes/loop#p0",
+              "heading_path": "循环",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 0,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
+          }
+        ]
+      },
+      "difference": "迭代逐项处理数组；循环的后一步基于前一步结果。占位续跑在迭代页“错误时继续”明示。"
+    }
+  },
+  "versions": {},
   "paid_calls": 0,
   "rag_run": false,
   "baseline_run": false,
   "human_review_complete": false,
-  "full70_constraints_complete": false,
-  "deployment_prefix_definition": [
-    "自建",
-    "自部署",
-    "本地部署",
-    "云版",
-    "云端",
-    "Dify云版",
-    "Dify Cloud"
-  ],
-  "self_deployment_prefix_count": 0,
-  "independent_file_audit": {
-    "source_records_rebuilt_and_checked": 40,
-    "all_gold_docs_contribute": true,
-    "scattered_evidence_distinct_sections": true,
-    "chain_bridge_checked": true,
-    "negative_audit_recounted": true,
-    "paid_calls": 0,
-    "note": "同一agent从落盘文件反向核验；不是独立模型或作者审题。"
-  }
+  "full70_constraints_complete": false
 }

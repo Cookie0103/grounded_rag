@@ -1,0 +1,400 @@
+{
+  "question_count": 12,
+  "behavior_counts": {
+    "single": 5,
+    "multi": 5,
+    "refuse_correct": 1,
+    "clarify": 1
+  },
+  "subtype_counts": {
+    "synonym": 1,
+    "numeric_table": 1,
+    "neighbor": 1,
+    "short": 1,
+    "single_version": 1,
+    "chain": 2,
+    "parallel_compare": 1,
+    "scattered_ordered": 2,
+    "injection": 1,
+    "version_unspecified": 1
+  },
+  "lengths": {
+    "dev033": 24,
+    "dev034": 18,
+    "dev035": 24,
+    "dev036": 16,
+    "dev037": 11,
+    "dev038": 31,
+    "dev039": 31,
+    "dev040": 29,
+    "dev041": 31,
+    "dev042": 32,
+    "dev043": 43,
+    "dev044": 11
+  },
+  "short_at_most_40_chars": 11,
+  "minimum_required_short": 8,
+  "max_length": 43,
+  "all_at_most_80": true,
+  "deployment_prefix_ids": [
+    "dev037"
+  ],
+  "max_gold_document_uses_in_batch": 1,
+  "gold_document_uses_including_equivalents": {
+    "api-reference/guides/get-started": 1,
+    "api-reference/guides/knowledge": 1,
+    "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+    "cloud/use-dify/knowledge/metadata": 1,
+    "cloud/use-dify/monitor/logs": 1,
+    "cloud/use-dify/workspace/personal-account-management": 1,
+    "cloud/use-dify/workspace/subscription-management": 1,
+    "learn/tutorials/workflow-101/lesson-05": 1,
+    "learn/tutorials/workflow-101/lesson-06": 1,
+    "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+    "self-host/use-dify/knowledge/metadata": 1,
+    "self-host/use-dify/monitor/logs": 1,
+    "self-host/use-dify/nodes/code": 1,
+    "self-host/use-dify/nodes/http-request": 1,
+    "self-host/use-dify/nodes/parameter-extractor": 1,
+    "self-host/use-dify/nodes/variable-aggregator": 1,
+    "self-host/use-dify/nodes/variable-assigner": 1,
+    "self-host/use-dify/publish/publish-mcp": 1
+  },
+  "existing_question_validator_issues": [],
+  "guessable_all_null": true,
+  "chains": {
+    "dev038": {
+      "second_document_keywords": [
+        "参数提取器",
+        "__is_success",
+        "__reason",
+        "提取成功状态",
+        "错误描述",
+        "0",
+        "1"
+      ],
+      "keyword_count": 7,
+      "leaked_keywords": [],
+      "second_title_absent": true,
+      "dependency": "课程先拆来信的环节唯一确定参数提取器；课程未列这两个内置状态变量。节点页给状态和错误变量，却不能证明第6课先用了哪个组件。",
+      "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+    },
+    "dev039": {
+      "second_document_keywords": [
+        "变量聚合器",
+        "string",
+        "number",
+        "object",
+        "boolean",
+        "array",
+        "file"
+      ],
+      "keyword_count": 7,
+      "leaked_keywords": [],
+      "second_title_absent": true,
+      "dependency": "课程流程指定哪一个组件接回两条回复，第一篇只展示text接线，未列完整类型。第二篇提供六种类型，不说明第5课用哪个组件。",
+      "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+    }
+  },
+  "synonyms": {
+    "dev033": {
+      "checked_title_h1_h2_and_official_names": [
+        "启用",
+        "归档",
+        "最佳实践",
+        "禁用",
+        "管理分段",
+        "管理文档",
+        "维护知识库内容"
+      ],
+      "leaks": []
+    }
+  },
+  "numeric_tables": {
+    "dev034": {
+      "answer_literals": [
+        "400000",
+        "400,000",
+        "CODE_MAX_STRING_LENGTH"
+      ],
+      "none_present_in_question": true
+    }
+  },
+  "scattered": {
+    "dev041": {
+      "distinct_primary_parent_count": 3,
+      "per_vital": [
+        {
+          "fact": "支持字符串、数字、时间三种值类型。",
+          "parents": [
+            "self-host/use-dify/knowledge/metadata#p1"
+          ],
+          "chunks": [
+            "self-host/use-dify/knowledge/metadata#c1"
+          ]
+        },
+        {
+          "fact": "重命名弹窗不能修改字段值类型。",
+          "parents": [
+            "self-host/use-dify/knowledge/metadata#p2"
+          ],
+          "chunks": [
+            "self-host/use-dify/knowledge/metadata#c5"
+          ]
+        },
+        {
+          "fact": "单篇文档删字段只影响该文档，知识库字段仍保留。",
+          "parents": [
+            "self-host/use-dify/knowledge/metadata#p3"
+          ],
+          "chunks": [
+            "self-host/use-dify/knowledge/metadata#c12"
+          ]
+        }
+      ]
+    },
+    "dev042": {
+      "distinct_primary_parent_count": 3,
+      "per_vital": [
+        {
+          "fact": "需用学校颁发给当前在读学生或在职员工的邮箱。",
+          "parents": [
+            "cloud/use-dify/workspace/subscription-management#p3"
+          ],
+          "chunks": [
+            "cloud/use-dify/workspace/subscription-management#c3"
+          ]
+        },
+        {
+          "fact": "每次教育认证只能用于一个工作空间。",
+          "parents": [
+            "cloud/use-dify/workspace/subscription-management#p4"
+          ],
+          "chunks": [
+            "cloud/use-dify/workspace/subscription-management#c4"
+          ]
+        },
+        {
+          "fact": "教育订阅不会自动续订。",
+          "parents": [
+            "cloud/use-dify/workspace/subscription-management#p5"
+          ],
+          "chunks": [
+            "cloud/use-dify/workspace/subscription-management#c7"
+          ]
+        }
+      ]
+    }
+  },
+  "neighbors": {
+    "dev035": {
+      "gold": {
+        "any_of": [
+          {
+            "document_id": "self-host/use-dify/nodes/variable-assigner",
+            "heading_path": "变量赋值器",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx#L8-L8",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx",
+            "raw_line_start": 8,
+            "raw_line_end": 8,
+            "original_excerpt": "变量赋值器节点通过写入会话变量（在[这里](/zh/learn/key-concepts#变量)了解不同类型的变量）来管理 Chatflow 应用中的持久化数据。与每次执行都会重置的常规工作流变量不同，会话变量在整个聊天会话期间持续存在。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/nodes/variable-assigner#c0",
+              "excerpt": "变量赋值器节点通过写入会话变量（在这里了解不同类型的变量）来管理 Chatflow 应用中的持久化数据。与每次执行都会重置的常规工作流变量不同，会话变量在整个聊天会话期间持续存在。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/nodes/variable-assigner#p0",
+              "heading_path": "变量赋值器",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 0,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "source_file_sha256": "78570b6389f2848d532769bc649042e4cad745e6e46b02525d94b6cf82a7a504"
+          }
+        ]
+      },
+      "distractor": {
+        "any_of": [
+          {
+            "document_id": "self-host/use-dify/nodes/variable-aggregator",
+            "heading_path": "变量聚合器",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-aggregator.mdx#L8-L8",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-aggregator.mdx",
+            "raw_line_start": 8,
+            "raw_line_end": 8,
+            "original_excerpt": "使用变量聚合器节点将 **互斥** 的工作流分支汇聚为单一输出，这样只需定义一次下游处理逻辑。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/nodes/variable-aggregator#c0",
+              "excerpt": "使用变量聚合器节点将 **互斥** 的工作流分支汇聚为单一输出，这样只需定义一次下游处理逻辑。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/nodes/variable-aggregator#p0",
+              "heading_path": "变量聚合器",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 0,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "source_file_sha256": "92f51b8930740130027fe6ae57e521387edecc8bb80109d25be54d5595a86ed2"
+          }
+        ]
+      },
+      "difference": "赋值器写会话变量管理持久数据；聚合器将互斥分支汇成单一输出，不是跨轮状态存储。"
+    }
+  },
+  "versions": {
+    "dev037": {
+      "edition": "cloud",
+      "difference_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/workspace/personal-account-management",
+              "heading_path": "个人设置 > 登录方式",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx#L33-L33",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx",
+              "raw_line_start": 33,
+              "raw_line_end": 33,
+              "original_excerpt": "使用邮箱地址和密码登录。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/workspace/personal-account-management#c4",
+                "excerpt": "使用邮箱地址和密码登录。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/workspace/personal-account-management#p4",
+                "heading_path": "个人设置 > 登录方式",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 362,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/workspace/personal-account-management",
+              "heading_path": "个人设置 > 登录方式",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx#L36-L36",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx",
+              "raw_line_start": 36,
+              "raw_line_end": 36,
+              "original_excerpt": "在 Dify Enterprise 中，你可以使用 OAuth 或 SAML 单点登录代替密码登录。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/workspace/personal-account-management#c4",
+                "excerpt": "在 Dify Enterprise 中，你可以使用 OAuth 或 SAML 单点登录代替密码登录。如需了解更多，请 联系销售。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/workspace/personal-account-management#p4",
+                "heading_path": "个人设置 > 登录方式",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 421,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+            }
+          ]
+        }
+      ]
+    },
+    "dev044": {
+      "edition": null,
+      "difference_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "heading_path": "日志 > 日志保留",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L64-L64",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
+              "raw_line_start": 64,
+              "raw_line_end": 64,
+              "original_excerpt": "Sandbox 计划的各类日志均保留 30 天，更早的记录会被永久删除，之后升级也无法找回。",
+              "direct_evidence": {
+                "chunk_id": "cloud/use-dify/monitor/logs#c6",
+                "excerpt": "Sandbox 计划的各类日志均保留 30 天，更早的记录会被永久删除，之后升级也无法找回。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "cloud/use-dify/monitor/logs#p5",
+                "heading_path": "日志 > 日志保留",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 1197,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "cloud/use-dify/monitor/logs",
+              "heading_path": "日志 > 日志保留",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L68-L68",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
+              "raw_line_start": 68,
+              "raw_line_end": 68,
+              "original_excerpt": "- **对话日志**（聊天助手、Chatflow、Agent 和文本生成应用）：在订阅有效期内持续保留。",
+              "direct_evidence": {
+                "chunk_id": "cloud/use-dify/monitor/logs#c6",
+                "excerpt": "- **对话日志**（聊天助手、Chatflow、Agent 和文本生成应用）：在订阅有效期内持续保留。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "cloud/use-dify/monitor/logs#p5",
+                "heading_path": "日志 > 日志保留",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 1282,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/monitor/logs",
+              "heading_path": "日志 > 日志保留",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx#L64-L64",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx",
+              "raw_line_start": 64,
+              "raw_line_end": 64,
+              "original_excerpt": "日志默认无限期保留。如需定时清理旧日志：",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/monitor/logs#c6",
+                "excerpt": "日志默认无限期保留。如需定时清理旧日志：",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/monitor/logs#p5",
+                "heading_path": "日志 > 日志保留",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 1197,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "paid_calls": 0,
+  "rag_run": false,
+  "baseline_run": false,
+  "human_review_complete": false,
+  "full70_constraints_complete": false
+}

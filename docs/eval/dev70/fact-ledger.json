@@ -1,0 +1,602 @@
+{
+  "scope": "dev021-dev044；仅正式新开发题，不含旧20回归",
+  "facts": [
+    {
+      "question_id": "dev021",
+      "fact": "首个data事件workflow_started表示Workflow运行已受理。",
+      "documents": [
+        "api-reference/guides/streaming"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/streaming#c2",
+          "parent_id": "api-reference/guides/streaming#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev022",
+      "fact": "在变量检查器中编辑可修改的中间变量值。",
+      "documents": [
+        "self-host/use-dify/debug/variable-inspect"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/debug/variable-inspect#c1",
+          "parent_id": "self-host/use-dify/debug/variable-inspect#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/debug/variable-inspect#c2",
+          "parent_id": "self-host/use-dify/debug/variable-inspect#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev022",
+      "fact": "单独运行下游节点时会使用编辑后的值，无需重跑上游。",
+      "documents": [
+        "self-host/use-dify/debug/variable-inspect"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/debug/variable-inspect#c2",
+          "parent_id": "self-host/use-dify/debug/variable-inspect#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev023",
+      "fact": "顶层必填字段包括knowledge_id。",
+      "documents": [
+        "cloud/use-dify/knowledge/external-knowledge-api",
+        "self-host/use-dify/knowledge/external-knowledge-api"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "cloud/use-dify/knowledge/external-knowledge-api#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev023",
+      "fact": "顶层必填字段包括query。",
+      "documents": [
+        "cloud/use-dify/knowledge/external-knowledge-api",
+        "self-host/use-dify/knowledge/external-knowledge-api"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "cloud/use-dify/knowledge/external-knowledge-api#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev023",
+      "fact": "顶层必填字段包括retrieval_setting。",
+      "documents": [
+        "cloud/use-dify/knowledge/external-knowledge-api",
+        "self-host/use-dify/knowledge/external-knowledge-api"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/external-knowledge-api#c3",
+          "parent_id": "cloud/use-dify/knowledge/external-knowledge-api#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev024",
+      "fact": "采用迭代节点的“错误时继续”处理策略。",
+      "documents": [
+        "self-host/use-dify/nodes/iteration"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/iteration#c0",
+          "parent_id": "self-host/use-dify/nodes/iteration#p0"
+        },
+        {
+          "chunk_id": "self-host/use-dify/nodes/iteration#c5",
+          "parent_id": "self-host/use-dify/nodes/iteration#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev025",
+      "fact": "存储用量取决于文档产生的向量数量。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c1",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev025",
+      "fact": "额度满时，编辑分段会被拦截。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c3",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev025",
+      "fact": "删除后账单用量数字延迟刷新。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c4",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev026",
+      "fact": "离线复制备份数据卷时使用cp -a。",
+      "documents": [
+        "self-host/deploy/troubleshooting/weaviate-server-migration-path"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#c4",
+          "parent_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev026",
+      "fact": "对象总量使用GraphQL的Aggregate查询。",
+      "documents": [
+        "self-host/deploy/troubleshooting/weaviate-server-migration-path"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#c18",
+          "parent_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#p7"
+        }
+      ]
+    },
+    {
+      "question_id": "dev026",
+      "fact": "失败回退时还原初始备份的数据卷。",
+      "documents": [
+        "self-host/deploy/troubleshooting/weaviate-server-migration-path"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#c19",
+          "parent_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path#p8"
+        }
+      ]
+    },
+    {
+      "question_id": "dev027",
+      "fact": "检索后接Product Support Agent，即新Agent节点。",
+      "documents": [
+        "learn/tutorials/workflow-101/lesson-08"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "learn/tutorials/workflow-101/lesson-08#c3",
+          "parent_id": "learn/tutorials/workflow-101/lesson-08#p2"
+        },
+        {
+          "chunk_id": "learn/tutorials/workflow-101/lesson-08#c4",
+          "parent_id": "learn/tutorials/workflow-101/lesson-08#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev027",
+      "fact": "生产前需替换的凭据集合是DIFY_AGENT_SERVER_SECRET_KEY和DIFY_AGENT_API_TOKEN。",
+      "documents": [
+        "self-host/use-dify/nodes/agent"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/agent#c11",
+          "parent_id": "self-host/use-dify/nodes/agent#p9"
+        }
+      ]
+    },
+    {
+      "question_id": "dev028",
+      "fact": "停止接口user不匹配时会被静默忽略。",
+      "documents": [
+        "api-reference/guides/end-user-identity"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/end-user-identity#c1",
+          "parent_id": "api-reference/guides/end-user-identity#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev028",
+      "fact": "工作流日志接口只返回运行级汇总，不提供逐节点执行日志。",
+      "documents": [
+        "api-reference/guides/workflow"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/workflow#c5",
+          "parent_id": "api-reference/guides/workflow#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev029",
+      "fact": "按输入语义判断分类应选问题分类器。",
+      "documents": [
+        "self-host/use-dify/nodes/question-classifier"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/question-classifier#c0",
+          "parent_id": "self-host/use-dify/nodes/question-classifier#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev029",
+      "fact": "按预定义变量条件判断分支应选If-Else。",
+      "documents": [
+        "self-host/use-dify/nodes/ifelse"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/ifelse#c0",
+          "parent_id": "self-host/use-dify/nodes/ifelse#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "fact": "Sandbox单次上传上限为1个文件。",
+      "documents": [
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
+          "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "fact": "Sandbox单文件大小上限为15 MB。",
+      "documents": [
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
+          "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "fact": "社区版默认单次上传上限为5个文件。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "fact": "社区版默认单文件大小上限为15 MB。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev033",
+      "fact": "在文档列表将这些文档禁用。",
+      "documents": [
+        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+        "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c0",
+          "parent_id": "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#c1",
+          "parent_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev034",
+      "fact": "字符串输出默认最大长度为400,000个字符。",
+      "documents": [
+        "self-host/use-dify/nodes/code"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/code#c6",
+          "parent_id": "self-host/use-dify/nodes/code#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev035",
+      "fact": "应使用变量赋值器写入会话变量。",
+      "documents": [
+        "self-host/use-dify/nodes/variable-assigner"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/variable-assigner#c0",
+          "parent_id": "self-host/use-dify/nodes/variable-assigner#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev036",
+      "fact": "重新生成MCP服务器URL后，旧URL立即失效。",
+      "documents": [
+        "self-host/use-dify/publish/publish-mcp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/publish-mcp#c1",
+          "parent_id": "self-host/use-dify/publish/publish-mcp#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev037",
+      "fact": "云版支持GitHub、Google、邮箱验证码登录。",
+      "documents": [
+        "cloud/use-dify/workspace/personal-account-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/personal-account-management#c1",
+          "parent_id": "cloud/use-dify/workspace/personal-account-management#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev038",
+      "fact": "先拆来信使用参数提取器。",
+      "documents": [
+        "learn/tutorials/workflow-101/lesson-06"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "learn/tutorials/workflow-101/lesson-06#c2",
+          "parent_id": "learn/tutorials/workflow-101/lesson-06#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev038",
+      "fact": "通过__is_success判断提取状态，失败为0。",
+      "documents": [
+        "self-host/use-dify/nodes/parameter-extractor"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/parameter-extractor#c6",
+          "parent_id": "self-host/use-dify/nodes/parameter-extractor#p6"
+        }
+      ]
+    },
+    {
+      "question_id": "dev038",
+      "fact": "通过__reason读取提取失败的错误描述。",
+      "documents": [
+        "self-host/use-dify/nodes/parameter-extractor"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/parameter-extractor#c6",
+          "parent_id": "self-host/use-dify/nodes/parameter-extractor#p6"
+        }
+      ]
+    },
+    {
+      "question_id": "dev039",
+      "fact": "将两条邮件回复接到同一出口的是变量聚合器。",
+      "documents": [
+        "learn/tutorials/workflow-101/lesson-05"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "learn/tutorials/workflow-101/lesson-05#c9",
+          "parent_id": "learn/tutorials/workflow-101/lesson-05#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev039",
+      "fact": "支持string、number、object、boolean、array、file六种类型。",
+      "documents": [
+        "self-host/use-dify/nodes/variable-aggregator"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/nodes/variable-aggregator#c1",
+          "parent_id": "self-host/use-dify/nodes/variable-aggregator#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev040",
+      "fact": "一个应用密钥仅作用于创建它的那个应用。",
+      "documents": [
+        "api-reference/guides/get-started"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/get-started#c1",
+          "parent_id": "api-reference/guides/get-started#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev040",
+      "fact": "限定范围的知识库密钥不能调用路径中没有dataset_id的接口。",
+      "documents": [
+        "api-reference/guides/knowledge"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/knowledge#c2",
+          "parent_id": "api-reference/guides/knowledge#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev041",
+      "fact": "支持字符串、数字、时间三种值类型。",
+      "documents": [
+        "cloud/use-dify/knowledge/metadata",
+        "self-host/use-dify/knowledge/metadata"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/metadata#c1",
+          "parent_id": "self-host/use-dify/knowledge/metadata#p1"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/metadata#c1",
+          "parent_id": "cloud/use-dify/knowledge/metadata#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/knowledge/metadata#c1",
+          "parent_id": "self-host/use-dify/knowledge/metadata#p1"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/metadata#c1",
+          "parent_id": "cloud/use-dify/knowledge/metadata#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/knowledge/metadata#c1",
+          "parent_id": "self-host/use-dify/knowledge/metadata#p1"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/metadata#c1",
+          "parent_id": "cloud/use-dify/knowledge/metadata#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev041",
+      "fact": "重命名弹窗不能修改字段值类型。",
+      "documents": [
+        "cloud/use-dify/knowledge/metadata",
+        "self-host/use-dify/knowledge/metadata"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/metadata#c5",
+          "parent_id": "self-host/use-dify/knowledge/metadata#p2"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/metadata#c5",
+          "parent_id": "cloud/use-dify/knowledge/metadata#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev041",
+      "fact": "单篇文档删字段只影响该文档，知识库字段仍保留。",
+      "documents": [
+        "cloud/use-dify/knowledge/metadata",
+        "self-host/use-dify/knowledge/metadata"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/metadata#c12",
+          "parent_id": "self-host/use-dify/knowledge/metadata#p3"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/metadata#c12",
+          "parent_id": "cloud/use-dify/knowledge/metadata#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev042",
+      "fact": "需用学校颁发给当前在读学生或在职员工的邮箱。",
+      "documents": [
+        "cloud/use-dify/workspace/subscription-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/subscription-management#c3",
+          "parent_id": "cloud/use-dify/workspace/subscription-management#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev042",
+      "fact": "每次教育认证只能用于一个工作空间。",
+      "documents": [
+        "cloud/use-dify/workspace/subscription-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/subscription-management#c4",
+          "parent_id": "cloud/use-dify/workspace/subscription-management#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev042",
+      "fact": "教育订阅不会自动续订。",
+      "documents": [
+        "cloud/use-dify/workspace/subscription-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/subscription-management#c7",
+          "parent_id": "cloud/use-dify/workspace/subscription-management#p5"
+        }
+      ]
+    }
+  ],
+  "semantic_review_pending": true
+}

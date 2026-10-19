@@ -1,0 +1,461 @@
+{
+  "status": "static_checks_passed_independent_review_pending",
+  "question_count": 24,
+  "behavior_counts": {
+    "single": 9,
+    "multi": 11,
+    "refuse_correct": 3,
+    "clarify": 1
+  },
+  "subtype_counts": {
+    "short": 2,
+    "synonym": 2,
+    "numeric_table": 2,
+    "neighbor": 2,
+    "scattered_ordered": 4,
+    "chain": 3,
+    "parallel_compare": 4,
+    "out_of_database": 1,
+    "false_premise": 1,
+    "single_version": 1,
+    "injection": 1,
+    "version_unspecified": 1
+  },
+  "batches": {
+    "batch-01": {
+      "question_count": 12,
+      "behavior_counts": {
+        "single": 4,
+        "multi": 6,
+        "refuse_correct": 2
+      },
+      "subtype_counts": {
+        "short": 1,
+        "synonym": 1,
+        "numeric_table": 1,
+        "neighbor": 1,
+        "scattered_ordered": 2,
+        "chain": 1,
+        "parallel_compare": 3,
+        "out_of_database": 1,
+        "false_premise": 1
+      },
+      "lengths": {
+        "dev021": 16,
+        "dev022": 26,
+        "dev023": 20,
+        "dev024": 24,
+        "dev025": 36,
+        "dev026": 58,
+        "dev027": 34,
+        "dev028": 30,
+        "dev029": 22,
+        "dev030": 37,
+        "dev031": 29,
+        "dev032": 33
+      },
+      "short_at_most_40_chars": 11,
+      "minimum_required_short": 8,
+      "max_length": 58,
+      "all_at_most_80": true,
+      "deployment_prefix_ids": [
+        "dev025",
+        "dev027",
+        "dev030"
+      ],
+      "max_gold_document_uses_in_batch": 1,
+      "gold_document_uses_including_equivalents": {
+        "api-reference/guides/end-user-identity": 1,
+        "api-reference/guides/streaming": 1,
+        "api-reference/guides/workflow": 1,
+        "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+        "cloud/use-dify/knowledge/external-knowledge-api": 1,
+        "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
+        "learn/tutorials/workflow-101/lesson-08": 1,
+        "self-host/deploy/troubleshooting/weaviate-server-migration-path": 1,
+        "self-host/use-dify/debug/variable-inspect": 1,
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+        "self-host/use-dify/knowledge/external-knowledge-api": 1,
+        "self-host/use-dify/nodes/agent": 1,
+        "self-host/use-dify/nodes/ifelse": 1,
+        "self-host/use-dify/nodes/iteration": 1,
+        "self-host/use-dify/nodes/question-classifier": 1,
+        "self-host/use-dify/nodes/template": 1
+      },
+      "existing_question_validator_issues": [],
+      "guessable_all_null": true,
+      "chains": {
+        "dev027": {
+          "second_document_keywords": [
+            "Agent",
+            "新 Agent",
+            "DIFY_AGENT_SERVER_SECRET_KEY",
+            "DIFY_AGENT_API_TOKEN",
+            "Docker Compose",
+            "随机值"
+          ],
+          "keyword_count": 6,
+          "leaked_keywords": [],
+          "second_title_absent": true,
+          "dependency": "指定课程和检索后位置只在第一篇确定组件；第一篇不给两个凭据字段。第二篇不知道第8课用哪个组件。课程明确从空白创建，无需选择经典推理策略，对应新Agent小节。",
+          "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+        }
+      },
+      "synonyms": {
+        "dev022": {
+          "checked_title_h1_h2_and_official_names": [
+            "变量检查器",
+            "查看变量",
+            "编辑变量",
+            "重置变量"
+          ],
+          "leaks": []
+        }
+      },
+      "numeric_tables": {
+        "dev023": {
+          "answer_literals": [
+            "knowledge_id",
+            "query",
+            "retrieval_setting"
+          ],
+          "none_present_in_question": true
+        }
+      },
+      "scattered": {
+        "dev025": {
+          "distinct_primary_parent_count": 3,
+          "per_vital": [
+            {
+              "fact": "存储用量取决于文档产生的向量数量。",
+              "parents": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#p1"
+              ],
+              "chunks": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#c1"
+              ]
+            },
+            {
+              "fact": "额度满时，编辑分段会被拦截。",
+              "parents": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#p3"
+              ],
+              "chunks": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#c3"
+              ]
+            },
+            {
+              "fact": "删除后账单用量数字延迟刷新。",
+              "parents": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#p4"
+              ],
+              "chunks": [
+                "cloud/use-dify/knowledge/knowledge-storage-limit#c4"
+              ]
+            }
+          ]
+        },
+        "dev026": {
+          "distinct_primary_parent_count": 3,
+          "per_vital": [
+            {
+              "fact": "离线复制备份数据卷时使用cp -a。",
+              "parents": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#p2"
+              ],
+              "chunks": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#c4"
+              ]
+            },
+            {
+              "fact": "对象总量使用GraphQL的Aggregate查询。",
+              "parents": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#p7"
+              ],
+              "chunks": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#c18"
+              ]
+            },
+            {
+              "fact": "失败回退时还原初始备份的数据卷。",
+              "parents": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#p8"
+              ],
+              "chunks": [
+                "self-host/deploy/troubleshooting/weaviate-server-migration-path#c19"
+              ]
+            }
+          ]
+        }
+      },
+      "paid_calls": 0,
+      "rag_run": false,
+      "baseline_run": false,
+      "human_review_complete": false,
+      "full70_constraints_complete": false
+    },
+    "batch-02": {
+      "question_count": 12,
+      "behavior_counts": {
+        "single": 5,
+        "multi": 5,
+        "refuse_correct": 1,
+        "clarify": 1
+      },
+      "subtype_counts": {
+        "synonym": 1,
+        "numeric_table": 1,
+        "neighbor": 1,
+        "short": 1,
+        "single_version": 1,
+        "chain": 2,
+        "parallel_compare": 1,
+        "scattered_ordered": 2,
+        "injection": 1,
+        "version_unspecified": 1
+      },
+      "lengths": {
+        "dev033": 24,
+        "dev034": 18,
+        "dev035": 24,
+        "dev036": 16,
+        "dev037": 11,
+        "dev038": 31,
+        "dev039": 31,
+        "dev040": 29,
+        "dev041": 31,
+        "dev042": 32,
+        "dev043": 43,
+        "dev044": 11
+      },
+      "short_at_most_40_chars": 11,
+      "minimum_required_short": 8,
+      "max_length": 43,
+      "all_at_most_80": true,
+      "deployment_prefix_ids": [
+        "dev037"
+      ],
+      "max_gold_document_uses_in_batch": 1,
+      "gold_document_uses_including_equivalents": {
+        "api-reference/guides/get-started": 1,
+        "api-reference/guides/knowledge": 1,
+        "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+        "cloud/use-dify/knowledge/metadata": 1,
+        "cloud/use-dify/monitor/logs": 1,
+        "cloud/use-dify/workspace/personal-account-management": 1,
+        "cloud/use-dify/workspace/subscription-management": 1,
+        "learn/tutorials/workflow-101/lesson-05": 1,
+        "learn/tutorials/workflow-101/lesson-06": 1,
+        "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+        "self-host/use-dify/knowledge/metadata": 1,
+        "self-host/use-dify/monitor/logs": 1,
+        "self-host/use-dify/nodes/code": 1,
+        "self-host/use-dify/nodes/http-request": 1,
+        "self-host/use-dify/nodes/parameter-extractor": 1,
+        "self-host/use-dify/nodes/variable-aggregator": 1,
+        "self-host/use-dify/nodes/variable-assigner": 1,
+        "self-host/use-dify/publish/publish-mcp": 1
+      },
+      "existing_question_validator_issues": [],
+      "guessable_all_null": true,
+      "chains": {
+        "dev038": {
+          "second_document_keywords": [
+            "参数提取器",
+            "__is_success",
+            "__reason",
+            "提取成功状态",
+            "错误描述",
+            "0",
+            "1"
+          ],
+          "keyword_count": 7,
+          "leaked_keywords": [],
+          "second_title_absent": true,
+          "dependency": "课程先拆来信的环节唯一确定参数提取器；课程未列这两个内置状态变量。节点页给状态和错误变量，却不能证明第6课先用了哪个组件。",
+          "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+        },
+        "dev039": {
+          "second_document_keywords": [
+            "变量聚合器",
+            "string",
+            "number",
+            "object",
+            "boolean",
+            "array",
+            "file"
+          ],
+          "keyword_count": 7,
+          "leaked_keywords": [],
+          "second_title_absent": true,
+          "dependency": "课程流程指定哪一个组件接回两条回复，第一篇只展示text接线，未列完整类型。第二篇提供六种类型，不说明第5课用哪个组件。",
+          "semantic_dependency_review": "作者agent逐篇阅读；独立Claude审核待做，未实测Naive失败"
+        }
+      },
+      "synonyms": {
+        "dev033": {
+          "checked_title_h1_h2_and_official_names": [
+            "启用",
+            "归档",
+            "最佳实践",
+            "禁用",
+            "管理分段",
+            "管理文档",
+            "维护知识库内容"
+          ],
+          "leaks": []
+        }
+      },
+      "numeric_tables": {
+        "dev034": {
+          "answer_literals": [
+            "400000",
+            "400,000",
+            "CODE_MAX_STRING_LENGTH"
+          ],
+          "none_present_in_question": true
+        }
+      },
+      "scattered": {
+        "dev041": {
+          "distinct_primary_parent_count": 3,
+          "per_vital": [
+            {
+              "fact": "支持字符串、数字、时间三种值类型。",
+              "parents": [
+                "self-host/use-dify/knowledge/metadata#p1"
+              ],
+              "chunks": [
+                "self-host/use-dify/knowledge/metadata#c1"
+              ]
+            },
+            {
+              "fact": "重命名弹窗不能修改字段值类型。",
+              "parents": [
+                "self-host/use-dify/knowledge/metadata#p2"
+              ],
+              "chunks": [
+                "self-host/use-dify/knowledge/metadata#c5"
+              ]
+            },
+            {
+              "fact": "单篇文档删字段只影响该文档，知识库字段仍保留。",
+              "parents": [
+                "self-host/use-dify/knowledge/metadata#p3"
+              ],
+              "chunks": [
+                "self-host/use-dify/knowledge/metadata#c12"
+              ]
+            }
+          ]
+        },
+        "dev042": {
+          "distinct_primary_parent_count": 3,
+          "per_vital": [
+            {
+              "fact": "需用学校颁发给当前在读学生或在职员工的邮箱。",
+              "parents": [
+                "cloud/use-dify/workspace/subscription-management#p3"
+              ],
+              "chunks": [
+                "cloud/use-dify/workspace/subscription-management#c3"
+              ]
+            },
+            {
+              "fact": "每次教育认证只能用于一个工作空间。",
+              "parents": [
+                "cloud/use-dify/workspace/subscription-management#p4"
+              ],
+              "chunks": [
+                "cloud/use-dify/workspace/subscription-management#c4"
+              ]
+            },
+            {
+              "fact": "教育订阅不会自动续订。",
+              "parents": [
+                "cloud/use-dify/workspace/subscription-management#p5"
+              ],
+              "chunks": [
+                "cloud/use-dify/workspace/subscription-management#c7"
+              ]
+            }
+          ]
+        }
+      },
+      "paid_calls": 0,
+      "rag_run": false,
+      "baseline_run": false,
+      "human_review_complete": false,
+      "full70_constraints_complete": false
+    }
+  },
+  "source_records_verified": 86,
+  "corpus_database_counts": {
+    "documents": 182,
+    "parents": 1252,
+    "children": 2090
+  },
+  "all_raw_lines_chunks_parents_hashes_verified": true,
+  "global_gold_usage": {
+    "api-reference/guides/end-user-identity": 1,
+    "api-reference/guides/get-started": 1,
+    "api-reference/guides/knowledge": 1,
+    "api-reference/guides/streaming": 1,
+    "api-reference/guides/workflow": 1,
+    "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+    "cloud/use-dify/knowledge/external-knowledge-api": 1,
+    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
+    "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+    "cloud/use-dify/knowledge/metadata": 1,
+    "cloud/use-dify/monitor/logs": 1,
+    "cloud/use-dify/workspace/personal-account-management": 1,
+    "cloud/use-dify/workspace/subscription-management": 1,
+    "learn/tutorials/workflow-101/lesson-05": 1,
+    "learn/tutorials/workflow-101/lesson-06": 1,
+    "learn/tutorials/workflow-101/lesson-08": 1,
+    "self-host/deploy/troubleshooting/weaviate-server-migration-path": 1,
+    "self-host/use-dify/debug/variable-inspect": 1,
+    "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme": 1,
+    "self-host/use-dify/knowledge/external-knowledge-api": 1,
+    "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents": 1,
+    "self-host/use-dify/knowledge/metadata": 1,
+    "self-host/use-dify/monitor/logs": 1,
+    "self-host/use-dify/nodes/agent": 1,
+    "self-host/use-dify/nodes/code": 1,
+    "self-host/use-dify/nodes/http-request": 1,
+    "self-host/use-dify/nodes/ifelse": 1,
+    "self-host/use-dify/nodes/iteration": 1,
+    "self-host/use-dify/nodes/parameter-extractor": 1,
+    "self-host/use-dify/nodes/question-classifier": 1,
+    "self-host/use-dify/nodes/template": 1,
+    "self-host/use-dify/nodes/variable-aggregator": 1,
+    "self-host/use-dify/nodes/variable-assigner": 1,
+    "self-host/use-dify/publish/publish-mcp": 1
+  },
+  "max_global_gold_document_uses": 1,
+  "unique_gold_documents_including_equivalents": 34,
+  "unique_logical_gold_groups": 31,
+  "top_level_directories": [
+    "api-reference",
+    "cloud",
+    "learn",
+    "self-host"
+  ],
+  "full70_minimum_document_target": 50,
+  "full70_document_target_met": false,
+  "exact_duplicate_facts": [],
+  "semantic_dedup_review": "作者agent通读逐条比对后未见重复；关键词/原文定位检查不能替代Claude独立语义审核。",
+  "twin_pairs_compared": 6,
+  "twin_evidence_file": "twin-comparisons.json",
+  "guessable_all_null": true,
+  "run_gate": [
+    "等价文档按组内OR、组间AND计算召回；现有Question加载器不保留gold_doc_groups，正式运行前必须适配。",
+    "错误前提expected_route=null，以corrects_premise行为检查；不能将null当路由正确。",
+    "行为配额与旧题型QUOTAS不同；本次只验证数据格式，不运行旧QUOTAS比例校验或修改它。",
+    "作者/Claude未审定金标；未跑RAG或无检索基线，不是效果评测报告。"
+  ],
+  "paid_calls": 0,
+  "rag_run": false,
+  "baseline_run": false,
+  "full70_constraints_complete": false
+}
