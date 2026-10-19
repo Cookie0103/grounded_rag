@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, Field
 
-from app.retrieval.retriever import RetrievalResult
+from app.retrieval.retriever import ParentContext, RetrievalResult
 
 DIRECT, SINGLE, MULTI, CLARIFY, REFUSE = "DIRECT", "SINGLE", "MULTI", "CLARIFY", "REFUSE"
 ROUTES = (DIRECT, SINGLE, MULTI, CLARIFY, REFUSE)
@@ -30,6 +30,9 @@ class StepDetails(BaseModel):
     sufficient: bool | None = None
     missing: str | None = None
     context: str | None = None
+    queries: list[str] = Field(default_factory=list)
+    parents: list[ParentContext] = Field(default_factory=list)
+    output: str | None = None
 
 
 class Step(BaseModel):

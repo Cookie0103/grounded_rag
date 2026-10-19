@@ -57,6 +57,9 @@ class RetrievalResult:
     parents: list[ParentContext]
     timings_ms: dict[str, float] = field(default_factory=dict)
     degraded: bool = False  # 精排不可用，跳过了精排
+    recall_candidates: list[Candidate] = field(default_factory=list)
+    reranked_candidates: list[Candidate] = field(default_factory=list)
+    cached: bool = False
 
 
 HYBRID, VECTOR, BM25 = "hybrid", "vector", "bm25"
@@ -128,14 +131,19 @@ class HybridRetriever:
 
         with _timed(timings, "fuse"):
             fused = rrf([[hit.chunk_id for hit in vector_hits], [cid for cid, _ in bm25_hits]])
-        candidates = self._candidates(fused[:FUSION_TOP_K], vector_hits, bm25_hits)
+        recall = self._candidates(fused, vector_hits, bm25_hits)
+        candidates = recall[:FUSION_TOP_K]
+        reranked: list[Candidate] = []
         if rerank and self._reranker is not None and candidates:
             candidates = await self._rerank(self._reranker, query, candidates, timings)
+            reranked = candidates
         top = [replace(c, rank=rank) for rank, c in enumerate(candidates[:top_k], start=1)]
 
         parents = await self._parents(top, timings)
         timings["total"] = _ms(time.perf_counter() - started)
-        return RetrievalResult(query, top, parents, timings)
+        return RetrievalResult(
+            query, top, parents, timings, recall_candidates=recall, reranked_candidates=reranked
+        )
 
     async def _first_stage(
         self,
@@ -178,12 +186,12 @@ class HybridRetriever:
         vector_info = {h.chunk_id: (rank, h.distance) for rank, h in enumerate(vector_hits, 1)}
         bm25_info = {cid: (rank, score) for rank, (cid, score) in enumerate(bm25_hits, 1)}
         candidates: list[Candidate] = []
-        for chunk_id, score in fused:
+        for rank, (chunk_id, score) in enumerate(fused, start=1):
             vector_rank, distance = vector_info.get(chunk_id, (None, None))
             bm25_rank, bm25_score = bm25_info.get(chunk_id, (None, None))
             candidates.append(
                 Candidate(
-                    rank=0,
+                    rank=rank,
                     chunk=self._chunks[chunk_id],
                     vector_rank=vector_rank,
                     vector_distance=distance,

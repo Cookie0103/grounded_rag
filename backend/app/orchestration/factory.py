@@ -13,6 +13,7 @@ from app.orchestration.observe import TraceStore
 from app.orchestration.pipeline import ChatPipeline
 from app.orchestration.service import ChatService
 from app.providers.cached import CachedEmbedder
+from app.providers.cloud_trace import build_cloud_tracer
 from app.providers.factory import get_chat_model, get_embedder
 from app.retrieval.factory import build_retriever
 from app.retrieval.resilient import ResilientRetriever
@@ -50,5 +51,6 @@ async def build_services(engine: AsyncEngine, settings: Settings) -> Services:
         answer_cache=TtlCache(ANSWER_CACHE_SIZE, ANSWER_CACHE_TTL),
         traces=traces,
         interventions=PostgresInterventionStore(engine),
+        cloud=build_cloud_tracer(settings),
     )
     return Services(retriever=retriever, chat=chat, traces=traces)

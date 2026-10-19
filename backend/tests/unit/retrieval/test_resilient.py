@@ -45,12 +45,14 @@ async def test_results_are_cached_per_query_and_options() -> None:
     inner = FlakyRetriever()
     retriever = _retriever(inner)
 
-    await retriever.retrieve("问题")
-    await retriever.retrieve("问题")
+    first = await retriever.retrieve("问题")
+    second = await retriever.retrieve("问题")
     await retriever.retrieve("问题", editions=["cloud", "common"])
     await retriever.retrieve("问题", rerank=False)
 
     assert inner.calls == [True, True, False]
+    assert not first.cached
+    assert second.cached
 
 
 async def test_rerank_failure_degrades_to_plain_retrieval_and_is_not_cached() -> None:

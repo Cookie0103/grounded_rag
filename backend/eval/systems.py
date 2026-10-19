@@ -118,7 +118,7 @@ class NoRetrievalSystem:
                 Step(
                     name="generate",
                     ms=(time.perf_counter() - started) * 1000,
-                    details=StepDetails(context=""),
+                    details=StepDetails(context="", output=completion.text),
                 ),
             ),
         )
@@ -186,7 +186,7 @@ class NaiveRagSystem:
                 Step(
                     name="generate",
                     ms=(time.perf_counter() - generated) * 1000,
-                    details=StepDetails(context=context),
+                    details=StepDetails(context=context, output=completion.text),
                 ),
             ),
         )

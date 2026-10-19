@@ -52,7 +52,7 @@ async def test_no_retrieval_baseline_asks_the_model_with_only_the_question() -> 
     assert answer.contexts == ()
     assert "知识库最多上传几个文件" in chat.calls[0][0].content
     assert answer.cost_cny == pytest.approx(cost_cny(*_tokens(chat)))
-    assert answer.steps[0].details == StepDetails(context="")
+    assert answer.steps[0].details == StepDetails(context="", output="最多 5 个")
 
 
 async def test_naive_rag_uses_vector_search_without_rerank() -> None:
@@ -72,7 +72,7 @@ async def test_naive_rag_uses_vector_search_without_rerank() -> None:
     assert answer.cost_cny > 0
     assert answer.steps[0].details is not None
     assert answer.steps[0].details.retrievals[0].candidates[0].chunk.id == "c0"
-    assert answer.steps[1].details == StepDetails(context="父块正文")
+    assert answer.steps[1].details == StepDetails(context="父块正文", output="答案")
 
 
 async def test_retrieval_only_system_still_returns_no_answer() -> None:

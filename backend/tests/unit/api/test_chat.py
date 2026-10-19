@@ -19,6 +19,10 @@ class StubChat:
     def __init__(self, *, fail_after_steps: bool = False) -> None:
         self.requests: list[ChatRequest] = []
         self._fail = fail_after_steps
+        self.closed = False
+
+    async def close(self) -> None:
+        self.closed = True
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         self.requests.append(request)
@@ -167,7 +171,8 @@ async def test_service_is_built_lazily_once_when_not_prewarmed(
 async def test_prewarm_builds_the_services_at_startup(
     app: FastAPI, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    services = Services(retriever=StubRetriever(), chat=StubChat())  # type: ignore[arg-type]
+    chat = StubChat()
+    services = Services(retriever=StubRetriever(), chat=chat)  # type: ignore[arg-type]
 
     async def fake_build(engine: object, settings: object) -> Services:
         return services
@@ -177,6 +182,7 @@ async def test_prewarm_builds_the_services_at_startup(
 
     async with main_module.lifespan(app):
         assert app.state.services is services
+    assert chat.closed
 
 
 async def test_failed_prewarm_does_not_stop_the_server(

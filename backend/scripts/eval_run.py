@@ -16,6 +16,7 @@ from app.core.config import CACHE_DIR, Settings, get_settings
 from app.core.logging import configure_logging
 from app.db.engine import create_engine
 from app.orchestration.pipeline import ChatPipeline
+from app.providers.cloud_trace import build_cloud_tracer
 from app.providers.factory import get_chat_model
 from app.retrieval.factory import build_retriever
 from app.retrieval.retriever import HYBRID
@@ -23,6 +24,7 @@ from eval.attribution import attribute_errors
 from eval.dataset import load_questions
 from eval.evaluate import evaluate
 from eval.judge import ChatPromptRunner, CommandPromptRunner, Judge
+from eval.observed import ObservedSystem
 from eval.report import render_report
 from eval.runner import run_system
 from eval.systems import FullSystem, NaiveRagSystem, NoRetrievalSystem, RetrievalOnlySystem, System
@@ -46,6 +48,7 @@ async def run(arguments: argparse.Namespace) -> str:
     output_dir = CACHE_DIR / "eval" / arguments.system
     settings = get_settings()
     engine = create_engine(settings)
+    cloud = build_cloud_tracer(settings)
     try:
         system: System
         if arguments.system == "no-retrieval":
@@ -67,12 +70,13 @@ async def run(arguments: argparse.Namespace) -> str:
             else:
                 system = RetrievalOnlySystem(retriever)
         answers = await run_system(
-            system,
+            ObservedSystem(system, cloud),
             questions,
             cache_path=output_dir / "answers.jsonl",
             progress=lambda done, total: logger.info("作答 %d/%d", done, total),
         )
     finally:
+        await cloud.close()
         await engine.dispose()
     judge = build_judge(arguments.judge, settings)
     result = await evaluate(

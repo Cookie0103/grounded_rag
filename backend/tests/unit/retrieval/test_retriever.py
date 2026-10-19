@@ -122,6 +122,20 @@ async def test_top_k_limits_the_candidates() -> None:
     assert len((await retriever.retrieve("上传文件", top_k=2)).candidates) == 2
 
 
+async def test_recall_and_reranking_keep_candidates_removed_by_top_k() -> None:
+    retriever, _ = _retriever(reranker=FakeReranker())
+
+    result = await retriever.retrieve("上传文件", top_k=1)
+
+    assert len(result.recall_candidates) > len(result.candidates)
+    assert {c.chunk.id for c in result.recall_candidates} == {
+        c.chunk.id for c in result.reranked_candidates
+    }
+    assert all(c.rerank_score is None for c in result.recall_candidates)
+    assert all(c.rerank_score is not None for c in result.reranked_candidates)
+    assert result.candidates[0].chunk == result.reranked_candidates[0].chunk
+
+
 async def test_edition_filter_applies_to_both_retrieval_paths() -> None:
     retriever, storage = _retriever()
 

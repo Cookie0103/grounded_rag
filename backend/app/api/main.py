@@ -38,6 +38,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     try:
         yield
     finally:
+        if app.state.services is not None:
+            await app.state.services.chat.close()
         await app.state.engine.dispose()
 
 

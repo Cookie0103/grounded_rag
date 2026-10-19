@@ -97,6 +97,7 @@ def _record(
     steps.append(
         Step(name=name, ms=(time.perf_counter() - started) * 1000, note=note, details=details)
     )
+    logger.info("step=%s ms=%.1f note=%s", name, steps[-1].ms, note)
     return steps
 
 
@@ -308,13 +309,19 @@ class ChatPipeline:
         started = time.perf_counter()
         prompt = prompts.render("direct_v1", question=state["question"])
         answer = await state["meter"].ask(prompt)
-        return {"answer": answer.strip(), "steps": _record(state, "direct", started)}
+        return {
+            "answer": answer.strip(),
+            "steps": _record(state, "direct", started, details=StepDetails(output=answer.strip())),
+        }
 
     async def _clarify(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
         prompt = prompts.render("clarify_v1", question=state["question"])
         answer = await state["meter"].ask(prompt)
-        return {"answer": answer.strip(), "steps": _record(state, "clarify", started)}
+        return {
+            "answer": answer.strip(),
+            "steps": _record(state, "clarify", started, details=StepDetails(output=answer.strip())),
+        }
 
     async def _refuse(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
@@ -322,7 +329,7 @@ class ChatPipeline:
             "route": REFUSE,
             "answer": REFUSE_TEXT,
             "abstained": True,
-            "steps": _record(state, "refuse", started),
+            "steps": _record(state, "refuse", started, details=StepDetails(output=REFUSE_TEXT)),
         }
 
     async def _rewrite(self, state: State) -> dict[str, Any]:
@@ -333,7 +340,12 @@ class ChatPipeline:
         )
         query = str((parse_object(output) or {}).get("query", "")).strip()
         note = query if query else "改写失败，用原问题"
-        return {"queries": [query or question], "steps": _record(state, "rewrite", started, note)}
+        return {
+            "queries": [query or question],
+            "steps": _record(
+                state, "rewrite", started, note, StepDetails(queries=[query or question])
+            ),
+        }
 
     async def _decompose(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
@@ -351,7 +363,9 @@ class ChatPipeline:
         queries = queries[:MAX_SUBQUESTIONS] or [question]
         return {
             "queries": queries,
-            "steps": _record(state, "decompose", started, " | ".join(queries)),
+            "steps": _record(
+                state, "decompose", started, " | ".join(queries), StepDetails(queries=queries)
+            ),
         }
 
     async def _retrieve(self, state: State) -> dict[str, Any]:
@@ -387,7 +401,7 @@ class ChatPipeline:
                 "retrieve",
                 started,
                 f"{len(parents)} 个父块",
-                StepDetails(retrievals=results),
+                StepDetails(retrievals=results, parents=parents),
             ),
         }
 
@@ -457,7 +471,7 @@ class ChatPipeline:
         return {
             "queries": [query],
             "retries": state["retries"] + 1,
-            "steps": _record(state, "retry_query", started, query),
+            "steps": _record(state, "retry_query", started, query, StepDetails(queries=[query])),
         }
 
     async def _generate(self, state: State) -> dict[str, Any]:
@@ -485,7 +499,7 @@ class ChatPipeline:
                 "generate",
                 started,
                 f"引用 {[c.index for c in used]}",
-                StepDetails(context=state["context_text"]),
+                StepDetails(context=state["context_text"], output=raw.strip()),
             ),
         }
 
@@ -501,12 +515,15 @@ class ChatPipeline:
         data = parse_object(output)
         faithful = True if data is None else as_bool(data.get("faithful"), True)
         note = "通过" if faithful else f"不通过：{(data or {}).get('unsupported')}"
-        return {"faithful": faithful, "steps": _record(state, "verify", started, note)}
+        return {
+            "faithful": faithful,
+            "steps": _record(state, "verify", started, note, StepDetails(output=output)),
+        }
 
     async def _abstain(self, state: State) -> dict[str, Any]:
         started = time.perf_counter()
         return {
             "answer": ABSTAIN_TEXT,
             "abstained": True,
-            "steps": _record(state, "abstain", started),
+            "steps": _record(state, "abstain", started, details=StepDetails(output=ABSTAIN_TEXT)),
         }

@@ -42,7 +42,7 @@ class ResilientRetriever:
         key = (query, top_k, tuple(editions) if editions else None, rerank, mode)
         cached = self._cache.get(key)
         if cached is not None:
-            return cached
+            return replace(cached, cached=True)
         result = await self._retrieve(query, top_k, editions, rerank, mode)
         if not result.degraded:
             self._cache.put(key, result)

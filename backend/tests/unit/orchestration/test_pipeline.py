@@ -254,6 +254,10 @@ async def test_records_each_query_and_missing_evidence_across_retrieval_rounds()
     assert last is not None
     assert last.retrievals[0].candidates[0].chunk.id == "cp2"
     assert last.retrievals[0].parents[0].text == "doc-b 的正文"
+    assert [p.document_id for p in last.parents] == ["doc-a", "doc-b"]
+    decomposition = next(s.details for s in response.steps if s.name == "decompose")
+    assert decomposition is not None
+    assert decomposition.queries == ["子问题一", "子问题二"]
     grades = [step.details for step in response.steps if step.name == "grade"]
     assert [(d.sufficient, d.missing) for d in grades if d] == [
         (False, "缺少版本限制"),
@@ -318,6 +322,8 @@ async def test_unfaithful_answer_is_regenerated_once_and_then_accepted() -> None
     assert chat.kinds.count("generate") == 2
     assert "上一次的回答里有资料找不到依据" in chat.prompts["generate"][1]
     assert "上一次的回答里有资料找不到依据" not in chat.prompts["generate"][0]
+    generations = [s.details for s in response.steps if s.name == "generate"]
+    assert [s.output for s in generations if s] == ["编造的回答 [1]", "老实的回答 [1]"]
 
 
 async def test_answer_that_stays_unfaithful_is_replaced_by_an_abstention() -> None:

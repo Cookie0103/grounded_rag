@@ -2,7 +2,7 @@
 
 Dify 官方中文文档的问答后端（RAG）：按问题复杂度选择检索流程，答案带引用，文档里没有就拒答。对外提供 REST API 和 MCP。
 
-> 状态：M0～M9 的代码都已完成（见 [build-log](harness/build-log.md)）。**真实模型下的效果数字还没有**：需要作者提供评测题和 DeepSeek 密钥，步骤见 [评测运行手册](docs/eval/runbook.md)；已知的缺口见 [PLANS.md §8](PLANS.md §8)。
+> 状态：框架已完成，本机真实模型问答已跑通，逐步证据与可选 Langfuse 云端观测已接入（见 [build-log](harness/build-log.md)）。**正式效果数字还没有**：需要作者准备评测题和人工标注，步骤见 [评测运行手册](docs/eval/runbook.md)；已知的缺口见 [PLANS.md §8](PLANS.md §8)。
 
 ## 它做什么
 
@@ -25,7 +25,7 @@ flowchart LR
 - 检索：Qwen3-Embedding-0.6B + jieba3 分词的 BM25（bm25s）+ RRF + Qwen3-Reranker-0.6B，本机 GPU 推理；PostgreSQL + pgvector 存向量。
 - 生成：DeepSeek（`deepseek-flash`），每天预算由代码强制。
 - 可靠性：三级缓存、精排熔断与降级、生成不可用时返回检索片段、限流、启动预热。
-- 观测：每次问答存 trace（`GET /traces/{id}`），反馈、干预库、坏例导出。
+- 观测：每次问答存 trace（`GET /traces/{id}`），记录查询、召回 / 精排候选、实际上下文、各次生成和后处理；配置 Langfuse 项目凭据后另存云端。另有反馈、干预库、坏例导出。
 
 ## 快速开始
 
@@ -46,6 +46,8 @@ uv run poe serve                  # http://127.0.0.1:8000/docs，启动时预热
 ```
 
 所有命令都在 `backend/` 下执行。问答需要在 `.env` 里写 `DEEPSEEK_API_KEY`（没有密钥时可以设 `CHAT_MODEL=fake` 只跑流程）。
+
+已有入库数据后，终端直接问：`uv run python -m scripts.ask "你的问题"`，加 `--json` 查看完整过程。常驻服务用 `poe serve`。云端配置、语料位置和第一批开发题的准备方式见 [运行手册 §8～9](docs/eval/runbook.md#8-langfuse-云端与最终静态报告)。
 
 ## 接口
 

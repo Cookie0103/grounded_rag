@@ -85,7 +85,8 @@ async def test_second_identical_question_is_served_from_the_answer_cache() -> No
     assert second.answer == first.answer
     assert len(chat.kinds) == calls_after_first  # 没有再调模型
     assert len(retriever.queries) == 1
-    assert second.steps == first.steps
+    assert [step.name for step in second.steps] == ["answer_cache"]
+    assert second.cost_cny == 0
 
 
 async def test_cache_key_includes_edition_and_sessions_are_never_cached() -> None:
@@ -125,7 +126,7 @@ async def test_generation_outage_degrades_to_retrieved_snippets(error: Exception
     assert [c.document_id for c in response.citations] == ["doc-a"]
     assert response.retrieved_docs == ["doc-a"]
     assert not response.abstained
-    fallback = response.steps[-1]
+    fallback = next(s for s in response.steps if s.name == "fallback_retrieve")
     assert fallback.name == "fallback_retrieve"
     assert fallback.details is not None
     assert fallback.details.retrievals[0].query == "怎么上传"
@@ -164,7 +165,9 @@ async def test_generation_failure_keeps_completed_retrieval_steps(
         "rewrite",
         "retrieve",
         "grade",
+        "pipeline_error",
         "fallback_retrieve",
+        "postprocess",
     ]
     retrieval = response.steps[3].details
     assert retrieval is not None

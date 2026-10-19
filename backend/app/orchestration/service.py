@@ -23,6 +23,7 @@ from app.orchestration.models import (
 from app.orchestration.observe import InterventionStore, TraceStore
 from app.orchestration.pipeline import ChatPipeline
 from app.orchestration.postprocess import postprocess
+from app.providers.cloud_trace import CloudTracer
 from app.retrieval.retriever import Retriever
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,7 @@ class ChatService:
         timeout_seconds: float = CHAT_TIMEOUT_SECONDS,
         traces: TraceStore | None = None,
         interventions: InterventionStore | None = None,
+        cloud: CloudTracer | None = None,
     ) -> None:
         self._traces = traces
         self._interventions = interventions
@@ -50,6 +52,7 @@ class ChatService:
         self._retriever = retriever
         self._cache = answer_cache
         self._timeout = timeout_seconds
+        self._cloud = cloud or CloudTracer()
 
     async def answer(self, request: ChatRequest) -> ChatResponse:
         response: ChatResponse | None = None
@@ -61,18 +64,31 @@ class ChatService:
         return response
 
     async def stream(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
-        async for item in self._run(request):
-            if isinstance(item, ChatResponse):
-                await self._record(request, item)
-            yield item
-
-    async def _record(self, request: ChatRequest, response: ChatResponse) -> None:
-        """保存 trace；保存失败只记日志，不影响回答。"""
-        if self._traces is None:
-            return
         trace_id = trace_id_var.get()
+        trace_id = new_trace_id() if trace_id == NO_TRACE else trace_id
+        with self._cloud.observe(request.question, trace_id, session_id=request.session_id) as run:
+            emitted = 0
+            async for item in self._run(request):
+                if isinstance(item, Step):
+                    run.step(item)
+                    emitted += 1
+                else:
+                    for step in item.steps[emitted:]:
+                        run.step(step)
+                        yield step
+                    run.finish(await self._record(request, item, trace_id))
+                yield item
+
+    async def close(self) -> None:
+        """服务结束时发送剩余云端记录。"""
+        await self._cloud.close()
+
+    async def _record(
+        self, request: ChatRequest, response: ChatResponse, trace_id: str
+    ) -> TraceRecord:
+        """保存 trace；保存失败只记日志，不影响回答。"""
         record = TraceRecord(
-            trace_id=new_trace_id() if trace_id == NO_TRACE else trace_id,
+            trace_id=trace_id,
             question=request.question,
             route=response.route,
             edition=request.edition,
@@ -86,10 +102,12 @@ class ChatService:
             retrieved_docs=response.retrieved_docs,
             citations=[citation.model_dump() for citation in response.citations],
         )
-        try:
-            await self._traces.save(record)
-        except (SQLAlchemyError, OSError) as error:
-            logger.warning("trace 保存失败：%r", error)
+        if self._traces is not None:
+            try:
+                await self._traces.save(record)
+            except (SQLAlchemyError, OSError) as error:
+                logger.warning("trace 保存失败：%r", error)
+        return record
 
     async def _intervention(self, request: ChatRequest) -> ChatResponse | None:
         if self._interventions is None:
@@ -115,7 +133,13 @@ class ChatService:
         key = (request.question.strip(), request.edition, prompts.version())
         cacheable = not request.session_id  # 有会话的回答依赖历史，不缓存
         if cacheable and (cached := self._cache.get(key)) is not None:
-            yield cached.model_copy(update={"cached": True})
+            yield cached.model_copy(
+                update={
+                    "cached": True,
+                    "cost_cny": 0.0,
+                    "steps": [Step(name="answer_cache", ms=0.0, note="命中回答缓存，未重新生成")],
+                }
+            )
             return
         final: ChatResponse | None = None
         steps: list[Step] = []
@@ -129,6 +153,7 @@ class ChatService:
                         yield item
         except (DependencyUnavailableError, BudgetExceededError, TimeoutError) as error:
             logger.warning("生成不可用，降级为检索片段：%r", error)
+            steps.append(Step(name="pipeline_error", ms=0.0, note=type(error).__name__))
             final = await self._fallback(request)
             final = final.model_copy(update={"steps": [*steps, *final.steps]})
         if final is None:
@@ -141,13 +166,23 @@ class ChatService:
     @staticmethod
     def _postprocess(response: ChatResponse) -> ChatResponse:
         result = postprocess(response.answer)
+        answer = ABSTAIN_TEXT if result.blocked else result.answer
+        step = Step(
+            name="postprocess",
+            ms=0.0,
+            note="；".join(result.notes) or "通过，无修改",
+            details=StepDetails(output=answer),
+        )
+        logger.info("step=postprocess note=%s", step.note)
         if result.blocked:
             return response.model_copy(
-                update={"answer": ABSTAIN_TEXT, "abstained": True, "citations": []}
+                update={
+                    "answer": answer,
+                    "abstained": True,
+                    "citations": [],
+                    "steps": [*response.steps, step],
+                }
             )
-        if not result.notes:
-            return response
-        step = Step(name="postprocess", ms=0.0, note="；".join(result.notes))
         return response.model_copy(
             update={"answer": result.answer, "steps": [*response.steps, step]}
         )

@@ -85,6 +85,17 @@ async def test_service_replaces_blocked_answers_with_an_abstention(
     response = await _service(_chat()).answer(ChatRequest(question="问"))
 
     assert (response.answer, response.abstained, response.citations) == (ABSTAIN_TEXT, True, [])
+    assert response.steps[-1].name == "postprocess"
+    assert response.steps[-1].note == "命中黑名单"
+    assert response.steps[-1].details is not None
+    assert response.steps[-1].details.output == ABSTAIN_TEXT
+
+
+async def test_service_records_postprocess_even_when_answer_is_unchanged() -> None:
+    response = await _service(_chat()).answer(ChatRequest(question="问"))
+
+    assert response.steps[-1].name == "postprocess"
+    assert response.steps[-1].note == "通过，无修改"
 
 
 # ------------------------------------------------------------------ trace

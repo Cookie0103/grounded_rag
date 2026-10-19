@@ -5,13 +5,13 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-18（补齐实验过程记录）
+最后更新：2026-10-19（云端接入与真实运行核验）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **本轮**：分支 `2026-10-18-evidence-tracing` 完成 [phase-10 实验过程记录](build/phase-10-evidence-tracing.md)。每轮查询、检索返回候选、缺失项和实际生成上下文进入现有步骤，随 trace 与评测 JSONL 保存；本轮验证见下方当日活动记录，尚未推送或运行远程 CI。
-- **本机配置**：`DATABASE_URL` 格式错误；本轮集成测试只临时覆盖为本地容器端口 15432，未改 `.env`。作者启动服务前需修正该项。
-- **没有的**：真实模型下的效果数字。缺 Gemini 出的评测题、`DEEPSEEK_API_KEY`、20 条人工评审标注。清单见 [PLANS.md §8](../PLANS.md)，操作步骤见 [docs/eval/runbook.md](../docs/eval/runbook.md)。
-- **下一步**：作者提供上述三样后，按 runbook 跑开发集 → 校准评审 → 调提示词（新增 `_v2` 文件）→ 测试集只跑一次 → 填 [最终报告模板](../docs/final-report-template.md)。
+- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T3：补齐粗召回/精排候选、各次生成和后处理；API/MCP/CLI 与评测接可选 Langfuse。代码和本地验证已完成，真实云端尚未验证，未推送或运行远程 CI。
+- **本机配置**：作者已填 DeepSeek 密钥，真实调用通过；四个 GPU 模型实际推理通过。原数据库容器已启动，根目录 `.env` 的 DATABASE_URL / DB_PORT 已对齐 15432，语料和双模型向量完整。Langfuse 两项项目密钥仍缺，作者表示会配置；不要在日志或聊天暴露值。
+- **没有的**：真实正式评测效果数字、作者题集及人工评审标注、Langfuse 真正接收记录的证据、最终静态站点。单题真实问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
+- **下一步**：作者填好 Langfuse 后验证真实上传，再准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
 ## 阶段状态
@@ -31,8 +31,9 @@
 | [phase-08 观测](build/phase-08-observability.md) | 完成 | trace、反馈、干预库、后处理、坏例导出 |
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
 | [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
+| [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 阻塞（仅真实云端验证） | 本地实现与运行核验完成；Langfuse 凭据待作者填写 |
 
-最终测试状态（2026-10-18）：`poe check` 426 passed，覆盖率 94.97%；`poe test-int` 32 passed。GPU 测试本轮未重跑，上次记录（2026-10-16）为 3 passed。
+最终检查状态见下方 2026-10-19 活动记录。上次 GPU pytest（2026-10-16）为 3 passed；本轮另行真实离线加载四个 GPU 模型执行推理，未运行正式效果评测。
 
 ## 活动记录（追加）
 
@@ -97,3 +98,18 @@
 - 已读作者公开的 Notion 进度和评测第 7 节；已确认现有 `.cache/gemini-pack/part-01.md`、`part-02.md` 合计 182 篇文档。运行手册补充“语料/导出/开发题/测试题”解释与 20+50+30 的关系，以及过程字段查看方式、旧缓存隔离要求。
 - 自查：[phase-10 Codex](code_review/2026-10-18-phase-10-codex.md)；决定见 [phase-10 context](context/phase-10-evidence-tracing-context.md)。本轮未运行真实模型、未读封存测试题、未改评分规则或评审 Prompt。
 - 边界：记录检索器最终返回候选；未完成节点的部分状态不保证保存。旧缓存不能自动追补过程。首次记录后仍需作者准备正式题集、确认模型配置并校准评审。
+
+### 2026-10-19 · 云端观测与真实运行核验（分支 `2026-10-19-cloud-tracing`）
+
+- 作者授权使用 Langfuse 免费云端观测，并要求逐步复盘、终端启动和配置核验。先读当前状态、规范和已有模块；沿用 Step / RetrievalResult / TraceRecord / SystemAnswer，不建新表、不改题集、评分或 Prompt。
+- 新增 `langfuse>=5,<6`，锁到 5.0.2；`uv --cache-dir ../.cache/uv sync --extra gpu --locked --quiet` 成功，保留 GPU 环境。检查锁文件仅新增 SDK 与其依赖，没有升级旧包。配置和 `.env.example` 同步三项 Langfuse 参数，缺密钥不启用 SDK。
+- 检索保留融合后的完整召回候选（含两路来源/分数）、精排全部候选、最终 top-k；查询改写/分解/补查询有结构化列表，保留合并父块、每次实际上下文和原始生成输出、校验输出、正常/拦截后处理和降级原因。回答缓存只记命中且费用归零；检索缓存明确 cached，避免误判为重复生成或重复 GPU 执行。
+- API / MCP ask_docs / 新终端 `uv run python -m scripts.ask "问题"` 共用服务，节点完成后发往 Langfuse 后台队列；评测包装已有 System，发送原题、gold_docs、nuggets、预期路由、结果与步骤，评分逻辑不变。旧缓存不自动补传，裸检索和自动评审分数不在本轮云端范围。
+- 红灯：候选保留回归先运行，因缺少 recall_candidates 失败。实现后定向回归检查；基线原测试更新新增 output 断言；新增云端故障隔离和参考答案记录测试。真实 SDK + InMemorySpanExporter 离线检查观察到两个同 trace 的父子记录；发现 event 自动结束，移除重复 end，未把离线验证当云端成功。
+- `uv --cache-dir ../.cache/uv run --no-sync poe check` → 格式、ruff、分层、mypy 通过，433 passed，覆盖率 94.85%。首次完整检查发现测试替身缺新 close，补齐关闭断言后通过；未加忽略/跳过或降低门槛。最终 `poe test-int` → 32 passed，使用独立 grounded_rag_test 库。
+- 本机核验：`.env` 的 DeepSeek 密钥已填，`deepseek-flash` 真实请求成功，费用经原 BudgetLedger 记录；没有打印或提交密钥。GPU 为 RTX 5070 Ti，设置 HF_HUB_OFFLINE=1，Qwen3 / BGE-M3 各实际生成 1024 维向量，Qwen3 / BGE 重排各实际输出两条分数。证据保存在忽略目录 `.cache/runtime-audit-2026-10-19.json`。
+- 数据库：发现已有 grounded_rag-db-1 停止且映射 15432，而作者修正后的合法 DATABASE_URL 指向 5432。启动原容器，确认连接成功后把根 `.env` 的 DATABASE_URL / DB_PORT 对齐 15432，保留其余配置。实读为 documents=182、parent_chunks=1252、chunks=2090、chunk_embeddings=4180；两套模型缺失向量均为 0。没有重下语料或重建索引。
+- 真实链路：`uv ... python -m scripts.ask "知识库单次最多上传几个文件？" --edition self_host --json` → SINGLE、回答最多 5 个并引用；过程在 `.cache/chat-smoke-2026-10-19.json`。从 PostgresTraceStore 读回 trace `123a91b1f91b46668d9ab05b44eab9bf`，确认 8 步含 postprocess，候选数 50 / 20 / 5，实际生成输出与上下文落库。该调用只是冒烟，不作正式性能结论。
+- 实际启动 `uvicorn app.api.main:create_app --factory --host 127.0.0.1 --port 8000`（PREWARM=true）成功；PowerShell 请求 `/health` → HTTP 200、status=ok、database=ok。验证后已停止本轮创建的 HTTP 进程，数据库保持运行，作者可自行 `poe serve`。
+- 运行手册补齐第一批 20 题的出题步骤、五路与改写区别、chunk 检查边界、语料固定 GitHub 来源和父子切分、CLI / REST 命令、云端配置和长期保存。核对官方价格与静态托管资料后选 GitHub Pages；正式题集完成前未发布站点。决定见 [phase-11 context](context/phase-11-cloud-tracing-context.md)，自查见 [phase-11 Codex](code_review/2026-10-19-phase-11-codex.md)。
+- 剩余外部输入：Langfuse PUBLIC_KEY / SECRET_KEY 最后核验仍缺，作者已答复会配置；本轮不能宣称真正上传云端。作者填好并重启后需验证云端接收，才能完成 AC4。正式开发/测试题和人工评审标注也未提供。代码本地提交，暂不推送/开 PR/合并。
