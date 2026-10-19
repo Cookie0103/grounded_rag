@@ -5,9 +5,10 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（评测 V1 与首批开发题草案已交付）
+最后更新：2026-10-19（首批20题真实试评进行中）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
+- **当前任务**：[phase-13](build/phase-13-dev20-first-evaluation.md) 进行中。作者授权真实评测20题，逐轮独立归档；跨轮次总览延至最终70dev/30test完成。本轮使用实际ChatService，包含后处理，评分由当前会话逐题核验；不改现有金标、评分和运行时Prompt。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已按作者后续要求合并为唯一的表格化方案、删除旧正文并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 含参考答案、51 个要点与真实原文 / chunk 证据，格式与交叉核对通过。作者尚未审核金标，正式效果评测尚未运行；E/F/C 新自动评分未实现。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
@@ -172,3 +173,9 @@
 - 题型表逐项对应 dev001～dev020，明确预期 SINGLE=12、MULTI=4、CLARIFY=1、REFUSE=2，另 1 题不固定首路由但最终应说明资料不足；DIRECT 闲聊另做手工检查，不占 20 题。路由是诊断信息，不替代最终内容评分。五项指标、分母 / N/A、总分、保存项、20→70 / 30 用法、实现状态和三篇论文对应均统一整理，评分契约未改。
 - 状态已更新为 20 题草案和真实证据已完成、待作者审题，删除“还未开始出题”等过时表述。保存后的题量表截图在 visualizations 的 `notion-eval-single-version-2026-10-19.png`；浏览器页已标记保留。正文替换前快照和编辑 HTML 放忽略目录 .cache，未提交。
 - 作者明确其当前 `.env` 已包含 RATE_LIMIT_PER_MINUTE=30、PREWARM=false；此前“未填写时使用默认值”只是条件说明，不代表作者当前没填。本轮未读取或修改 `.env`，未改业务代码、评分、题目或数据库；仅检查文档差异，不重复运行代码测试或付费评测。
+
+### 2026-10-19 · phase-13 T1：独立试评入口与归档
+
+- 作者批准真实运行20题，完整保留步骤、答案、题目、评分依据、单轮报告及版本；跨轮次总览暂缓。新增 scripts/eval_round.py，复用生产服务工厂、run_system、Question、Trace和BudgetLedger；独立目录拒绝覆盖，固定单并发、无会话、空整答缓存，复制题集/证据/指标和哈希，不改旧缓存或金标。
+- 核对当前已配置deepseek-flash、Qwen3嵌入/精排及cuda，每日预算10元，既有账本约0.10元；Langfuse auth_check=True，已核对SDK的过程/分数读回接口，未输出密钥。
+- 规定检查实际通过：格式、lint、分层、mypy均成功，433 passed / 35 deselected，覆盖率94.85%。最初入口的同步git子进程和预算常量触发规范检查，改用已有异步子进程写法及明确上限后通过，未加忽略或降低门槛。
