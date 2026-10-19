@@ -9,7 +9,7 @@
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
-- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 含参考答案、51 个要点与真实原文 / chunk 证据，格式与交叉核对通过。作者尚未审核金标，正式效果评测尚未运行；E/F/C 新自动评分未实现。
+- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已按作者后续要求合并为唯一的表格化方案、删除旧正文并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 含参考答案、51 个要点与真实原文 / chunk 证据，格式与交叉核对通过。作者尚未审核金标，正式效果评测尚未运行；E/F/C 新自动评分未实现。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **没有的**：作者确认的金标与人工评审标注、E/F/C 自动评分、真实正式评测效果数字、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
 - **下一步**：作者审核 dev20 草案 → 补 E/F/C 评审与云端分数 → 先只检索定位、再比较 naive / full 并校准评审 → 补足 70 dev → 冻结系统 → 作者运行封存 30 test。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
@@ -165,3 +165,10 @@
 - 最终 `poe eval-validate ../docs/eval/dev20/questions.jsonl` 仍为 0 错误 / 0 提醒，root_audit.py 通过。当前阶段完整 `poe check` 已在 T1～T2 记录通过，之后仅有文档和开发题新增；未改业务代码或数据库，不重复运行无关集成检查。最终 `git diff --check` 与文档提交密钥 / 大文件钩子通过。
 - 复核保留清晰边界：20 题全是 dev 草案，参考答案来自固定原文；作者审核、跨模型独立复核和评分校准未完成；没有付费正式作答、效果提升结论或 E/F/C 自动分数。Notion 保存核验截图路径已记录，作者可先看题卡与指标文档，再冻结题集推进评测。
 - 任务只本地提交，未推送、创建 PR 或合并。没有暂存 `.env` / 原始语料 / 缓存，没有修改只读正式题库、评分代码或评审 Prompt。
+
+### 2026-10-19 · phase-12 续：Notion 整理为单一表格化方案
+
+- 作者要求用当前方案覆盖前面的草案，不再保留两套正文。已通过已登录 Notion 页面清空重复正文，写入一份完整方案，保留页面标题「测评」、属性和原 URL；没有改共享权限。刷新后读回确认旧标题与“旧草案仅供背景”均不存在，当前方案只有一份，包含 10 张原生表格。
+- 题型表逐项对应 dev001～dev020，明确预期 SINGLE=12、MULTI=4、CLARIFY=1、REFUSE=2，另 1 题不固定首路由但最终应说明资料不足；DIRECT 闲聊另做手工检查，不占 20 题。路由是诊断信息，不替代最终内容评分。五项指标、分母 / N/A、总分、保存项、20→70 / 30 用法、实现状态和三篇论文对应均统一整理，评分契约未改。
+- 状态已更新为 20 题草案和真实证据已完成、待作者审题，删除“还未开始出题”等过时表述。保存后的题量表截图在 visualizations 的 `notion-eval-single-version-2026-10-19.png`；浏览器页已标记保留。正文替换前快照和编辑 HTML 放忽略目录 .cache，未提交。
+- 作者明确其当前 `.env` 已包含 RATE_LIMIT_PER_MINUTE=30、PREWARM=false；此前“未填写时使用默认值”只是条件说明，不代表作者当前没填。本轮未读取或修改 `.env`，未改业务代码、评分、题目或数据库；仅检查文档差异，不重复运行代码测试或付费评测。
