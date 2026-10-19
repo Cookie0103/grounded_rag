@@ -1,5 +1,5 @@
 {
-  "scope": "dev021-dev044；新开发题事实；旧20独立用于交叉查重",
+  "scope": "dev021-dev067；新开发题事实；旧20独立用于交叉查重",
   "facts": [
     {
       "question_id": "dev021",
@@ -703,6 +703,771 @@
         {
           "chunk_id": "cloud/use-dify/workspace/subscription-management#c7",
           "parent_id": "cloud/use-dify/workspace/subscription-management#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev045",
+      "fact": "选中要复用的节点，右键选择创建Snippet。",
+      "documents": [
+        "self-host/use-dify/build/snippet"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/snippet#c1",
+          "parent_id": "self-host/use-dify/build/snippet#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev045",
+      "fact": "未选中节点的输出等外部变量引用会成为Snippet输入变量。",
+      "documents": [
+        "self-host/use-dify/build/snippet"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/snippet#c1",
+          "parent_id": "self-host/use-dify/build/snippet#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev045",
+      "fact": "插入后应为各输入变量映射当前流程的实际变量。",
+      "documents": [
+        "self-host/use-dify/build/snippet"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/snippet#c5",
+          "parent_id": "self-host/use-dify/build/snippet#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev045",
+      "fact": "原始Snippet之后的修改不影响已插入它的流程。",
+      "documents": [
+        "self-host/use-dify/build/snippet"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/snippet#c5",
+          "parent_id": "self-host/use-dify/build/snippet#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev046",
+      "fact": "macOS用⌘+K，Windows/Linux用Ctrl+K打开入口。",
+      "documents": [
+        "self-host/use-dify/build/goto-anything"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/goto-anything#c1",
+          "parent_id": "self-host/use-dify/build/goto-anything#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev046",
+      "fact": "使用@node仅查当前打开画布的节点。",
+      "documents": [
+        "self-host/use-dify/build/goto-anything"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/goto-anything#c2",
+          "parent_id": "self-host/use-dify/build/goto-anything#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev046",
+      "fact": "组合键失效时可点击侧边栏顶部按钮。",
+      "documents": [
+        "self-host/use-dify/build/goto-anything"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/goto-anything#c1",
+          "parent_id": "self-host/use-dify/build/goto-anything#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/build/goto-anything#c1",
+          "parent_id": "self-host/use-dify/build/goto-anything#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev047",
+      "fact": "同一元素发生编辑冲突时，以最后一次编辑为准。",
+      "documents": [
+        "self-host/use-dify/build/workflow-collaboration"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/workflow-collaboration#c1",
+          "parent_id": "self-host/use-dify/build/workflow-collaboration#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev047",
+      "fact": "画布评论跨流程版本保留。",
+      "documents": [
+        "self-host/use-dify/build/workflow-collaboration"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/workflow-collaboration#c2",
+          "parent_id": "self-host/use-dify/build/workflow-collaboration#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev048",
+      "fact": "单个音频文件上传默认上限为50 MB。",
+      "documents": [
+        "self-host/use-dify/build/additional-features"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/additional-features#c5",
+          "parent_id": "self-host/use-dify/build/additional-features#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev048",
+      "fact": "调整音频大小上限使用UPLOAD_AUDIO_FILE_SIZE_LIMIT。",
+      "documents": [
+        "self-host/use-dify/build/additional-features"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/additional-features#c5",
+          "parent_id": "self-host/use-dify/build/additional-features#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev049",
+      "fact": "转移所有权的验证码发送到当前所有者邮箱。",
+      "documents": [
+        "cloud/use-dify/workspace/team-members-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
+          "parent_id": "cloud/use-dify/workspace/team-members-management#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev049",
+      "fact": "转移完成后，原所有者变为普通成员。",
+      "documents": [
+        "cloud/use-dify/workspace/team-members-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
+          "parent_id": "cloud/use-dify/workspace/team-members-management#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev050",
+      "fact": "应使用在自有沙箱运行命令、安装程序和读写文件的新Agent。",
+      "documents": [
+        "self-host/use-dify/build/new-agent/overview"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/new-agent/overview#c1",
+          "parent_id": "self-host/use-dify/build/new-agent/overview#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev050",
+      "fact": "能力是预先塑造的角色、模型、Skill、工具和文件等配置。",
+      "documents": [
+        "self-host/use-dify/build/new-agent/overview"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/new-agent/overview#c2",
+          "parent_id": "self-host/use-dify/build/new-agent/overview#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/build/new-agent/overview#c2",
+          "parent_id": "self-host/use-dify/build/new-agent/overview#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev050",
+      "fact": "任务是单次运行的消息，或流程中给节点的指令。",
+      "documents": [
+        "self-host/use-dify/build/new-agent/overview"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/new-agent/overview#c2",
+          "parent_id": "self-host/use-dify/build/new-agent/overview#p1"
+        },
+        {
+          "chunk_id": "self-host/use-dify/build/new-agent/overview#c2",
+          "parent_id": "self-host/use-dify/build/new-agent/overview#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev051",
+      "fact": "旧版Agent按每条查询与知识库描述的相关性决定是否检索。",
+      "documents": [
+        "self-host/use-dify/build/agent"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/agent#c7",
+          "parent_id": "self-host/use-dify/build/agent#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev051",
+      "fact": "写更详细的知识库描述能改善相关性判断。",
+      "documents": [
+        "self-host/use-dify/build/agent"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/agent#c7",
+          "parent_id": "self-host/use-dify/build/agent#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev051",
+      "fact": "多个知识库的结果不会跨库重排序。",
+      "documents": [
+        "self-host/use-dify/build/agent"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/agent#c7",
+          "parent_id": "self-host/use-dify/build/agent#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev052",
+      "fact": "恢复旧版会把它载入草稿，完全替换当前草稿。",
+      "documents": [
+        "self-host/use-dify/build/version-control"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/version-control#c4",
+          "parent_id": "self-host/use-dify/build/version-control#p4"
+        },
+        {
+          "chunk_id": "self-host/use-dify/build/version-control#c4",
+          "parent_id": "self-host/use-dify/build/version-control#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev052",
+      "fact": "需点击发布→发布更新才使草稿上线。",
+      "documents": [
+        "self-host/use-dify/build/version-control"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/build/version-control#c2",
+          "parent_id": "self-host/use-dify/build/version-control#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev053",
+      "fact": "控制台域与Web应用域分别由CONSOLE_URL和APP_URL设置。",
+      "documents": [
+        "self-host/deploy/advanced-deployments/start-the-frontend-docker-container"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container#c1",
+          "parent_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev054",
+      "fact": "社区部署在安装时创建工作空间。",
+      "documents": [
+        "self-host/use-dify/workspace/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/workspace/readme#c2",
+          "parent_id": "self-host/use-dify/workspace/readme#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev054",
+      "fact": "使用初始化阶段设置的管理员邮箱和密码。",
+      "documents": [
+        "self-host/use-dify/workspace/readme"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/workspace/readme#c2",
+          "parent_id": "self-host/use-dify/workspace/readme#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev055",
+      "fact": "provider_not_initialize表示应用模型没有有效凭据。",
+      "documents": [
+        "api-reference/guides/errors"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/errors#c2",
+          "parent_id": "api-reference/guides/errors#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev055",
+      "fact": "应在Dify中修复应用的模型配置。",
+      "documents": [
+        "api-reference/guides/errors"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/errors#c2",
+          "parent_id": "api-reference/guides/errors#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev055",
+      "fact": "只有工作空间所有者和管理员可以管理供应商。",
+      "documents": [
+        "cloud/use-dify/workspace/model-providers",
+        "self-host/use-dify/workspace/model-providers"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/model-providers#c0",
+          "parent_id": "cloud/use-dify/workspace/model-providers#p0"
+        },
+        {
+          "chunk_id": "self-host/use-dify/workspace/model-providers#c0",
+          "parent_id": "self-host/use-dify/workspace/model-providers#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev055",
+      "fact": "删除自定义模型唯一的密钥时，该模型也会被删除。",
+      "documents": [
+        "cloud/use-dify/workspace/model-providers",
+        "self-host/use-dify/workspace/model-providers"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/model-providers#c5",
+          "parent_id": "cloud/use-dify/workspace/model-providers#p5"
+        },
+        {
+          "chunk_id": "self-host/use-dify/workspace/model-providers#c3",
+          "parent_id": "self-host/use-dify/workspace/model-providers#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev056",
+      "fact": "选择LLM生成问答模板，其分段结构为问答模式。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+        "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline#c5",
+          "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline#p2"
+        },
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline#c5",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev056",
+      "fact": "该模式先将上传文本分段，总结内容后为每段生成Q&A匹配对。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#c3",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev056",
+      "fact": "具备完整语法结构的自然语言常见问题文档更适合该方法。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#c3",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#p2"
+        },
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#c3",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev057",
+      "fact": "Notion OAuth只支持HTTPS，本地HTTP部署须用内部集成。",
+      "documents": [
+        "self-host/deploy/troubleshooting/integrations"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/troubleshooting/integrations#c0",
+          "parent_id": "self-host/deploy/troubleshooting/integrations#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev057",
+      "fact": "创建内部集成需要是Notion工作空间所有者。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c5",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev057",
+      "fact": "在.env设置NOTION_INTEGRATION_TYPE=internal和NOTION_INTERNAL_SECRET为内部密钥。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c6",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5"
+        },
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c6",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev057",
+      "fact": "需重启Dify加载新的环境变量。",
+      "documents": [
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c7",
+          "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev058",
+      "fact": "取消后保留当前计划直到已付费周期结束，随后恢复Sandbox。",
+      "documents": [
+        "cloud/use-dify/workspace/subscription-management"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/workspace/subscription-management#c1",
+          "parent_id": "cloud/use-dify/workspace/subscription-management#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev058",
+      "fact": "Sandbox的知识库存储容量为50 MB。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c0",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev058",
+      "fact": "降级造成已有数据超过新限额时，数据不会被删除。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c3",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev058",
+      "fact": "降级造成已有数据超额时，应用仍能正常检索。",
+      "documents": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c3",
+          "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p3"
+        }
+      ]
+    },
+    {
+      "question_id": "dev059",
+      "fact": "旧版Agent应用仅支持流式返回。",
+      "documents": [
+        "api-reference/guides/chat"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/chat#c1",
+          "parent_id": "api-reference/guides/chat#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev059",
+      "fact": "对话API的会话变量跨多轮保留。",
+      "documents": [
+        "api-reference/guides/chat"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/chat#c2",
+          "parent_id": "api-reference/guides/chat#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev059",
+      "fact": "文本生成API的调用之间不保留会话状态。",
+      "documents": [
+        "api-reference/guides/completion"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/completion#c0",
+          "parent_id": "api-reference/guides/completion#p0"
+        }
+      ]
+    },
+    {
+      "question_id": "dev059",
+      "fact": "文本生成API支持生成结束后一次性返回的阻塞模式。",
+      "documents": [
+        "api-reference/guides/completion"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "api-reference/guides/completion#c1",
+          "parent_id": "api-reference/guides/completion#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev060",
+      "fact": "聊天Web应用各对话线程维护各自记忆和上下文。",
+      "documents": [
+        "self-host/use-dify/publish/webapp/chatflow-webapp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/webapp/chatflow-webapp#c5",
+          "parent_id": "self-host/use-dify/publish/webapp/chatflow-webapp#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev060",
+      "fact": "Workflow网页用于产生特定输出的离散任务。",
+      "documents": [
+        "self-host/use-dify/publish/webapp/workflow-webapp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/webapp/workflow-webapp#c1",
+          "parent_id": "self-host/use-dify/publish/webapp/workflow-webapp#p1"
+        }
+      ]
+    },
+    {
+      "question_id": "dev060",
+      "fact": "批处理CSV的每一行都是一次Workflow执行。",
+      "documents": [
+        "self-host/use-dify/publish/webapp/workflow-webapp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/webapp/workflow-webapp#c4",
+          "parent_id": "self-host/use-dify/publish/webapp/workflow-webapp#p4"
+        }
+      ]
+    },
+    {
+      "question_id": "dev060",
+      "fact": "从Excel导出导入用CSV时应选Unicode UTF-8编码。",
+      "documents": [
+        "self-host/use-dify/publish/webapp/workflow-webapp"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/use-dify/publish/webapp/workflow-webapp#c5",
+          "parent_id": "self-host/use-dify/publish/webapp/workflow-webapp#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev061",
+      "fact": "启动API前，用middleware配置启动数据库、沙箱和插件守护进程。",
+      "documents": [
+        "self-host/deploy/advanced-deployments/local-source-code"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c5",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p2"
+        },
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c5",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p2"
+        }
+      ]
+    },
+    {
+      "question_id": "dev061",
+      "fact": "Windows的Celery Worker命令使用-P solo --without-gossip --without-mingle。",
+      "documents": [
+        "self-host/deploy/advanced-deployments/local-source-code"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c10",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p5"
+        },
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c11",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p5"
+        }
+      ]
+    },
+    {
+      "question_id": "dev061",
+      "fact": "定时任务需另起uv run celery -A app.celery beat服务。",
+      "documents": [
+        "self-host/deploy/advanced-deployments/local-source-code"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c16",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p7"
+        },
+        {
+          "chunk_id": "self-host/deploy/advanced-deployments/local-source-code#c16",
+          "parent_id": "self-host/deploy/advanced-deployments/local-source-code#p7"
+        }
+      ]
+    },
+    {
+      "question_id": "dev062",
+      "fact": "FILES_URL是预览和下载基础URL，留空回退CONSOLE_API_URL。",
+      "documents": [
+        "self-host/deploy/configuration/environments"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c10",
+          "parent_id": "self-host/deploy/configuration/environments#p9"
+        },
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c10",
+          "parent_id": "self-host/deploy/configuration/environments#p9"
+        }
+      ]
+    },
+    {
+      "question_id": "dev062",
+      "fact": "FILES_URL与CONSOLE_API_URL都为空时，文件预览无法工作。",
+      "documents": [
+        "self-host/deploy/configuration/environments"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c10",
+          "parent_id": "self-host/deploy/configuration/environments#p9"
+        }
+      ]
+    },
+    {
+      "question_id": "dev062",
+      "fact": "容器内部取文件用INTERNAL_FILES_URL，留空回退FILES_URL。",
+      "documents": [
+        "self-host/deploy/configuration/environments"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c11",
+          "parent_id": "self-host/deploy/configuration/environments#p10"
+        },
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c11",
+          "parent_id": "self-host/deploy/configuration/environments#p10"
+        },
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c11",
+          "parent_id": "self-host/deploy/configuration/environments#p10"
+        }
+      ]
+    },
+    {
+      "question_id": "dev062",
+      "fact": "FILES_ACCESS_TIMEOUT规定签名链接的秒级有效期，过期需重新请求。",
+      "documents": [
+        "self-host/deploy/configuration/environments"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "self-host/deploy/configuration/environments#c12",
+          "parent_id": "self-host/deploy/configuration/environments#p11"
         }
       ]
     }
