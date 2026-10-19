@@ -37,9 +37,10 @@ MAX_AGENT_DAILY_CNY = 10
 class RecordedService:
     name = "full-service"
 
-    def __init__(self, chat: ChatService, directory: Path) -> None:
+    def __init__(self, chat: ChatService, directory: Path, *, send_edition: bool = True) -> None:
         self._chat = chat
         self._directory = directory
+        self._send_edition = send_edition
 
     async def answer(self, question: Question) -> SystemAnswer:
         """调用现有服务并保存其原始响应、应用与云端trace对应关系。"""
@@ -48,7 +49,10 @@ class RecordedService:
         started = time.perf_counter()
         try:
             response = await self._chat.answer(
-                ChatRequest(question=question.question, edition=question.edition)
+                ChatRequest(
+                    question=question.question,
+                    edition=question.edition if self._send_edition else None,
+                )
             )
             latency = (time.perf_counter() - started) * 1000
             record = {
@@ -75,7 +79,9 @@ class RecordedService:
             trace_id_var.reset(token)
 
 
-async def prepare_archive(run_id: str, question_path: Path) -> tuple[Path, dict[str, Any]]:
+async def prepare_archive(
+    run_id: str, question_path: Path, send_edition: bool
+) -> tuple[Path, dict[str, Any]]:
     """新建唯一轮次目录，冻结题集、证据与评分口径；不包含密钥。"""
     if re.fullmatch(r"[A-Za-z0-9_-]+", run_id) is None:
         raise ValueError("run-id只能包含字母、数字、下划线和短横线")
@@ -110,6 +116,7 @@ async def prepare_archive(run_id: str, question_path: Path) -> tuple[Path, dict[
         "prompt_hash": prompts.version(),
         "concurrency": 1,
         "session_history": False,
+        "edition_sent_to_system": send_edition,
         "answer_cache_initially_empty": True,
         "cold_start_question": "dev001",
         "overall_index_deferred": True,
@@ -127,7 +134,7 @@ async def prepare_archive(run_id: str, question_path: Path) -> tuple[Path, dict[
     return directory, manifest
 
 
-async def run(run_id: str, question_path: Path) -> Path:
+async def run(run_id: str, question_path: Path, send_edition: bool) -> Path:
     """以既有预算、模型与生产服务执行开发题，成功或失败都保留结果。"""
     settings = get_settings()
     questions = load_questions(question_path)
@@ -137,7 +144,7 @@ async def run(run_id: str, question_path: Path) -> Path:
         raise ValueError("agent真实运行要求既有每日预算大于0且不超过10元")
     ledger = BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny)
     ledger.check()
-    directory, manifest = await prepare_archive(run_id, question_path)
+    directory, manifest = await prepare_archive(run_id, question_path, send_edition)
     manifest["config"] = {
         name: getattr(settings, name)
         for name in (
@@ -156,7 +163,7 @@ async def run(run_id: str, question_path: Path) -> Path:
         await ping(engine, settings.db_timeout_seconds)
         services = await build_services(engine, settings)
         answers = await run_system(
-            RecordedService(services.chat, directory),
+            RecordedService(services.chat, directory, send_edition=send_edition),
             questions,
             cache_path=CACHE_DIR / "eval/runs" / run_id / "answers.jsonl",
             concurrency=1,
@@ -186,9 +193,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--questions", required=True, type=Path)
+    parser.add_argument(
+        "--withhold-edition",
+        action="store_true",
+        help="运行时不把题目的 edition 传给系统（edition 仍只用于评分），测试版本自动识别",
+    )
     arguments = parser.parse_args()
     configure_logging("INFO")
-    directory = asyncio.run(run(arguments.run_id, arguments.questions))
+    directory = asyncio.run(
+        run(arguments.run_id, arguments.questions, not arguments.withhold_edition)
+    )
     logger.info("本轮归档：%s", directory)
 
 
