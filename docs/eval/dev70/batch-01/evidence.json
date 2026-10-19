@@ -1,0 +1,2147 @@
+{
+  "dataset_version": "dev70-batch01-v1-draft",
+  "status": "draft_pending_claude_and_author_review",
+  "created_at": "2026-10-19T12:22:57.234903+00:00",
+  "corpus_repo": "langgenius/dify-docs",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "ingest_version": "1",
+  "database_verified": true,
+  "source_license": "CC BY 4.0",
+  "source_workflow": "阅读原文→选事实→写题→定位真实chunk→校验；未运行RAG或参考其答案",
+  "question_count": 12,
+  "total_new_dev_target": 70,
+  "regression20_excluded": true,
+  "paid_calls": 0,
+  "baseline_run": false,
+  "questions": [
+    {
+      "question_id": "dev021",
+      "reference_answer": "不能。Workflow流第一帧固定是保活ping，不代表运行已经受理；应等待首个data事件workflow_started。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "api-reference/guides/streaming"
+      ],
+      "n_docs": 1,
+      "n_subasks": 1,
+      "subasks": [
+        "Workflow流首帧能算受理成功吗？"
+      ],
+      "hardness_tag": "short_fact",
+      "most_likely_failure": "把HTTP/SSE连接成功或ping误当作业务运行已经开始。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "1个独立小问，按本批出题规则预期首路由SINGLE；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "Workflow事件流第一帧为ping，不能据此判定运行已受理。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/streaming",
+                  "heading_path": "处理流式响应 > 解析事件流",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L27-L27",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
+                  "raw_line_start": 27,
+                  "raw_line_end": 27,
+                  "original_excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/streaming#c2",
+                    "excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/streaming#p2",
+                    "heading_path": "处理流式响应 > 解析事件流",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 518,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "应以首个data事件workflow_started作为运行已受理的信号。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/streaming",
+                  "heading_path": "处理流式响应 > 解析事件流",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L27-L27",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
+                  "raw_line_start": 27,
+                  "raw_line_end": 27,
+                  "original_excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/streaming#c2",
+                    "excerpt": "Chatflow 应用和 Workflow 应用的事件流第一帧固定是 `ping`，运行期间还会约每 10 秒到达一次。不要把第一帧当作运行已受理的信号，应以第一个 `data:` 事件（`workflow_started`）为准。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/streaming#p2",
+                    "heading_path": "处理流式响应 > 解析事件流",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 518,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": []
+    },
+    {
+      "question_id": "dev022",
+      "reference_answer": "在底部变量检查器里找到前面步骤的输出，点击可编辑的变量值并修改，再只运行要测试的下游节点。下游使用改后的值，不必重跑上游。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "self-host/use-dify/debug/variable-inspect"
+      ],
+      "n_docs": 1,
+      "n_subasks": 1,
+      "subasks": [
+        "不重跑前面的步骤，怎么换一份中间结果只测后面的步骤？"
+      ],
+      "hardness_tag": "lexical_gap",
+      "most_likely_failure": "把修改节点配置、重新全流程运行当成唯一办法，未定位到调试缓存。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "1个独立小问，按本批出题规则预期首路由SINGLE；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "使用变量检查器编辑可修改的中间变量值。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/variable-inspect",
+                  "heading_path": "变量检查器 > 查看变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx#L15-L15",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx",
+                  "raw_line_start": 15,
+                  "raw_line_end": 15,
+                  "original_excerpt": "任何节点运行后，其输出变量会出现在屏幕底部的检查器面板中。点击任何变量可查看其完整内容。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/variable-inspect#c1",
+                    "excerpt": "任何节点运行后，其输出变量会出现在屏幕底部的检查器面板中。点击任何变量可查看其完整内容。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/variable-inspect#p1",
+                    "heading_path": "变量检查器 > 查看变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 71,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/variable-inspect",
+                  "heading_path": "变量检查器 > 编辑变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx#L23-L23",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx",
+                  "raw_line_start": 23,
+                  "raw_line_end": 23,
+                  "original_excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/variable-inspect#c2",
+                    "excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/variable-inspect#p2",
+                    "heading_path": "变量检查器 > 编辑变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 126,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "随后只运行下游节点，下游会使用编辑后的值而非原值，无需重跑整个工作流。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/variable-inspect",
+                  "heading_path": "变量检查器 > 编辑变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx#L23-L23",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx",
+                  "raw_line_start": 23,
+                  "raw_line_end": 23,
+                  "original_excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/variable-inspect#c2",
+                    "excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/variable-inspect#p2",
+                    "heading_path": "变量检查器 > 编辑变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 126,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "题干不出现官方名称‘变量检查器’；不把‘最后运行记录不变’设为未问的必答点。"
+      ]
+    },
+    {
+      "question_id": "dev023",
+      "reference_answer": "三个顶层必填字段是knowledge_id（string，知识源标识）、query（string，搜索查询）和retrieval_setting（object，检索参数）。metadata_condition是可选字段。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "self-host/use-dify/knowledge/external-knowledge-api"
+      ],
+      "n_docs": 1,
+      "n_subasks": 1,
+      "subasks": [
+        "外部知识检索请求体的顶层必填字段有哪些？"
+      ],
+      "hardness_tag": "table_schema",
+      "most_likely_failure": "混淆顶层与嵌套字段，把top_k当顶层字段，或把metadata_condition列为必填。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "1个独立小问，按本批出题规则预期首路由SINGLE；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "顶层必填字段包括knowledge_id。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/knowledge/external-knowledge-api",
+                  "heading_path": "外部知识库 API > 请求 > 请求体",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx#L34-L34",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx",
+                  "raw_line_start": 34,
+                  "raw_line_end": 34,
+                  "original_excerpt": "| `knowledge_id` | 是 | string | 外部系统中知识源的标识符，即连接时填写的 **外部知识库 ID** 字段的值，用于将查询路由到正确的知识源。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+                    "excerpt": "| `knowledge_id` | 是 | string | 外部系统中知识源的标识符，即连接时填写的 **外部知识库 ID** 字段的值，用于将查询路由到正确的知识源。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3",
+                    "heading_path": "外部知识库 API > 请求 > 请求体",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 513,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "8fd70fb7084470e942638a3c8b6d24bc5da828df1db2d577a65e234113f84727"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "顶层必填字段包括query。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/knowledge/external-knowledge-api",
+                  "heading_path": "外部知识库 API > 请求 > 请求体",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx#L35-L35",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx",
+                  "raw_line_start": 35,
+                  "raw_line_end": 35,
+                  "original_excerpt": "| `query` | 是 | string | 用户的搜索查询。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+                    "excerpt": "| `query` | 是 | string | 用户的搜索查询。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3",
+                    "heading_path": "外部知识库 API > 请求 > 请求体",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 602,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "8fd70fb7084470e942638a3c8b6d24bc5da828df1db2d577a65e234113f84727"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "顶层必填字段包括retrieval_setting。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/knowledge/external-knowledge-api",
+                  "heading_path": "外部知识库 API > 请求 > 请求体",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx#L36-L36",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/external-knowledge-api.mdx",
+                  "raw_line_start": 36,
+                  "raw_line_end": 36,
+                  "original_excerpt": "| `retrieval_setting` | 是 | object | 检索参数。详见 [下文](#retrieval_setting)。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/knowledge/external-knowledge-api#c3",
+                    "excerpt": "| `retrieval_setting` | 是 | object | 检索参数。详见 下文。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/knowledge/external-knowledge-api#p3",
+                    "heading_path": "外部知识库 API > 请求 > 请求体",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 638,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "8fd70fb7084470e942638a3c8b6d24bc5da828df1db2d577a65e234113f84727"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "数值/配置/表格子类中的表格题；只要求正确列出顶层必填字段，类型和含义供参考，不把未问的类型、嵌套参数设为必答。"
+      ]
+    },
+    {
+      "question_id": "dev024",
+      "reference_answer": "用迭代节点处理数组，错误处理选‘错误时继续’；失败项输出null，其余项继续。例如第二项失败时得到[result-1, null, result-3]。不要选‘移除失败结果’。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "self-host/use-dify/nodes/iteration"
+      ],
+      "n_docs": 1,
+      "n_subasks": 1,
+      "subasks": [
+        "一批独立输入逐项处理，失败后要占位续跑，怎么配？"
+      ],
+      "hardness_tag": "neighbor_confusion",
+      "most_likely_failure": "混淆循环与迭代，或误选移除失败结果导致输入输出位置不再对应。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "1个独立小问，按本批出题规则预期首路由SINGLE；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "使用迭代节点逐项处理输入数组。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/iteration",
+                  "heading_path": "迭代",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L8-L8",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
+                  "raw_line_start": 8,
+                  "raw_line_end": 8,
+                  "original_excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/iteration#c0",
+                    "excerpt": "迭代节点通过对每个元素按顺序或并行运行相同的工作流步骤来处理数组。用于批处理任务，这些任务若作为单一操作会遇到限制或效率低下的问题。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/iteration#p0",
+                    "heading_path": "迭代",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "错误处理选择‘错误时继续’。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/iteration",
+                  "heading_path": "迭代 > 错误处理",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L73-L73",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
+                  "raw_line_start": 73,
+                  "raw_line_end": 73,
+                  "original_excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/iteration#c5",
+                    "excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/iteration#p5",
+                    "heading_path": "迭代 > 错误处理",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 711,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "失败元素输出null，以保留该失败项的占位而非从结果中移除。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/iteration",
+                  "heading_path": "迭代 > 错误处理",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L73-L73",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
+                  "raw_line_start": 73,
+                  "raw_line_end": 73,
+                  "original_excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/iteration#c5",
+                    "excerpt": "**错误时继续** - 跳过失败的项目并继续处理，为失败的元素输出 null",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/iteration#p5",
+                    "heading_path": "迭代 > 错误处理",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 711,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/iteration",
+                  "heading_path": "迭代 > 错误处理",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx#L79-L79",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/iteration.mdx",
+                  "raw_line_start": 79,
+                  "raw_line_end": 79,
+                  "original_excerpt": "- 错误时继续的输出：`[result-1, null, result-3]`",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/iteration#c5",
+                    "excerpt": "- 错误时继续的输出：`[result-1, null, result-3]`",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/iteration#p5",
+                    "heading_path": "迭代 > 错误处理",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 809,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [
+        "self-host/use-dify/nodes/loop"
+      ],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [],
+      "distractor_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/nodes/loop",
+              "heading_path": "循环",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/loop.mdx#L8-L8",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/loop.mdx",
+              "raw_line_start": 8,
+              "raw_line_end": 8,
+              "original_excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/nodes/loop#c0",
+                "excerpt": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/nodes/loop#p0",
+                "heading_path": "循环",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 0,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
+            }
+          ]
+        }
+      ],
+      "neighbor_confusion_note": "同一nodes目录的循环基于前次结果逐步演进，迭代处理独立数组元素；迭代页内‘移除失败结果’也是强干扰项。"
+    },
+    {
+      "question_id": "dev025",
+      "reference_answer": "存储用量取决于文档产生的向量数量，不是上传文件本身的大小；额度满后不能编辑分段，经济索引也不例外；删文档后账单数字会延迟刷新，不会立即下降。资料没有给出固定几秒或几分钟的刷新期限。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit"
+      ],
+      "n_docs": 1,
+      "n_subasks": 3,
+      "subasks": [
+        "知识库存储用量的计量依据",
+        "满额时能否编辑分段",
+        "删除文档后账单额度不立即下降的原因"
+      ],
+      "hardness_tag": "scattered_evidence",
+      "most_likely_failure": "按原始文件大小计算占用，认为经济索引能绕过满额限制，或凭界面未立即下降就断言删除没有释放空间。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "3个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "存储用量取决于文档产生的向量数量，而非原始文件大小。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                  "heading_path": "知识库数据存储空间限制 > 存储空间的消耗方式",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx#L23-L23",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx",
+                  "raw_line_start": 23,
+                  "raw_line_end": 23,
+                  "original_excerpt": "用量取决于文档产生的向量数量，而非文件本身的大小。分段越多，产生的向量就越多。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c1",
+                    "excerpt": "用量取决于文档产生的向量数量，而非文件本身的大小。分段越多，产生的向量就越多。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p1",
+                    "heading_path": "知识库数据存储空间限制 > 存储空间的消耗方式",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 237,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "存储额度已满时，编辑分段操作会被拦截。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                  "heading_path": "知识库数据存储空间限制 > 存储空间已满时",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx#L49-L49",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx",
+                  "raw_line_start": 49,
+                  "raw_line_end": 49,
+                  "original_excerpt": "上传文档、新增或编辑分段、恢复已归档文档，以及修改分段设置等重新索引操作都会被拦截，以 **经济** 方式索引的知识库也不例外。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c3",
+                    "excerpt": "上传文档、新增或编辑分段、恢复已归档文档，以及修改分段设置等重新索引操作都会被拦截，以 **经济** 方式索引的知识库也不例外。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p3",
+                    "heading_path": "知识库数据存储空间限制 > 存储空间已满时",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 731,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "删除文档后，账单中的用量数字延迟刷新，要过一段时间才会下降。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                  "heading_path": "知识库数据存储空间限制 > 释放存储空间",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx#L59-L59",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-storage-limit.mdx",
+                  "raw_line_start": 59,
+                  "raw_line_end": 59,
+                  "original_excerpt": "**设置** > **账单** 中的用量数字延迟刷新，删除后要过一段时间才会下降。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/knowledge/knowledge-storage-limit#c4",
+                    "excerpt": "**设置** > **账单** 中的用量数字延迟刷新，删除后要过一段时间才会下降。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/knowledge/knowledge-storage-limit#p4",
+                    "heading_path": "知识库数据存储空间限制 > 释放存储空间",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 937,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "三个必答点分别来自三个不同H2章节和三个不同子块，不把相邻同一句拆成‘分散证据’。不额外要求报告套餐容量或未给出的刷新秒数。"
+      ],
+      "evidence_distribution": {
+        "minimum_distinct_sections": 3,
+        "required_order": false
+      }
+    },
+    {
+      "question_id": "dev026",
+      "reference_answer": "按顺序：①用form_token获取表单定义，确认输入与可选action；②用同一user上传本地附件，保存id为upload_file_id；③凭form_token提交输入（本地文件引用upload_file_id）、允许的action及user；④原流已关闭，提交后以workflow_run_id和启动时的同一user重新连接工作流事件流，继续监听。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "api-reference/guides/human-input-flow"
+      ],
+      "n_docs": 1,
+      "n_subasks": 2,
+      "subasks": [
+        "提交包含本地附件的人工介入表单",
+        "在原流关闭后恢复监听"
+      ],
+      "hardness_tag": "ordered_steps",
+      "most_likely_failure": "把form_token当文件ID或运行ID，漏掉先上传本地文件，或用新的user恢复监听。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "先凭form_token获取人工介入表单定义，以确定输入字段与可用action。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/human-input-flow",
+                  "heading_path": "人工介入 API 集成流程 > 流程",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L28-L28",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
+                  "raw_line_start": 28,
+                  "raw_line_end": 28,
+                  "original_excerpt": "使用 `form_token` 调用 [获取人工介入表单](/zh/api-reference/human-input/get-human-input-form) 接口。响应包含渲染后的 Markdown、输入字段定义、可用操作、已预填的默认值，以及一个 `expiration_time`，超过该时间后表单将无法再提交。将表单呈现给接收者。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/human-input-flow#c2",
+                    "excerpt": "使用 `form_token` 调用 获取人工介入表单 接口。响应包含渲染后的 Markdown、输入字段定义、可用操作、已预填的默认值，以及一个 `expiration_time`，超过该时间后表单将无法再提交。将表单呈现给接收者。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/human-input-flow#p1",
+                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 495,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "本地附件先上传，保存返回的id并在提交时作为upload_file_id引用。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/human-input-flow",
+                  "heading_path": "人工介入 API 集成流程 > 流程",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L33-L33",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
+                  "raw_line_start": 33,
+                  "raw_line_end": 33,
+                  "original_excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 [上传文件](/zh/api-reference/files/upload-file) 上传。该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。执行、上传和提交各次调用使用同一个 `user`（见 [终端用户身份](/zh/api-reference/guides/end-user-identity)）。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/human-input-flow#c2",
+                    "excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 上传文件 上传。该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。执行、上传和提交各次调用使用同一个 `user`（见 终端用户身份）。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/human-input-flow#p1",
+                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 737,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "使用form_token提交表单输入、定义中允许的action及user；执行、上传、提交沿用同一user。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/human-input-flow",
+                  "heading_path": "人工介入 API 集成流程 > 流程",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L38-L38",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
+                  "raw_line_start": 38,
+                  "raw_line_end": 38,
+                  "original_excerpt": "调用 [提交人工介入表单](/zh/api-reference/human-input/submit-human-input-form) 接口，附上接收者输入的值、所选的 `action` 以及你的 `user`。`action` 必须是第 2 步表单定义中的某个操作。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/human-input-flow#c3",
+                    "excerpt": "调用 提交人工介入表单 接口，附上接收者输入的值、所选的 `action` 以及你的 `user`。`action` 必须是第 2 步表单定义中的某个操作。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/human-input-flow#p1",
+                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 940,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/human-input-flow",
+                  "heading_path": "人工介入 API 集成流程 > 流程",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L33-L33",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
+                  "raw_line_start": 33,
+                  "raw_line_end": 33,
+                  "original_excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 [上传文件](/zh/api-reference/files/upload-file) 上传。该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。执行、上传和提交各次调用使用同一个 `user`（见 [终端用户身份](/zh/api-reference/guides/end-user-identity)）。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/human-input-flow#c2",
+                    "excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 上传文件 上传。该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。执行、上传和提交各次调用使用同一个 `user`（见 终端用户身份）。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/human-input-flow#p1",
+                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 737,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "text": "提交后用保存的workflow_run_id及启动运行时的同一user重新打开事件流。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/human-input-flow",
+                  "heading_path": "人工介入 API 集成流程 > 流程",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L47-L47",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
+                  "raw_line_start": 47,
+                  "raw_line_end": 47,
+                  "original_excerpt": "若原 SSE 流已关闭，可调用 [流式获取工作流事件](/zh/api-reference/workflow-runs/stream-workflow-events) 重新连接：使用第 1 步中的 `workflow_run_id`，并携带启动运行时的同一个 `user`（`user` 不一致会返回 404）。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/human-input-flow#c4",
+                    "excerpt": "若原 SSE 流已关闭，可调用 流式获取工作流事件 重新连接：使用第 1 步中的 `workflow_run_id`，并携带启动运行时的同一个 `user`（`user` 不一致会返回 404）。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/human-input-flow#p1",
+                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 1317,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "题干明确Web投递、本地文件、原流关闭和已保存两个标识符；不要求未问的远程URL模式或多暂停参数。",
+        "原文推荐先获取定义再上传；评分只强制获取定义、上传文件都在提交前完成，且提交后恢复监听。允许先上传再取定义的等价有效顺序。"
+      ],
+      "ordered_requirements": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "question_id": "dev027",
+      "reference_answer": "第9课用的是模板转换节点。定位到这个节点后，可用Jinja2的default过滤器处理未定义字段，例如{{ user.email | default('No email provided') }}；默认文字可按需求替换。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "learn/tutorials/workflow-101/lesson-09",
+        "self-host/use-dify/nodes/template"
+      ],
+      "n_docs": 2,
+      "n_subasks": 2,
+      "subasks": [
+        "确定指定课程使用的排版节点",
+        "查该节点为未定义邮箱字段提供默认文字的方式"
+      ],
+      "hardness_tag": "chain_bridge",
+      "most_likely_failure": "只总结第9课插入节点的步骤，没沿‘模板转换’继续查字段默认值；或误把空字符串与未定义字段混为一谈。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，且第二跳依赖第一跳发现的节点，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "第9课使用模板转换节点固定邮件排版。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "learn/tutorials/workflow-101/lesson-09",
+                  "heading_path": "第 9 课：排版设计师（模板） > 动手实践：优化邮件排版",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/learn/tutorials/workflow-101/lesson-09.mdx#L35-L35",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/learn/tutorials/workflow-101/lesson-09.mdx",
+                  "raw_line_start": 35,
+                  "raw_line_end": 35,
+                  "original_excerpt": "在 Agent 节点之后、输出节点之前插入一个模板转换节点。",
+                  "direct_evidence": {
+                    "chunk_id": "learn/tutorials/workflow-101/lesson-09#c2",
+                    "excerpt": "在 Agent 节点之后、输出节点之前插入一个模板转换节点。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "learn/tutorials/workflow-101/lesson-09#p2",
+                    "heading_path": "第 9 课：排版设计师（模板） > 动手实践：优化邮件排版",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 424,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "e81a084719b764da1fb9f512511ca818d748f567a075c30975502619edcd8155"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "在该节点中用Jinja2的default过滤器为未定义邮箱字段提供默认文本，例如{{ user.email | default('No email provided') }}。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/template",
+                  "heading_path": "模板转换 > 数据格式化 > 错误处理",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/template.mdx#L73-L73",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/template.mdx",
+                  "raw_line_start": 73,
+                  "raw_line_end": 73,
+                  "original_excerpt": "使用默认值和条件检查优雅处理缺失或无效数据：",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/template#c6",
+                    "excerpt": "使用默认值和条件检查优雅处理缺失或无效数据：",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/template#p6",
+                    "heading_path": "模板转换 > 数据格式化 > 错误处理",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 975,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "f0aa77bad2d01c6111c3e5f5dec8bdc12002dc323ada624cfc2ba52b354965ab"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/template",
+                  "heading_path": "模板转换 > 数据格式化 > 错误处理",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/template.mdx#L76-L76",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/template.mdx",
+                  "raw_line_start": 76,
+                  "raw_line_end": 76,
+                  "original_excerpt": "{{ user.email | default('No email provided') }}",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/template#c6",
+                    "excerpt": "{{ user.email | default('No email provided') }}",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/template#p6",
+                    "heading_path": "模板转换 > 数据格式化 > 错误处理",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 1008,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "f0aa77bad2d01c6111c3e5f5dec8bdc12002dc323ada624cfc2ba52b354965ab"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "这是文档导航型链式多跳；不是计算题，不声称所有一次检索系统都会失败。只考字段未定义，不扩展到空字符串/null的不同语义。"
+      ],
+      "chain": {
+        "first_lookup": {
+          "document_id": "learn/tutorials/workflow-101/lesson-09",
+          "task": "从指定课程找出固定排版的节点"
+        },
+        "bridge_entity": "模板转换（Jinja2）",
+        "second_lookup": {
+          "document_id": "self-host/use-dify/nodes/template",
+          "derived_query": "模板转换 未定义字段 default 过滤器"
+        },
+        "dependency": "第二跳查询的节点名称由第一篇给出；第一篇没有default用法，第二篇不能证明第9课实际用了它。",
+        "second_document_keywords_absent_from_question": [
+          "模板转换",
+          "Jinja2",
+          "default"
+        ]
+      }
+    },
+    {
+      "question_id": "dev028",
+      "reference_answer": "一种应优先核对的原因是停止接口的user与发起回复时不一致：此时停止会被静默忽略，调用仍可成功。工作流日志接口不能给逐节点记录，它只返回运行级汇总；逐节点事件应另行流式跟踪运行。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "api-reference/guides/end-user-identity",
+        "api-reference/guides/workflow"
+      ],
+      "n_docs": 2,
+      "n_subasks": 2,
+      "subasks": [
+        "解释对话停止可能成功却不生效的身份条件",
+        "判断工作流日志接口是否返回逐节点记录"
+      ],
+      "hardness_tag": "parallel_evidence",
+      "most_likely_failure": "把停止调用成功等同于业务成功，或用运行日志接口冒充逐节点执行轨迹。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "先核对停止接口的user是否与发起该回复的用户一致。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/end-user-identity",
+                  "heading_path": "终端用户身份 > user 的作用范围",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx#L19-L19",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx",
+                  "raw_line_start": 19,
+                  "raw_line_end": 19,
+                  "original_excerpt": "- **停止生成**：对话类应用的停止接口仅在 `user` 与发起回复的用户一致时生效。不一致时会被静默忽略：调用同样会成功，因此无法从响应中察觉。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/end-user-identity#c1",
+                    "excerpt": "- **停止生成**：对话类应用的停止接口仅在 `user` 与发起回复的用户一致时生效。不一致时会被静默忽略：调用同样会成功，因此无法从响应中察觉。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/end-user-identity#p1",
+                    "heading_path": "终端用户身份 > user 的作用范围",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 272,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "user不一致时停止会被静默忽略，调用仍可返回成功。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/end-user-identity",
+                  "heading_path": "终端用户身份 > user 的作用范围",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx#L19-L19",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx",
+                  "raw_line_start": 19,
+                  "raw_line_end": 19,
+                  "original_excerpt": "- **停止生成**：对话类应用的停止接口仅在 `user` 与发起回复的用户一致时生效。不一致时会被静默忽略：调用同样会成功，因此无法从响应中察觉。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/end-user-identity#c1",
+                    "excerpt": "- **停止生成**：对话类应用的停止接口仅在 `user` 与发起回复的用户一致时生效。不一致时会被静默忽略：调用同样会成功，因此无法从响应中察觉。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/end-user-identity#p1",
+                    "heading_path": "终端用户身份 > user 的作用范围",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 272,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "工作流日志接口提供运行级汇总，不是逐节点执行日志。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "api-reference/guides/workflow",
+                  "heading_path": "Workflow 应用 API > 查看历史运行",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx#L55-L55",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx",
+                  "raw_line_start": 55,
+                  "raw_line_end": 55,
+                  "original_excerpt": "- **[获取工作流日志](/zh/api-reference/workflow-runs/list-workflow-logs)**：返回运行级别的汇总信息（状态、token 用量、步骤数、耗时），而非逐节点的执行日志；可按关键词、状态、时间范围或触发运行的用户筛选。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/workflow#c5",
+                    "excerpt": "- **获取工作流日志**：返回运行级别的汇总信息（状态、token 用量、步骤数、耗时），而非逐节点的执行日志；可按关键词、状态、时间范围或触发运行的用户筛选。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/workflow#p4",
+                    "heading_path": "Workflow 应用 API > 查看历史运行",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 1071,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "两个独立小问，不能伪称链式；user不一致只是明确有据的可能原因，不是所有故障的唯一原因。逐节点的替代API入口供参考，不列为题干未问的必答点。"
+      ]
+    },
+    {
+      "question_id": "dev029",
+      "reference_answer": "前者用变量检查器，编辑中间变量后供下游重测；后者用变量赋值器写入会话变量，在同一聊天会话的多个轮次间保存偏好。不要把调试改值当作持久会话写入。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "self-host/use-dify/debug/variable-inspect",
+        "self-host/use-dify/nodes/variable-assigner"
+      ],
+      "n_docs": 2,
+      "n_subasks": 2,
+      "subasks": [
+        "为调试替换中间值选择能力",
+        "为聊天跨轮保存偏好选择能力"
+      ],
+      "hardness_tag": "comparison_choice",
+      "most_likely_failure": "把变量检查器的调试改值当成持久化会话记忆，或用会话赋值替代临时调试。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "调试替换中间值应使用变量检查器。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/variable-inspect",
+                  "heading_path": "变量检查器",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx#L7-L7",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx",
+                  "raw_line_start": 7,
+                  "raw_line_end": 7,
+                  "original_excerpt": "变量检查器显示所有流经你工作流的数据。它会在每个节点运行后捕获输入和输出，因此你可以查看正在发生的情况并测试不同的场景。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/variable-inspect#c0",
+                    "excerpt": "变量检查器显示所有流经你工作流的数据。它会在每个节点运行后捕获输入和输出，因此你可以查看正在发生的情况并测试不同的场景。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/variable-inspect#p0",
+                    "heading_path": "变量检查器",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/variable-inspect",
+                  "heading_path": "变量检查器 > 编辑变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx#L23-L23",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/variable-inspect.mdx",
+                  "raw_line_start": 23,
+                  "raw_line_end": 23,
+                  "original_excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/variable-inspect#c2",
+                    "excerpt": "你可以通过点击大多数变量值来编辑它们。当你运行下游节点时，它们将使用你编辑的值而不是原始值。这让你可以测试不同场景，而无需重新运行整个工作流。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/variable-inspect#p2",
+                    "heading_path": "变量检查器 > 编辑变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 126,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "聊天中跨轮保存偏好应使用变量赋值器写入会话变量。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/variable-assigner",
+                  "heading_path": "变量赋值器",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx#L8-L8",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx",
+                  "raw_line_start": 8,
+                  "raw_line_end": 8,
+                  "original_excerpt": "变量赋值器节点通过写入会话变量（在[这里](/zh/learn/key-concepts#变量)了解不同类型的变量）来管理 Chatflow 应用中的持久化数据。与每次执行都会重置的常规工作流变量不同，会话变量在整个聊天会话期间持续存在。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/variable-assigner#c0",
+                    "excerpt": "变量赋值器节点通过写入会话变量（在这里了解不同类型的变量）来管理 Chatflow 应用中的持久化数据。与每次执行都会重置的常规工作流变量不同，会话变量在整个聊天会话期间持续存在。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/variable-assigner#p0",
+                    "heading_path": "变量赋值器",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "78570b6389f2848d532769bc649042e4cad745e6e46b02525d94b6cf82a7a504"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/variable-assigner",
+                  "heading_path": "变量赋值器 > 会话变量 vs 工作流变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx#L18-L18",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/variable-assigner.mdx",
+                  "raw_line_start": 18,
+                  "raw_line_end": 18,
+                  "original_excerpt": "**会话变量** 在同一聊天会话中的多个对话轮次之间持续存在，支持有状态交互和上下文记忆。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/variable-assigner#c1",
+                    "excerpt": "**会话变量** 在同一聊天会话中的多个对话轮次之间持续存在，支持有状态交互和上下文记忆。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/variable-assigner#p1",
+                    "heading_path": "变量赋值器 > 会话变量 vs 工作流变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 158,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "78570b6389f2848d532769bc649042e4cad745e6e46b02525d94b6cf82a7a504"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "两篇分别定义调试改值与会话写入，任一篇不能独自完整说明两种能力。只把两种能力的正确选择列为必答点，不加题干没问的‘最后运行记录’或跨会话寿命。变量检查器是调试界面，不能统称两个节点。"
+      ]
+    },
+    {
+      "question_id": "dev030",
+      "reference_answer": "云版支持GitHub、Google和邮箱验证码。相同邮箱的登录方式会自动关联，例如先以某邮箱通过GitHub注册，再以同一邮箱验证码登录，识别为同一账户。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": false,
+      "gold_docs": [
+        "cloud/use-dify/workspace/personal-account-management"
+      ],
+      "n_docs": 1,
+      "n_subasks": 2,
+      "subasks": [
+        "云版支持的登录方式",
+        "同一邮箱切换登录方式是否另建账户"
+      ],
+      "hardness_tag": "edition_conflict",
+      "most_likely_failure": "将自部署版的邮箱密码登录套到云版，或把不同登录方式误当作不同账户。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [
+        {
+          "nugget_index": 0,
+          "text": "云版可通过GitHub、Google或邮箱验证码登录。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "cloud/use-dify/workspace/personal-account-management",
+                  "heading_path": "个人设置 > 账户设置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/personal-account-management.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/personal-account-management.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "首次登录时会自动创建账户。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/personal-account-management#c1",
+                    "excerpt": "首次登录时会自动创建账户。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/personal-account-management#p1",
+                    "heading_path": "个人设置 > 账户设置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 78,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "699efa0372ae940f2a0e1c16a0d140237216c710dc517a2434ee9dbefc2235b2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "text": "邮箱地址相同的不同登录方式自动关联为同一账户，不因切换方式而另建独立账户。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "cloud/use-dify/workspace/personal-account-management",
+                  "heading_path": "个人设置 > 账户设置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/personal-account-management.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/personal-account-management.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "首次登录时会自动创建账户。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/personal-account-management#c1",
+                    "excerpt": "首次登录时会自动创建账户。你可以使用 GitHub、Google 或邮箱验证码登录。邮箱地址相同的账户会自动关联：例如先用 `you@company.com` 通过 GitHub 注册，之后再用同一地址进行邮箱验证登录，系统会识别为同一账户。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/personal-account-management#p1",
+                    "heading_path": "个人设置 > 账户设置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 78,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "source_file_sha256": "699efa0372ae940f2a0e1c16a0d140237216c710dc517a2434ee9dbefc2235b2"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "boundary_evidence": [],
+      "distractor_docs": [],
+      "counterpart_docs": [
+        "self-host/use-dify/workspace/personal-account-management"
+      ],
+      "author_review_status": "pending",
+      "notes": [
+        "题干明确云版；隐藏edition后系统仍有可见版本线索。自部署说明给出邮箱密码，Enterprise另有OAuth/SAML，不把这一例外抹掉。"
+      ],
+      "counterpart_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/workspace/personal-account-management",
+              "heading_path": "个人设置 > 登录方式",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx#L33-L33",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx",
+              "raw_line_start": 33,
+              "raw_line_end": 33,
+              "original_excerpt": "使用邮箱地址和密码登录。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/workspace/personal-account-management#c4",
+                "excerpt": "使用邮箱地址和密码登录。这组凭据是安装时创建管理员账户所设置的，或之后由所有者、管理员为你开通的。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/workspace/personal-account-management#p4",
+                "heading_path": "个人设置 > 登录方式",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 362,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/workspace/personal-account-management",
+              "heading_path": "个人设置 > 登录方式",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx#L36-L36",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/personal-account-management.mdx",
+              "raw_line_start": 36,
+              "raw_line_end": 36,
+              "original_excerpt": "在 Dify Enterprise 中，你可以使用 OAuth 或 SAML 单点登录代替密码登录。如需了解更多，请 [联系销售](https://share-na2.hsforms.com/1O3Rajx4URXm88UzneXYpCw40s9fk)。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/workspace/personal-account-management#c4",
+                "excerpt": "在 Dify Enterprise 中，你可以使用 OAuth 或 SAML 单点登录代替密码登录。如需了解更多，请 联系销售。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/workspace/personal-account-management#p4",
+                "heading_path": "个人设置 > 登录方式",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 421,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_id": "dev031",
+      "reference_answer": "冻结资料说明了Webhook接收请求与触发流程，但未规定内置去重使用的字段，也未给出去重记录的保留期限。因此无法给出这两个具体参数；这不等于证明产品一定没有去重能力。",
+      "expected_behavior": "refused",
+      "requires_corrects_premise": false,
+      "gold_docs": [],
+      "n_docs": 0,
+      "n_subasks": 2,
+      "subasks": [
+        "重复Webhook事件的去重键",
+        "去重记录保留期限"
+      ],
+      "hardness_tag": "absence_check",
+      "most_likely_failure": "凭通用Webhook经验编造event_id、24小时等默认值，把日志或缓存TTL当成事件去重期限。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "2个独立小问，按本批出题规则预期首路由MULTI；不按文档篇数决定。",
+      "nugget_evidence": [],
+      "boundary_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/nodes/trigger/webhook-trigger",
+              "heading_path": "Webhook 触发器",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/trigger/webhook-trigger.mdx#L32-L32",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/trigger/webhook-trigger.mdx",
+              "raw_line_start": 32,
+              "raw_line_end": 32,
+              "original_excerpt": "3. 当订阅的事件发生时，外部系统会将包含事件数据的 HTTP 请求发送到先前提供的 webhook URL。一旦请求被成功接收和处理，你的 Workflow 会被触发，而提取到的事件数据也将成为下游节点可引用的变量。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/nodes/trigger/webhook-trigger#c1",
+                "excerpt": "3. 当订阅的事件发生时，外部系统会将包含事件数据的 HTTP 请求发送到先前提供的 webhook URL。一旦请求被成功接收和处理，你的 Workflow 会被触发，而提取到的事件数据也将成为下游节点可引用的变量。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/nodes/trigger/webhook-trigger#p0",
+                "heading_path": "Webhook 触发器",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 500,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "self-host/use-dify/nodes/trigger/plugin-trigger",
+              "heading_path": "集成触发器 > 创建订阅",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/trigger/plugin-trigger.mdx#L34-L34",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/trigger/plugin-trigger.mdx",
+              "raw_line_start": 34,
+              "raw_line_end": 34,
+              "original_excerpt": "订阅是一个用于监听外部系统事件的 webhook。每个触发器集成在每个工作空间中最多支持 10 个订阅。",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/nodes/trigger/plugin-trigger#c2",
+                "excerpt": "订阅是一个用于监听外部系统事件的 webhook。每个触发器集成在每个工作空间中最多支持 10 个订阅。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/nodes/trigger/plugin-trigger#p2",
+                "heading_path": "集成触发器 > 创建订阅",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 520,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
+            }
+          ]
+        }
+      ],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "预期首路由MULTI表示需要查两个参数，最终行为应承认资料不足；拒答行为与路由标签分开评。不能把‘去重能力未说明’改判为已知错误前提。"
+      ],
+      "checked_docs": [
+        "self-host/use-dify/nodes/trigger/webhook-trigger",
+        "self-host/use-dify/nodes/trigger/plugin-trigger",
+        "self-host/use-dify/nodes/trigger/overview",
+        "self-host/deploy/configuration/environments"
+      ],
+      "no_answer_audit": {
+        "scope": {
+          "documents_scanned": 182,
+          "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+          "raw_and_cleaned": true
+        },
+        "lexical_checks": [
+          {
+            "pattern": "幂等|去重|重复(?:投递|事件)|dedup|idempoten|event_id|delivery_id",
+            "match_count": 0,
+            "hits": [],
+            "cleaned_match_count": 0,
+            "cleaned_hits": []
+          },
+          {
+            "pattern": "重复",
+            "match_count": 29,
+            "hits": [
+              {
+                "document_id": "api-reference/guides/streaming",
+                "line": 73,
+                "text": "Agent 应用在收尾时会额外返回一个重复完整回答的 `message` 事件，将其视为最终回答即可，不要再追加拼接。"
+              },
+              {
+                "document_id": "cloud/use-dify/knowledge/integrate-knowledge-within-application",
+                "line": 128,
+                "text": "3.  如果需要添加多条字段，可以重复点击 **+添加条件** 按钮。"
+              },
+              {
+                "document_id": "cloud/use-dify/knowledge/metadata",
+                "line": 25,
+                "text": "-   **字段值计数（Value Count）**：字段值计数是指在某条元数据字段中标记的字段值数量，包括重复项。例如，此处的\"3\"是字段值计数，指该字段中有 3 个独特的字段值。"
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "line": 51,
+                "text": "若添加的模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到该模型上，而不会创建重复的模型。"
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "line": 109,
+                "text": "可将配额更高或速度更快的密钥重复添加，让更多流量流向它。"
+              },
+              {
+                "document_id": "learn/tutorials/article-reader",
+                "line": 97,
+                "text": "- **作用**：使读者了解研究的科学性和可重复性。"
+              },
+              {
+                "document_id": "learn/tutorials/workflow-101/lesson-08",
+                "line": 88,
+                "text": "不要创建重复的搜索能力。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1587,
+                "text": "| `PLUGIN_MODEL_SCHEMA_CACHE_TTL` | `3600` | 缓存插件模型 Schema 的时间（秒）。减少重复查找。 |"
+              },
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path",
+                "line": 92,
+                "text": "Dify 在 `docker/docker-compose.yaml`、`docker/docker-compose.middleware.yaml` 和 `docker/docker-compose-template.yaml` 三处固定 Weaviate 镜像版本。修改实际部署所用的文件，然后对每一级重复下面的循环。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/agent",
+                "line": 122,
+                "text": "**Agent 设置** 中的 **最大迭代次数** 限制了模型在单次请求中可以重复推理 - 行动循环（思考、调用工具、处理结果）的次数。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/skills",
+                "line": 9,
+                "text": "Skill 是一次构建、重复使用的独立内容包。其中的 `SKILL.md` 包含一项任务的执行说明，并告诉 Agent 何时使用；还可加入该任务所需的参考资料和脚本。完整格式参见 [Agent Skills](https://agentskills.io/home)。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "line": 10,
+                "text": "将一组节点打包成一个 Snippet，作为可复用的单元：逻辑只需搭建一次，即可在多个工作流中复用，还能分享给团队，省去他人重复搭建的麻烦。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/workflow-chatflow",
+                "line": 4,
+                "text": "description: 构建将 AI 模型、工具和逻辑组合为可靠、可重复流程的 Agentic 工作流"
+              },
+              {
+                "document_id": "self-host/use-dify/build/workflow-chatflow",
+                "line": 13,
+                "text": "Agentic 工作流通过将 AI 能力嵌入结构化、可重复的流程来解决这一问题。与其依赖单个模型自行解决所有问题，不如设计一个流程来逐步编排模型、工具和逻辑，包含明确的条件、检查点和回退路径。"
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/integrate-knowledge-within-application",
+                "line": 128,
+                "text": "3.  如果需要添加多条字段，可以重复点击 **+添加条件** 按钮。"
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/metadata",
+                "line": 25,
+                "text": "-   **字段值计数（Value Count）**：字段值计数是指在某条元数据字段中标记的字段值数量，包括重复项。例如，此处的\"3\"是字段值计数，指该字段中有 3 个独特的字段值。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "line": 26,
+                "text": "模型参数控制响应生成。**温度** 范围从 0（确定性）到 1（创造性）。**核采样** 通过概率限制词汇选择。**频率惩罚** 减少重复。**存在惩罚** 鼓励新话题。你也可以使用预设：**精确**、**平衡**或**创意**。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "line": 8,
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "line": 12,
+                "text": "了解何时使用每种重复模式："
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/output",
+                "line": 45,
+                "text": "请确保工作流中所有输出节点的变量名称互不重复。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/output",
+                "line": 92,
+                "text": "输出变量的名称要在所有输出节点之间保持唯一。工具对每个名称只保留一个输出，名称重复时只有一个定义生效。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/template",
+                "line": 42,
+                "text": "使用 for 循环处理数组和对象以生成重复内容："
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/overview",
+                "line": 14,
+                "text": "使用触发器自动执行重复任务或与第三方应用同步数据。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/schedule-trigger",
+                "line": 13,
+                "text": "定时触发器能够让工作流在指定的时间自动运行，适用于执行周期性重复任务，如生成每日报告或发送定时通知。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/webhook-trigger",
+                "line": 43,
+                "text": "一个工作流可以包含多个 Webhook 触发器。如果这些触发器分支共享相同的下游节点，可以添加 [变量聚合器](/zh/self-host/use-dify/nodes/variable-aggregator) 将它们汇聚，避免在每条分支上重复配置相同的节点。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/variable-aggregator",
+                "line": 10,
+                "text": "条件分支和问题分类器等节点会创建互斥分支，每次运行只有一条路径会执行。当这些分支产生相同类型的输出时，通常需要在每条分支上重复配置下游节点。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/variable-aggregator",
+                "line": 12,
+                "text": "变量聚合器消除了这种重复，提供一个统一的输出变量供下游节点引用，无论实际执行的是哪条分支。"
+              },
+              {
+                "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+                "line": 113,
+                "text": "Workflow 应用包含全面的结果管理功能，帮助用户整理和重复使用输出："
+              },
+              {
+                "document_id": "self-host/use-dify/workspace/model-providers",
+                "line": 30,
+                "text": "若添加的自定义模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到现有模型上，而不会创建重复的模型。"
+              }
+            ],
+            "cleaned_match_count": 28,
+            "cleaned_hits": [
+              {
+                "document_id": "api-reference/guides/streaming",
+                "cleaned_line": 63,
+                "text": "Agent 应用在收尾时会额外返回一个重复完整回答的 `message` 事件，将其视为最终回答即可，不要再追加拼接。"
+              },
+              {
+                "document_id": "cloud/use-dify/knowledge/integrate-knowledge-within-application",
+                "cleaned_line": 95,
+                "text": "3.  如果需要添加多条字段，可以重复点击 **+添加条件** 按钮。"
+              },
+              {
+                "document_id": "cloud/use-dify/knowledge/metadata",
+                "cleaned_line": 14,
+                "text": "-   **字段值计数（Value Count）**：字段值计数是指在某条元数据字段中标记的字段值数量，包括重复项。例如，此处的\"3\"是字段值计数，指该字段中有 3 个独特的字段值。"
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "cleaned_line": 43,
+                "text": "若添加的模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到该模型上，而不会创建重复的模型。"
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "cleaned_line": 81,
+                "text": "可将配额更高或速度更快的密钥重复添加，让更多流量流向它。"
+              },
+              {
+                "document_id": "learn/tutorials/article-reader",
+                "cleaned_line": 83,
+                "text": "- **作用**：使读者了解研究的科学性和可重复性。"
+              },
+              {
+                "document_id": "learn/tutorials/workflow-101/lesson-08",
+                "cleaned_line": 68,
+                "text": "不要创建重复的搜索能力。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1481,
+                "text": "| `PLUGIN_MODEL_SCHEMA_CACHE_TTL` | `3600` | 缓存插件模型 Schema 的时间（秒）。减少重复查找。 |"
+              },
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path",
+                "cleaned_line": 82,
+                "text": "Dify 在 `docker/docker-compose.yaml`、`docker/docker-compose.middleware.yaml` 和 `docker/docker-compose-template.yaml` 三处固定 Weaviate 镜像版本。修改实际部署所用的文件，然后对每一级重复下面的循环。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/agent",
+                "cleaned_line": 101,
+                "text": "**Agent 设置** 中的 **最大迭代次数** 限制了模型在单次请求中可以重复推理 - 行动循环（思考、调用工具、处理结果）的次数。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/skills",
+                "cleaned_line": 1,
+                "text": "Skill 是一次构建、重复使用的独立内容包。其中的 `SKILL.md` 包含一项任务的执行说明，并告诉 Agent 何时使用；还可加入该任务所需的参考资料和脚本。完整格式参见 Agent Skills。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "cleaned_line": 3,
+                "text": "将一组节点打包成一个 Snippet，作为可复用的单元：逻辑只需搭建一次，即可在多个工作流中复用，还能分享给团队，省去他人重复搭建的麻烦。"
+              },
+              {
+                "document_id": "self-host/use-dify/build/workflow-chatflow",
+                "cleaned_line": 5,
+                "text": "Agentic 工作流通过将 AI 能力嵌入结构化、可重复的流程来解决这一问题。与其依赖单个模型自行解决所有问题，不如设计一个流程来逐步编排模型、工具和逻辑，包含明确的条件、检查点和回退路径。"
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/integrate-knowledge-within-application",
+                "cleaned_line": 95,
+                "text": "3.  如果需要添加多条字段，可以重复点击 **+添加条件** 按钮。"
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/metadata",
+                "cleaned_line": 14,
+                "text": "-   **字段值计数（Value Count）**：字段值计数是指在某条元数据字段中标记的字段值数量，包括重复项。例如，此处的\"3\"是字段值计数，指该字段中有 3 个独特的字段值。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "cleaned_line": 14,
+                "text": "模型参数控制响应生成。**温度** 范围从 0（确定性）到 1（创造性）。**核采样** 通过概率限制词汇选择。**频率惩罚** 减少重复。**存在惩罚** 鼓励新话题。你也可以使用预设：**精确**、**平衡**或**创意**。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "cleaned_line": 1,
+                "text": "循环节点执行重复性工作流，每个循环都基于前一个循环的结果进行构建。与迭代处理数组元素独立不同，循环创建的是随着每次重复而演进的渐进式工作流。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "cleaned_line": 5,
+                "text": "了解何时使用每种重复模式："
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/output",
+                "cleaned_line": 36,
+                "text": "请确保工作流中所有输出节点的变量名称互不重复。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/output",
+                "cleaned_line": 79,
+                "text": "输出变量的名称要在所有输出节点之间保持唯一。工具对每个名称只保留一个输出，名称重复时只有一个定义生效。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/template",
+                "cleaned_line": 33,
+                "text": "使用 for 循环处理数组和对象以生成重复内容："
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/overview",
+                "cleaned_line": 6,
+                "text": "使用触发器自动执行重复任务或与第三方应用同步数据。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/schedule-trigger",
+                "cleaned_line": 6,
+                "text": "定时触发器能够让工作流在指定的时间自动运行，适用于执行周期性重复任务，如生成每日报告或发送定时通知。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/trigger/webhook-trigger",
+                "cleaned_line": 28,
+                "text": "一个工作流可以包含多个 Webhook 触发器。如果这些触发器分支共享相同的下游节点，可以添加 变量聚合器 将它们汇聚，避免在每条分支上重复配置相同的节点。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/variable-aggregator",
+                "cleaned_line": 3,
+                "text": "条件分支和问题分类器等节点会创建互斥分支，每次运行只有一条路径会执行。当这些分支产生相同类型的输出时，通常需要在每条分支上重复配置下游节点。"
+              },
+              {
+                "document_id": "self-host/use-dify/nodes/variable-aggregator",
+                "cleaned_line": 5,
+                "text": "变量聚合器消除了这种重复，提供一个统一的输出变量供下游节点引用，无论实际执行的是哪条分支。"
+              },
+              {
+                "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+                "cleaned_line": 78,
+                "text": "Workflow 应用包含全面的结果管理功能，帮助用户整理和重复使用输出："
+              },
+              {
+                "document_id": "self-host/use-dify/workspace/model-providers",
+                "cleaned_line": 22,
+                "text": "若添加的自定义模型名称和类型与已有模型完全相同，Dify 会将新密钥附加到现有模型上，而不会创建重复的模型。"
+              }
+            ]
+          },
+          {
+            "pattern": "TTL|保留.*(?:小时|天)",
+            "match_count": 15,
+            "hits": [
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "line": 64,
+                "text": "Sandbox 计划的各类日志均保留 30 天，更早的记录会被永久删除，之后升级也无法找回。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1146,
+                "text": "三种 TLS 模式：隐式 TLS（`SMTP_USE_TLS=true`、`SMTP_OPPORTUNISTIC_TLS=false`，端口 465）、STARTTLS（`SMTP_USE_TLS=true`、`SMTP_OPPORTUNISTIC_TLS=true`，端口 587）或明文（`SMTP_USE_TLS=false`，端口 25）。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1151,
+                "text": "| `SMTP_PORT` | `465` | SMTP 服务器端口。STARTTLS 模式使用 `587`。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1155,
+                "text": "| `SMTP_OPPORTUNISTIC_TLS` | `false` | 使用 STARTTLS（显式 TLS）代替隐式 TLS。必须与 `SMTP_USE_TLS=true` 配合使用。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1204,
+                "text": "| `OPS_TRACE_PARENT_CONTEXT_TTL_SECONDS` | `3900` | 父工作流追踪上下文的保留时长（秒），供后到的嵌套子追踪挂接。<br/><br/>当 `OPS_TRACE_UNIFIED_ENABLED` 为 `true` 时，取值必须不低于重试窗口（次数 × 间隔）。低于此值会导致 Dify 无法加载配置。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1309,
+                "text": "| `WORKFLOW_LOG_RETENTION_DAYS` | `30` | 清理前保留工作流日志的天数。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1428,
+                "text": "| `DIFY_AGENT_RUN_RETENTION_SECONDS` | `7200` | 每次 Agent 运行的记录和事件流在 Redis 中保留的秒数，从最后一次写入算起（默认 2 小时）。调低可更早释放 Redis 内存，但连接中断后可回放事件的时间也会缩短。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1587,
+                "text": "| `PLUGIN_MODEL_SCHEMA_CACHE_TTL` | `3600` | 缓存插件模型 Schema 的时间（秒）。减少重复查找。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1589,
+                "text": "| `PLUGIN_MODEL_PROVIDERS_CACHE_TTL` | `86400` | 在 Redis 中缓存各租户插件模型供应商列表的时长（秒），默认 24 小时。租户安装、卸载或升级插件时，Dify 会使该缓存失效。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1658,
+                "text": "| `ENABLE_CLEAN_UNUSED_DATASETS_TASK` | `false` | 禁用在保留期内没有活动的知识库中的文档。每天凌晨 3:00 运行。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1681,
+                "text": "这些变量控制旧消息与工作流运行记录的定时清理，超过保留天数的记录会分批删除。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1688,
+                "text": "| `SANDBOX_EXPIRED_RECORDS_CLEAN_TASK_LOCK_TTL` | `90000` | Redis 锁 TTL（秒，约 25 小时），防止清理任务并发执行。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "line": 1701,
+                "text": "| `ALIYUN_SLS_LOGSTORE_TTL` | `365` | SLS logstore 的数据保留天数。使用 `3650` 表示永久存储。 |"
+              },
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "line": 66,
+                "text": "- **工作流运行日志**：将 `WORKFLOW_LOG_CLEANUP_ENABLED` 设为 `true`，并将 `WORKFLOW_LOG_RETENTION_DAYS` 设为要保留的天数（默认 30）。完整变量列表详见 [工作流日志清理](/zh/self-host/deploy/configuration/environments#工作流日志清理)。"
+              },
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "line": 67,
+                "text": "- **对话消息**：将 `ENABLE_CLEAN_MESSAGES` 设为 `true`，并将 `SANDBOX_EXPIRED_RECORDS_RETENTION_DAYS` 设为要保留的天数（默认 30）。"
+              }
+            ],
+            "cleaned_match_count": 15,
+            "cleaned_hits": [
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "cleaned_line": 52,
+                "text": "Sandbox 计划的各类日志均保留 30 天，更早的记录会被永久删除，之后升级也无法找回。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1046,
+                "text": "三种 TLS 模式：隐式 TLS（`SMTP_USE_TLS=true`、`SMTP_OPPORTUNISTIC_TLS=false`，端口 465）、STARTTLS（`SMTP_USE_TLS=true`、`SMTP_OPPORTUNISTIC_TLS=true`，端口 587）或明文（`SMTP_USE_TLS=false`，端口 25）。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1051,
+                "text": "| `SMTP_PORT` | `465` | SMTP 服务器端口。STARTTLS 模式使用 `587`。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1055,
+                "text": "| `SMTP_OPPORTUNISTIC_TLS` | `false` | 使用 STARTTLS（显式 TLS）代替隐式 TLS。必须与 `SMTP_USE_TLS=true` 配合使用。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1099,
+                "text": "| `OPS_TRACE_PARENT_CONTEXT_TTL_SECONDS` | `3900` | 父工作流追踪上下文的保留时长（秒），供后到的嵌套子追踪挂接。 当 `OPS_TRACE_UNIFIED_ENABLED` 为 `true` 时，取值必须不低于重试窗口（次数 × 间隔）。低于此值会导致 Dify 无法加载配置。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1204,
+                "text": "| `WORKFLOW_LOG_RETENTION_DAYS` | `30` | 清理前保留工作流日志的天数。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1323,
+                "text": "| `DIFY_AGENT_RUN_RETENTION_SECONDS` | `7200` | 每次 Agent 运行的记录和事件流在 Redis 中保留的秒数，从最后一次写入算起（默认 2 小时）。调低可更早释放 Redis 内存，但连接中断后可回放事件的时间也会缩短。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1481,
+                "text": "| `PLUGIN_MODEL_SCHEMA_CACHE_TTL` | `3600` | 缓存插件模型 Schema 的时间（秒）。减少重复查找。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1483,
+                "text": "| `PLUGIN_MODEL_PROVIDERS_CACHE_TTL` | `86400` | 在 Redis 中缓存各租户插件模型供应商列表的时长（秒），默认 24 小时。租户安装、卸载或升级插件时，Dify 会使该缓存失效。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1552,
+                "text": "| `ENABLE_CLEAN_UNUSED_DATASETS_TASK` | `false` | 禁用在保留期内没有活动的知识库中的文档。每天凌晨 3:00 运行。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1575,
+                "text": "这些变量控制旧消息与工作流运行记录的定时清理，超过保留天数的记录会分批删除。"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1582,
+                "text": "| `SANDBOX_EXPIRED_RECORDS_CLEAN_TASK_LOCK_TTL` | `90000` | Redis 锁 TTL（秒，约 25 小时），防止清理任务并发执行。 |"
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "cleaned_line": 1595,
+                "text": "| `ALIYUN_SLS_LOGSTORE_TTL` | `365` | SLS logstore 的数据保留天数。使用 `3650` 表示永久存储。 |"
+              },
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "cleaned_line": 54,
+                "text": "- **工作流运行日志**：将 `WORKFLOW_LOG_CLEANUP_ENABLED` 设为 `true`，并将 `WORKFLOW_LOG_RETENTION_DAYS` 设为要保留的天数（默认 30）。完整变量列表详见 工作流日志清理。"
+              },
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "cleaned_line": 55,
+                "text": "- **对话消息**：将 `ENABLE_CLEAN_MESSAGES` 设为 `true`，并将 `SANDBOX_EXPIRED_RECORDS_RETENTION_DAYS` 设为要保留的天数（默认 30）。"
+              }
+            ]
+          }
+        ],
+        "manual_scope_review": [
+          "通读Webhook触发器、集成触发器、触发器概述；检查配置文档TRIGGER_URL和Webhook请求体大小部分。",
+          "全库‘重复’命中涉及模型去重、重复输出、重复任务、重复变量名等，不给Webhook去重键或保留期限。",
+          "TTL命中涉及追踪父上下文、插件缓存、清理锁与日志保留，不是Webhook事件去重。"
+        ],
+        "conclusion": "这182篇冻结资料未规定所问的两个产品参数。关键词零命中只是辅助证据，不是不存在功能的证明。"
+      }
+    },
+    {
+      "question_id": "dev032",
+      "reference_answer": "前提不成立。Dify不会认证API的user，它是调用方自定义的终端用户标识；会话、文件等又以它划分范围，不能把填写该字段本身当作身份认证保证，因而不能据此断言不会越权。",
+      "expected_behavior": "answered",
+      "requires_corrects_premise": true,
+      "gold_docs": [
+        "api-reference/guides/end-user-identity"
+      ],
+      "n_docs": 1,
+      "n_subasks": 1,
+      "subasks": [
+        "既然Dify会认证API的user，填别人的账号ID也不会越权吧？"
+      ],
+      "hardness_tag": "false_premise",
+      "most_likely_failure": "顺着错误前提承诺安全，或把user与已认证的API密钥混为一谈。",
+      "guessable_without_docs": false,
+      "guessability_note": "需要冻结资料中的产品专有事件、字段、操作或例外；是作者判断，尚未用无检索基线验证。",
+      "route_rationale": "1个独立小问，按本批出题规则预期首路由SINGLE；不按文档篇数决定。",
+      "nugget_evidence": [],
+      "boundary_evidence": [
+        {
+          "any_of": [
+            {
+              "document_id": "api-reference/guides/end-user-identity",
+              "heading_path": "终端用户身份",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx#L9-L9",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx",
+              "raw_line_start": 9,
+              "raw_line_end": 9,
+              "original_excerpt": "大多数应用接口都接受一个 `user` 字段：由你自己定义的标识符，表示这次调用代表哪位终端用户。Dify 不会对它做任何认证，为每个人选一个稳定的值（如账户 ID），并在每次调用中发送同一个值。",
+              "direct_evidence": {
+                "chunk_id": "api-reference/guides/end-user-identity#c0",
+                "excerpt": "大多数应用接口都接受一个 `user` 字段：由你自己定义的标识符，表示这次调用代表哪位终端用户。Dify 不会对它做任何认证，为每个人选一个稳定的值（如账户 ID），并在每次调用中发送同一个值。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "api-reference/guides/end-user-identity#p0",
+                "heading_path": "终端用户身份",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 0,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "api-reference/guides/end-user-identity",
+              "heading_path": "终端用户身份 > user 的作用范围",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx#L17-L17",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx",
+              "raw_line_start": 17,
+              "raw_line_end": 17,
+              "original_excerpt": "- **会话**：列表、历史、重命名和删除都只作用于该用户自己的会话。",
+              "direct_evidence": {
+                "chunk_id": "api-reference/guides/end-user-identity#c1",
+                "excerpt": "- **会话**：列表、历史、重命名和删除都只作用于该用户自己的会话。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "api-reference/guides/end-user-identity#p1",
+                "heading_path": "终端用户身份 > user 的作用范围",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 194,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+            }
+          ]
+        },
+        {
+          "any_of": [
+            {
+              "document_id": "api-reference/guides/end-user-identity",
+              "heading_path": "终端用户身份 > user 的作用范围",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx#L18-L18",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/end-user-identity.mdx",
+              "raw_line_start": 18,
+              "raw_line_end": 18,
+              "original_excerpt": "- **文件**：上传的文件归上传者所有，换一个 `user` 引用该文件会失败。",
+              "direct_evidence": {
+                "chunk_id": "api-reference/guides/end-user-identity#c1",
+                "excerpt": "- **文件**：上传的文件归上传者所有，换一个 `user` 引用该文件会失败。",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "api-reference/guides/end-user-identity#p1",
+                "heading_path": "终端用户身份 > user 的作用范围",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 230,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": true,
+              "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+            }
+          ]
+        }
+      ],
+      "distractor_docs": [],
+      "counterpart_docs": [],
+      "author_review_status": "pending",
+      "notes": [
+        "只要求纠正认证前提并否定据此作安全保证；不要求凭资料推断某个具体部署必然存在可利用漏洞。"
+      ]
+    }
+  ]
+}

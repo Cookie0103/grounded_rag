@@ -1,0 +1,123 @@
+{
+  "question_count": 12,
+  "ids": [
+    "dev021",
+    "dev022",
+    "dev023",
+    "dev024",
+    "dev025",
+    "dev026",
+    "dev027",
+    "dev028",
+    "dev029",
+    "dev030",
+    "dev031",
+    "dev032"
+  ],
+  "types": {
+    "fact_single": 4,
+    "summary": 2,
+    "reasoning": 3,
+    "version": 1,
+    "unanswerable": 2
+  },
+  "routes": {
+    "SINGLE": 5,
+    "MULTI": 7
+  },
+  "short_at_most_40_chars": 11,
+  "at_least_half_short": true,
+  "lengths": {
+    "dev021": 19,
+    "dev022": 26,
+    "dev023": 20,
+    "dev024": 24,
+    "dev025": 36,
+    "dev026": 66,
+    "dev027": 40,
+    "dev028": 30,
+    "dev029": 26,
+    "dev030": 29,
+    "dev031": 29,
+    "dev032": 33
+  },
+  "deployment_prefix_count": 2,
+  "nuggets": 26,
+  "source_records": 40,
+  "unique_gold_documents": 12,
+  "unique_documents_including_boundary_and_distractors": 18,
+  "primary_doc_usage": {
+    "api-reference/guides/end-user-identity": 2,
+    "api-reference/guides/human-input-flow": 1,
+    "api-reference/guides/streaming": 1,
+    "api-reference/guides/workflow": 1,
+    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
+    "cloud/use-dify/workspace/personal-account-management": 1,
+    "learn/tutorials/workflow-101/lesson-09": 1,
+    "self-host/use-dify/debug/variable-inspect": 2,
+    "self-host/use-dify/knowledge/external-knowledge-api": 1,
+    "self-host/use-dify/nodes/iteration": 1,
+    "self-host/use-dify/nodes/template": 1,
+    "self-host/use-dify/nodes/variable-assigner": 1
+  },
+  "all_doc_usage": {
+    "api-reference/guides/end-user-identity": 2,
+    "api-reference/guides/human-input-flow": 1,
+    "api-reference/guides/streaming": 1,
+    "api-reference/guides/workflow": 1,
+    "cloud/use-dify/knowledge/knowledge-storage-limit": 1,
+    "cloud/use-dify/workspace/personal-account-management": 1,
+    "learn/tutorials/workflow-101/lesson-09": 1,
+    "self-host/deploy/configuration/environments": 1,
+    "self-host/use-dify/debug/variable-inspect": 2,
+    "self-host/use-dify/knowledge/external-knowledge-api": 1,
+    "self-host/use-dify/nodes/iteration": 1,
+    "self-host/use-dify/nodes/loop": 1,
+    "self-host/use-dify/nodes/template": 1,
+    "self-host/use-dify/nodes/trigger/overview": 1,
+    "self-host/use-dify/nodes/trigger/plugin-trigger": 1,
+    "self-host/use-dify/nodes/trigger/webhook-trigger": 1,
+    "self-host/use-dify/nodes/variable-assigner": 1,
+    "self-host/use-dify/workspace/personal-account-management": 1
+  },
+  "top_level_directories": [
+    "api-reference",
+    "cloud",
+    "learn",
+    "self-host"
+  ],
+  "max_document_uses": 2,
+  "existing_question_validator_errors": 0,
+  "existing_question_validator_warnings": 0,
+  "corpus_database_counts": {
+    "documents": 182,
+    "parents": 1252,
+    "children": 2090
+  },
+  "all_quotes_have_verified_raw_lines_child_and_parent": true,
+  "all_sources_within_judge_first_12000": true,
+  "paid_calls": 0,
+  "rag_run": false,
+  "baseline_run": false,
+  "human_review_complete": false,
+  "full70_constraints_complete": false,
+  "deployment_prefix_definition": [
+    "自建",
+    "自部署",
+    "本地部署",
+    "云版",
+    "云端",
+    "Dify云版",
+    "Dify Cloud"
+  ],
+  "self_deployment_prefix_count": 0,
+  "independent_file_audit": {
+    "source_records_rebuilt_and_checked": 40,
+    "all_gold_docs_contribute": true,
+    "scattered_evidence_distinct_sections": true,
+    "chain_bridge_checked": true,
+    "negative_audit_recounted": true,
+    "paid_calls": 0,
+    "note": "同一agent从落盘文件反向核验；不是独立模型或作者审题。"
+  }
+}

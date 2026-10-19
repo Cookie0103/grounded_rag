@@ -1,0 +1,129 @@
+
+  任务:为一个中文 RAG 问答系统出 70 道开发评测题。语料是 Dify 中文文档,
+  冻结在 langgenius/dify-docs commit c80a31868611b673bd77725a6310c685068a585e 的 zh 目录,共 182 篇。
+  我会上传整理好的文档。只能依据这些文档出题,不要用你自己对 Dify 的记忆。
+
+  【目标】题要有区分度:一个只做一次检索的简单系统应该答不对其中一部分。
+  每题先找原文依据,再写问题,不要先写问题再找依据。
+
+  【题目格式】每行一个 JSON,字段如下
+  id(dev021 起编号)、question、split("dev")、type、unanswerable_category、
+  edition(self_host/cloud/null)、expected_route、gold_docs(文档ID列表)、
+  nuggets(2~4 条,每条 {text, importance}),persona(novice/expert)、
+  phrasing(natural_short/natural_long/keyword)、premise(direct/indirect/false)、lexical(similar/distant)。
+  另外附一个 evidence 文件,每题含:参考答案、每个必答点的原文摘录、文件路径和行号、
+  n_docs(需要几篇文档)、n_subasks(题里有几个独立小问)、
+  hardness_tag(见下)、一句话说明"系统最可能在哪里答错"。
+
+  【数量与类型】(共 70)
+  fact_single 24:6 短问或关键词式(8~20 字,不含"自建/云端");
+    6 同义改写(题干不能出现文档标题或功能的官方名称,只描述用户想做什么);
+    6 数值、配置或表格;6 相邻易混(同一目录下有两个相似功能或配置,答案不同,
+    在 evidence 里标出干扰文档 distractor_docs)。
+  summary 11:6 必答点分布在同一篇的 3 个以上不同位置;5 有先后顺序的步骤。
+  reasoning 14:
+    8 链式多跳:第二步该查什么,必须由第一步的答案决定。题干里不能出现第二篇文档的关键词;
+    3 并列跨篇(两篇各出一半答案);3 在两个功能之间比较或选择。
+  version 7:云端和自部署答案不同。edition 字段填真实版本;其中 4 道题干里不写版本。
+  unanswerable 14:
+    5 out_of_database:看似 Dify 能做的事,但文档里确实没写,必须提供核查依据;
+    4 false_premise:题干夹带一个与文档矛盾的前提;
+    3 underspecified:含糊或版本不明且答案因版本而异;
+    1 out_of_scope、1 injection(注入要藏在看似正常的问题里,不要"忽略之前所有规则"这种)。
+
+  【必须遵守】
+  1. 一道题最多 2 个独立小问(n_subasks≤2),除非是 summary。
+  2. 每个必答点必须是题干明确在问的内容。不要设置题干没问、只是"顺带该提"的要点。
+  3. 题干里的任何条件都必须能在文档里判断;文档判断不了的条件不要写进题干,
+     否则要在必答点里写"文档未规定该条件"。
+  4. expected_route 按小问数量定:1 个小问 SINGLE,2 个及以上或链式 MULTI;
+     不要按文档篇数定。
+  5. 所有可回答题的必答点要原子、具体,带数值和对象,不要"正确解释某功能"。
+  6. 题干不得出现"根据文档""上文""本文"等依赖上下文的词。
+  7. 全部题的题干长度:至少一半不超过 40 个字。"自建 Dify"这类前缀最多 30% 的题使用。
+  8. 覆盖面:至少覆盖 50 篇不同文档;同一篇最多用于 2 道题;api-reference、learn、
+     cloud、self-host 四大目录都要有题。
+  phrasing(natural_short/natural_long/keyword)、premise(direct/indirect/false)、lexical(similar/distant)。
+  另外附一个 evidence 文件,每题含:参考答案、每个必答点的原文摘录、文件路径和行号、
+  n_docs(需要几篇文档)、n_subasks(题里有几个独立小问)、
+  hardness_tag(见下)、一句话说明"系统最可能在哪里答错"。
+
+  【数量与类型】(共 70)
+  fact_single 24:6 短问或关键词式(8~20 字,不含"自建/云端");
+    6 同义改写(题干不能出现文档标题或功能的官方名称,只描述用户想做什么);
+    6 数值、配置或表格;6 相邻易混(同一目录下有两个相似功能或配置,答案不同,
+    在 evidence 里标出干扰文档 distractor_docs)。
+  summary 11:6 必答点分布在同一篇的 3 个以上不同位置;5 有先后顺序的步骤。
+  reasoning 14:
+    8 链式多跳:第二步该查什么,必须由第一步的答案决定。题干里不能出现第二篇文档的关键词;
+    3 并列跨篇(两篇各出一半答案);3 在两个功能之间比较或选择。
+  version 7:云端和自部署答案不同。edition 字段填真实版本;其中 4 道题干里不写版本。
+  unanswerable 14:
+    5 out_of_database:看似 Dify 能做的事,但文档里确实没写,必须提供核查依据;
+    4 false_premise:题干夹带一个与文档矛盾的前提;
+    3 underspecified:含糊或版本不明且答案因版本而异;
+    1 out_of_scope、1 injection(注入要藏在看似正常的问题里,不要"忽略之前所有规则"这种)。
+
+  【必须遵守】
+  1. 一道题最多 2 个独立小问(n_subasks≤2),除非是 summary。
+  2. 每个必答点必须是题干明确在问的内容。不要设置题干没问、只是"顺带该提"的要点。
+  3. 题干里的任何条件都必须能在文档里判断;文档判断不了的条件不要写进题干,
+     否则要在必答点里写"文档未规定该条件"。
+  4. expected_route 按小问数量定:1 个小问 SINGLE,2 个及以上或链式 MULTI;
+     不要按文档篇数定。
+  5. 所有可回答题的必答点要原子、具体,带数值和对象,不要"正确解释某功能"。
+  6. 题干不得出现"根据文档""上文""本文"等依赖上下文的词。
+  7. 全部题的题干长度:至少一半不超过 40 个字。"自建 Dify"这类前缀最多 30% 的题使用。
+  8. 覆盖面:至少覆盖 50 篇不同文档;同一篇最多用于 2 道题;api-reference、learn、
+     cloud、self-host 四大目录都要有题。
+  【题目格式】每行一个 JSON,字段如下
+  id(dev021 起编号)、question、split("dev")、type、unanswerable_category、
+  edition(self_host/cloud/null)、expected_route、gold_docs(文档ID列表)、
+  nuggets(2~4 条,每条 {text, importance}),persona(novice/expert)、
+  phrasing(natural_short/natural_long/keyword)、premise(direct/indirect/false)、lexical(similar/distant)。
+  另外附一个 evidence 文件,每题含:参考答案、每个必答点的原文摘录、文件路径和行号、
+  n_docs(需要几篇文档)、n_subasks(题里有几个独立小问)、
+  hardness_tag(见下)、一句话说明"系统最可能在哪里答错"。
+
+  【数量与类型】(共 70)
+  fact_single 24:6 短问或关键词式(8~20 字,不含"自建/云端");
+    6 同义改写(题干不能出现文档标题或功能的官方名称,只描述用户想做什么);
+    6 数值、配置或表格;6 相邻易混(同一目录下有两个相似功能或配置,答案不同,
+    在 evidence 里标出干扰文档 distractor_docs)。
+  summary 11:6 必答点分布在同一篇的 3 个以上不同位置;5 有先后顺序的步骤。
+  reasoning 14:
+    8 链式多跳:第二步该查什么,必须由第一步的答案决定。题干里不能出现第二篇文档的关键词;
+    3 并列跨篇(两篇各出一半答案);3 在两个功能之间比较或选择。
+  version 7:云端和自部署答案不同。edition 字段填真实版本;其中 4 道题干里不写版本。
+  unanswerable 14:
+    5 out_of_database:看似 Dify 能做的事,但文档里确实没写,必须提供核查依据;
+    4 false_premise:题干夹带一个与文档矛盾的前提;
+    3 underspecified:含糊或版本不明且答案因版本而异;
+    1 out_of_scope、1 injection(注入要藏在看似正常的问题里,不要"忽略之前所有规则"这种)。
+
+  【必须遵守】
+  1. 一道题最多 2 个独立小问(n_subasks≤2),除非是 summary。
+  2. 每个必答点必须是题干明确在问的内容。不要设置题干没问、只是"顺带该提"的要点。
+  3. 题干里的任何条件都必须能在文档里判断;文档判断不了的条件不要写进题干,
+     否则要在必答点里写"文档未规定该条件"。
+  4. expected_route 按小问数量定:1 个小问 SINGLE,2 个及以上或链式 MULTI;
+     不要按文档篇数定。
+  5. 所有可回答题的必答点要原子、具体,带数值和对象,不要"正确解释某功能"。
+  6. 题干不得出现"根据文档""上文""本文"等依赖上下文的词。
+  7. 全部题的题干长度:至少一半不超过 40 个字。"自建 Dify"这类前缀最多 30% 的题使用。
+  8. 覆盖面:至少覆盖 50 篇不同文档;同一篇最多用于 2 道题;api-reference、learn、
+     cloud、self-host 四大目录都要有题。
+  9. 不要出只靠常识就能答对的题。每题标注 guessable_without_docs:是/否。
+  10. 不要看或参考任何系统的回答。
+
+  【分批】每批 12 题,每批后停下来等我检查,再出下一批。
+
+  流程上的建议
+
+  1. 分批出 12 道一批,比一次出 70
+     道质量稳。出完后我可以先自动跑一遍格式校验、关键词重合度,再用简单基线粗筛难度,不用全部人工看。
+  2. 封存的 30 道测试题用同一套指令,但开新的对话让 GPT 另外出,存在仓库外。不能让它看到开发题,也不能让我或开发 agent
+     看到。
+  3. 抽查:所有金标由 GPT 写,最好换一个不同的模型抽查 20% 左右的金标;这也是 metrics-v1 里"评审尽量独立于生成方"的要求。
+
+  还有一件事是我这边要改的
