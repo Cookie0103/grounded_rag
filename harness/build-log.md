@@ -5,14 +5,14 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（评测 V1 与首批开发题制作中）
+最后更新：2026-10-19（评测 V1 与首批开发题草案已交付）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
-- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 进行中。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 已制作并完成原文 / chunk 交叉核对，收尾自查中，尚未运行正式效果评测。E/F/C 新自动评分未实现，不把方案当成运行结果。
+- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；[20 道开发题草案](../docs/eval/dev20/README.md) 含参考答案、51 个要点与真实原文 / chunk 证据，格式与交叉核对通过。作者尚未审核金标，正式效果评测尚未运行；E/F/C 新自动评分未实现。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
-- **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
-- **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
+- **没有的**：作者确认的金标与人工评审标注、E/F/C 自动评分、真实正式评测效果数字、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
+- **下一步**：作者审核 dev20 草案 → 补 E/F/C 评审与云端分数 → 先只检索定位、再比较 naive / full 并校准评审 → 补足 70 dev → 冻结系统 → 作者运行封存 30 test。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
 - **当前手动试跑**：已按作者要求保持 `poe serve` 在 http://127.0.0.1:8000 运行，`/health` 与 `/chat` 已真实验证。后续先检查 8000 是否已有服务，避免重复启动。作者可在 `/docs` 用独立 session_id 手动检查完整步骤，再准备首批开发题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -34,7 +34,7 @@
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
 | [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
 | [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 完成 | 本地、真实云端读回和作者指定 5432 均验证通过 |
-| [phase-12 评测与开发题](build/phase-12-evaluation-dataset.md) | 进行中 | 指标与 Notion 已记录；20 题草案及真实证据已核验，收尾自查中 |
+| [phase-12 评测与开发题](build/phase-12-evaluation-dataset.md) | 完成 | 指标与 Notion 已记录；20 题草案及真实证据核验通过，待作者审题，尚无正式效果分数 |
 
 最终检查状态见下方 2026-10-19 活动记录。上次 GPU pytest（2026-10-16）为 3 passed；本轮另行真实离线加载四个 GPU 模型执行推理，未运行正式效果评测。
 
@@ -158,3 +158,10 @@
 - 实际执行 `uv --cache-dir ../.cache/uv run --no-sync poe eval-validate ../docs/eval/dev20/questions.jsonl` → 0 错误、0 提醒。主 agent 逐题审阅并另用临时 root_audit.py 复用现有校验器、清洗和切块：51 要点、69 条含边界的证据条目通过原文行号 / 子块 / 父块 / 标题 / 冻结链接核对；必要摘录均在实际 gold_document_text 截断范围内，缺依据题关键词扫描可复现，本地 Markdown 链接有效。报告在 .cache/dev20-authoring/root-audit.json，不作为效果分数。
 - 修正两类潜在金标偏差：dev015 不把文档所列上传上限扩写成“默认配置”；dev011 的扩展名和 MIME 筛选接受等价方案。dev017 允许正确按版本 / 套餐完整回答；现有 Judge 不读附表，条件答案数值须人工复核。dev020 允许检索后拒答，不能据缺资料断言产品没有 SLA。
 - 初批题目偏自部署、操作场景和长问法；README 明示扩到 70 时补短问、云端、错误前提等覆盖，不能据 20 题推断全部场景。未读取测试题、调用 DeepSeek、运行被测 RAG 或生成正式效果数字。
+
+### 2026-10-19 · phase-12 T4：最终审计与草案交付
+
+- T1～T2 的指标与 Notion 已提交 `914413a`，T3 的题目与证据已提交 `5ba9712`。主 agent 最后复核分工交付，写入 [phase-12 自查](code_review/2026-10-19-phase-12-codex.md)，阶段验收 AC1～AC4 完成；“完成”仅指本阶段要求的文档与待审题目，不包括后续自动评分实现或正式实验。
+- 最终 `poe eval-validate ../docs/eval/dev20/questions.jsonl` 仍为 0 错误 / 0 提醒，root_audit.py 通过。当前阶段完整 `poe check` 已在 T1～T2 记录通过，之后仅有文档和开发题新增；未改业务代码或数据库，不重复运行无关集成检查。最终 `git diff --check` 与文档提交密钥 / 大文件钩子通过。
+- 复核保留清晰边界：20 题全是 dev 草案，参考答案来自固定原文；作者审核、跨模型独立复核和评分校准未完成；没有付费正式作答、效果提升结论或 E/F/C 自动分数。Notion 保存核验截图路径已记录，作者可先看题卡与指标文档，再冻结题集推进评测。
+- 任务只本地提交，未推送、创建 PR 或合并。没有暂存 `.env` / 原始语料 / 缓存，没有修改只读正式题库、评分代码或评审 Prompt。
