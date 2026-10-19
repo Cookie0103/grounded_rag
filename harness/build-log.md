@@ -5,11 +5,11 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（首批12题已修订，第二批12题已交付待审）
+最后更新：2026-10-19（首批12题已修订、第二批12题已交审；既有修改已汇总提交并推送）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **当前任务**：[phase-15](build/phase-15-dev70-repair-batch02.md) 完成两批交审材料。[24题合并审阅稿](../docs/eval/dev70/review-24.md)包含修订dev021～032、新增dev033～044、参考答案、要点及真实来源；[修订记录](../docs/eval/dev70/revision-log.md)逐项对应反馈。两批共9单跳/11多跳/3拒答与纠正/1模糊，其中3链式。未运行RAG/基线或新评分。[全70题台账](../docs/eval/dev70/README.md)记录剩余46题配额。等价来源OR评分仍须适配，不能直接按旧Recall@5报正式分数。
-- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
+- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功。作者要求汇总推送后，既有4项未提交修改已提交为`433ae94`，该分支首次推送到origin成功并建立跟踪；未检查远程CI结果。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
@@ -210,3 +210,9 @@
 - 明确运行前缺口：当前加载器忽略gold_doc_groups，正式Recall@5须先支持等价来源组内OR；dev032 route=null只能评纠正前提行为，不能算路由正确；dev043可拒绝恶意部分后回答正常部分，dev044接受条件答案。未改评分规则、Prompt、业务代码、受保护题集或旧20档案。
 - 完整`uv --cache-dir ../.cache/uv run --no-sync poe check`通过：格式、lint、分层、mypy成功，433 passed、35 deselected、覆盖率94.85%；`git diff --check`通过。数据库未改，不跑集成写库检查。未运行RAG、付费评审或无检索基线，未读取任何系统作答或封存题。
 - 作者原有4个未提交文件保留，不纳入本次提交。当前出题和自查为同一agent，独立Claude/作者审题未完成；尤其复核桥接必要性、vital原子性及语义查重。无出题阻塞，按本次两批交审范围停止。
+### 2026-10-19 · 作者要求汇总当前分支全部修改并推送
+
+- 核对当前分支为2026-10-19-cloud-tracing；工作区仅4个既有修改：eval_round.py隐藏edition开关，以及dev20 README、metrics-v1、runbook的20回归+70开发+30测试口径。无其他未跟踪文件；未纳入.env、原始语料或缓存。
+- 提交前完整`uv --cache-dir ../.cache/uv run --no-sync poe check`通过：格式、lint、分层、mypy通过，433 passed、35 deselected、覆盖率94.85%；git diff --check通过，提交密钥/大文件钩子通过。
+- 已提交为433ae94（feat(eval): 提交隐藏版本选项并统一评测题量口径）。先fetch并确认远端无同名分支，再执行`git push -u origin 2026-10-19-cloud-tracing`，返回new branch成功，建立origin同名跟踪；此前24题及观测等本地提交随整条分支同步推送。没有合并main、强推或创建PR。
+- 本条为推送后的交接记录，随日志提交同步到同名分支；远端最终HEAD与本地HEAD核对见Git引用。未运行RAG、付费评测或检查远程CI。
