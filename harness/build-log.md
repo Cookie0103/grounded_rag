@@ -12,6 +12,7 @@
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
 - **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
+- **当前手动试跑**：已按作者要求保持 `poe serve` 在 http://127.0.0.1:8000 运行，`/health` 与 `/chat` 已真实验证。后续先检查 8000 是否已有服务，避免重复启动。作者可在 `/docs` 用独立 session_id 手动检查完整步骤，再准备首批开发题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
 ## 阶段状态
@@ -130,3 +131,11 @@
 - 作者要求关闭原生 PostgreSQL 17 自动启动并释放 5433。沿用上一轮管理员脚本流程，经 UAC 执行 Stop-Service 和 StartupType Manual；查询确认 Windows 17、18 两项均为 Stopped / Manual，5433 无监听。Docker RAG 仍为 5432，Travel Agent 仍为 5434，未改容器版本或数据。
 - 安全核对 `.env`：DB_PORT 已由作者删除，DATABASE_URL 端口为 5432；`docker compose port db 5432` 实际输出 0.0.0.0:5432。保留作者删除决定，Compose 的 `${DB_PORT:-5432}` 默认已满足当前要求，无需重新加 DB_PORT。
 - 解释并记录：DATABASE_URL 给 Python 选择数据库地址，DB_PORT 给 Compose 设置宿主机映射，两者消费者不同。RAG 的 16.15 来自仓库既定 pgvector:pg16 镜像，不是只能用 16；官方有 pg17 镜像，升级大版本需要迁移已有数据并验证，不因作者询问原因而擅自升级。本续仅系统服务操作和文档更新，未改业务代码、检查配置或题集；git diff --check 通过。
+
+### 2026-10-19 · 续：保持服务运行供作者手动检查
+
+- 作者决定保持 PostgreSQL 16，并要求先把现有系统启动试跑。启动前确认数据库容器 healthy、映射 5432，8000 无监听；在 backend 执行 `uv --cache-dir ../.cache/uv run --no-sync poe serve`，预热成功并保持运行，未在验证后停止。启动日志进程为 reloader=33852、server=43568，供本次会话追溯，不作为以后固定 PID。
+- PowerShell 请求 GET /health → HTTP 200、status=ok、database=ok；POST /chat，问题“知识库单次最多上传几个文件？”，edition=self_host → HTTP 200、SINGLE、回答最多 5 个并引用，degraded=false、abstained=false。结果在 `.cache/manual-api-smoke-2026-10-19.json`。
+- 本次实际出现 10 个步骤：guard / route / rewrite / retrieve / grade / generate / verify / generate / verify / postprocess。校验器认为初稿中的“默认”缺少明确依据而触发一次重生成，第二次校验通过；这只是观察到的行为，尚未由正式题集和人工评审判断其收益。
+- 应用 trace_id=`f8bd0d8c3c5d47108c8c58e2a70bb37f`；Langfuse 云端读回 11 个观测（根 + 10 步），其中 generate=2。云端 trace_id=`1debd6a47334a82539d61059567c91f7`，原始响应在 `.cache/manual-api-cloud-2026-10-19.json`。本地接口文档通过 open_in_codex 请求打开，服务日志确认 /docs、/openapi.json 均 200。
+- 建议作者先在 Swagger 用 session_id=demo-001 手动检查回答/引用/步骤/云端；有 session_id 不走整答缓存，避免重复原题时只看到 answer_cache。独立对话换新 ID，之后再准备正式开发题。本次未改业务代码或题库，不重复运行单元测试。
