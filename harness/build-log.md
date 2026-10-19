@@ -9,7 +9,7 @@
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
-- **本机配置**：DeepSeek 与四个 GPU 模型已验证。作者明确要求 RAG 使用 **5432**：已停止占用端口的 Windows `postgresql-x64-18` 并改为 Manual；根目录 `.env` 的 DATABASE_URL / DB_PORT 和 RAG 容器均为 5432，语料及双向量完整。Travel Agent PostgreSQL 17 容器仍用 5434；原生 PostgreSQL 17 仍用 5433。Langfuse 凭据已配置且认证和记录读回成功；不要输出密钥。
+- **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
 - **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
@@ -124,3 +124,9 @@
 - Langfuse auth_check=True。SDK v5 使用 observations.get_many，按云端 trace_id=`6087e6c7a7a48073197a66fe958a430f` 实读到 9 条记录：根 grounded-rag 与 guard/route/rewrite/retrieve/grade/generate/verify/postprocess。云端原始响应在 `.cache/langfuse-5432-smoke-2026-10-19.json`。此前另一真实请求也核对了云端候选 50/20/5、实际 context 和 output 与本地完全一致；AC4 据真实服务端读回完成。
 - 本续任务没有修改业务代码、依赖、表或评测。更新阶段状态、端口决定和参数解释；手册说明 edition、session_id、python -m、PowerShell 末尾反斜杠和 /docs 与 /health 的区别。当前 HTTP 8000 没有监听，作者需要常驻接口时运行 poe serve；CLI 已实际验证。
 - 端口切换后的提交前复核：`uv --cache-dir ../.cache/uv run --no-sync poe check` → 格式、lint、分层、mypy 通过，433 passed、覆盖率 94.85%；`poe test-int` → 32 passed（5432 上的独立测试库）。文档差异 `git diff --check` 通过，未暂存 `.env` 或缓存。
+
+### 2026-10-19 · 续：关闭原生 PostgreSQL 17 自启并解释配置
+
+- 作者要求关闭原生 PostgreSQL 17 自动启动并释放 5433。沿用上一轮管理员脚本流程，经 UAC 执行 Stop-Service 和 StartupType Manual；查询确认 Windows 17、18 两项均为 Stopped / Manual，5433 无监听。Docker RAG 仍为 5432，Travel Agent 仍为 5434，未改容器版本或数据。
+- 安全核对 `.env`：DB_PORT 已由作者删除，DATABASE_URL 端口为 5432；`docker compose port db 5432` 实际输出 0.0.0.0:5432。保留作者删除决定，Compose 的 `${DB_PORT:-5432}` 默认已满足当前要求，无需重新加 DB_PORT。
+- 解释并记录：DATABASE_URL 给 Python 选择数据库地址，DB_PORT 给 Compose 设置宿主机映射，两者消费者不同。RAG 的 16.15 来自仓库既定 pgvector:pg16 镜像，不是只能用 16；官方有 pg17 镜像，升级大版本需要迁移已有数据并验证，不因作者询问原因而擅自升级。本续仅系统服务操作和文档更新，未改业务代码、检查配置或题集；git diff --check 通过。

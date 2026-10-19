@@ -167,6 +167,10 @@ $result.steps | ConvertTo-Json -Depth 30
 
 本机数据库端口已按作者要求固定为 **5432**。此前密码认证失败是连到了占用 5432 的 Windows PostgreSQL 18；该服务现已停止并改为手动启动，RAG 容器接管 5432。Travel Agent 的 Docker PostgreSQL 17 仍用 5434，不受影响。`.env` 改动后需重启正在运行的 `poe serve`；仅打开 `/docs` 成功不代表数据库可用，应检查 `/health`。PowerShell 的 `docker compose up -d db` 末尾不要加反斜杠，否则服务名会被当成 `db\`。
 
+Windows 本机 PostgreSQL 17 也已按作者要求停止并改为手动启动，5433 已释放。两个项目继续各用自己的 Docker 数据库。
+
+端口配置分别由不同程序读取：`DATABASE_URL` 给 Python / SQLAlchemy，表示“连接哪个地址”；可选 `DB_PORT` 只给 Docker Compose，表示“把容器端口映射到本机哪个端口”。当前 compose 写的是 `${DB_PORT:-5432}:5432`，即未填 DB_PORT 时默认用 5432。因此作者已删除 `.env` 的 `DB_PORT=5432`，保留 DATABASE_URL 中的 5432 即可；以后不要为了当前配置重新添加它。只有换用其他端口时才需要两处同步。
+
 语料是 **Dify** 文档。冻结来源为 [langgenius/dify-docs 的中文目录](https://github.com/langgenius/dify-docs/tree/c80a31868611b673bd77725a6310c685068a585e/zh)，不是金融 DeFi 文档。下载器通过 GitHub 文件树选择 corpus.py 列出的目录，再下载 raw.githubusercontent.com 的 MDX 原文、校验 Git blob 哈希；没有抓取页面渲染后的 HTML。
 
 - 原文：`data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/`，按原仓库目录保存。
