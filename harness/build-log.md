@@ -5,10 +5,11 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（云端接入与真实运行核验）
+最后更新：2026-10-19（评测 V1 与首批开发题制作中）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功；未推送或运行远程 CI。
+- **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 进行中。作者确认的五项能力指标已写入 [metrics-v1](../docs/eval/metrics-v1.md)，指定 Notion 已同步 V1 并刷新核验；20 道开发题和真实 chunk 证据正在制作，尚未运行正式效果评测。E/F/C 新自动评分未实现，不把方案当成运行结果。
 - **本机配置**：DeepSeek 与四个 GPU 模型已验证。RAG 固定 **5432**；Windows `postgresql-x64-17`、`postgresql-x64-18` 均已按作者授权停止并改为 Manual，5433 已释放。作者删除 `.env` 的 DB_PORT，保留 DATABASE_URL 中的 5432；Compose 默认同为 5432，不要重新添加冗余项。RAG 为 PostgreSQL 16.15 + pgvector，Travel Agent PostgreSQL 17.11 容器仍用 5434。语料及双向量完整，Langfuse 已验证云端读回；不要输出密钥。
 - **没有的**：真实正式评测效果数字、作者题集及人工评审标注、最终静态站点。单题问答只是运行冒烟，不代表评测分数。清单见 [PLANS.md §8](../PLANS.md)，操作见 [runbook](../docs/eval/runbook.md)。
 - **下一步**：准备首批 20 道开发题 → 补足 70 题 → 校准评审 → 冻结系统 → 作者只运行封存 30 题。最终静态报告选 GitHub Pages；测试结束前不公开封存题。
@@ -33,6 +34,7 @@
 | [phase-09 收尾](build/phase-09-wrapup.md) | 完成（真实数字待作者） | README、运行手册、最终报告模板、已知缺口 |
 | [phase-10 实验记录](build/phase-10-evidence-tracing.md) | 完成 | 逐轮检索、缺失项和实际生成上下文进入 trace 与评测 JSONL |
 | [phase-11 云端观测](build/phase-11-cloud-tracing.md) | 完成 | 本地、真实云端读回和作者指定 5432 均验证通过 |
+| [phase-12 评测与开发题](build/phase-12-evaluation-dataset.md) | 进行中 | 指标与 Notion 已记录；首批开发题及证据制作、审题和校验进行中 |
 
 最终检查状态见下方 2026-10-19 活动记录。上次 GPU pytest（2026-10-16）为 3 passed；本轮另行真实离线加载四个 GPU 模型执行推理，未运行正式效果评测。
 
@@ -139,3 +141,12 @@
 - 本次实际出现 10 个步骤：guard / route / rewrite / retrieve / grade / generate / verify / generate / verify / postprocess。校验器认为初稿中的“默认”缺少明确依据而触发一次重生成，第二次校验通过；这只是观察到的行为，尚未由正式题集和人工评审判断其收益。
 - 应用 trace_id=`f8bd0d8c3c5d47108c8c58e2a70bb37f`；Langfuse 云端读回 11 个观测（根 + 10 步），其中 generate=2。云端 trace_id=`1debd6a47334a82539d61059567c91f7`，原始响应在 `.cache/manual-api-cloud-2026-10-19.json`。本地接口文档通过 open_in_codex 请求打开，服务日志确认 /docs、/openapi.json 均 200。
 - 建议作者先在 Swagger 用 session_id=demo-001 手动检查回答/引用/步骤/云端；有 session_id 不走整答缓存，避免重复原题时只看到 answer_cache。独立对话换新 ID，之后再准备正式开发题。本次未改业务代码或题库，不重复运行单元测试。
+
+### 2026-10-19 · phase-12 T1～T2：固定评测方案与 Notion
+
+- 作者确认五项能力指标，要求在仓库记录并由两个 Sub Agent 分别负责 Notion、出首批开发题。新增 [metrics-v1](../docs/eval/metrics-v1.md) 与 [phase-12 context](context/phase-12-evaluation-dataset-context.md)，runbook 链接统一口径；原有评分代码、评审 Prompt、正式只读题库未改。
+- 分工实际设置：Notion 为 GPT-6.1 Sol high，出题为 GPT-6.1 Sol xhigh，主 agent 复核。开发题由 agent 制作是作者本轮明确授权，不放开封存测试题。题目制作仍进行中。
+- Notion「测评」页 `3fed513271c1806dad8ee0a14f952899` 顶部增加当前 V1 提示，底部追加五项分子/分母、原总分、N/A/异常、宏平均、20/70/30 用法与已有/待实现；刷新后读回核验，保留旧草案作背景。截图在本机 visualizations 的 `notion-eval-v1-2026-10-19.png`，未发布额外站点。
+- 首次 `uv --cache-dir ../.cache/uv run --no-sync poe check`：格式、lint、分层、mypy 通过；432 passed / 1 failed，唯一失败是本轮前已有 `.env.example` 的 RATE_LIMIT_PER_MINUTE 键名夹入中文。作者收到说明后自行修复，未由 agent 覆盖配置。
+- 重新运行同一完整检查：格式、lint、分层、mypy 全通过，433 passed / 35 deselected，覆盖率 94.85%。首次沙箱内 uv 无法启动其外部 Python，实际验证在批准的沙箱外运行，无安装或升级。
+- `.env` 没有 RATE_LIMIT_PER_MINUTE 时 Settings 默认每 IP 每分钟 30 次；示例文件字段检查与实际默认读取是两回事。本轮未改业务代码/数据库，未运行付费评测、未读封存测试题。
