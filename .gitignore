@@ -25,3 +25,12 @@ build/
 .idea/
 .DS_Store
 Thumbs.db
+
+# 逐轮原始过程和离线页面本地保留；完整内容另以对应 ZIP 随轮次提交
+docs/eval/results/runs/*/answers.jsonl
+docs/eval/results/runs/*/traces.jsonl
+docs/eval/results/runs/*/report.html
+# 冻结原始标准保留原换行与哈希，随 archive.zip 保存，避免Git换行转换
+docs/eval/results/runs/*/questions.jsonl
+docs/eval/results/runs/*/evidence.json
+docs/eval/results/runs/*/metrics-v1.md

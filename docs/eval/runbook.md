@@ -183,3 +183,25 @@ Windows 本机 PostgreSQL 17 也已按作者要求停止并改为手动启动，
 - 处理后：数据库 `documents` / `parent_chunks` / `chunks` / `chunk_embeddings`；持久卷由 `docker compose` 管理，连接串是数据库地址，不是网页。模型权重在 `.cache/models/`。
 - 切分：清理 MDX 组件噪声，按 H2/H3 组织父块，父块最多 4000 字符；子块目标 300、通常上限 500 字符，代码块允许到 1500；表格按行拆且保留表头。检索子块，送给生成的是合并父块并截断后的上下文。
 - 两套模型：Embedding 配置 `qwen3` / `bge-m3`；Reranker 配置 `qwen3` / `bge`。它们是检索模型，不是“正确答案模型”。DeepSeek 才是路由、改写、证据判断和回答生成的大脑；正确答案由作者根据原文确认。
+
+## 10. 首轮20题诊断与后续逐轮保存
+
+已完成轮次：[2026-10-19 首轮报告](results/runs/2026-10-19_1855_dev20_full-service/README.md)。本机可直接打开同目录 `report.html`，逐题看预期/实际路由、参考/实际答案、逐点评分和可展开的完整过程。20题及评分均已在Langfuse服务端读回核验，链接在每道题内；本轮是当前agent辅助初评，金标和评审未经过作者校准。
+
+| 材料 | 文件 |
+|---|---|
+| 题目、参考答案、要点与证据、评分口径 | questions.jsonl、evidence.json、metrics-v1.md |
+| 仅最终答案 / 评测器完整作答 | answers-only.jsonl / answers.jsonl |
+| 每步查询、召回/精排/最终chunk、缺失信息、实际上下文、生成与校验 | traces.jsonl |
+| 逐点和逐声明评分依据 / 汇总 | reviews.jsonl、results.jsonl / summary.json |
+| 本轮报告 / 版本、配置、权重快照与哈希 / 云端回执 | report.html、README.md / manifest.json / cloud-verification.json |
+
+原始大文件本地保留，同时以 `answers.zip`、`traces.zip`、`report.zip` 和材料包 `archive.zip` 无损提交；换电脑解压四包到原轮次目录即可离线查看，`checksums.sha256` 可核对内容。每轮使用新的run-id，不覆盖旧轮。**暂不创建跨轮次index**，等70开发/30封存测试完成后再汇总。
+
+需要重新实际运行开发题时，在backend执行（会产生DeepSeek费用）：
+
+```powershell
+uv run python -m scripts.eval_round --run-id 新的唯一轮次名 --questions ../docs/eval/dev20/questions.jsonl
+```
+
+该入口只接受dev题，调用实际ChatService、单并发、无会话、独立空整答缓存，保存原始答案和过程；**不会自动完成逐声明评审和报告**。本轮标签由当前会话核验，旧可信总分复用已有函数。原 `poe eval-dev --system full` 直接调用pipeline，范围不同；跨轮比较必须保持相同系统范围、题集/标准/评审版本，并隔离缓存。
