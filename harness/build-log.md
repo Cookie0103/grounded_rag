@@ -5,16 +5,17 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-20（phase-17任务完成：70题复审修复与仓库外30题草案交付）
+最后更新：2026-10-20（phase-18完成：Windows本机RAG与Langfuse真实收发核验）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
-- **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功。作者要求汇总推送后，既有4项未提交修改已提交为`433ae94`，该分支首次推送到origin成功并建立跟踪；未检查远程CI结果。
+- **当前任务**：[phase-18](build/phase-18-windows-readiness.md) 完成：本机真实REST问答、数据库trace、Langfuse日本区认证/上传/云端读回均成功；服务保持运行，等待作者指定正式评测。
+- **题集交接**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
+- **本轮**：沿用当天分支`2026-10-20-dataset-repair`，保留开工前评测、题集与审核材料的未提交修改；本任务只交付运行核验文档。实际配置、命令和输出摘要见[核验报告](context/phase-18-readiness-report.json)。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
-- **本机配置**：当前Mac已恢复锁定Python依赖与原定Qwen3嵌入/精排，MPS真实冒烟通过。本项目PostgreSQL/pgvector在5432，182篇/1252父块/2090子块及2090条Qwen3向量已恢复并与源全量比对；未补本轮不需要的BGE向量。`.env`保留作者设置，任务命令临时使用MPS和batch=4。旧Windows/RTX5070Ti及Langfuse结果为另一台电脑的历史证据。
+- **本机配置**：当前主机为Windows/RTX 5070 Ti，原有Docker数据库已恢复在5432，Qwen3嵌入与精排使用CUDA，DeepSeek真实调用成功；两套向量数量与语料数量见核验报告。根`.env`、模型、batch和预算未修改；此前Mac/MPS结果属于另一台主机。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：作者/Claude审定修订70与仓库外新编30后冻结。正式评分前仍需适配逐点OR；本轮没有复跑检索、实库、完整系统或付费评测，旧召回记录只适用于修订前版本。
-- **当前手动试跑**：下方Windows的8000/serve记录是另一台电脑的历史证据；本轮Mac只恢复数据库与MPS检索，没有启动或声称保持HTTP服务。
+- **下一步**：等待作者指定正式评测范围；本轮未读封存测试或运行正式题集。题集冻结、OR评分适配和人工校准按原交接继续；现有未提交评测改动通过质量检查，不等同于完成语义审核或正式评分。
+- **当前手动试跑**：`http://127.0.0.1:8000`保持运行，`/health`数据库正常；服务无reload、离线加载本地模型。真实单题及暖检索探针均通过；单题耗时不能代表正式性能。进程与日志位置见核验报告。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
 ## 阶段状态
@@ -41,6 +42,7 @@
 | [phase-15 首批修订与第二批](build/phase-15-dev70-repair-batch02.md) | 本批完成、待审 | 修订12+新增12；静态条件通过，语义独立审核与OR评分适配待做 |
 | [phase-16 修订与补齐新70](build/phase-16-dev70-completion.md) | 本轮完成、待外部审定 | 指定12修复+新增46；70原样检索完成，独立初审问题已闭环，正式效果未跑 |
 | [phase-17 复审修复与测试草案](build/phase-17-dataset-repair-test30.md) | 完成、待作者冻结 | 修复开发题、OR与语义问题，仓库外30题审阅包完成；未跑系统效果 |
+| [phase-18 Windows连接核验](build/phase-18-windows-readiness.md) | 完成 | 本机REST、数据库、真实模型与Langfuse读回通过，服务保持运行 |
 
 最终检查状态见下方2026-10-19活动记录。上次GPU pytest（2026-10-16）为3 passed；本轮真实试评调用Qwen3嵌入/精排与DeepSeek，未执行封存测试或已校准的正式效果评测。
 
@@ -281,3 +283,13 @@
 - 实际运行仓库外author_test30.py：126条来源叶子行号/hash/子块/父块验证通过；4道分散题最少均3父块；Question格式无错误；同范围同事实的独立去重未发现明确重复，机械完全同文查重也无重复。完整数据见仓库外validation.json；未用被测系统答案做金标。
 - T1已提交a029657。第一次提交钩子规范化工具并发现旧未使用变量，修复后工具测试、开发题静态核验重跑通过；再次ruff/格式/私钥/大文件钩子全部通过。当前修改仅数据、证据、出题工具和交接，无业务代码/数据库变化。
 - 所有历史检索与运行档案保留。本轮没有检索、系统、无检索或付费评测；正式OR评分加载器、作者最终审定和后续实验仍是后续步骤，不冒充本轮已完成。当前任务的制作与修复工作已完成。
+
+### 2026-10-20 · phase-18：Windows评测前运行恢复与连接核验
+
+- 作者要求保证当前本机连接可用，为后续RAG评测做准备。先读当前状态和运行规范，保留既有未提交修改；未读封存题、未改题集/评分/Prompt、未安装依赖或调整预算。
+- 初查Docker引擎未启动，本机REST不可达。Docker启动先后被遗留的dockerInference与engine.sock阻塞；经绝对路径校验，将临时运行目录可恢复备份，结束本轮失败实例后同时备份两处再启动成功。仅启动原有grounded_rag-db-1，未重置Docker或数据库卷。决定和恢复边界见[context](context/phase-18-windows-readiness-context.md)。
+- AC1：`backend/.venv/Scripts/python.exe .cache/readiness-2026-10-20/environment.py`及`database.py`成功；读取了CUDA、依赖、配置、数据库版本、迁移和语料/向量数量。Langfuse认证成功，密钥只经Settings使用。
+- AC2/AC3：后台启动既有uvicorn工厂，绑定本机8000并保留服务；`smoke.py`经HTTP发起真实知识库问答，健康检查、问答和本地trace读取均为200。完整检索与生成未降级、非缓存、非拒答；首次生成被忠实度校验拦下，重生成后通过。云端读回根输出与本地回答一致，并包含全部步骤；链接、耗时、费用及观测数见[实测报告](context/phase-18-readiness-report.json)。
+- 额外只检索探针通过，所有返回候选有精排分数。暖检索和首题含模型加载/重生成的耗时分开记录，未据此宣称正式性能。独立Langfuse连接记录明确标注不运行RAG。
+- AC4：在backend执行`.venv/Scripts/python.exe -m poethepoet check`全部通过；`.venv/Scripts/python.exe -m poethepoet test-int`在独立测试库通过。实际通过数量与覆盖率见实测报告；本轮只更新本任务阶段文件、context、报告和本日志。
+- 原始输出和服务日志：`.cache/readiness-2026-10-20/`；凭据、缓存、原始模型输出未提交。最终再次请求`/health`返回status=ok、database=ok。无外部输入阻塞；下一步由作者指定正式评测。
