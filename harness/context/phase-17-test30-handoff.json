@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-20",
+  "status": "30题仓库外待审稿已交付",
+  "directory": "C:/Users/user/.codex/visualizations/2026/10/19/01a1568a-21dc-7481-8249-41632f5557fd/test30-review-2026-10-20",
+  "review_file": "C:/Users/user/.codex/visualizations/2026/10/19/01a1568a-21dc-7481-8249-41632f5557fd/test30-review-2026-10-20/review-30.md",
+  "archive": "C:/Users/user/.codex/visualizations/2026/10/19/01a1568a-21dc-7481-8249-41632f5557fd/test30-review-2026-10-20.zip",
+  "archive_sha256": "9b7b2f02b09b87743929bcc77500b9ea2b70c5622f36244c7665edbe7e1e6741",
+  "question_count": 30,
+  "behavior_counts": {
+    "single": 12,
+    "multi": 12,
+    "refusal": 4,
+    "ambiguity": 2
+  },
+  "source_leaves_checked": 126,
+  "static_errors": 0,
+  "static_warnings": 0,
+  "future_access": "仅本次明确授权新编；后续开发不得读取此稿或据此调参。作者独立审定后在仓库外冻结。",
+  "developer_authored": true,
+  "blind_to_developer": false,
+  "paid_calls": 0,
+  "system_run": false,
+  "files_sha256": {
+    "author_test30.py": "650422c23afa3dd452807d184e5fa9499f0fe95eb17426fd6fe17ab7bf582ab9",
+    "evidence.json": "a1b43b166b6e18ffe1450f13027297e86fe82fef523d1c6d6dde23bdf5d0e913",
+    "questions.jsonl": "dcc6bf072f2a6f0f5328d309c4ba1e7efc986c917e7d25e9c4c603df52a8c79b",
+    "README.md": "777b81b707709c4f2f2352a066bb0f807d2782b7af204e51a0499c70cf4a7ac1",
+    "review-30.md": "1f6690c5a587c249cbc6fe3780b4260056178b9d89b1079d353659d63c5e2fc3",
+    "review-closure.json": "275040092da2b714840f0f642c59e9b2e4ceb2f996a8efc30d581ef1dec5a84a",
+    "twin-comparisons.json": "ef1af24eba744b7a1199ef509373c9a796cc5bab65a36c5fe9fec82b9d0a49d7",
+    "validation.json": "c115e504eba7324d50fd063376c9437afe9c472f2140f3d33746d9ec1dc1057a"
+  }
+}

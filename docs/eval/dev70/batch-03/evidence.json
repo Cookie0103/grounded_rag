@@ -2756,7 +2756,7 @@
         "沿该方式取密钥及加载新配置"
       ],
       "hardness_tag": "chain",
-      "most_likely_failure": "误用公开OAuth，混淆Notion所有者与Dify管理员。",
+      "most_likely_failure": "把公开模式的Keys误当成内部集成的Secrets/Show取钥入口，或配置模式后漏掉重启加载。",
       "guessable_without_docs": null,
       "form_tags": [
         "scenario_or_symptom",

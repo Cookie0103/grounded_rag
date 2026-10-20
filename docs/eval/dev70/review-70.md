@@ -686,7 +686,7 @@ Dify邮件助理第5课接回两条回复的是什么，支持哪些数据类型
 
 参考答案：这里对应Notion。本地HTTP用内部集成（NOTION_INTEGRATION_TYPE=internal）；在Capabilities按需配置后，到Secrets选项卡点击Show复制密钥，改好环境变量后重启Dify加载。公开方式的Keys不适用于这里选择的分支。
 
-失败风险：误用公开OAuth，混淆Notion所有者与Dify管理员。
+失败风险：把公开模式的Keys误当成内部集成的Secrets/Show取钥入口，或配置模式后漏掉重启加载。
 
 预期行为/路由：answered / MULTI；小问数：2。
 
