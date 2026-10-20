@@ -5,16 +5,16 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-20（phase-20运行保护/审计已修；交另一台电脑Claude复审，本机不续评）
+最后更新：2026-10-20（phase-20三套完成、Windows严格审计通过；独立预标80%，正式人工校准待确认）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-20](build/phase-20-judge-v2.md) 运行保护/审计已修并通过完整质量检查；v2模板及Judge/evaluate不改，36条标签经只读迁移预检可复用，18条历史错误保留。作者原任务二/1/d明确批准support说明，未作废标签。reg20/test30仍未重评；本机不调用真实评审，修复交接见[新说明](context/phase-20-review-repair.md)。
+- **当前任务**：[phase-20](build/phase-20-judge-v2.md) Claude代码复审通过，Mac真实重评70/20/30全部完成、当前错误0；本机已取得新增包并重算六行指标/召回，与报告一致，Windows原版严格全量审计通过，旧36条与历史18错保留。全部翻转及逐点变化已核查；独立预标16/20＝80%未达门槛，正式人工校准待确认。见[收尾核验](code_review/2026-10-20-judge-v2-windows-closeout.md)。
 - **题集交接**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
 - **本轮**：沿用当天分支`2026-10-20-dataset-repair`，保留开工前评测、题集与审核材料的未提交修改；本任务只交付运行核验文档。实际配置、命令和输出摘要见[核验报告](context/phase-18-readiness-report.json)。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：当前主机为Windows/RTX 5070 Ti，原有Docker数据库已恢复在5432，Qwen3嵌入与精排使用CUDA，DeepSeek真实调用成功；两套向量数量与语料数量见核验报告。根`.env`、模型、batch和预算未修改；此前Mac/MPS结果属于另一台主机。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：把新版仓库外迁移包带到另一台电脑，Claude先复审本轮修复。真实评审时按新说明验证冻结清单，用`--seed-run`向全新目录迁移36条成功标签，再依次dev→reg→仓库外test；之后生成完整交付和独立校准。旧包原地续评脚本不再执行；本机不自动续评，当前部分报告不代表三套完成。
+- **下一步**：不再跑系统或真实评审。作者/独立标注者用仓库外calibration-human-blank.md对固定20条参考标注，裁决四处分歧；按五字段整题口径至少17/20一致才达85%。目前可封存技术交付并准备简历功能/方法描述，分数仍是初步结果，不声称校准通过。
 - **当前手动试跑**：`http://127.0.0.1:8000`保持运行，`/health`数据库正常；服务无reload、离线加载本地模型。真实单题及暖检索探针均通过；单题耗时不能代表正式性能。进程与日志位置见核验报告。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -44,7 +44,7 @@
 | [phase-17 复审修复与测试草案](build/phase-17-dataset-repair-test30.md) | 完成、待作者冻结 | 修复开发题、OR与语义问题，仓库外30题审阅包完成；未跑系统效果 |
 | [phase-18 Windows连接核验](build/phase-18-windows-readiness.md) | 完成 | 本机REST、数据库、真实模型与Langfuse读回通过，服务保持运行 |
 | [phase-19 三套初步评测](build/phase-19-final-evaluation.md) | 完成、待人工校准 | 三套全完成且无错；开发/回归云端核验，测试仓库外存储，校准样本交付，未提交Git |
-| [phase-20 v2缓存重评](build/phase-20-judge-v2.md) | 实现完成、外部额度阻塞 | 质量检查通过，dev70成功36条；Claude提示东京23:50恢复，尚未跑reg/test |
+| [phase-20 v2缓存重评](build/phase-20-judge-v2.md) | 技术交付完成、人工校准待确认 | 三套完成，Windows原版严格审计通过；独立预标80%未达85%，不能作为最终成绩 |
 
 最终检查状态见下方2026-10-19活动记录。上次GPU pytest（2026-10-16）为3 passed；本轮真实试评调用Qwen3嵌入/精排与DeepSeek，未执行封存测试或已校准的正式效果评测。
 
@@ -365,3 +365,14 @@
 - 原受保护文件逐项哈希未变，Judge/evaluate/模板与旧v2冻结一致。新冻结清单记录159ab99来源基础及旧清单SHA，不篡改旧HEAD或原冻结。
 - 新版仓库外迁移包 grounded-rag-eval-handoff-20261020-repaired.zip：96文件，5457105字节，SHA-256 87fae93feb1f0f179ae6c1d2ae5d0340a4c3977d34ce0e88bee20bd01da33ad9，逐文件哈希与ZIP完整性通过。旧包只读。新版运行工具在eval-rejudge-v2-repaired-20261020，Git存完整源码审查副本及交接说明，不含缓存、密钥和测试原文。
 - 当前仍未收尾：Claude先复审；真实评审时dev缺失34条→reg20→仓库外test30；然后三套报告/对照、完整双向flips和nuggets变化、固定种子20261021的20条dev/reg校准样本、全部true→false原回答核查。历史18条错误必须保留，整题校准至少17/20一致才达到85%。下一台电脑所需提示词见harness/context/phase-20-claude-recheck-prompt.md。
+
+### 2026-10-20 · phase-20真实结果接收与Windows收尾核验
+
+- 已fast-forward拉取Claude的97623e6，仅新增两份审查文档。确认原修复迁移包不含Mac新增结果后，作者提供D:/Chrome_Downloads/grounded-rag-v2-results-mac-20261020.zip。包41文件，SHA-256 bd6bfa8e4fa55a733001719ea7b9fc6356ca09751615180ba23018a653b8da06，CRC/安全路径/重复项/符号链接检查通过；解压在仓库外。
+- 使用原scoring/summarize从三套120条原标签重算v1/v2六行全部汇总及95%区间，与comparison.json逐字段相等；各套metrics.json和等价来源Recall@5也一致。当前错误均0；36条旧标签保持一致，开发新增34条；18条历史限额错误原文保留。
+- Windows原保护文件82/82原始SHA精确匹配，6个冻结实现文件匹配，无需放宽CRLF。原版audit_v2.py源码字节不改；仅在派生manifest副本做Mac路径映射，所有预期哈希原值不改，原包/manifest/标签保留。实际运行退出0，all_passed:true：三套完整、26题标签变化、10条true→false及1条反向、固定20条样本完整性、来源关系和历史错误均通过。完整日志和路径映射证明留在仓库外eval-closeout-20261020。
+- 全部10条正向翻转和1条反向翻转已逐题核查，15个逐点变化已单列；发现仍有概括性冲突和partial/support边界，原标签/分数均未改，未据测试调系统。含测试的原回答和核查只写仓库外。
+- 在读取Mac最终v2标签前冻结20条dev/reg独立预标，种子20261021，SHA-256 e319bd11aa2078e1cac86251c670543fbb199c07c42bcb4f6b0314aa82061aeb。五字段整题16/20一致＝80%，未达85%；分数20/20一致仅作诊断，不替代门槛。四分歧为dev054/dev089/dev030/dev008。Codex参与实现，这只是agent预标，不是独立人类校准，未改预标或重抽样本。
+- 实际收尾质量检查：backend/.venv/Scripts/python.exe -m poethepoet check → ruff格式/lint通过，lint-imports 1 kept / 0 broken，mypy162文件通过，463 passed / 35 deselected，覆盖率94.93%。本轮真实模型调用0，系统/检索调用0，业务/评分/模板/题集/evidence未变。
+- 仓库外封存grounded-rag-v2-closeout-20261020.zip：60个文件，5778891字节，SHA-256 184666976126900cd9b215fc0692040b9bef8f09360edcc539d15057fd29c62f，ZIP及每文件哈希核验通过。含两份未经修改的来源包、重算/审计、盲预标、人工空白表和逐题核查；不加入Git。
+- 技术交付可以归档；正式人工校准未完成，不能将v2标成最终成绩。作者/独立标注者用仓库外calibration-human-blank.md标固定20条，按事先整题口径至少17/20一致才达到85%。当前唯一剩余外部输入是参考标注/裁决，不需要再跑系统或真实评审。详情见harness/code_review/2026-10-20-judge-v2-windows-closeout.md。
