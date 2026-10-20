@@ -179,25 +179,23 @@ Workflow受理和结束各看哪帧？
 
 ## dev030 · multi/parallel_compare
 
-云版数据源用默认OAuth需准备哪些参数？自建的自定义端点接入要先备什么，Dify如何携带鉴权信息？
+知识流水线授权数据源：云版默认OAuth客户端要准备什么？自部署要先备什么、在Dify里填什么？
 
-参考答案：云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。自定义端点需要自行准备API和鉴权用API Key；Dify调用时通过Authorization: Bearer {api_key}请求头携带密钥。
+参考答案：云版默认OAuth客户端使用Dify预先配置并维护的参数，无需额外设置即可添加凭据。自部署文档给出的流程是先在第三方平台注册OAuth应用，再在Dify的自定义客户端设置里填入Client ID和Client Secret。云版也提供自定义方式，这里比较的是云版默认客户端与自部署文档给出的流程。
 
-失败风险：把云端默认OAuth准备项套给自定义API端点，或混淆端点API Key与OAuth客户端参数。
+失败风险：把云版默认参数套给自部署，或漏掉第三方应用注册与Client ID/Client Secret。
 
-预期行为/路由：answered / MULTI；小问数：2。
+预期行为/路由：answered / MULTI；小问数：3。
 
-- **vital 1**：云版默认OAuth客户端使用Dify预置参数，无需额外设置。
+- **vital 1**：云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。
   - 必需组1（组内OR）：
     - [cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source L100–100](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L100-L100) · `cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6` · `cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。
-- **vital 2**：接入自定义端点前需准备API和用于鉴权的API Key。
+- **vital 2**：自部署授权数据源前需先在第三方平台注册OAuth应用。
   - 必需组1（组内OR）：
-    - [self-host/use-dify/workspace/api-extension/api-extension L13–13](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L13-L13) · `self-host/use-dify/workspace/api-extension/api-extension#c0` · `self-host/use-dify/workspace/api-extension/api-extension#p0`：在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。
-    - [cloud/use-dify/workspace/api-extension/api-extension L13–13](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L13-L13) · `cloud/use-dify/workspace/api-extension/api-extension#c0` · `cloud/use-dify/workspace/api-extension/api-extension#p0`：在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。
-- **vital 3**：Dify用Authorization: Bearer {api_key}请求头传递自定义端点API Key。
+    - [self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source L92–92](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L92-L92) · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6` · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：先在第三方平台注册一个 OAuth 应用
+- **vital 3**：自部署在Dify自定义客户端中填写Client ID和Client Secret。
   - 必需组1（组内OR）：
-    - [self-host/use-dify/workspace/api-extension/api-extension L30–30](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L30-L30) · `self-host/use-dify/workspace/api-extension/api-extension#c2` · `self-host/use-dify/workspace/api-extension/api-extension#p2`：| `Authorization` | Bearer \{api_key\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |
-    - [cloud/use-dify/workspace/api-extension/api-extension L30–30](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L30-L30) · `cloud/use-dify/workspace/api-extension/api-extension#c2` · `cloud/use-dify/workspace/api-extension/api-extension#p2`：| `Authorization` | Bearer \{api_key\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |
+    - [self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source L105–105](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105) · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7` · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：输入 **Client ID** 和 **Client Secret**
 
 ## dev031 · refuse_correct/out_of_database
 
@@ -1232,11 +1230,11 @@ Langfuse接入缺地址和公开标识，分别填哪项？LangSmith鉴权选哪
 
 ## dev084 · multi/scattered_ordered
 
-Weaviate迁移：服务端最低版本、gRPC地址格式、Dify1.11后Worker脚本选项分别是什么？
+Weaviate迁移：服务端最低版本、gRPC安全连接的默认端口、Dify1.11后Worker脚本选项分别是什么？
 
-参考答案：服务端至少1.27.0；WEAVIATE_GRPC_ENDPOINT填写hostname:port，不加协议前缀。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。
+参考答案：服务端至少1.27.0；gRPC端点使用安全(TLS)连接时默认端口是443（不安全为50051）。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。
 
-失败风险：把gRPC端点加上http/grpc协议头，或漏掉新版Worker的无缓存选项。
+失败风险：把TLS端口说成50051，或漏掉新版Worker的无缓存选项。
 
 预期行为/路由：answered / MULTI；小问数：3。
 
@@ -1246,9 +1244,9 @@ Weaviate迁移：服务端最低版本、gRPC地址格式、Dify1.11后Worker脚
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L18–18](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L18-L18) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c1` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p1`：**破坏性变更**：新的 weaviate-client v4 与 1.27.0 以下的 Weaviate 服务器版本不向后兼容。如果你正在运行 1.19.0 或更旧版本的自部署 Weaviate 实例，则必须在升级 Dify 之前升级 Weaviate 服务器。
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L25–25](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L25-L25) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c2` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p2`：- 运行低于 1.27.0 版本的自部署 Weaviate 实例的自部署 Dify 用户
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L39–39](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L39-L39) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c3` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p3`：1. **最低服务器版本**：需要 Weaviate 服务器 1.27.0 或更高版本
-- **vital 2**：WEAVIATE_GRPC_ENDPOINT采用hostname:port格式，不含协议前缀。
+- **vital 2**：WEAVIATE_GRPC_ENDPOINT采用安全(TLS)连接时默认端口为443。
   - 必需组1（组内OR）：
-    - [self-host/deploy/troubleshooting/weaviate-v4-migration L503–503](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L503-L503) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c35` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p15`：**格式**：`hostname:port`（无协议前缀）
+    - [self-host/deploy/troubleshooting/weaviate-v4-migration L508–508](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L508-L508) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c35` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p15`：- 安全 (TLS)：443
 - **vital 3**：Dify1.11.0及之后在Worker运行迁移脚本使用uv run --no-cache。
   - 必需组1（组内OR）：
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L300–300](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L300-L300) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c22` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p10`：# 运行迁移脚本（Dify 1.11.0+ 请使用 --no-cache）

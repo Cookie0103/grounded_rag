@@ -1420,39 +1420,39 @@
     },
     {
       "question_id": "dev030",
-      "reference_answer": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。自定义端点需要自行准备API和鉴权用API Key；Dify调用时通过Authorization: Bearer {api_key}请求头携带密钥。",
+      "reference_answer": "云版默认OAuth客户端使用Dify预先配置并维护的参数，无需额外设置即可添加凭据。自部署文档给出的流程是先在第三方平台注册OAuth应用，再在Dify的自定义客户端设置里填入Client ID和Client Secret。云版也提供自定义方式，这里比较的是云版默认客户端与自部署文档给出的流程。",
       "behavior_group": "multi",
       "behavior_subtype": "parallel_compare",
       "expected_behavior": "answered",
       "requires_corrects_premise": false,
       "gold_docs": [
         "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-        "self-host/use-dify/workspace/api-extension/api-extension"
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "gold_doc_groups": [
         [
           "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
         ],
         [
-          "self-host/use-dify/workspace/api-extension/api-extension",
-          "cloud/use-dify/workspace/api-extension/api-extension"
+          "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 2,
+      "n_subasks": 3,
       "subasks": [
-        "云端默认OAuth参数准备",
-        "自建自定义端点准备与鉴权契约"
+        "云版默认OAuth客户端的准备",
+        "自部署授权前要先准备什么",
+        "自部署在Dify中填写什么"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "把云端默认OAuth准备项套给自定义API端点，或混淆端点API Key与OAuth客户端参数。",
+      "most_likely_failure": "把云版默认参数套给自部署，或漏掉第三方应用注册与Client ID/Client Secret。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
       "route_rationale": "需要综合不同规则或版本的独立事实，保留MULTI标注。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "云版默认OAuth客户端使用Dify预置参数，无需额外设置。",
+          "text": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。",
           "importance": "vital",
           "all_of": [
             {
@@ -1487,58 +1487,34 @@
         },
         {
           "nugget_index": 1,
-          "text": "接入自定义端点前需准备API和用于鉴权的API Key。",
+          "text": "自部署授权数据源前需先在第三方平台注册OAuth应用。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
-                  "heading_path": "自定义端点",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L13-L13",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx",
-                  "raw_line_start": 13,
-                  "raw_line_end": 13,
-                  "original_excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
+                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L92-L92",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 92,
+                  "raw_line_end": 92,
+                  "original_excerpt": "先在第三方平台注册一个 OAuth 应用",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/workspace/api-extension/api-extension#c0",
-                    "excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
+                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
+                    "excerpt": "先在第三方平台注册一个 OAuth 应用",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/workspace/api-extension/api-extension#p0",
-                    "heading_path": "自定义端点",
+                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 84,
+                  "cleaned_character_offset": 1027,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": false,
                   "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43"
-                },
-                {
-                  "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
-                  "heading_path": "自定义端点",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L13-L13",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx",
-                  "raw_line_start": 13,
-                  "raw_line_end": 13,
-                  "original_excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/workspace/api-extension/api-extension#c0",
-                    "excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/workspace/api-extension/api-extension#p0",
-                    "heading_path": "自定义端点",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 84,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "3a5f83e13b3d0181b6cdf133b87fa78baaff5117d3027a79e6621dae617c84bd"
+                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
             }
@@ -1546,114 +1522,59 @@
         },
         {
           "nugget_index": 2,
-          "text": "Dify用Authorization: Bearer {api_key}请求头传递自定义端点API Key。",
+          "text": "自部署在Dify自定义客户端中填写Client ID和Client Secret。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
-                  "heading_path": "自定义端点 > API 规范 > Header",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L30-L30",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx",
-                  "raw_line_start": 30,
-                  "raw_line_end": 30,
-                  "original_excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
+                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
+                  "raw_line_start": 105,
+                  "raw_line_end": 105,
+                  "original_excerpt": "输入 **Client ID** 和 **Client Secret**",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/workspace/api-extension/api-extension#c2",
-                    "excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
+                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
+                    "excerpt": "输入 **Client ID** 和 **Client Secret**",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/workspace/api-extension/api-extension#p2",
-                    "heading_path": "自定义端点 > API 规范 > Header",
+                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
+                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 437,
+                  "cleaned_character_offset": 1223,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": false,
                   "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43"
-                },
-                {
-                  "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
-                  "heading_path": "自定义端点 > API 规范 > Header",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L30-L30",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx",
-                  "raw_line_start": 30,
-                  "raw_line_end": 30,
-                  "original_excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/workspace/api-extension/api-extension#c2",
-                    "excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/workspace/api-extension/api-extension#p2",
-                    "heading_path": "自定义端点 > API 规范 > Header",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 437,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": false,
-                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
-                  "source_file_sha256": "3a5f83e13b3d0181b6cdf133b87fa78baaff5117d3027a79e6621dae617c84bd"
+                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
                 }
               ]
             }
           ]
         }
       ],
-      "boundary_evidence": [
-        {
-          "any_of": [
-            {
-              "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-              "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L104-L104",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
-              "raw_line_start": 104,
-              "raw_line_end": 104,
-              "original_excerpt": "    自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
-              "direct_evidence": {
-                "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
-                "excerpt": "自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
-                "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
-                "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。\n\n**授权流程**\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 1104,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "reconstruct_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
-            }
-          ]
-        }
-      ],
+      "boundary_evidence": [],
       "distractor_docs": [],
-      "counterpart_docs": [],
+      "counterpart_docs": [
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+      ],
       "author_review_status": "revised_2026_10_20_pending_independent_review",
       "notes": [
         "重写dev030为真正跨两版对照，不再拿云版登录的一句话充多跳。每个限制各自计一个vital；edition为null，版本由题干给出。",
         "整体替换上传数值题。差异限定为冻结文档明确写出的云版默认方式与自部署自定义流程；不推断自部署运行时绝不存在默认客户端。",
         "S10：本题仍MULTI（默认与自定义两个子问），Cloud一页可答全，不再冒称两版各独有或要求AND召回两篇。",
-        "S10最终替换：不再把单页自定义OAuth流程冒称跨篇；对照数据源默认OAuth与自定义API端点各自的凭据契约。"
+        "S10最终替换：不再把单页自定义OAuth流程冒称跨篇；对照数据源默认OAuth与自定义API端点各自的凭据契约。",
+        "S10/终审：回到云版默认 vs 自部署流程的同功能对照。自部署一侧的断言只以自部署页为证（云版页的自定义标签虽有同样步骤，但不能证明自部署的做法），故组间AND成立；删去题干未问的“保存并授权”。"
       ],
       "all_equivalent_gold_docs": [
         "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-        "cloud/use-dify/workspace/api-extension/api-extension",
-        "self-host/use-dify/workspace/api-extension/api-extension"
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "twin_comparison_ids": [
-        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-        "cloud/use-dify/workspace/api-extension/api-extension <=> self-host/use-dify/workspace/api-extension/api-extension"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
       ],
       "database_verified": false,
       "edition": null,
@@ -1670,8 +1591,7 @@
           "nugget_index": 1,
           "groups": [
             [
-              "cloud/use-dify/workspace/api-extension/api-extension",
-              "self-host/use-dify/workspace/api-extension/api-extension"
+              "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
             ]
           ]
         },
@@ -1679,13 +1599,18 @@
           "nugget_index": 2,
           "groups": [
             [
-              "cloud/use-dify/workspace/api-extension/api-extension",
-              "self-host/use-dify/workspace/api-extension/api-extension"
+              "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
             ]
           ]
         }
       ],
-      "reconstruct_verified": true
+      "reconstruct_verified": true,
+      "quantitative_evidence": {
+        "question_characters": 48,
+        "at_most_40": false,
+        "at_most_80": true,
+        "vital_count": 3
+      }
     },
     {
       "question_id": "dev031",
@@ -13231,7 +13156,7 @@
     },
     {
       "question_id": "dev084",
-      "reference_answer": "服务端至少1.27.0；WEAVIATE_GRPC_ENDPOINT填写hostname:port，不加协议前缀。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。",
+      "reference_answer": "服务端至少1.27.0；gRPC端点使用安全(TLS)连接时默认端口是443（不安全为50051）。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。",
       "behavior_group": "multi",
       "behavior_subtype": "scattered_ordered",
       "expected_behavior": "answered",
@@ -13251,11 +13176,11 @@
       "n_subasks": 3,
       "subasks": [
         "服务端最低版本",
-        "gRPC地址格式",
+        "gRPC安全连接的默认端口",
         "新版本Worker的迁移脚本选项"
       ],
       "hardness_tag": "scattered_ordered",
-      "most_likely_failure": "把gRPC端点加上http/grpc协议头，或漏掉新版Worker的无缓存选项。",
+      "most_likely_failure": "把TLS端口说成50051，或漏掉新版Worker的无缓存选项。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -13372,7 +13297,7 @@
         },
         {
           "nugget_index": 1,
-          "text": "WEAVIATE_GRPC_ENDPOINT采用hostname:port格式，不含协议前缀。",
+          "text": "WEAVIATE_GRPC_ENDPOINT采用安全(TLS)连接时默认端口为443。",
           "importance": "vital",
           "all_of": [
             {
@@ -13380,14 +13305,14 @@
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
                   "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L503-L503",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L508-L508",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
-                  "raw_line_start": 503,
-                  "raw_line_end": 503,
-                  "original_excerpt": "**格式**：`hostname:port`（无协议前缀）",
+                  "raw_line_start": 508,
+                  "raw_line_end": 508,
+                  "original_excerpt": "- 安全 (TLS)：443",
                   "direct_evidence": {
                     "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c35",
-                    "excerpt": "**格式**：`hostname:port`（无协议前缀）",
+                    "excerpt": "- 安全 (TLS)：443",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
@@ -13395,7 +13320,7 @@
                     "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 10144,
+                  "cleaned_character_offset": 10198,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": false,
                   "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
@@ -13495,11 +13420,12 @@
       "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [
-        "H2：删除可同父块回答的端口问，改为p15的地址格式；版本和脚本选项的重复出现处记OR，按最小父块覆盖计算。"
+        "H2：删除可同父块回答的端口问，改为p15的地址格式；版本和脚本选项的重复出现处记OR，按最小父块覆盖计算。",
+        "终审：vital2 由“hostname:port、无协议前缀”改为TLS默认端口443。原点与 environments.mdx L636 默认值 grpc://weaviate:50051 在冻结语料中互相冲突；443 只见于 p15，仍保持3个互不替代的父块。"
       ],
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 53,
+        "question_characters": 58,
         "at_most_40": false,
         "at_most_80": true,
         "vital_count": 3,

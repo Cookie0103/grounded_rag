@@ -179,25 +179,23 @@ Workflow受理和结束各看哪帧？
 
 ## dev030 · multi/parallel_compare
 
-云版数据源用默认OAuth需准备哪些参数？自建的自定义端点接入要先备什么，Dify如何携带鉴权信息？
+知识流水线授权数据源：云版默认OAuth客户端要准备什么？自部署要先备什么、在Dify里填什么？
 
-参考答案：云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。自定义端点需要自行准备API和鉴权用API Key；Dify调用时通过Authorization: Bearer {api_key}请求头携带密钥。
+参考答案：云版默认OAuth客户端使用Dify预先配置并维护的参数，无需额外设置即可添加凭据。自部署文档给出的流程是先在第三方平台注册OAuth应用，再在Dify的自定义客户端设置里填入Client ID和Client Secret。云版也提供自定义方式，这里比较的是云版默认客户端与自部署文档给出的流程。
 
-失败风险：把云端默认OAuth准备项套给自定义API端点，或混淆端点API Key与OAuth客户端参数。
+失败风险：把云版默认参数套给自部署，或漏掉第三方应用注册与Client ID/Client Secret。
 
-预期行为/路由：answered / MULTI；小问数：2。
+预期行为/路由：answered / MULTI；小问数：3。
 
-- **vital 1**：云版默认OAuth客户端使用Dify预置参数，无需额外设置。
+- **vital 1**：云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。
   - 必需组1（组内OR）：
     - [cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source L100–100](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L100-L100) · `cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6` · `cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。
-- **vital 2**：接入自定义端点前需准备API和用于鉴权的API Key。
+- **vital 2**：自部署授权数据源前需先在第三方平台注册OAuth应用。
   - 必需组1（组内OR）：
-    - [self-host/use-dify/workspace/api-extension/api-extension L13–13](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L13-L13) · `self-host/use-dify/workspace/api-extension/api-extension#c0` · `self-host/use-dify/workspace/api-extension/api-extension#p0`：在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。
-    - [cloud/use-dify/workspace/api-extension/api-extension L13–13](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L13-L13) · `cloud/use-dify/workspace/api-extension/api-extension#c0` · `cloud/use-dify/workspace/api-extension/api-extension#p0`：在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。
-- **vital 3**：Dify用Authorization: Bearer {api_key}请求头传递自定义端点API Key。
+    - [self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source L92–92](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L92-L92) · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6` · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：先在第三方平台注册一个 OAuth 应用
+- **vital 3**：自部署在Dify自定义客户端中填写Client ID和Client Secret。
   - 必需组1（组内OR）：
-    - [self-host/use-dify/workspace/api-extension/api-extension L30–30](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L30-L30) · `self-host/use-dify/workspace/api-extension/api-extension#c2` · `self-host/use-dify/workspace/api-extension/api-extension#p2`：| `Authorization` | Bearer \{api_key\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |
-    - [cloud/use-dify/workspace/api-extension/api-extension L30–30](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L30-L30) · `cloud/use-dify/workspace/api-extension/api-extension#c2` · `cloud/use-dify/workspace/api-extension/api-extension#p2`：| `Authorization` | Bearer \{api_key\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |
+    - [self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source L105–105](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105) · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7` · `self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6`：输入 **Client ID** 和 **Client Secret**
 
 ## dev031 · refuse_correct/out_of_database
 

@@ -109,12 +109,15 @@ class TrustSummary:
     trust: float
     ci_low: float
     ci_high: float
-    accuracy: float  # 可回答题里 perfect + acceptable 的占比
+    accuracy: float  # 可回答题里 perfect + acceptable 的占比（含部分覆盖，不是严格成功率）
     hallucination: float  # 可回答题里 incorrect 的占比
     missing: float  # 可回答题里 missing 的占比
     v_strict: float
     a_strict: float
     unanswerable_acceptable: float  # 不可回答题里可接受的占比
+    # 严格成功率：可回答题里 perfect（全部 vital 完整支持且无矛盾）的占比；
+    # 与上面含部分覆盖的 accuracy、以及 +1/+0.5/−1 的可信得分分开报告
+    strict_success: float = 0.0
 
 
 def summarize(items: Sequence[ScoredQuestion]) -> TrustSummary:
@@ -137,6 +140,7 @@ def summarize(items: Sequence[ScoredQuestion]) -> TrustSummary:
         v_strict=mean([nugget_recall(item, vital_only=True) for item in answerable]),
         a_strict=mean([nugget_recall(item, vital_only=False) for item in answerable]),
         unanswerable_acceptable=share(unanswerable, (ACCEPTABLE,)),
+        strict_success=share(answerable, (PERFECT,)),
     )
 
 

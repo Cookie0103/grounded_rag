@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from eval.dataset import Question, load_questions
-from eval.metrics import hit_at_k, mean, ranked_documents, reciprocal_rank
+from eval.metrics import hit_at_k, hit_groups_at_k, mean, ranked_documents, reciprocal_rank
 
 SMOKE = Path(__file__).resolve().parents[3] / "eval" / "smoke_retrieval.jsonl"
 
@@ -67,3 +67,21 @@ def test_the_smoke_set_is_well_formed() -> None:
     assert len(questions) == len({q.id for q in questions}) >= 20
     assert all(q.gold_docs and q.edition == "self_host" for q in questions)
     assert {q.lexical for q in questions} == {"similar", "distant"}
+
+
+def test_group_hit_needs_one_document_from_every_group() -> None:
+    ranked = ["twin-b", "x", "other", "y"]
+
+    assert hit_groups_at_k([("twin-a", "twin-b")], ranked, 1)
+    assert hit_groups_at_k([("twin-a", "twin-b"), ("other",)], ranked, 3)
+    assert not hit_groups_at_k([("twin-a", "twin-b"), ("y",)], ranked, 3)
+    assert not hit_groups_at_k([], ranked, 5)
+
+
+def test_question_without_groups_requires_each_gold_doc() -> None:
+    plain = Question("q", "问", ("a", "b"))
+    grouped = Question("q", "问", ("a",), gold_doc_groups=(("a", "a-twin"),))
+
+    assert plain.required_groups == (("a",), ("b",))
+    assert grouped.required_groups == (("a", "a-twin"),)
+    assert grouped.all_gold_docs == {"a", "a-twin"}

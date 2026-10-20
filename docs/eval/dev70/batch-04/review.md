@@ -344,11 +344,11 @@ Langfuse接入缺地址和公开标识，分别填哪项？LangSmith鉴权选哪
 
 ## dev084 · multi/scattered_ordered
 
-Weaviate迁移：服务端最低版本、gRPC地址格式、Dify1.11后Worker脚本选项分别是什么？
+Weaviate迁移：服务端最低版本、gRPC安全连接的默认端口、Dify1.11后Worker脚本选项分别是什么？
 
-参考答案：服务端至少1.27.0；WEAVIATE_GRPC_ENDPOINT填写hostname:port，不加协议前缀。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。
+参考答案：服务端至少1.27.0；gRPC端点使用安全(TLS)连接时默认端口是443（不安全为50051）。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。
 
-失败风险：把gRPC端点加上http/grpc协议头，或漏掉新版Worker的无缓存选项。
+失败风险：把TLS端口说成50051，或漏掉新版Worker的无缓存选项。
 
 预期行为/路由：answered / MULTI；小问数：3。
 
@@ -358,9 +358,9 @@ Weaviate迁移：服务端最低版本、gRPC地址格式、Dify1.11后Worker脚
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L18–18](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L18-L18) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c1` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p1`：**破坏性变更**：新的 weaviate-client v4 与 1.27.0 以下的 Weaviate 服务器版本不向后兼容。如果你正在运行 1.19.0 或更旧版本的自部署 Weaviate 实例，则必须在升级 Dify 之前升级 Weaviate 服务器。
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L25–25](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L25-L25) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c2` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p2`：- 运行低于 1.27.0 版本的自部署 Weaviate 实例的自部署 Dify 用户
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L39–39](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L39-L39) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c3` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p3`：1. **最低服务器版本**：需要 Weaviate 服务器 1.27.0 或更高版本
-- **vital 2**：WEAVIATE_GRPC_ENDPOINT采用hostname:port格式，不含协议前缀。
+- **vital 2**：WEAVIATE_GRPC_ENDPOINT采用安全(TLS)连接时默认端口为443。
   - 必需组1（组内OR）：
-    - [self-host/deploy/troubleshooting/weaviate-v4-migration L503–503](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L503-L503) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c35` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p15`：**格式**：`hostname:port`（无协议前缀）
+    - [self-host/deploy/troubleshooting/weaviate-v4-migration L508–508](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L508-L508) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c35` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p15`：- 安全 (TLS)：443
 - **vital 3**：Dify1.11.0及之后在Worker运行迁移脚本使用uv run --no-cache。
   - 必需组1（组内OR）：
     - [self-host/deploy/troubleshooting/weaviate-v4-migration L300–300](https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L300-L300) · `self-host/deploy/troubleshooting/weaviate-v4-migration#c22` · `self-host/deploy/troubleshooting/weaviate-v4-migration#p10`：# 运行迁移脚本（Dify 1.11.0+ 请使用 --no-cache）

@@ -68,10 +68,21 @@ class Question:
     phrasing: str = "natural_short"
     premise: str = "direct"
     split: str = "dev"
+    # 等价来源：组间 AND、组内 OR。空表示每篇 gold_docs 各自必需（旧题）。
+    gold_doc_groups: tuple[tuple[str, ...], ...] = ()
 
     @property
     def answerable(self) -> bool:
         return self.unanswerable_category is None
+
+    @property
+    def required_groups(self) -> tuple[tuple[str, ...], ...]:
+        """召回时每组至少命中一篇；没有登记等价来源时，每篇金标自成一组。"""
+        return self.gold_doc_groups or tuple((doc,) for doc in self.gold_docs)
+
+    @property
+    def all_gold_docs(self) -> frozenset[str]:
+        return frozenset(doc for group in self.required_groups for doc in group)
 
 
 def load_questions(path: Path) -> list[Question]:
@@ -105,6 +116,7 @@ def _parse(item: dict[str, Any]) -> Question:
         phrasing=str(item.get("phrasing", "natural_short")),
         premise=str(item.get("premise", "direct")),
         split=str(item.get("split", "dev")),
+        gold_doc_groups=tuple(tuple(map(str, group)) for group in item.get("gold_doc_groups", [])),
     )
 
 
@@ -142,7 +154,8 @@ def _validate_one(question: Question, known_documents: Collection[str] | None) -
     if not question.question.strip():
         error("题干为空")
     if known_documents is not None:
-        missing = [doc for doc in question.gold_docs if doc not in known_documents]
+        listed = [*question.gold_docs, *(doc for g in question.gold_doc_groups for doc in g)]
+        missing = sorted({doc for doc in listed if doc not in known_documents})
         if missing:
             error(f"金标文档不在语料里：{', '.join(missing)}")
     if question.answerable:

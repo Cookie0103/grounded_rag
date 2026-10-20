@@ -28,15 +28,16 @@ def _pct(value: float) -> str:
 def _trust_row(name: str, s: TrustSummary) -> str:
     return (
         f"| {name} | {s.count} | {s.trust:+.3f}（{s.ci_low:+.2f}～{s.ci_high:+.2f}） | "
-        f"{_pct(s.accuracy)} | {_pct(s.hallucination)} | {_pct(s.missing)} | "
+        f"{_pct(s.strict_success)} | {_pct(s.accuracy)} | {_pct(s.hallucination)} | "
+        f"{_pct(s.missing)} | "
         f"{_pct(s.v_strict)} | {_pct(s.a_strict)} | {_pct(s.unanswerable_acceptable)} |"
     )
 
 
 TRUST_HEADER = [
-    "| 分组 | 题数 | 可信度（95% 区间） | 正确率 | 幻觉率 | 未作答率 "
-    "| V_strict | A_strict | 不可回答题可接受率 |",
-    "|---|---|---|---|---|---|---|---|---|",
+    "| 分组 | 题数 | 可信得分（95% 区间） | 严格成功率 | 宽松正确率（含部分） | 答错率 "
+    "| 未作答率 | V_strict | A_strict | 不可回答题可接受率 |",
+    "|---|---|---|---|---|---|---|---|---|---|",
 ]
 
 

@@ -26,7 +26,7 @@ from app.retrieval.factory import build_retriever
 from app.retrieval.retriever import BM25, HYBRID, VECTOR, HybridRetriever
 from app.retrieval.tokenizer import bigram_tokenize, tokenize
 from eval.dataset import Question, load_questions
-from eval.metrics import hit_at_k, mean, ranked_documents, reciprocal_rank
+from eval.metrics import hit_groups_at_k, mean, ranked_documents, reciprocal_rank
 
 DEFAULT_QUESTIONS = Path(__file__).resolve().parents[1] / "eval" / "smoke_retrieval.jsonl"
 logger = logging.getLogger("compare_retrieval")
@@ -84,7 +84,7 @@ async def evaluate(
             mode=config.mode,
         )
         ranked = ranked_documents([c.chunk.document_id for c in result.candidates])
-        hit = hit_at_k(question.gold_docs, ranked, FINAL_TOP_K)
+        hit = hit_groups_at_k(question.required_groups, ranked, FINAL_TOP_K)
         hits.append(float(hit))
         reciprocal.append(reciprocal_rank(question.gold_docs, ranked))
         by_group.setdefault(question.lexical, []).append(float(hit))

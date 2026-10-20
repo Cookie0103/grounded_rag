@@ -15,6 +15,14 @@ def hit_at_k(gold_documents: Collection[str], ranked_docs: Sequence[str], k: int
     return set(gold_documents) <= set(ranked_docs[:k])
 
 
+def hit_groups_at_k(groups: Sequence[Collection[str]], ranked_docs: Sequence[str], k: int) -> bool:
+    """每个等价组至少有一篇出现在前 k 篇里（组间 AND、组内 OR）。没有组返回 False。"""
+    if not groups:
+        return False
+    top = set(ranked_docs[:k])
+    return all(top & set(group) for group in groups)
+
+
 def reciprocal_rank(gold_documents: Collection[str], ranked_docs: Sequence[str]) -> float:
     """第一篇金标文档名次的倒数；没出现是 0。"""
     for rank, document in enumerate(ranked_docs, start=1):

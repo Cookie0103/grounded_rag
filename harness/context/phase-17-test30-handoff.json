@@ -29,5 +29,27 @@
     "review-closure.json": "275040092da2b714840f0f642c59e9b2e4ceb2f996a8efc30d581ef1dec5a84a",
     "twin-comparisons.json": "ef1af24eba744b7a1199ef509373c9a796cc5bab65a36c5fe9fec82b9d0a49d7",
     "validation.json": "c115e504eba7324d50fd063376c9437afe9c472f2140f3d33746d9ec1dc1057a"
+  },
+  "post_claude_review_fix": {
+    "date": "2026-10-20",
+    "files_changed": [
+      "questions.jsonl",
+      "evidence.json",
+      "review-30.md",
+      "review-closure.json",
+      "manifest.json"
+    ],
+    "summary": "test029 修正（触发器可在访问点关闭）；test029/030 补登记金标文档",
+    "archive_status": "zip 已过期，未重建；以目录与下列 hash 为准",
+    "files_sha256_now": {
+      "author_test30.py": "650422c23afa3dd452807d184e5fa9499f0fe95eb17426fd6fe17ab7bf582ab9",
+      "evidence.json": "a128d46a346338239458d359d15d33de50ffafe1d1535b21ac1e8e268a4f01ff",
+      "questions.jsonl": "2013c4129cd08cb013935302aeccdeec8ab0d26adce707f80c5427e84c61572e",
+      "README.md": "777b81b707709c4f2f2352a066bb0f807d2782b7af204e51a0499c70cf4a7ac1",
+      "review-30.md": "c8d9de10982641afc728c0262cb84d6c81c4424f4e4d3fe77b9febdbf63fd0ff",
+      "review-closure.json": "90375af548ca1a8f1ff31e340ac5182ba5e307427c46b32eed0e490cd7e63a8a",
+      "twin-comparisons.json": "ef1af24eba744b7a1199ef509373c9a796cc5bab65a36c5fe9fec82b9d0a49d7",
+      "validation.json": "c115e504eba7324d50fd063376c9437afe9c472f2140f3d33746d9ec1dc1057a"
+    }
   }
 }

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -41,6 +42,61 @@ def test_prompt_contains_question_numbered_nuggets_documents_and_answer() -> Non
     assert "# 上传本地文件" in prompt
     assert "最多 5 个。" in prompt
     assert "{{" not in prompt  # 占位符都填了
+
+
+def test_v1_default_prompt_is_unchanged_and_ignores_optional_contexts() -> None:
+    prompt = build_judge_prompt(QUESTION, "最多 5 个。", ["# 上传本地文件\n\n正文"])
+    assert hashlib.sha256(prompt.encode()).hexdigest() == (
+        "295dbafbd941eff51d043e273122694fd891b6d31964907dfb4dcc4fecb77423"
+    )
+    assert prompt == build_judge_prompt(
+        QUESTION, "最多 5 个。", ["# 上传本地文件\n\n正文"], contexts=["不应进入v1"]
+    )
+    assert "{{contexts}}" in build_judge_prompt(QUESTION, "字面量{{contexts}}", [])
+
+
+def test_v2_prompt_includes_cached_contexts_and_keeps_the_label_contract() -> None:
+    prompt = build_judge_prompt(
+        QUESTION, "答案", ["金标"], contexts=["父块甲", "父块乙"], template_name="judge_v2.md"
+    )
+    assert "父块甲\n\n---\n\n父块乙" in prompt
+    assert prompt.index("## 金标文档") < prompt.index("## 系统实际检索到的资料")
+    assert "附加的含糊说明或谨慎措辞不降级" in prompt
+    assert '"covers_interpretations": false' in prompt
+    assert "{{" not in prompt
+
+
+@pytest.mark.parametrize("contexts", [[], ["", "  "]])
+def test_v2_prompt_marks_missing_contexts(contexts: list[str]) -> None:
+    prompt = build_judge_prompt(QUESTION, "答", [], contexts=contexts, template_name="judge_v2.md")
+    assert "（系统没有检索资料）" in prompt
+
+
+def test_v2_contexts_keep_the_start_and_include_truncation_marker_within_limit() -> None:
+    prompt = build_judge_prompt(
+        QUESTION,
+        "答",
+        [],
+        contexts=["前" * 24000, "后面不应出现"],
+        template_name="judge_v2.md",
+    )
+    context = prompt.split("## 系统实际检索到的资料\n\n")[1].split("\n\n## 系统的回答")[0]
+    assert len(context) == 24000
+    assert context.startswith("前" * 100)
+    assert context.endswith("（已截断）")
+    assert "后面不应出现" not in context
+
+
+async def test_judge_forwards_v2_template_and_contexts(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("eval.judge.gold_document_text", lambda doc: "金标")
+    chat = FakeChatModel(responses=[json.dumps(GOOD), json.dumps(GOOD)])
+    judge = Judge(ChatPromptRunner(chat))
+    await judge.judge(QUESTION, "答", contexts=["检索原文"], template_name="judge_v2.md")
+    await judge.judge_with_documents(
+        QUESTION, "答", ["金标"], contexts=["另一父块"], template_name="judge_v2.md"
+    )
+    assert "检索原文" in chat.calls[0][0].content
+    assert "另一父块" in chat.calls[1][0].content
 
 
 def test_prompt_describes_the_expected_behavior_of_an_unanswerable_question() -> None:

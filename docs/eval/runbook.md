@@ -205,3 +205,30 @@ uv run python -m scripts.eval_round --run-id 新的唯一轮次名 --questions .
 ```
 
 加 `--withhold-edition` 则运行时不把题目的 edition 传给系统（只用于评分），用来测试版本自动识别；默认仍传入，与首轮20题一致，`manifest.json` 的 `edition_sent_to_system` 记录本轮用了哪种。该入口只接受dev题，调用实际ChatService、单并发、无会话、独立空整答缓存，保存原始答案和过程；**不会自动完成逐声明评审和报告**。本轮标签由当前会话核验，旧可信总分复用已有函数。原 `poe eval-dev --system full` 直接调用pipeline，范围不同；跨轮比较必须保持相同系统范围、题集/标准/评审版本，并隔离缓存。
+
+## 9. 正式轮次的运行方式（2026-10-20 起）
+
+- **开发题 / 回归题**：`uv run python -m scripts.eval_round --run-id <唯一ID> --questions docs/eval/dev70/questions.jsonl`；题集旁须有 `evidence.json`。归档在 `docs/eval/results/runs/<ID>/`，已存在则拒绝覆盖。
+- **封存测试题**：`uv run python -m scripts.eval_round --split test --archive-root <仓库外目录> --run-id <唯一ID> --questions <仓库外>/questions.jsonl`。归档根目录在仓库内会被拒绝（题干会随归档保存）；校验“提醒”不再中断，只有“错误”才中断。
+- `poe eval-dev` 可加 `--run-id <ID>`，结果写到 `.cache/eval/runs/<ID>/<系统>/`，不再复用或覆盖 `.cache/eval/<系统>/` 的旧缓存；目录非空须加 `--resume`。
+- 召回按 `gold_doc_groups`（组间 AND、组内 OR）统计；没有该字段的旧题仍要求每篇金标全部命中。
+- 报告表头：**严格成功率**（可回答题里全部 vital 完整支持且无矛盾的占比）、**宽松正确率（含部分）**、**可信得分**（+1/+0.5/−1 平均）三者分开命名，不可混称“准确率”。
+- 70 dev、30 test 分别报告，旧 20 单独回归；评审必须先按 §3 完成人工校准（≥85%）再采信。
+
+## 11. 仅使用缓存回答重评（judge v2）
+
+作者批准评审输入调整后，可运行以下入口。它只读取旧目录的`answers.jsonl`、`verdicts.jsonl`及冻结题集，不调用被测系统、数据库检索或DeepSeek，不上传Langfuse。`--no-sync`保留已安装依赖。
+
+```powershell
+uv run --no-sync python -m scripts.rejudge --src-run ../.cache/eval/runs/final-dev70/full --judge claude --template judge_v2.md --out-run ../.cache/eval/runs/final-dev70-v2/full --questions ../docs/eval/dev70/questions.jsonl
+```
+
+回归题替换为`final-reg20`、`final-reg20-v2`及`../docs/eval/dev20/questions.jsonl`。测试题必须同时使用仓库外的旧回答缓存、题集和新输出目录；不要误用仓库内仅含聚合报告的`final-test30/full`，它没有测试回答。脚本依据题集split拒绝把测试产物写入仓库。
+
+每套先评前三题；无系统缓存错误或评审错误后继续整套，前三题的v2标签复用，不再调用评审。任意已存在的新目录（包括空目录）都拒绝覆盖。前三题报错时停止后续部分，保留report.md及errors.json；整套中的错误也单列，不充当正常拒答。不要直接再执行同一个已存在目录。
+
+新目录产出`verdicts.jsonl`、`report.md`、`pilot-report.md`、`metrics.json`、`errors.json`、`manifest.json`及`flips.md`，不复制或改写旧回答。flips完整列出contradiction true→false、false→true和其他标签变化，含两版全部标签及原规则分数。运行指标仍来自旧回答，不是重评的调用费用。
+
+默认Judge/evaluate仍为v1；仅本入口显式选v2并传缓存contexts。v2资料按父块顺序拼接，含“已截断”标记的总长度不超过24000字符；金标文档仍沿用原代表来源和截断方式。`judge_v1.md`和评分分值规则不变。
+
+v2为评审改动后的初步结果，校准通过前不是正式数字。新校准样本只从开发/回归抽取，种子20261021；作者/Claude核验前，不声称校准通过。所有测试题干、回答及人工核对材料留在仓库外，不据测试结果调整提示词或系统。

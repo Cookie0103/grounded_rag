@@ -46,6 +46,10 @@ def build_judge(name: str | None, settings: Settings) -> Judge | None:
 async def run(arguments: argparse.Namespace) -> str:
     questions = load_questions(arguments.questions)
     output_dir = CACHE_DIR / "eval" / arguments.system
+    if arguments.run_id:  # 独立目录，不复用也不覆盖 .cache/eval/<系统> 里的旧缓存
+        output_dir = CACHE_DIR / "eval" / "runs" / arguments.run_id / arguments.system
+        if output_dir.exists() and any(output_dir.iterdir()) and not arguments.resume:
+            raise SystemExit(f"{output_dir} 已有内容；续跑请加 --resume，新实验请换 --run-id")
     settings = get_settings()
     engine = create_engine(settings)
     cloud = build_cloud_tracer(settings)
@@ -93,6 +97,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="跑评测")
     parser.add_argument("--system", choices=SYSTEMS, default="retrieval")
     parser.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
+    parser.add_argument("--run-id", help="结果写到 .cache/eval/runs/<run-id>/<系统>/，与旧缓存隔离")
+    parser.add_argument("--resume", action="store_true", help="允许续跑已有 --run-id 目录")
     parser.add_argument("--judge", choices=JUDGES, help="不给就不评审，只出检索指标")
     arguments = parser.parse_args()
     configure_logging("INFO")

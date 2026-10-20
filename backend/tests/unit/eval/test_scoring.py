@@ -199,3 +199,15 @@ def test_bootstrap_interval_is_deterministic_and_brackets_the_mean() -> None:
     assert first == bootstrap_interval(values)
     assert first[0] <= sum(values) / len(values) <= first[1]
     assert bootstrap_interval([1.0, 1.0, 1.0]) == (1.0, 1.0)
+
+
+def test_strict_success_counts_only_perfect_answers_and_is_kept_apart_from_accuracy() -> None:
+    question = Question("q", "问", ("a",), nuggets=(Nugget("x", "vital"), Nugget("y", "vital")))
+    perfect = JudgeVerdict(("support", "support"), False, "answered")
+    partial = JudgeVerdict(("support", "partial_support"), False, "answered")
+    items = [ScoredQuestion(question, v, score_question(question, v)) for v in (perfect, partial)]
+
+    summary = summarize(items)
+
+    assert summary.strict_success == 0.5
+    assert summary.accuracy == 1.0

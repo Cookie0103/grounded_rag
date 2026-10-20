@@ -108,3 +108,18 @@ def test_quota_report_lists_every_type() -> None:
     assert lines[0] == "共 1 题"
     assert any("fact_single：1" in line for line in lines)
     assert any("injection" in line for line in lines)
+
+
+def test_gold_doc_groups_are_loaded_and_checked_against_the_corpus(tmp_path: Path) -> None:
+    line = (
+        '{"id": "q1", "question": "问", "gold_docs": ["a"], "gold_doc_groups": [["a", "b"]],'
+        ' "nuggets": [{"text": "x", "importance": "vital"}, {"text": "y", "importance": "okay"}]}'
+    )
+    path = tmp_path / "q.jsonl"
+    path.write_text(line, encoding="utf-8")
+
+    (question,) = load_questions(path)
+
+    assert question.gold_doc_groups == (("a", "b"),)
+    messages = [issue.message for issue in validate_questions([question], {"a"})]
+    assert any("b" in message for message in messages)

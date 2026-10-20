@@ -18,6 +18,7 @@ from eval.scoring import BEHAVIORS, NUGGET_LABELS, JudgeVerdict
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 MAX_DOCUMENT_CHARS = 12000
+MAX_CONTEXT_CHARS = 24000
 COMMAND_TIMEOUT_SECONDS = 300
 RETRIES = 1
 
@@ -94,21 +95,41 @@ def fill_template(template_name: str, **values: str) -> str:
     return text
 
 
-def build_judge_prompt(question: Question, answer: str, gold_texts: Sequence[str]) -> str:
+def format_contexts(contexts: Sequence[str]) -> str:
+    """保留缓存父块顺序，截断标记也计入资料总长度。"""
+    if not any(context.strip() for context in contexts):
+        return "（系统没有检索资料）"
+    text = "\n\n---\n\n".join(contexts)
+    marker = "\n（已截断）"
+    if len(text) > MAX_CONTEXT_CHARS:
+        return text[: MAX_CONTEXT_CHARS - len(marker)] + marker
+    return text
+
+
+def build_judge_prompt(
+    question: Question,
+    answer: str,
+    gold_texts: Sequence[str],
+    contexts: Sequence[str] = (),
+    *,
+    template_name: str = "judge_v1.md",
+) -> str:
     nuggets = "\n".join(
         f"{index}. [{nugget.importance}] {nugget.text}"
         for index, nugget in enumerate(question.nuggets, start=1)
     )
     kind = KIND_TEXT.get(question.unanswerable_category or "", "可回答题：回答要覆盖下面的关键点")
     documents = "\n\n---\n\n".join(gold_texts) if gold_texts else "（这道题没有金标文档）"
-    return fill_template(
-        "judge_v1.md",
-        question=question.question,
-        kind=kind,
-        nuggets=nuggets or "（没有关键点）",
-        documents=documents,
-        answer=answer.strip() or "（空）",
-    )
+    values = {
+        "question": question.question,
+        "kind": kind,
+        "nuggets": nuggets or "（没有关键点）",
+        "documents": documents,
+        "answer": answer.strip() or "（空）",
+    }
+    if template_name != "judge_v1.md":
+        values["contexts"] = format_contexts(contexts)
+    return fill_template(template_name, **values)
 
 
 def extract_json(text: str) -> dict[str, Any]:
@@ -155,14 +176,31 @@ class Judge:
     def __init__(self, runner: PromptRunner) -> None:
         self._runner = runner
 
-    async def judge(self, question: Question, answer: str) -> JudgeVerdict:
+    async def judge(
+        self,
+        question: Question,
+        answer: str,
+        contexts: Sequence[str] = (),
+        *,
+        template_name: str = "judge_v1.md",
+    ) -> JudgeVerdict:
         texts = [gold_document_text(doc) for doc in question.gold_docs]
-        return await self.judge_with_documents(question, answer, texts)
+        return await self.judge_with_documents(
+            question, answer, texts, contexts, template_name=template_name
+        )
 
     async def judge_with_documents(
-        self, question: Question, answer: str, gold_texts: Sequence[str]
+        self,
+        question: Question,
+        answer: str,
+        gold_texts: Sequence[str],
+        contexts: Sequence[str] = (),
+        *,
+        template_name: str = "judge_v1.md",
     ) -> JudgeVerdict:
-        prompt = build_judge_prompt(question, answer, gold_texts)
+        prompt = build_judge_prompt(
+            question, answer, gold_texts, contexts, template_name=template_name
+        )
         last_error: JudgeError | None = None
         for _ in range(RETRIES + 1):
             output = await self._runner.run(prompt)

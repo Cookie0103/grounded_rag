@@ -329,5 +329,16 @@
     "runtime-verification.json",
     "semantic-review.json",
     "blueprint.json"
+  ],
+  "post_claude_final_review_fixes": [
+    {
+      "id": "dev030",
+      "reason": "云版数据源默认OAuth与自定义API端点是互不依赖的两个问题硬拼；改回同功能（数据源OAuth）的云版默认 vs 自部署流程对照，自部署断言只以自部署页为证，删去未问的“保存并授权”点",
+      "review": "harness/code_review/2026-10-20-dev70-test30-final-claude-review.md"
+    },
+    {
+      "id": "dev084",
+      "reason": "vital2 的 gRPC 地址格式与 environments.mdx L636 默认值 grpc://weaviate:50051 冻结原文冲突；改为 TLS 默认端口443（仅p15），仍3个互不替代父块"
+    }
   ]
 }

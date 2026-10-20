@@ -79,13 +79,24 @@ class RecordedService:
             trace_id_var.reset(token)
 
 
+def check_archive_root(split: str, archive_root: Path) -> None:
+    """封存测试题的归档不能落在仓库里（题干会随归档一起保存）。"""
+    if split == "test" and archive_root.resolve().is_relative_to(REPO_ROOT.resolve()):
+        raise ValueError("测试集归档必须放在仓库外，请用 --archive-root 指定")
+
+
 async def prepare_archive(
-    run_id: str, question_path: Path, send_edition: bool
+    run_id: str,
+    question_path: Path,
+    send_edition: bool,
+    split: str = "dev",
+    archive_root: Path = ARCHIVE_ROOT,
 ) -> tuple[Path, dict[str, Any]]:
     """新建唯一轮次目录，冻结题集、证据与评分口径；不包含密钥。"""
     if re.fullmatch(r"[A-Za-z0-9_-]+", run_id) is None:
         raise ValueError("run-id只能包含字母、数字、下划线和短横线")
-    directory = ARCHIVE_ROOT / run_id
+    check_archive_root(split, archive_root)
+    directory = archive_root / run_id
     directory.mkdir(parents=True, exist_ok=False)
     sources = {
         "questions.jsonl": question_path,
@@ -107,7 +118,7 @@ async def prepare_archive(
     manifest: dict[str, Any] = {
         "run_id": run_id,
         "system": "full-service",
-        "split": "dev",
+        "split": split,
         "started_at": datetime.now(UTC).isoformat(),
         "status": "running",
         "code_commit": commit,
@@ -134,17 +145,27 @@ async def prepare_archive(
     return directory, manifest
 
 
-async def run(run_id: str, question_path: Path, send_edition: bool) -> Path:
-    """以既有预算、模型与生产服务执行开发题，成功或失败都保留结果。"""
+async def run(
+    run_id: str,
+    question_path: Path,
+    send_edition: bool,
+    split: str = "dev",
+    archive_root: Path = ARCHIVE_ROOT,
+) -> Path:
+    """以既有预算、模型与生产服务执行一整份题集，成功或失败都保留结果。"""
     settings = get_settings()
     questions = load_questions(question_path)
-    if any(question.split != "dev" for question in questions) or validate_questions(questions):
-        raise ValueError("这里只接受通过现有校验的开发题")
+    check_archive_root(split, archive_root)
+    errors = [issue for issue in validate_questions(questions) if issue.is_error]
+    if any(question.split != split for question in questions) or errors:
+        raise ValueError(f"这里只接受通过现有校验的 {split} 题：{errors[:3]}")
     if not 0 < settings.daily_budget_cny <= MAX_AGENT_DAILY_CNY:
         raise ValueError("agent真实运行要求既有每日预算大于0且不超过10元")
     ledger = BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny)
     ledger.check()
-    directory, manifest = await prepare_archive(run_id, question_path, send_edition)
+    directory, manifest = await prepare_archive(
+        run_id, question_path, send_edition, split, archive_root
+    )
     manifest["config"] = {
         name: getattr(settings, name)
         for name in (
@@ -193,6 +214,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--questions", required=True, type=Path)
+    parser.add_argument("--split", choices=("dev", "test"), default="dev")
+    parser.add_argument(
+        "--archive-root",
+        type=Path,
+        default=ARCHIVE_ROOT,
+        help="归档根目录；--split test 时必须在仓库外",
+    )
     parser.add_argument(
         "--withhold-edition",
         action="store_true",
@@ -201,7 +229,13 @@ def main() -> None:
     arguments = parser.parse_args()
     configure_logging("INFO")
     directory = asyncio.run(
-        run(arguments.run_id, arguments.questions, not arguments.withhold_edition)
+        run(
+            arguments.run_id,
+            arguments.questions,
+            not arguments.withhold_edition,
+            arguments.split,
+            arguments.archive_root,
+        )
     )
     logger.info("本轮归档：%s", directory)
 

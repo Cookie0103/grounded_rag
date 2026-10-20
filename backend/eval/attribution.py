@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from app.core.config import FINAL_TOP_K
 from eval.judge import Judge
-from eval.metrics import hit_at_k
+from eval.metrics import hit_groups_at_k
 from eval.scoring import PERFECT, ScoredQuestion
 from eval.systems import SystemAnswer
 
@@ -32,7 +32,7 @@ async def attribute_errors(
         if not question.answerable or item.score.label == PERFECT:
             continue
         answer = by_id[question.id]
-        if not hit_at_k(question.gold_docs, answer.retrieved_docs, FINAL_TOP_K):
+        if not hit_groups_at_k(question.required_groups, answer.retrieved_docs, FINAL_TOP_K):
             results.append(Attribution(question.id, RETRIEVAL_MISS))
             continue
         try:

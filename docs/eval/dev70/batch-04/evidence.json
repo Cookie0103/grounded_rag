@@ -3971,7 +3971,7 @@
     },
     {
       "question_id": "dev084",
-      "reference_answer": "服务端至少1.27.0；WEAVIATE_GRPC_ENDPOINT填写hostname:port，不加协议前缀。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。",
+      "reference_answer": "服务端至少1.27.0；gRPC端点使用安全(TLS)连接时默认端口是443（不安全为50051）。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。",
       "behavior_group": "multi",
       "behavior_subtype": "scattered_ordered",
       "expected_behavior": "answered",
@@ -3991,11 +3991,11 @@
       "n_subasks": 3,
       "subasks": [
         "服务端最低版本",
-        "gRPC地址格式",
+        "gRPC安全连接的默认端口",
         "新版本Worker的迁移脚本选项"
       ],
       "hardness_tag": "scattered_ordered",
-      "most_likely_failure": "把gRPC端点加上http/grpc协议头，或漏掉新版Worker的无缓存选项。",
+      "most_likely_failure": "把TLS端口说成50051，或漏掉新版Worker的无缓存选项。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -4112,7 +4112,7 @@
         },
         {
           "nugget_index": 1,
-          "text": "WEAVIATE_GRPC_ENDPOINT采用hostname:port格式，不含协议前缀。",
+          "text": "WEAVIATE_GRPC_ENDPOINT采用安全(TLS)连接时默认端口为443。",
           "importance": "vital",
           "all_of": [
             {
@@ -4120,14 +4120,14 @@
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
                   "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L503-L503",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L508-L508",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
-                  "raw_line_start": 503,
-                  "raw_line_end": 503,
-                  "original_excerpt": "**格式**：`hostname:port`（无协议前缀）",
+                  "raw_line_start": 508,
+                  "raw_line_end": 508,
+                  "original_excerpt": "- 安全 (TLS)：443",
                   "direct_evidence": {
                     "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c35",
-                    "excerpt": "**格式**：`hostname:port`（无协议前缀）",
+                    "excerpt": "- 安全 (TLS)：443",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
@@ -4135,7 +4135,7 @@
                     "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 10144,
+                  "cleaned_character_offset": 10198,
                   "within_current_judge_first_12000_chars": true,
                   "database_verified": false,
                   "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
@@ -4235,11 +4235,12 @@
       "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [
-        "H2：删除可同父块回答的端口问，改为p15的地址格式；版本和脚本选项的重复出现处记OR，按最小父块覆盖计算。"
+        "H2：删除可同父块回答的端口问，改为p15的地址格式；版本和脚本选项的重复出现处记OR，按最小父块覆盖计算。",
+        "终审：vital2 由“hostname:port、无协议前缀”改为TLS默认端口443。原点与 environments.mdx L636 默认值 grpc://weaviate:50051 在冻结语料中互相冲突；443 只见于 p15，仍保持3个互不替代的父块。"
       ],
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 53,
+        "question_characters": 58,
         "at_most_40": false,
         "at_most_80": true,
         "vital_count": 3,

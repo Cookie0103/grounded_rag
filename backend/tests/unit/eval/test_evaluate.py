@@ -123,3 +123,13 @@ async def test_answers_that_are_none_are_skipped() -> None:
     assert result.scored == []
     assert result.judge_errors == {}
     assert chat.calls == []
+
+
+async def test_evaluate_passes_cached_contexts_only_when_requested() -> None:
+    answer = _answer("q1", ("a",), contexts=("缓存的父块",))
+    first, old_chat = _judge(VERDICT)
+    await evaluate("s", [Q1], [answer], first)
+    assert "缓存的父块" not in old_chat.calls[0][0].content
+    second, new_chat = _judge(VERDICT)
+    await evaluate("s", [Q1], [answer], second, template_name="judge_v2.md", include_contexts=True)
+    assert "缓存的父块" in new_chat.calls[0][0].content
