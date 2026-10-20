@@ -5,16 +5,16 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-20（phase-20三套完成、Windows严格审计通过；独立预标80%，正式人工校准待确认）
+最后更新：2026-10-20（phase-20结项：三套完成、严格审计通过、作者复核预标18/20＝90%达标）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-20](build/phase-20-judge-v2.md) Claude代码复审通过，Mac真实重评70/20/30全部完成、当前错误0；本机已取得新增包并重算六行指标/召回，与报告一致，Windows原版严格全量审计通过，旧36条与历史18错保留。全部翻转及逐点变化已核查；独立预标16/20＝80%未达门槛，正式人工校准待确认。见[收尾核验](code_review/2026-10-20-judge-v2-windows-closeout.md)。
+- **当前任务**：[phase-20](build/phase-20-judge-v2.md) 已按既定范围结项：代码复审、三套70/20/30重评、原函数复算、Windows严格审计与全量核查均完成。作者完成固定20条复核并明确dev089=true，五字段整题18/20＝90%达到85%门槛；方法为复核预标，非盲标。原Codex80%预标、旧36条标签、18条历史错误与全部原始结果保留。见[作者校准结项](code_review/2026-10-20-judge-v2-author-calibration.md)。
 - **题集交接**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
 - **本轮**：沿用当天分支`2026-10-20-dataset-repair`，保留开工前评测、题集与审核材料的未提交修改；本任务只交付运行核验文档。实际配置、命令和输出摘要见[核验报告](context/phase-18-readiness-report.json)。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：当前主机为Windows/RTX 5070 Ti，原有Docker数据库已恢复在5432，Qwen3嵌入与精排使用CUDA，DeepSeek真实调用成功；两套向量数量与语料数量见核验报告。根`.env`、模型、batch和预算未修改；此前Mac/MPS结果属于另一台主机。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：不再跑系统或真实评审。作者/独立标注者用仓库外calibration-human-blank.md对固定20条参考标注，裁决四处分歧；按五字段整题口径至少17/20一致才达85%。目前可封存技术交付并准备简历功能/方法描述，分数仍是初步结果，不声称校准通过。
+- **下一步**：不再跑系统或真实评审；准备简历和复盘时引用本轮分题集结果与“作者复核预标、20条样本90%一致”口径，不混称RAG准确率，不把评审版本差异称系统性能提升，不称独立盲测或120条全量人工验收。
 - **当前手动试跑**：`http://127.0.0.1:8000`保持运行，`/health`数据库正常；服务无reload、离线加载本地模型。真实单题及暖检索探针均通过；单题耗时不能代表正式性能。进程与日志位置见核验报告。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -44,7 +44,7 @@
 | [phase-17 复审修复与测试草案](build/phase-17-dataset-repair-test30.md) | 完成、待作者冻结 | 修复开发题、OR与语义问题，仓库外30题审阅包完成；未跑系统效果 |
 | [phase-18 Windows连接核验](build/phase-18-windows-readiness.md) | 完成 | 本机REST、数据库、真实模型与Langfuse读回通过，服务保持运行 |
 | [phase-19 三套初步评测](build/phase-19-final-evaluation.md) | 完成、待人工校准 | 三套全完成且无错；开发/回归云端核验，测试仓库外存储，校准样本交付，未提交Git |
-| [phase-20 v2缓存重评](build/phase-20-judge-v2.md) | 技术交付完成、人工校准待确认 | 三套完成，Windows原版严格审计通过；独立预标80%未达85%，不能作为最终成绩 |
+| [phase-20 v2缓存重评](build/phase-20-judge-v2.md) | 完成 | 三套、严格审计和作者样本复核完成；18/20＝90%达标，非盲标；原记录与分歧保留 |
 
 最终检查状态见下方2026-10-19活动记录。上次GPU pytest（2026-10-16）为3 passed；本轮真实试评调用Qwen3嵌入/精排与DeepSeek，未执行封存测试或已校准的正式效果评测。
 
@@ -376,3 +376,11 @@
 - 实际收尾质量检查：backend/.venv/Scripts/python.exe -m poethepoet check → ruff格式/lint通过，lint-imports 1 kept / 0 broken，mypy162文件通过，463 passed / 35 deselected，覆盖率94.93%。本轮真实模型调用0，系统/检索调用0，业务/评分/模板/题集/evidence未变。
 - 仓库外封存grounded-rag-v2-closeout-20261020.zip：60个文件，5778891字节，SHA-256 184666976126900cd9b215fc0692040b9bef8f09360edcc539d15057fd29c62f，ZIP及每文件哈希核验通过。含两份未经修改的来源包、重算/审计、盲预标、人工空白表和逐题核查；不加入Git。
 - 技术交付可以归档；正式人工校准未完成，不能将v2标成最终成绩。作者/独立标注者用仓库外calibration-human-blank.md标固定20条，按事先整题口径至少17/20一致才达到85%。当前唯一剩余外部输入是参考标注/裁决，不需要再跑系统或真实评审。详情见harness/code_review/2026-10-20-judge-v2-windows-closeout.md。
+
+### 2026-10-20 · phase-20作者复核样本校准与结项
+
+- 作者完成仓库外calibration-prelabel-v2.md全部20条人工裁决。dev089原写“算啊，同意Codex”，经明确字段询问，作者在聊天确认“true：算纠正前提，同意 Claude”；最终按该澄清转录，原标注文档逐字节另存不改。方法为作者复核预标，非盲标，不称独立人工盲标。
+- 仓库外finalize_human_calibration.py逐题核对固定种子20261021的原20条顺序、冻结预标SHA、原Claude标签；与人审前归档比较，除人工裁决行外正文及两版标签没有变化。按nuggets/contradiction/behavior/corrects_premise/covers_interpretations五字段整题一致计算18/20＝90%，达到既定85%门槛；未重抽、未删字段、未修改原标签。剩余dev054与dev008分歧保留，20条原规则分数一致仅作诊断，不替代整题门槛。
+- 新增结构化作者参考及原标注、human-calibration-result.md、final-report.md；参考SHA-256为b235d3075bee1352a947cc16a66a53aefc82449c86080247db2c2607cb3636aa。原独立预标80%、旧36条、首次18条错误、三套v1/v2原始结果和全部核查风险均保留。该90%是评审样本与作者参考一致率，不是RAG准确率，也不是120条全量人工验收。
+- 实际执行python package_final_calibration.py，新建仓库外grounded-rag-v2-final-20261020.zip：11文件、5796279字节，SHA-256 7694907f0c8205c084c09dffc8537d4505a71b5d3e9be6e55bde961ae25fe438；CRC及清单中每文件SHA全部通过。内嵌此前技术归档原字节，保留全部原始证据；包与含测试原文的材料均不进Git。
+- 本次只做作者裁决转录和文档归档，真实模型/系统/检索调用均0，业务/评分/模板/题集/evidence均未变。最近完整代码质量检查仍为463 passed / 35 deselected、覆盖率94.93%，不重复运行无改动的代码测试。代码复审、三套真实重评、原函数复算、Windows严格审计、完整核查及约定样本校准均完成，本轮按既定范围结项。
