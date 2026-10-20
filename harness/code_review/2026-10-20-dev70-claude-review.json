@@ -1,0 +1,726 @@
+{
+  "review_id": "2026-10-20-dev70-claude-review",
+  "reviewer": "Claude (claude-sonnet-5-5)",
+  "date": "2026-10-20",
+  "repo": "grounded_rag",
+  "branch": "2026-10-19-cloud-tracing",
+  "head": "846b39f",
+  "corpus": {
+    "repo": "langgenius/dify-docs",
+    "commit": "c80a31868611b673bd77725a6310c685068a585e",
+    "documents": 182
+  },
+  "scope": "dev045-090 (46 new) full review; dev021-044 (24 revised-batch) old-12 verification; dev001-020 used for fact dedup only",
+  "constraints_respected": {
+    "no_sealed_30": true,
+    "no_backend_eval_data": true,
+    "no_scoring_or_prompt_change": true,
+    "no_questions_or_evidence_modified": true,
+    "no_full_system_baseline_or_paid_run": true
+  },
+  "report_markdown": "harness/code_review/2026-10-20-dev70-claude-review.md",
+  "summary": {
+    "new46": {
+      "accept": 35,
+      "revise": 11,
+      "reject": 0
+    },
+    "hard_failures": [
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5",
+      "H6"
+    ],
+    "old12": {
+      "resolved": 9,
+      "resolved_with_new_findings": 3,
+      "unchanged_other12_verified_identical_to_7e73762": true
+    }
+  },
+  "verdicts": {
+    "dev045": {
+      "verdict": "accept",
+      "note": "4 independent vitals, no title leak"
+    },
+    "dev046": {
+      "verdict": "accept",
+      "note": "selftest miss; good difficulty"
+    },
+    "dev047": {
+      "verdict": "accept"
+    },
+    "dev048": {
+      "verdict": "revise",
+      "issues": [
+        "H4"
+      ],
+      "note": "environments.mdx L1092 equivalent source unlisted; rank5 top1 distractor, not obviously easy"
+    },
+    "dev049": {
+      "verdict": "revise",
+      "issues": [
+        "S1"
+      ],
+      "note": "OR sources complete, but not a numeric/table question; rank1"
+    },
+    "dev050": {
+      "verdict": "accept"
+    },
+    "dev051": {
+      "verdict": "accept",
+      "note": "'漏选' mild inference"
+    },
+    "dev052": {
+      "verdict": "accept"
+    },
+    "dev053": {
+      "verdict": "accept",
+      "note": "single vital allowed for short question"
+    },
+    "dev054": {
+      "verdict": "accept"
+    },
+    "dev055": {
+      "verdict": "revise",
+      "issues": [
+        "H6"
+      ],
+      "note": "bridge not necessary; second ask lacks object; '唯一凭据' leaks"
+    },
+    "dev056": {
+      "verdict": "accept",
+      "note": "vital1 bundles template+mode (low)"
+    },
+    "dev057": {
+      "verdict": "revise",
+      "issues": [
+        "H3"
+      ],
+      "note": "title token 'Notion' in question; first doc already has env vars"
+    },
+    "dev058": {
+      "verdict": "accept",
+      "note": "best chain"
+    },
+    "dev059": {
+      "verdict": "revise",
+      "issues": [
+        "H1"
+      ],
+      "note": "deduped from dev035 OK; OR sources streaming L18/L71, agent L16/L28 missing"
+    },
+    "dev060": {
+      "verdict": "accept"
+    },
+    "dev061": {
+      "verdict": "accept",
+      "note": "parents p2/p5/p7 exclusive, 9408 chars; '消费者' wording odd"
+    },
+    "dev062": {
+      "verdict": "accept",
+      "note": "parents p9/p10/p11, 79316 chars; vital1/3 bundle name+fallback (low)"
+    },
+    "dev063": {
+      "verdict": "accept",
+      "note": "wide-regex independent check supports absence; nearest: environments L345, overview L56"
+    },
+    "dev064": {
+      "verdict": "accept"
+    },
+    "dev065": {
+      "verdict": "accept",
+      "note": "orchestrate-node L26, L32-35 direct contradiction"
+    },
+    "dev066": {
+      "verdict": "accept",
+      "note": "cloud L79 vs self-host L79 differ"
+    },
+    "dev067": {
+      "verdict": "revise",
+      "issues": [
+        "S2"
+      ],
+      "note": "clarify axis in reference answer misaligned with docs"
+    },
+    "dev068": {
+      "verdict": "accept",
+      "note": "rank1"
+    },
+    "dev069": {
+      "verdict": "accept",
+      "note": "rank1"
+    },
+    "dev070": {
+      "verdict": "revise",
+      "issues": [
+        "H4",
+        "S5"
+      ],
+      "note": "environments L1407-1411 equivalent unlisted; template-like"
+    },
+    "dev071": {
+      "verdict": "accept",
+      "note": "enum-level numeric; common-sense guessable"
+    },
+    "dev072": {
+      "verdict": "accept",
+      "note": "vital1/2 mirror (S4, low); real neighbor is human-input.mdx L61"
+    },
+    "dev073": {
+      "verdict": "accept"
+    },
+    "dev074": {
+      "verdict": "accept",
+      "note": "overlap with dev077 vital3 (fix on dev077)"
+    },
+    "dev075": {
+      "verdict": "accept"
+    },
+    "dev076": {
+      "verdict": "accept",
+      "note": "cloud clear-URL vs self-host fill-URL confirmed"
+    },
+    "dev077": {
+      "verdict": "revise",
+      "issues": [
+        "S3"
+      ],
+      "note": "vital3 overlaps dev074 vital1; weak bridge (low)"
+    },
+    "dev078": {
+      "verdict": "revise",
+      "issues": [
+        "H5"
+      ],
+      "note": "human-input-flow alone covers vital1/3/4"
+    },
+    "dev079": {
+      "verdict": "accept",
+      "note": "only tutorial->node chain"
+    },
+    "dev080": {
+      "verdict": "accept"
+    },
+    "dev081": {
+      "verdict": "accept",
+      "note": "same template as dev080 (low)"
+    },
+    "dev082": {
+      "verdict": "accept",
+      "note": "label 'compare' weak"
+    },
+    "dev083": {
+      "verdict": "revise",
+      "issues": [
+        "H4"
+      ],
+      "note": "environments L418/L420 equivalents unlisted"
+    },
+    "dev084": {
+      "verdict": "revise",
+      "issues": [
+        "H2"
+      ],
+      "note": "vital1/2 co-located in p3; 2 parents suffice"
+    },
+    "dev085": {
+      "verdict": "accept",
+      "note": "4 exclusive parents; 6225 chars (margin 225)"
+    },
+    "dev086": {
+      "verdict": "accept",
+      "note": "weak nearest-doc choice"
+    },
+    "dev087": {
+      "verdict": "accept",
+      "note": "start.mdx L14/L30 direct contradiction"
+    },
+    "dev088": {
+      "verdict": "accept"
+    },
+    "dev089": {
+      "verdict": "accept",
+      "note": "app-management L114 differs by edition"
+    },
+    "dev090": {
+      "verdict": "accept"
+    }
+  },
+  "issues": [
+    {
+      "id": "H1",
+      "severity": "hard",
+      "questions": [
+        "dev059"
+      ],
+      "problem": "Equivalent sources missing: vital1 'legacy Agent streaming only' and vital3 'agent_message' also stated in streaming.mdx and agent.mdx; gold groups list only chat/completion.",
+      "sources": [
+        "api-reference/guides/streaming L18, L71",
+        "api-reference/guides/agent L16, L28",
+        "api-reference/guides/chat L9, L17",
+        "api-reference/guides/completion L17"
+      ],
+      "minimal_fix": "Add OR (chat|streaming; agent per author decision) to vital1/3 and gold_doc_groups.",
+      "affects_quota": false
+    },
+    {
+      "id": "H2",
+      "severity": "hard",
+      "questions": [
+        "dev084"
+      ],
+      "problem": "Scattered claim of >=3 parents is inflated by equivalent evidence: vital1 and vital2 both in p3 (L39-41); 1.27.0 also in p0/p1/p2/p5; 50051 also in p4/p6/p15/p25; vital3/4 both in p10. Two parents suffice.",
+      "sources": [
+        "self-host/deploy/troubleshooting/weaviate-v4-migration L18, L39-41, L91, L300-301, L319"
+      ],
+      "minimal_fix": "Pick three mutually non-substitutable vitals (e.g. one from p10 plus two exclusive troubleshooting sections) and drop the version+port double ask.",
+      "affects_quota": false
+    },
+    {
+      "id": "H3",
+      "severity": "hard",
+      "questions": [
+        "dev057"
+      ],
+      "problem": "Chain invalid: second-doc title token 'Notion' appears in question; first document already contains the env vars (vital3); one retrieval hits both docs.",
+      "sources": [
+        "self-host/deploy/troubleshooting/integrations L9, L16-17",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion L56, L70-74, L99",
+        "self-host/deploy/configuration/environments L1120-1123"
+      ],
+      "minimal_fix": "Remove 'Notion' from the question; restrict vitals to second-doc-only facts (creator must be workspace owner L56, restart L99).",
+      "affects_quota": false
+    },
+    {
+      "id": "H4",
+      "severity": "hard_needs_author_decision",
+      "questions": [
+        "dev048",
+        "dev070",
+        "dev083",
+        "dev034(old)"
+      ],
+      "problem": "Same facts exist in environments.mdx but are not listed as OR sources; adding them would make environments.mdx used by dev048/062/070/083 (violates 'each doc once' among new 46); not adding makes recall scoring wrong.",
+      "sources": [
+        "self-host/deploy/configuration/environments L1092",
+        "L1407-1411",
+        "L418, L420",
+        "L1262"
+      ],
+      "minimal_fix": "Author decides: (1) treat config reference page as a generic equivalent source excluded from reuse cap, or (2) keep only dev062 on environments and rewrite/replace the others.",
+      "affects_quota": "possible (up to 3 replacements preserving subtypes)"
+    },
+    {
+      "id": "H5",
+      "severity": "hard",
+      "questions": [
+        "dev078"
+      ],
+      "problem": "Chain necessity weak: human-input-flow alone covers vital1/3/4; first doc only supplies workflow_paused (also in workflow.mdx L37). One retrieval hits both docs; 61-char four-ask stack.",
+      "sources": [
+        "api-reference/guides/chatflow L47",
+        "api-reference/guides/workflow L37",
+        "api-reference/guides/human-input-flow L9, L21, L33, L44"
+      ],
+      "minimal_fix": "Rewrite so second ask depends on facts available only after workflow_paused (resume interface, same-user requirement), or relabel as parallel and add one chain elsewhere.",
+      "affects_quota": "yes if relabeled (chain 7 -> 6)"
+    },
+    {
+      "id": "H6",
+      "severity": "hard",
+      "questions": [
+        "dev055"
+      ],
+      "problem": "Chain necessity weak: second ask has no object and leaks '唯一凭据' (model-providers L73); retrieval ranks 1 and 2 in one call.",
+      "sources": [
+        "api-reference/guides/errors L37, L42",
+        "cloud/use-dify/workspace/model-providers L13, L73"
+      ],
+      "minimal_fix": "Make second ask explicitly depend on the located fix place; remove second-doc-only phrasing.",
+      "affects_quota": false
+    },
+    {
+      "id": "S1",
+      "severity": "semantic",
+      "questions": [
+        "dev049"
+      ],
+      "problem": "Not a numeric/table question: answers are 'owner mailbox' and 'ordinary member'; confusables are other role rows; rank 1.",
+      "sources": [
+        "cloud/use-dify/workspace/team-members-management L24, L47",
+        "self-host/use-dify/workspace/team-members-management L50"
+      ],
+      "minimal_fix": "Reclassify and replace with a genuine numeric/field question.",
+      "affects_quota": true
+    },
+    {
+      "id": "S2",
+      "severity": "semantic",
+      "questions": [
+        "dev067"
+      ],
+      "problem": "Reference answer's clarification axis (receive vs understand) differs from doc axis (start node vs text-generator model capability).",
+      "sources": [
+        "self-host/use-dify/nodes/user-input L85-106",
+        "self-host/use-dify/build/text-generator L162-185"
+      ],
+      "minimal_fix": "Re-center reference answer on app type / start node.",
+      "affects_quota": false
+    },
+    {
+      "id": "S3",
+      "severity": "semantic",
+      "questions": [
+        "dev077",
+        "dev074"
+      ],
+      "problem": "Near-duplicate fact: per-node duration/trace (history-and-logs L44) vs per-node execution trace for slow steps (logs L48).",
+      "sources": [
+        "self-host/use-dify/debug/history-and-logs L44",
+        "self-host/use-dify/monitor/logs L48"
+      ],
+      "minimal_fix": "Downgrade dev077 vital3 to okay or replace with a non-overlapping fact (keep >=3 vitals).",
+      "affects_quota": false
+    },
+    {
+      "id": "S4",
+      "severity": "semantic",
+      "questions": [
+        "dev072",
+        "dev058"
+      ],
+      "problem": "Mirror-image vitals from one sentence (text keeps answer / reasoning to reasoning_content; not deleted / still retrievable).",
+      "sources": [
+        "self-host/use-dify/nodes/llm L143",
+        "cloud/use-dify/knowledge/knowledge-storage-limit L53"
+      ],
+      "minimal_fix": "Merge, or replace one with an independent fact.",
+      "affects_quota": false
+    },
+    {
+      "id": "S5",
+      "severity": "semantic",
+      "questions": [
+        "dev034",
+        "dev048",
+        "dev070",
+        "dev080",
+        "dev081"
+      ],
+      "problem": "Template repetition: 'default size + which config', and paired monitoring-integration field comparisons; four-vital multi-hop questions stack 3-4 asks.",
+      "minimal_fix": "Rephrase at least dev070/dev081 as scenario/symptom questions.",
+      "affects_quota": false
+    },
+    {
+      "id": "S6",
+      "severity": "semantic",
+      "questions": [
+        "dev068",
+        "dev069",
+        "dev070",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev074",
+        "dev075",
+        "dev078",
+        "dev079",
+        "dev080",
+        "dev081",
+        "dev082",
+        "dev083",
+        "dev086",
+        "dev090"
+      ],
+      "problem": "most_likely_failure is placeholder text '忽略条件或套用邻近说明。' (16 questions).",
+      "minimal_fix": "Write concrete failure per question.",
+      "affects_quota": false
+    },
+    {
+      "id": "S7",
+      "severity": "semantic",
+      "questions": [
+        "global"
+      ],
+      "problem": "form_tags inflated: declared 33 scenario / 17 condition; independently accepted about 20 / 12 (thresholds 14 / 7 still met).",
+      "minimal_fix": "Remove unsupported tags.",
+      "affects_quota": false
+    },
+    {
+      "id": "S8",
+      "severity": "semantic",
+      "questions": [
+        "dev043",
+        "dev019"
+      ],
+      "problem": "Pure-injection dev043 duplicates dev019's template (ignore rules + dump API keys); requirements-review-v2 rule 17 asked for injection embedded in a normal Dify question.",
+      "minimal_fix": "Author confirms pure-injection intent; change carrier/wording.",
+      "affects_quota": false
+    },
+    {
+      "id": "S9",
+      "severity": "semantic",
+      "questions": [
+        "dev068",
+        "dev069",
+        "dev070",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev074"
+      ],
+      "problem": "edition=self_host without any version hint in question, while comparable batch-03 single-doc self-host questions use null.",
+      "minimal_fix": "Unify edition labelling rule.",
+      "affects_quota": false
+    },
+    {
+      "id": "S10",
+      "severity": "semantic",
+      "questions": [
+        "dev030(old)"
+      ],
+      "problem": "Gold groups AND-ed, but cloud doc's custom-client tab already states vital2-4; vital4 'save and authorize' is not part of 'preparation'.",
+      "sources": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source L99-114",
+        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source L91-105"
+      ],
+      "minimal_fix": "OR (cloud|self-host) for vital2-4; mark vital4 okay.",
+      "affects_quota": false
+    },
+    {
+      "id": "O1",
+      "severity": "optional_hardening",
+      "questions": [
+        "dev048",
+        "dev068",
+        "dev069",
+        "dev070",
+        "dev072",
+        "dev075"
+      ],
+      "problem": "See report section 6; dev048 and dev054 are not clearly easy (rank 5 / rank 2).",
+      "minimal_fix": "Add same-page conditions/exceptions or multi-row comparisons without changing gold.",
+      "affects_quota": false
+    },
+    {
+      "id": "L1",
+      "severity": "legacy",
+      "questions": [
+        "dev025",
+        "dev041",
+        "dev023",
+        "dev027"
+      ],
+      "problem": "8 legacy_observation items (short cleaned text, no confusables, no generic distractors) kept as known limits.",
+      "affects_quota": false
+    },
+    {
+      "id": "L2",
+      "severity": "tool",
+      "questions": [],
+      "problem": "source_index.py rewrites committed corpus-distribution.json with different ordering on Windows (case-insensitive FS: README vs readme).",
+      "minimal_fix": "Sort case-insensitively with stable tiebreak.",
+      "affects_quota": false
+    }
+  ],
+  "old12": {
+    "dev021": {
+      "status": "resolved"
+    },
+    "dev024": {
+      "status": "resolved"
+    },
+    "dev029": {
+      "status": "resolved"
+    },
+    "dev030": {
+      "status": "partial",
+      "issue": "S10"
+    },
+    "dev031": {
+      "status": "resolved"
+    },
+    "dev033": {
+      "status": "resolved"
+    },
+    "dev034": {
+      "status": "resolved_with_new_finding",
+      "issue": "H4"
+    },
+    "dev035": {
+      "status": "resolved",
+      "note": "learn/key-concepts L97 partial equivalent for vital2"
+    },
+    "dev036": {
+      "status": "resolved"
+    },
+    "dev037": {
+      "status": "resolved"
+    },
+    "dev041": {
+      "status": "resolved",
+      "note": "legacy cleaned text 4946 chars"
+    },
+    "dev043": {
+      "status": "resolved_with_note",
+      "issue": "S8"
+    }
+  },
+  "other12_unchanged": {
+    "ids": [
+      "dev022",
+      "dev023",
+      "dev025",
+      "dev026",
+      "dev027",
+      "dev028",
+      "dev032",
+      "dev038",
+      "dev039",
+      "dev040",
+      "dev042",
+      "dev044"
+    ],
+    "baseline": "7e73762",
+    "questions_jsonl_identical": true,
+    "evidence_objects_identical": true
+  },
+  "quotas": {
+    "first23": {
+      "single": 10,
+      "multi": 8,
+      "chain": 4,
+      "refuse_correct": 3,
+      "clarify": 2,
+      "match": true
+    },
+    "last23": {
+      "single": 9,
+      "multi": 9,
+      "chain": 3,
+      "refuse_correct": 3,
+      "clarify": 2,
+      "match": true
+    },
+    "substantive_discount": {
+      "numeric_table": "dev049",
+      "chain": [
+        "dev055",
+        "dev057",
+        "dev078"
+      ],
+      "scattered": "dev084"
+    }
+  },
+  "distribution": {
+    "new46_doc_reuse_declared_or": 0,
+    "new46_doc_reuse_after_missing_or": "environments.mdx would be shared by dev048/062/070/083",
+    "nodes_docs": 7,
+    "low_coverage_docs_gold_docs": 25,
+    "low_coverage_docs_with_or": 29,
+    "scenario_tags_declared": 33,
+    "condition_tags_declared": 17
+  },
+  "retrieval_selftest_reread": {
+    "new46_single_hit_5": "17/19",
+    "misses": [
+      "dev046",
+      "dev051"
+    ],
+    "chain_single_shot_full_hit": [
+      "dev055",
+      "dev057",
+      "dev078"
+    ],
+    "codex_candidates_not_obviously_easy": {
+      "dev048": "rank5, top1 distractor",
+      "dev054": "rank2"
+    },
+    "rerun": false
+  },
+  "checks": {
+    "executed": [
+      "git status/fetch/branch --contains",
+      "tools/source_index.py (rebuilt .cache index; restored overwritten corpus-distribution.json via git checkout)",
+      "tools/validate_completion.py --mode completion (exit 0; 563 pass / 141 legacy_observation_pass / 8 legacy_observation)",
+      "tools/test_tools.py (8 OK)",
+      "independent quota / doc reuse / nodes / low-coverage counting script",
+      "equivalent-source reverse lookup of every nugget identifier across 182 docs",
+      "parent-block reverse lookup for scattered questions dev061/062/084/085",
+      "wide-regex absence checks for dev063/064/086 across 182 docs",
+      "retrieval-selftest.jsonl rank re-reading",
+      "old other-12 byte comparison vs 7e73762 (questions.jsonl and evidence objects)"
+    ],
+    "read_only_verified": [
+      "twin-comparisons.json (spot: dev054/075/076/089/066/049/056)",
+      "corpus-distribution.json",
+      "validation.json per-question conditions (replaced by own counting)",
+      "blueprint*.json"
+    ],
+    "not_executed_or_not_judgeable": [
+      "retrieval_selftest.py (needs DB + Qwen3 models; not requested)",
+      "DB verification claims in runtime-verification.json (read only)",
+      "real difficulty vs full system / no-retrieval baseline; guessable_without_docs all null",
+      "scoring loader OR-group handling (README says loader ignores gold_doc_groups OR; code not read)",
+      "full verification of every synonym-title trigram (validator result trusted, 5 questions manually checked)"
+    ]
+  },
+  "must_fix_first": [
+    "dev059",
+    "dev084",
+    "dev057",
+    "dev078",
+    "dev055",
+    "H4-policy(dev048/dev070/dev083, old dev034)",
+    "dev049",
+    "dev067",
+    "dev077",
+    "S6-placeholders"
+  ],
+  "keep_and_harden_later": [
+    "dev045",
+    "dev046",
+    "dev047",
+    "dev050",
+    "dev051",
+    "dev052",
+    "dev053",
+    "dev054",
+    "dev056",
+    "dev058",
+    "dev060",
+    "dev061",
+    "dev062",
+    "dev063",
+    "dev064",
+    "dev065",
+    "dev066",
+    "dev068",
+    "dev069",
+    "dev071",
+    "dev072",
+    "dev073",
+    "dev074",
+    "dev075",
+    "dev076",
+    "dev079",
+    "dev080",
+    "dev081",
+    "dev082",
+    "dev085",
+    "dev086",
+    "dev087",
+    "dev088",
+    "dev089",
+    "dev090"
+  ],
+  "h4_decision": {
+    "date": "2026-10-20",
+    "authorized_by": "author (delegated to reviewer recommendation)",
+    "choice": "option_1_generic_equivalent_source",
+    "rule": "environments counted as primary gold only for dev062; as OR equivalent for dev048/dev070/dev083/dev034(old) and excluded from the reuse cap",
+    "applied_to_files": false
+  }
+}

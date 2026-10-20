@@ -1,5 +1,17 @@
 {
-  "status": "draft_pending_external_review",
+  "status": "revised_pending_independent_review",
+  "updated_at": "2026-10-20",
+  "corpus_repo": "langgenius/dify-docs",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "ingest_version": "1",
+  "database_verified": false,
+  "source_license": "CC BY 4.0",
+  "source_workflow": "冻结原文写题→严格证据→独立审题→主agent修复→每题原样单次检索；未运行完整回答系统或用被测答案定金标",
+  "formal_dataset": "70开发+30测试；旧20另作回归",
+  "paid_calls": 0,
+  "baseline_run": false,
+  "rag_run": false,
+  "dataset_version": "dev70-review-repair-2026-10-20",
   "question_count": 23,
   "questions": [
     {
@@ -220,10 +232,7 @@
       "hardness_tag": "synonym",
       "most_likely_failure": "搜到其他画布的同名步骤，或把组合键冲突误判为不可使用。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom",
-        "condition_or_exception"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -367,9 +376,9 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -378,7 +387,40 @@
         "vital_count": 3
       },
       "synonym_title_overlap_whitelist": [],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/use-dify/build/goto-anything"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/goto-anything"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/goto-anything"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/build/goto-anything"
+            ],
+            [
+              "self-host/use-dify/build/goto-anything"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev047",
@@ -404,7 +446,8 @@
       "most_likely_failure": "假称锁定先编辑者，或说新版本会删评论。",
       "guessable_without_docs": null,
       "form_tags": [
-        "scenario_or_symptom"
+        "scenario_or_symptom",
+        "condition_or_exception"
       ],
       "nugget_evidence": [
         {
@@ -484,11 +527,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "并发覆盖规则有经验猜测风险；未运行无检索基线，不能标成低可猜。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -497,11 +540,33 @@
         "vital_count": 2
       },
       "synonym_title_overlap_whitelist": [],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/use-dify/build/workflow-collaboration"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/workflow-collaboration"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/workflow-collaboration"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev048",
-      "reference_answer": "单个录音默认最多50 MB，配置项是UPLOAD_AUDIO_FILE_SIZE_LIMIT。",
+      "reference_answer": "下一步问题建议的自定义提示词最多1000字符；生成更多类似内容时，每条原结果最多生成2个变体，每个变体额外消耗token。",
       "behavior_group": "single",
       "behavior_subtype": "numeric_table",
       "expected_behavior": "answered",
@@ -514,49 +579,45 @@
         ]
       ],
       "n_docs": 1,
-      "n_subasks": 2,
+      "n_subasks": 1,
       "subasks": [
-        "单个音频文件上传默认上限为50 MB。",
-        "调整音频大小上限使用UPLOAD_AUDIO_FILE_SIZE_LIMIT。"
+        "两个辅助生成功能的数量限制"
       ],
       "hardness_tag": "numeric_table",
-      "most_likely_failure": "把图片、普通文件或视频的大小限额套给音频。",
+      "most_likely_failure": "把文件上传大小限额错套给建议提示词字符数，或把变体数说成可无限生成。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "单个音频文件上传默认上限为50 MB。",
+          "text": "下一步问题建议的自定义提示词最多1000字符。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/build/additional-features",
-                  "heading_path": "应用工具箱 > 文件上传",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx#L80-L80",
+                  "heading_path": "应用工具箱 > 下一步问题建议",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx#L50-L50",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx",
-                  "raw_line_start": 80,
-                  "raw_line_end": 80,
-                  "original_excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+                  "raw_line_start": 50,
+                  "raw_line_end": 50,
+                  "original_excerpt": "点击 **设置** 可选择用于生成问题的模型，或编写自定义提示词（最多 1,000 字符）来调整问题的数量、措辞或长度。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/additional-features#c5",
-                    "excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+                    "chunk_id": "self-host/use-dify/build/additional-features#c2",
+                    "excerpt": "点击 **设置** 可选择用于生成问题的模型，或编写自定义提示词（最多 1,000 字符）来调整问题的数量、措辞或长度。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/additional-features#p5",
-                    "heading_path": "应用工具箱 > 文件上传",
+                    "parent_id": "self-host/use-dify/build/additional-features#p2",
+                    "heading_path": "应用工具箱 > 下一步问题建议",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 956,
+                  "cleaned_character_offset": 329,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
                 }
               ]
             }
@@ -564,35 +625,34 @@
         },
         {
           "nugget_index": 1,
-          "text": "调整音频大小上限使用UPLOAD_AUDIO_FILE_SIZE_LIMIT。",
+          "text": "生成更多类似内容时，每条结果最多生成2个变体。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/build/additional-features",
-                  "heading_path": "应用工具箱 > 文件上传",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx#L80-L80",
+                  "heading_path": "应用工具箱 > 生成更多类似内容",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx#L135-L135",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx",
-                  "raw_line_start": 80,
-                  "raw_line_end": 80,
-                  "original_excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+                  "raw_line_start": 135,
+                  "raw_line_end": 135,
+                  "original_excerpt": "每条结果最多可生成 2 个变体，每个变体都会消耗额外的 token。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/additional-features#c5",
-                    "excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+                    "chunk_id": "self-host/use-dify/build/additional-features#c9",
+                    "excerpt": "每条结果最多可生成 2 个变体，每个变体都会消耗额外的 token。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/additional-features#p5",
-                    "heading_path": "应用工具箱 > 文件上传",
+                    "parent_id": "self-host/use-dify/build/additional-features#p9",
+                    "heading_path": "应用工具箱 > 生成更多类似内容",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 956,
+                  "cleaned_character_offset": 1708,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
                 }
               ]
             }
@@ -602,22 +662,24 @@
       "boundary_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "notes": [
+        "H4补充发现：原音频事实还在agent/chatbot/text-generator/new-agent/build中复述，不属于配置参考页豁免。为保持复用上限，改考本页独有的提示词和变体限制。"
+      ],
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 26,
+        "question_characters": 30,
         "vital_count": 2,
         "kind": "真实音频大小数值与配置查读"
       },
       "answer_literals": [
-        "50",
-        "50 MB",
-        "UPLOAD_AUDIO_FILE_SIZE_LIMIT"
+        "1000",
+        "1,000",
+        "2"
       ],
       "numeric_confusables": [
         {
@@ -642,10 +704,9 @@
             },
             "cleaned_character_offset": 874,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
           }
         },
         {
@@ -670,10 +731,36 @@
             },
             "cleaned_character_offset": 918,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
+          }
+        },
+        {
+          "literal": "50 MB",
+          "source": {
+            "document_id": "self-host/use-dify/build/additional-features",
+            "heading_path": "应用工具箱 > 文件上传",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx#L80-L80",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/additional-features.mdx",
+            "raw_line_start": 80,
+            "raw_line_end": 80,
+            "original_excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/build/additional-features#c5",
+              "excerpt": "- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`（默认值：50 MB）",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/build/additional-features#p5",
+              "heading_path": "应用工具箱 > 文件上传",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 956,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
           }
         },
         {
@@ -698,18 +785,39 @@
             },
             "cleaned_character_offset": 1000,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
           }
         }
       ],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/use-dify/build/additional-features"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/additional-features"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/additional-features"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev049",
-      "reference_answer": "验证码发到当前所有者的邮箱；交接完成后原所有者变为普通成员。",
+      "reference_answer": "Sandbox最多1名成员，Professional最多3名，Team最多50名。",
       "behavior_group": "single",
       "behavior_subtype": "numeric_table",
       "expected_behavior": "answered",
@@ -718,79 +826,49 @@
       ],
       "gold_doc_groups": [
         [
-          "cloud/use-dify/workspace/team-members-management",
-          "self-host/use-dify/workspace/team-members-management"
+          "cloud/use-dify/workspace/team-members-management"
         ]
       ],
       "n_docs": 1,
-      "n_subasks": 2,
+      "n_subasks": 1,
       "subasks": [
-        "转移验证码的收件人",
-        "原所有者转移完成后的角色"
+        "各套餐成员数量限制"
       ],
       "hardness_tag": "numeric_table",
-      "most_likely_failure": "把验证码发给接收者，或将原负责人保留为管理员。",
+      "most_likely_failure": "把团队人数与知识库请求频率或单次上传数量混淆，误认为两个付费档上限相同。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "转移所有权的验证码发送到当前所有者邮箱。",
+          "text": "Sandbox工作空间最多1名成员。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "cloud/use-dify/workspace/team-members-management",
-                  "heading_path": "管理成员 > 管理成员",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47",
+                  "heading_path": "管理成员 > 团队规模限制",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L14-L14",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
-                  "raw_line_start": 47,
-                  "raw_line_end": 47,
-                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                  "raw_line_start": 14,
+                  "raw_line_end": 14,
+                  "original_excerpt": "- **Sandbox**：1 个成员",
                   "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
-                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                    "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+                    "excerpt": "- **Sandbox**：1 个成员",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "cloud/use-dify/workspace/team-members-management#p4",
-                    "heading_path": "管理成员 > 管理成员",
+                    "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+                    "heading_path": "管理成员 > 团队规模限制",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 732,
+                  "cleaned_character_offset": 82,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
-                  "reconstruct_verified": true
-                },
-                {
-                  "document_id": "self-host/use-dify/workspace/team-members-management",
-                  "heading_path": "管理成员 > 管理成员",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx",
-                  "raw_line_start": 50,
-                  "raw_line_end": 50,
-                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
-                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/workspace/team-members-management#p3",
-                    "heading_path": "管理成员 > 管理成员",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 855,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
                 }
               ]
             }
@@ -798,60 +876,69 @@
         },
         {
           "nugget_index": 1,
-          "text": "转移完成后，原所有者变为普通成员。",
+          "text": "Professional工作空间最多3名成员。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "cloud/use-dify/workspace/team-members-management",
-                  "heading_path": "管理成员 > 管理成员",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L47-L47",
+                  "heading_path": "管理成员 > 团队规模限制",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L15-L15",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
-                  "raw_line_start": 47,
-                  "raw_line_end": 47,
-                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                  "raw_line_start": 15,
+                  "raw_line_end": 15,
+                  "original_excerpt": "- **Professional**：3 个成员",
                   "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/workspace/team-members-management#c4",
-                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                    "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+                    "excerpt": "- **Professional**：3 个成员",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "cloud/use-dify/workspace/team-members-management#p4",
-                    "heading_path": "管理成员 > 管理成员",
+                    "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+                    "heading_path": "管理成员 > 团队规模限制",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 732,
+                  "cleaned_character_offset": 102,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
-                  "reconstruct_verified": true
-                },
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "Team工作空间最多50名成员。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
                 {
-                  "document_id": "self-host/use-dify/workspace/team-members-management",
-                  "heading_path": "管理成员 > 管理成员",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx#L50-L50",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/team-members-management.mdx",
-                  "raw_line_start": 50,
-                  "raw_line_end": 50,
-                  "original_excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                  "document_id": "cloud/use-dify/workspace/team-members-management",
+                  "heading_path": "管理成员 > 团队规模限制",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L16-L16",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
+                  "raw_line_start": 16,
+                  "raw_line_end": 16,
+                  "original_excerpt": "- **Team**：50 个成员",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/workspace/team-members-management#c3",
-                    "excerpt": "**转移所有权**：只有所有者才能转移所有权。转移需通过发送至所有者邮箱的验证码确认。确认后，所选成员成为新的所有者，原所有者变更为普通成员。",
+                    "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+                    "excerpt": "- **Team**：50 个成员",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/workspace/team-members-management#p3",
-                    "heading_path": "管理成员 > 管理成员",
+                    "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+                    "heading_path": "管理成员 > 团队规模限制",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 855,
+                  "cleaned_character_offset": 127,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
                 }
               ]
             }
@@ -860,110 +947,134 @@
       ],
       "boundary_evidence": [],
       "distractor_docs": [],
-      "counterpart_docs": [
-        "self-host/use-dify/workspace/team-members-management"
-      ],
+      "counterpart_docs": [],
       "notes": [
-        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。",
+        "S1：替换流程事实，考三行套餐人数；self-host页未列这三行，不作等价来源。"
       ],
-      "author_review_status": "primary_verified_after_independent_reject",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 28,
-        "vital_count": 2,
+        "question_characters": 24,
+        "vital_count": 3,
         "kind": "角色枚举/转移配置查读，没有答案数值，不冒称数值运算"
       },
       "answer_literals": [
-        "所有者",
-        "普通成员"
+        "1",
+        "3",
+        "50"
       ],
       "numeric_confusables": [
         {
-          "literal": "所有者",
+          "literal": "1",
           "source": {
             "document_id": "cloud/use-dify/workspace/team-members-management",
-            "heading_path": "管理成员 > 角色",
-            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L24-L24",
+            "heading_path": "管理成员 > 团队规模限制",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L14-L14",
             "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
-            "raw_line_start": 24,
-            "raw_line_end": 24,
-            "original_excerpt": "- **所有者**：拥有工作空间的完全控制权，每个工作空间仅一名。",
+            "raw_line_start": 14,
+            "raw_line_end": 14,
+            "original_excerpt": "- **Sandbox**：1 个成员",
             "direct_evidence": {
-              "chunk_id": "cloud/use-dify/workspace/team-members-management#c2",
-              "excerpt": "- **所有者**：拥有工作空间的完全控制权，每个工作空间仅一名。",
+              "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+              "excerpt": "- **Sandbox**：1 个成员",
               "contains_excerpt": true
             },
             "supporting_parent": {
-              "parent_id": "cloud/use-dify/workspace/team-members-management#p2",
-              "heading_path": "管理成员 > 角色",
+              "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+              "heading_path": "管理成员 > 团队规模限制",
               "contains_excerpt": true
             },
-            "cleaned_character_offset": 202,
+            "cleaned_character_offset": 82,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
           }
         },
         {
-          "literal": "管理员",
+          "literal": "3",
           "source": {
             "document_id": "cloud/use-dify/workspace/team-members-management",
-            "heading_path": "管理成员 > 角色",
-            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L25-L25",
+            "heading_path": "管理成员 > 团队规模限制",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L15-L15",
             "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
-            "raw_line_start": 25,
-            "raw_line_end": 25,
-            "original_excerpt": "- **管理员**：管理成员和模型供应商，并拥有编辑者的全部权限。",
+            "raw_line_start": 15,
+            "raw_line_end": 15,
+            "original_excerpt": "- **Professional**：3 个成员",
             "direct_evidence": {
-              "chunk_id": "cloud/use-dify/workspace/team-members-management#c2",
-              "excerpt": "- **管理员**：管理成员和模型供应商，并拥有编辑者的全部权限。",
+              "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+              "excerpt": "- **Professional**：3 个成员",
               "contains_excerpt": true
             },
             "supporting_parent": {
-              "parent_id": "cloud/use-dify/workspace/team-members-management#p2",
-              "heading_path": "管理成员 > 角色",
+              "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+              "heading_path": "管理成员 > 团队规模限制",
               "contains_excerpt": true
             },
-            "cleaned_character_offset": 236,
+            "cleaned_character_offset": 102,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
           }
         },
         {
-          "literal": "编辑者",
+          "literal": "50",
           "source": {
             "document_id": "cloud/use-dify/workspace/team-members-management",
-            "heading_path": "管理成员 > 角色",
-            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L26-L26",
+            "heading_path": "管理成员 > 团队规模限制",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L16-L16",
             "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
-            "raw_line_start": 26,
-            "raw_line_end": 26,
-            "original_excerpt": "- **编辑者**：创建、编辑和删除应用与知识库。",
+            "raw_line_start": 16,
+            "raw_line_end": 16,
+            "original_excerpt": "- **Team**：50 个成员",
             "direct_evidence": {
-              "chunk_id": "cloud/use-dify/workspace/team-members-management#c2",
-              "excerpt": "- **编辑者**：创建、编辑和删除应用与知识库。",
+              "chunk_id": "cloud/use-dify/workspace/team-members-management#c1",
+              "excerpt": "- **Team**：50 个成员",
               "contains_excerpt": true
             },
             "supporting_parent": {
-              "parent_id": "cloud/use-dify/workspace/team-members-management#p2",
-              "heading_path": "管理成员 > 角色",
+              "parent_id": "cloud/use-dify/workspace/team-members-management#p1",
+              "heading_path": "管理成员 > 团队规模限制",
               "contains_excerpt": true
             },
-            "cleaned_character_offset": 270,
+            "cleaned_character_offset": 127,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
+          }
+        },
+        {
+          "literal": "72",
+          "source": {
+            "document_id": "cloud/use-dify/workspace/team-members-management",
+            "heading_path": "管理成员 > 添加成员",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx#L39-L39",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/team-members-management.mdx",
+            "raw_line_start": 39,
+            "raw_line_end": 39,
+            "original_excerpt": "邀请链接会在 72 小时后过期；若对方未及时接受，可再次邀请以发送新链接。",
+            "direct_evidence": {
+              "chunk_id": "cloud/use-dify/workspace/team-members-management#c3",
+              "excerpt": "邀请链接会在 72 小时后过期；若对方未及时接受，可再次邀请以发送新链接。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "cloud/use-dify/workspace/team-members-management#p3",
+              "heading_path": "管理成员 > 添加成员",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 531,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
           }
         }
       ],
@@ -971,10 +1082,36 @@
         "cloud/use-dify/workspace/team-members-management <=> self-host/use-dify/workspace/team-members-management"
       ],
       "all_equivalent_gold_docs": [
-        "cloud/use-dify/workspace/team-members-management",
-        "self-host/use-dify/workspace/team-members-management"
+        "cloud/use-dify/workspace/team-members-management"
       ],
-      "fact_equivalence_note": "Cloud L47与self-host L50的转移规则逐字一致；虽然全文权限/套餐不同，所问两个事实均可用任一篇作答，edition=null。"
+      "fact_equivalence_note": "所考套餐人数只有Cloud页正面记载。",
+      "edition": "cloud",
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/team-members-management"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/team-members-management"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/team-members-management"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev050",
@@ -1454,7 +1591,9 @@
       "hardness_tag": "short",
       "most_likely_failure": "将恢复草稿等同于自动上线。",
       "guessable_without_docs": null,
-      "form_tags": [],
+      "form_tags": [
+        "scenario_or_symptom"
+      ],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -1562,11 +1701,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "只问是否上线时，不把“没有未保存工作”的警告另设vital。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1574,7 +1713,32 @@
         "question_characters": 19,
         "vital_count": 2
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/use-dify/build/version-control"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/version-control"
+            ],
+            [
+              "self-host/use-dify/build/version-control"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/version-control"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev053",
@@ -1599,7 +1763,9 @@
       "hardness_tag": "short",
       "most_likely_failure": "混淆CONSOLE_URL/APP_URL与后端API地址变量。",
       "guessable_without_docs": null,
-      "form_tags": [],
+      "form_tags": [
+        "scenario_or_symptom"
+      ],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -1678,11 +1844,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "唯一单vital短问需保留两配置项名称作为必答，泛答可以不完整。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -1690,7 +1856,29 @@
         "question_characters": 19,
         "vital_count": 1
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/deploy/advanced-deployments/start-the-frontend-docker-container"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/deploy/advanced-deployments/start-the-frontend-docker-container"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/deploy/advanced-deployments/start-the-frontend-docker-container"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev054",
@@ -2075,21 +2263,21 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "后问保持“该处/该条目”指代，不提前给模型供应商标题；不要重新加未问的重试或空间级密钥范围为必答。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 51,
+        "question_characters": 70,
         "vital_count": 4
       },
       "chain": {
         "bridge_type": "诊断标识→配置修复→凭据生命周期",
-        "bridge_explanation": "第一篇从400中的稳定code定位为应用模型配置，排除原样重试；第二问用“该处/该条目”指代第一步定位出的模型供应商，不直接给模型供应商标题。",
+        "bridge_explanation": "先由错误码定位到应用模型配置，第二步沿该配置入口确定维护权限及自定义模型最后一把密钥的后果；题干不先给供应商、工作空间或自定义模型实体。",
         "second_document_answer_keywords": [
           "所有者",
           "管理员",
@@ -2102,10 +2290,10 @@
           "self-host/use-dify/workspace/plugins",
           "self-host/use-dify/workspace/tools"
         ],
-        "semantic_status": "blueprint_independent_review_accepted_formal_question_pending_review",
+        "semantic_status": "revised_after_claude_pending_rereview",
         "first_document": "api-reference/guides/errors",
         "second_document": "cloud/use-dify/workspace/model-providers",
-        "dependency": "第一篇从400中的稳定code定位为应用模型配置，排除原样重试；第二问用“该处/该条目”指代第一步定位出的模型供应商，不直接给模型供应商标题。",
+        "dependency": "先由错误码定位到应用模型配置，第二步沿该配置入口确定维护权限及自定义模型最后一把密钥的后果；题干不先给供应商、工作空间或自定义模型实体。",
         "generic_distractor_proof": [
           {
             "source": {
@@ -2167,6 +2355,48 @@
       },
       "twin_comparison_ids": [
         "cloud/use-dify/workspace/model-providers <=> self-host/use-dify/workspace/model-providers"
+      ],
+      "edition": "cloud",
+      "all_equivalent_gold_docs": [
+        "api-reference/guides/errors",
+        "cloud/use-dify/workspace/model-providers",
+        "self-host/use-dify/workspace/model-providers"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "api-reference/guides/errors"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "api-reference/guides/errors"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/model-providers",
+              "self-host/use-dify/workspace/model-providers"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/model-providers",
+              "self-host/use-dify/workspace/model-providers"
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2198,9 +2428,7 @@
       "hardness_tag": "chain",
       "most_likely_failure": "选Simple Q&A而非LLM生成问答，或只解释QtoQ不回答处理顺序与文体。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -2369,12 +2597,12 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "第二跳Q&A自动生成/完整自然语言只在self-host有支持段；正式题明确自部署上下文，或在题卡写清证据适用范围，不能默认Cloud未知内容相同。",
         "别在第二问直接给分段、总结内容、Q&A匹配对、完整语法结构、自然语言等识别性答案词。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -2462,13 +2690,49 @@
       },
       "source_applicability": "题干已明确自建，仅self-host来源证明Q&A处理顺序和文体；模板表两版等价保留OR，edition元数据null不对检索作过滤。",
       "twin_comparison_ids": [
-        "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods <=> self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
-        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+        "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods <=> self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+      ],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+        "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+        "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+              "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+            ],
+            [
+              "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods"
+            ]
+          ]
+        }
       ]
     },
     {
       "question_id": "dev057",
-      "reference_answer": "Notion OAuth只支持HTTPS，本地HTTP部署使用内部集成。由Notion工作空间所有者创建。在Dify的.env设NOTION_INTEGRATION_TYPE=internal及NOTION_INTERNAL_SECRET为内部密钥，再重启Dify加载设置。",
+      "reference_answer": "这里对应Notion。本地HTTP用内部集成（NOTION_INTEGRATION_TYPE=internal）；在Capabilities按需配置后，到Secrets选项卡点击Show复制密钥，改好环境变量后重启Dify加载。公开方式的Keys不适用于这里选择的分支。",
       "behavior_group": "multi",
       "behavior_subtype": "chain",
       "expected_behavior": "answered",
@@ -2478,30 +2742,30 @@
       ],
       "gold_doc_groups": [
         [
-          "self-host/deploy/troubleshooting/integrations"
+          "self-host/deploy/troubleshooting/integrations",
+          "self-host/deploy/configuration/environments"
         ],
         [
           "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 4,
+      "n_subasks": 2,
       "subasks": [
-        "Notion OAuth只支持HTTPS，本地HTTP部署须用内部集成。",
-        "创建内部集成需要是Notion工作空间所有者。",
-        "在.env设置NOTION_INTEGRATION_TYPE=internal和NOTION_INTERNAL_SECRET为内部密钥。",
-        "需重启Dify加载新的环境变量。"
+        "HTTP条件下的授权方式",
+        "沿该方式取密钥及加载新配置"
       ],
       "hardness_tag": "chain",
       "most_likely_failure": "误用公开OAuth，混淆Notion所有者与Dify管理员。",
       "guessable_without_docs": null,
       "form_tags": [
-        "scenario_or_symptom"
+        "scenario_or_symptom",
+        "condition_or_exception"
       ],
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "Notion OAuth只支持HTTPS，本地HTTP部署须用内部集成。",
+          "text": "本地HTTP使用内部集成，NOTION_INTEGRATION_TYPE取internal。",
           "importance": "vital",
           "all_of": [
             {
@@ -2526,10 +2790,85 @@
                   },
                   "cleaned_character_offset": 14,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "a1f9723b30153bc9d65b036916a9fadb9a5c6bf896351b9a58c571dda4a19649",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "a1f9723b30153bc9d65b036916a9fadb9a5c6bf896351b9a58c571dda4a19649"
+                },
+                {
+                  "document_id": "self-host/deploy/configuration/environments",
+                  "heading_path": "环境变量 > 服务器配置 > Notion 集成配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx#L1120-L1120",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx",
+                  "raw_line_start": 1120,
+                  "raw_line_end": 1120,
+                  "original_excerpt": "| `NOTION_INTEGRATION_TYPE` | `public` | `public` 使用标准 OAuth 2.0（需要 HTTPS 重定向 URL，需要 CLIENT_ID + CLIENT_SECRET）。`internal` 使用直接集成令牌（支持 HTTP）。本地部署建议使用 `internal`。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/configuration/environments#c137",
+                    "excerpt": "| `NOTION_INTEGRATION_TYPE` | `public` | `public` 使用标准 OAuth 2.0（需要 HTTPS 重定向 URL，需要 CLIENT_ID + CLIENT_SECRET）。`internal` 使用直接集成令牌（支持 HTTP）。本地部署建议使用 `internal`。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/configuration/environments#p41",
+                    "heading_path": "环境变量 > 服务器配置 > Notion 集成配置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 41478,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/deploy/troubleshooting/integrations",
+                  "heading_path": "第三方集成 > Notion 集成 > 配置环境变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/integrations.mdx#L16-L16",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/integrations.mdx",
+                  "raw_line_start": 16,
+                  "raw_line_end": 16,
+                  "original_excerpt": "NOTION_INTEGRATION_TYPE=internal",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/troubleshooting/integrations#c1",
+                    "excerpt": "NOTION_INTEGRATION_TYPE=internal",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/troubleshooting/integrations#p1",
+                    "heading_path": "第三方集成 > Notion 集成 > 配置环境变量",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 85,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "a1f9723b30153bc9d65b036916a9fadb9a5c6bf896351b9a58c571dda4a19649"
+                },
+                {
+                  "document_id": "self-host/deploy/configuration/environments",
+                  "heading_path": "环境变量 > 服务器配置 > Notion 集成配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx#L1120-L1120",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx",
+                  "raw_line_start": 1120,
+                  "raw_line_end": 1120,
+                  "original_excerpt": "| `NOTION_INTEGRATION_TYPE` | `public` | `public` 使用标准 OAuth 2.0（需要 HTTPS 重定向 URL，需要 CLIENT_ID + CLIENT_SECRET）。`internal` 使用直接集成令牌（支持 HTTP）。本地部署建议使用 `internal`。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/configuration/environments#c137",
+                    "excerpt": "| `NOTION_INTEGRATION_TYPE` | `public` | `public` 使用标准 OAuth 2.0（需要 HTTPS 重定向 URL，需要 CLIENT_ID + CLIENT_SECRET）。`internal` 使用直接集成令牌（支持 HTTP）。本地部署建议使用 `internal`。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/configuration/environments#p41",
+                    "heading_path": "环境变量 > 服务器配置 > Notion 集成配置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 41478,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
                 }
               ]
             }
@@ -2537,7 +2876,7 @@
         },
         {
           "nugget_index": 1,
-          "text": "创建内部集成需要是Notion工作空间所有者。",
+          "text": "内部集成从Secrets选项卡点击Show复制密钥。",
           "importance": "vital",
           "all_of": [
             {
@@ -2545,14 +2884,14 @@
                 {
                   "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
                   "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx#L56-L56",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx#L64-L64",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx",
-                  "raw_line_start": 56,
-                  "raw_line_end": 56,
-                  "original_excerpt": "在 Notion 的[集成设置页面](https://www.notion.so/my-integrations)创建集成。默认情况下，所有集成都以内部集成开始，并与你选择的 Notion 工作空间相关联，因此你需要是工作空间所有者才能创建集成。",
+                  "raw_line_start": 64,
+                  "raw_line_end": 64,
+                  "original_excerpt": "在 **Capabilities** 选项卡下按需更新集成设置，然后在 **Secrets** 下点击 **Show** 复制密钥。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c5",
-                    "excerpt": "在 Notion 的集成设置页面创建集成。默认情况下，所有集成都以内部集成开始，并与你选择的 Notion 工作空间相关联，因此你需要是工作空间所有者才能创建集成。",
+                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c6",
+                    "excerpt": "在 **Capabilities** 选项卡下按需更新集成设置，然后在 **Secrets** 下点击 **Show** 复制密钥。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
@@ -2560,12 +2899,11 @@
                     "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 775,
+                  "cleaned_character_offset": 950,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726"
                 }
               ]
             }
@@ -2573,72 +2911,7 @@
         },
         {
           "nugget_index": 2,
-          "text": "在.env设置NOTION_INTEGRATION_TYPE=internal和NOTION_INTERNAL_SECRET为内部密钥。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
-                  "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx#L70-L70",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx",
-                  "raw_line_start": 70,
-                  "raw_line_end": 70,
-                  "original_excerpt": "在 Dify 部署的 `.env` 文件中配置以下环境变量：",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c6",
-                    "excerpt": "在 Dify 部署的 `.env` 文件中配置以下环境变量：",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5",
-                    "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1018,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
-                  "reconstruct_verified": true
-                }
-              ]
-            },
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
-                  "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx#L73-L74",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion.mdx",
-                  "raw_line_start": 73,
-                  "raw_line_end": 74,
-                  "original_excerpt": "NOTION_INTEGRATION_TYPE=internal\nNOTION_INTERNAL_SECRET=your-internal-secret",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#c6",
-                    "excerpt": "NOTION_INTEGRATION_TYPE=internal\nNOTION_INTERNAL_SECRET=your-internal-secret",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion#p5",
-                    "heading_path": "从 Notion 导入数据 > 配置 Notion 集成",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1054,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 3,
-          "text": "需重启Dify加载新的环境变量。",
+          "text": "更改环境变量后需重启Dify加载新配置。",
           "importance": "vital",
           "all_of": [
             {
@@ -2663,10 +2936,9 @@
                   },
                   "cleaned_character_offset": 1452,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726"
                 }
               ]
             }
@@ -2676,27 +2948,28 @@
       "boundary_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "notes": [
+        "H3：去Notion标题词；用Secrets与公开方式Keys的真实分支差异修复依赖。NOTION_INTEGRATION_TYPE配置值的参考页复述按H4同类规则记OR；不是通用文档复用豁免。"
+      ],
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "第二问用该方式指代，不泄内部集成、NOTION变量或Secrets/Show等特有词；不把Notion所有者写成Dify管理员。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 35,
-        "vital_count": 4
+        "question_characters": 42,
+        "vital_count": 3
       },
       "chain": {
         "bridge_type": "部署协议条件→可用授权模式→对应权限与凭据流程",
         "bridge_explanation": "第二篇同时介绍内部和公开集成，创建权限、取密钥位置和环境变量都随模式不同；必须先用第一篇的HTTPS限制选分支，不能仅靠Notion这个名字跳页。",
         "second_document_answer_keywords": [
+          "Notion",
           "内部集成",
           "工作空间所有者",
-          ".env",
-          "NOTION_INTEGRATION_TYPE",
           "NOTION_INTERNAL_SECRET",
           "重启 Dify"
         ],
@@ -2704,10 +2977,10 @@
           "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
           "self-host/use-dify/workspace/api-extension/api-extension"
         ],
-        "semantic_status": "blueprint_independent_review_accepted_formal_question_pending_review",
+        "semantic_status": "revised_after_claude_pending_rereview",
         "first_document": "self-host/deploy/troubleshooting/integrations",
         "second_document": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
-        "dependency": "第二篇同时介绍内部和公开集成，创建权限、取密钥位置和环境变量都随模式不同；必须先用第一篇的HTTPS限制选分支，不能仅靠Notion这个名字跳页。",
+        "dependency": "第一篇的HTTP/HTTPS条件决定NOTION_INTEGRATION_TYPE=internal；第二篇内部分支在Secrets/Show取密钥，而公开分支在Keys取密钥，选择分支会改变第二问答案。",
         "generic_distractor_proof": [
           {
             "source": {
@@ -2769,6 +3042,47 @@
       },
       "twin_comparison_ids": [
         "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion <=> self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "reference_page_or_exception": {
+        "document_id": "self-host/deploy/configuration/environments",
+        "rule": "H4方案①：仅配置参考页重复专题页已有变量/默认值的OR来源，不计复用；主金标计数。"
+      },
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/deploy/configuration/environments",
+        "self-host/deploy/troubleshooting/integrations",
+        "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments",
+              "self-host/deploy/troubleshooting/integrations"
+            ],
+            [
+              "self-host/deploy/configuration/environments",
+              "self-host/deploy/troubleshooting/integrations"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2801,7 +3115,8 @@
       "most_likely_failure": "把取消视为立即降级，或把50 MB当单文件上限并误称旧数据被删。",
       "guessable_without_docs": null,
       "form_tags": [
-        "scenario_or_symptom"
+        "scenario_or_symptom",
+        "condition_or_exception"
       ],
       "nugget_evidence": [
         {
@@ -2953,12 +3268,12 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "第二问不得给Sandbox或50MB；50MB是知识库存储容量，不是单文件大小。",
         "四条事实虽使用三处源，数据保留和仍可检索需独立评分，不能互相替代。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3043,7 +3358,46 @@
           }
         ]
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": "cloud",
+      "all_equivalent_gold_docs": [
+        "cloud/use-dify/knowledge/knowledge-storage-limit",
+        "cloud/use-dify/workspace/subscription-management"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/subscription-management"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-storage-limit"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-storage-limit"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-storage-limit"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev059",
@@ -3057,7 +3411,8 @@
       ],
       "gold_doc_groups": [
         [
-          "api-reference/guides/chat"
+          "api-reference/guides/chat",
+          "api-reference/guides/streaming"
         ],
         [
           "api-reference/guides/completion"
@@ -3105,6 +3460,30 @@
                   "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274",
                   "reconstruct_verified": true
+                },
+                {
+                  "document_id": "api-reference/guides/streaming",
+                  "heading_path": "处理流式响应 > 选择响应模式",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L18-L18",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
+                  "raw_line_start": 18,
+                  "raw_line_end": 18,
+                  "original_excerpt": "旧版 Agent 和 Agent 应用仅支持流式返回。",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/streaming#c1",
+                    "excerpt": "旧版 Agent 和 Agent 应用仅支持流式返回。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/streaming#p1",
+                    "heading_path": "处理流式响应 > 选择响应模式",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 331,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
             }
@@ -3177,6 +3556,30 @@
                   "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274",
                   "reconstruct_verified": true
+                },
+                {
+                  "document_id": "api-reference/guides/streaming",
+                  "heading_path": "处理流式响应 > 按事件类型分发",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L71-L71",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
+                  "raw_line_start": 71,
+                  "raw_line_end": 71,
+                  "original_excerpt": "- 旧版 Agent 和 Agent 应用为 `agent_message` 事件",
+                  "direct_evidence": {
+                    "chunk_id": "api-reference/guides/streaming#c5",
+                    "excerpt": "- 旧版 Agent 和 Agent 应用为 `agent_message` 事件",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "api-reference/guides/streaming#p3",
+                    "heading_path": "处理流式响应 > 按事件类型分发",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 1572,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
                 }
               ]
             }
@@ -3223,11 +3626,12 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [
-        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。",
+        "H1：补streaming L18/L71。agent.mdx L11明确只讲新agent模式，不能证明旧agent-chat，故不作为旧版事实OR。"
       ],
-      "author_review_status": "primary_verified_after_independent_reject",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3235,7 +3639,49 @@
         "question_characters": 38,
         "vital_count": 4
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "api-reference/guides/chat",
+        "api-reference/guides/completion",
+        "api-reference/guides/streaming"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "api-reference/guides/chat",
+              "api-reference/guides/streaming"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "api-reference/guides/completion"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "api-reference/guides/chat",
+              "api-reference/guides/streaming"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "api-reference/guides/completion"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev060",
@@ -3715,8 +4161,7 @@
       "most_likely_failure": "只设置公网地址，或将签名过期误作文件已被删除。",
       "guessable_without_docs": null,
       "form_tags": [
-        "scenario_or_symptom",
-        "condition_or_exception"
+        "scenario_or_symptom"
       ],
       "nugget_evidence": [
         {
@@ -3955,11 +4400,11 @@
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "正式证据保留父标题中的FILES_URL/INTERNAL_FILES_URL/FILES_ACCESS_TIMEOUT，不能只引无名正文再猜配。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -3974,9 +4419,60 @@
           "self-host/deploy/configuration/environments#p11",
           "self-host/deploy/configuration/environments#p9"
         ],
-        "raw_excerpt_prefix_limit": 12000
+        "raw_excerpt_prefix_limit": 12000,
+        "question_characters": 36,
+        "at_most_40": true,
+        "at_most_80": true,
+        "vital_count": 4
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": "self_host",
+      "all_equivalent_gold_docs": [
+        "self-host/deploy/configuration/environments"
+      ],
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments"
+            ],
+            [
+              "self-host/deploy/configuration/environments"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments"
+            ],
+            [
+              "self-host/deploy/configuration/environments"
+            ],
+            [
+              "self-host/deploy/configuration/environments"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments"
+            ]
+          ]
+        }
+      ]
     },
     {
       "question_id": "dev063",
@@ -3994,9 +4490,7 @@
       "hardness_tag": "out_of_database",
       "most_likely_failure": "把备份操作建议编造成RPO/RTO或灾备SLA。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [],
       "boundary_evidence": [],
       "distractor_docs": [],
@@ -4004,9 +4498,9 @@
       "notes": [
         "RPO/RTO/VAT等短英文片段可能命中其他词内部；不把词边界0伪装成原文子串0，另列真实近似长词。"
       ],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4110,7 +4604,10 @@
           }
         ]
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [],
+      "nugget_gold_doc_groups": []
     },
     {
       "question_id": "dev064",
@@ -4128,9 +4625,7 @@
       "hardness_tag": "out_of_database",
       "most_likely_failure": "从下载发票泛化出日本税号或税务期限。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [],
       "boundary_evidence": [],
       "distractor_docs": [],
@@ -4138,9 +4633,9 @@
       "notes": [
         "RPO/RTO/VAT等短英文片段可能命中其他词内部；不把词边界0伪装成原文子串0，另列真实近似长词。"
       ],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4260,7 +4755,10 @@
           }
         ]
       },
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [],
+      "nugget_gold_doc_groups": []
     },
     {
       "question_id": "dev065",
@@ -4450,19 +4948,17 @@
       "hardness_tag": "version_unspecified",
       "most_likely_failure": "混用即用型上传的5个默认值，或未区分流水线两版的20与1/50。",
       "guessable_without_docs": null,
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [],
       "boundary_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
       "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [
         "正式题保持无版本词、edition=null，并限定知识流水线文件源；不能换成泛泛“一次能传几个文件”复刻旧dev017。"
       ],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
@@ -4542,181 +5038,308 @@
       ],
       "twin_comparison_ids": [
         "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration <=> self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration"
-      ]
+      ],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+        "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration"
+      ],
+      "nugget_gold_doc_groups": []
     },
     {
       "question_id": "dev067",
-      "reference_answer": "你是想接收上传，还是让模型理解内容？前者在用户输入节点设单个文件或文件列表，该节点只收集、不解析内容；后者选具相应多模态能力的模型并启用文件类型。",
+      "reference_answer": "你指应用着陆页/搜索结果里的介绍，还是聊天输入框的占位提示？前者改应用描述，后者改输入框提示语；输入框提示语适用于Chatbot、Agent与Chatflow，留空使用默认。",
       "behavior_group": "clarify",
       "behavior_subtype": "missing_slot",
       "expected_behavior": "clarify_or_conditional_answer",
       "gold_docs": [
-        "self-host/use-dify/nodes/user-input",
-        "self-host/use-dify/build/text-generator"
+        "self-host/use-dify/publish/webapp/web-app-settings"
       ],
       "gold_doc_groups": [
         [
-          "self-host/use-dify/nodes/user-input"
-        ],
-        [
-          "self-host/use-dify/build/text-generator"
+          "self-host/use-dify/publish/webapp/web-app-settings"
         ]
       ],
-      "n_docs": 2,
+      "n_docs": 1,
       "n_subasks": 1,
       "subasks": [
-        "想让应用支持文件，在哪儿配置？"
+        "待澄清文字出现场景"
       ],
       "hardness_tag": "missing_slot",
-      "most_likely_failure": "只解释上传开关，忽略接收与理解内容的两种需求。",
+      "most_likely_failure": "未确认是应用介绍还是聊天框占位提示，就把两个文字入口混为同一配置。",
       "guessable_without_docs": null,
       "form_tags": [],
       "nugget_evidence": [],
-      "boundary_evidence": [],
+      "boundary_evidence": [
+        {
+          "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+          "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+          "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L45-L45",
+          "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+          "raw_line_start": 45,
+          "raw_line_end": 45,
+          "original_excerpt": "- 编写简洁的描述，帮助用户理解应用的用途",
+          "direct_evidence": {
+            "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+            "excerpt": "- 编写简洁的描述，帮助用户理解应用的用途",
+            "contains_excerpt": true
+          },
+          "supporting_parent": {
+            "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+            "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+            "contains_excerpt": true
+          },
+          "cleaned_character_offset": 473,
+          "within_current_judge_first_12000_chars": true,
+          "database_verified": false,
+          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+        },
+        {
+          "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+          "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+          "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L46-L46",
+          "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+          "raw_line_start": 46,
+          "raw_line_end": 46,
+          "original_excerpt": "- 此文本会出现在应用的着陆页和搜索结果中",
+          "direct_evidence": {
+            "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+            "excerpt": "- 此文本会出现在应用的着陆页和搜索结果中",
+            "contains_excerpt": true
+          },
+          "supporting_parent": {
+            "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+            "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+            "contains_excerpt": true
+          },
+          "cleaned_character_offset": 495,
+          "within_current_judge_first_12000_chars": true,
+          "database_verified": false,
+          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+        },
+        {
+          "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+          "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+          "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L51-L51",
+          "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+          "raw_line_start": 51,
+          "raw_line_end": 51,
+          "original_excerpt": "- 用自定义提示语替换聊天输入框的默认提示文字，最多 64 个字符",
+          "direct_evidence": {
+            "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+            "excerpt": "- 用自定义提示语替换聊天输入框的默认提示文字，最多 64 个字符",
+            "contains_excerpt": true
+          },
+          "supporting_parent": {
+            "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+            "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+            "contains_excerpt": true
+          },
+          "cleaned_character_offset": 555,
+          "within_current_judge_first_12000_chars": true,
+          "database_verified": false,
+          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+        },
+        {
+          "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+          "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+          "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L52-L52",
+          "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+          "raw_line_start": 52,
+          "raw_line_end": 52,
+          "original_excerpt": "- 适用于对话类应用（Chatbot、Agent 和 Chatflow）；留空则保持默认",
+          "direct_evidence": {
+            "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+            "excerpt": "- 适用于对话类应用（Chatbot、Agent 和 Chatflow）；留空则保持默认",
+            "contains_excerpt": true
+          },
+          "supporting_parent": {
+            "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+            "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+            "contains_excerpt": true
+          },
+          "cleaned_character_offset": 589,
+          "within_current_judge_first_12000_chars": true,
+          "database_verified": false,
+          "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+          "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+        }
+      ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "notes": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
+      "notes": [
+        "原文件配置题的参考答案已先纠正；077/078替换增加节点来源后，为保持新增46的nodes<=8，改为Web设置内两个真实文字入口的缺槽位题。"
+      ],
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "authoring_guardrails": [],
-      "database_verified": true,
+      "database_verified": false,
       "reconstruct_verified": true,
       "hardness_evidence": {
         "source_grounded": true,
         "model_or_retrieval_validation": "not_run",
-        "question_characters": 15,
+        "question_characters": 21,
         "vital_count": 0
       },
       "interpretations": [
         {
-          "interpretation": "接收用户上传",
-          "answer": "用户输入节点设单个文件或文件列表；该节点只收集文件。",
-          "evidence": [
+          "interpretation": "着陆页或搜索结果中的介绍文字",
+          "answer": "修改应用描述。",
+          "sources": [
             {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/nodes/user-input",
-                  "heading_path": "用户输入 > 输入变量 > 自定义",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx#L86-L86",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx",
-                  "raw_line_start": 86,
-                  "raw_line_end": 86,
-                  "original_excerpt": "    允许用户上传任何支持类型的一个文件，可以从设备上传或通过文件 URL。上传的文件作为包含文件元数据（名称、大小、类型等）的变量可用。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/nodes/user-input#c3",
-                    "excerpt": "允许用户上传任何支持类型的一个文件，可以从设备上传或通过文件 URL。上传的文件作为包含文件元数据（名称、大小、类型等）的变量可用。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/nodes/user-input#p2",
-                    "heading_path": "用户输入 > 输入变量 > 自定义",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 998,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
-                  "reconstruct_verified": true
-                }
-              ]
+              "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+              "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L45-L45",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+              "raw_line_start": 45,
+              "raw_line_end": 45,
+              "original_excerpt": "- 编写简洁的描述，帮助用户理解应用的用途",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+                "excerpt": "- 编写简洁的描述，帮助用户理解应用的用途",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+                "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 473,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": false,
+              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
             },
             {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/nodes/user-input",
-                  "heading_path": "用户输入 > 输入变量 > 自定义",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx#L90-L90",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx",
-                  "raw_line_start": 90,
-                  "raw_line_end": 90,
-                  "original_excerpt": "    支持一次上传多个文件。它适用于批量处理文档、图像或其他文件。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/nodes/user-input#c4",
-                    "excerpt": "支持一次上传多个文件。它适用于批量处理文档、图像或其他文件。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/nodes/user-input#p2",
-                    "heading_path": "用户输入 > 输入变量 > 自定义",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1075,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
-                  "reconstruct_verified": true
-                }
-              ]
-            },
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/nodes/user-input",
-                  "heading_path": "用户输入 > 输入变量 > 自定义",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx#L100-L100",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/user-input.mdx",
-                  "raw_line_start": 100,
-                  "raw_line_end": 100,
-                  "original_excerpt": "由于用户输入节点仅收集文件，不读取或解析其内容，上传的文件必须由后续节点适当处理。例如：",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/nodes/user-input#c4",
-                    "excerpt": "由于用户输入节点仅收集文件，不读取或解析其内容，上传的文件必须由后续节点适当处理。例如：",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/nodes/user-input#p2",
-                    "heading_path": "用户输入 > 输入变量 > 自定义",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1166,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f",
-                  "reconstruct_verified": true
-                }
-              ]
+              "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+              "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L46-L46",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+              "raw_line_start": 46,
+              "raw_line_end": 46,
+              "original_excerpt": "- 此文本会出现在应用的着陆页和搜索结果中",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+                "excerpt": "- 此文本会出现在应用的着陆页和搜索结果中",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+                "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 495,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": false,
+              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
             }
           ]
         },
         {
-          "interpretation": "让模型理解文件内容",
-          "answer": "选具备对应多模态能力的模型并启用文件类型。",
-          "evidence": [
+          "interpretation": "聊天输入框的占位提示",
+          "answer": "修改输入框提示语；对话类应用生效，留空保持默认。",
+          "sources": [
             {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/build/text-generator",
-                  "heading_path": "文本生成应用 > 配置 > 处理多模态输入",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/text-generator.mdx#L162-L162",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/text-generator.mdx",
-                  "raw_line_start": 162,
-                  "raw_line_end": 162,
-                  "original_excerpt": "要允许终端用户上传文件，选择具有相应多模态能力的模型。相关文件类型开关（**视觉**、**音频** 或 **文档**）会在模型支持时显示，你可以根据需要启用。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/text-generator#c9",
-                    "excerpt": "要允许终端用户上传文件，选择具有相应多模态能力的模型。相关文件类型开关（**视觉**、**音频** 或 **文档**）会在模型支持时显示，你可以根据需要启用。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/text-generator#p3",
-                    "heading_path": "文本生成应用 > 配置 > 处理多模态输入",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 2520,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "dd13e9ac9073fb2119c385b954a478eb0c95d885a2dfd260f9dd41c2999d5828",
-                  "reconstruct_verified": true
-                }
-              ]
+              "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+              "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L51-L51",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+              "raw_line_start": 51,
+              "raw_line_end": 51,
+              "original_excerpt": "- 用自定义提示语替换聊天输入框的默认提示文字，最多 64 个字符",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+                "excerpt": "- 用自定义提示语替换聊天输入框的默认提示文字，最多 64 个字符",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+                "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 555,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": false,
+              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+            },
+            {
+              "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+              "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx#L52-L52",
+              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/webapp/web-app-settings.mdx",
+              "raw_line_start": 52,
+              "raw_line_end": 52,
+              "original_excerpt": "- 适用于对话类应用（Chatbot、Agent 和 Chatflow）；留空则保持默认",
+              "direct_evidence": {
+                "chunk_id": "self-host/use-dify/publish/webapp/web-app-settings#c3",
+                "excerpt": "- 适用于对话类应用（Chatbot、Agent 和 Chatflow）；留空则保持默认",
+                "contains_excerpt": true
+              },
+              "supporting_parent": {
+                "parent_id": "self-host/use-dify/publish/webapp/web-app-settings#p3",
+                "heading_path": "Web App 设置 > 品牌和外观 > 基本品牌元素",
+                "contains_excerpt": true
+              },
+              "cleaned_character_offset": 589,
+              "within_current_judge_first_12000_chars": true,
+              "database_verified": false,
+              "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+              "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
             }
           ]
         }
       ],
-      "twin_comparison_ids": []
+      "twin_comparison_ids": [],
+      "edition": null,
+      "all_equivalent_gold_docs": [
+        "self-host/use-dify/publish/webapp/web-app-settings"
+      ],
+      "nugget_gold_doc_groups": []
     }
-  ]
+  ],
+  "reconstruct_verified": true,
+  "repair_verification": {
+    "question_ids": [
+      "dev021",
+      "dev024",
+      "dev029",
+      "dev030",
+      "dev031",
+      "dev033",
+      "dev034",
+      "dev035",
+      "dev036",
+      "dev037",
+      "dev041",
+      "dev043"
+    ],
+    "mode": "冻结raw+clean_mdx/chunk_document本机确定性重建",
+    "database_accessed": false,
+    "untouched_evidence": "未点名12题对象原样保留；其database_verified=true为历史声明，不代表本次本机重验。",
+    "reconstruct_verified_scope": "指定12题实际存在的所有原文/子块/父块证据；无文档金标题采用边界与无答案审计。",
+    "canonical_files_changed": false
+  },
+  "database_revalidation": {
+    "status": "pass",
+    "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+    "counts": {
+      "documents": 182,
+      "parent_chunks": 1252,
+      "chunks": 2090,
+      "chunk_embeddings": 2090
+    },
+    "all_document_content_hashes_match": true,
+    "all_child_text_ids_parent_links_match": true,
+    "all_parent_text_ids_match": true,
+    "embedding_model": "qwen3-embedding-0.6b",
+    "verification_method": "只读数据库与固定语料生产清洗/分块结果全量比对"
+  },
+  "database_verification_scope": "历史runtime-verification保留；本轮只用冻结文件和生产切块，新增/改写证据未查询实库。",
+  "retrieval_selftest_file": "retrieval-selftest.jsonl",
+  "semantic_review_file": "semantic-review.json",
+  "retrieval_selftest_status": "historical_pre_repair_not_rerun"
 }

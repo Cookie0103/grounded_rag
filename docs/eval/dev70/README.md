@@ -1,52 +1,24 @@
 # 新70道开发题台账
 
-当前已制作 **70/70** 道新开发题（dev021～dev090）。70题是交审稿，作者/Claude审定后再冻结。
+当前dev021～090共70题，已按2026-10-20 Claude报告及两轮独立复核修订，等待作者最终审定与冻结。旧dev001～020独立回归；测试30题在仓库外新编，见phase-17交接，本目录不含测试内容。
 
-旧dev001～020独立回归，不计入新70；最终为20回归+70开发+30封存测试。事实查重覆盖90道已许可开发材料，封存测试保持隔离。
+入口：[全70审阅稿](review-70.md)、[题目](questions.jsonl)、[逐点证据](evidence.json)、[本轮修订](repair-2026-10-20.json)、[修订日志](revision-log.md)、[当前静态核验](validation.json)。
 
-入口：[全70题审阅稿](review-70.md)、[修订24题](review-24.md)、[46题蓝图](blueprint.json)、[蓝图检查](blueprint-validation.json)、[逐项修订](revision-log.md)。
+行为配额仍为28单跳、28多跳、9拒答纠正、5模糊；两半新增各23题的子类配额保持。四批题目与证据副本均以当前总表同步。
 
-| 行为 | 全70目标 | 当前实际 | 剩余 |
-|---|---:|---:|---:|
-| 单跳 | 28 | 28 | 0 |
-| 多跳 | 28 | 28 | 0 |
-| 拒答与纠正 | 9 | 9 | 0 |
-| 模糊 | 5 | 5 | 0 |
+| 批次 | 题号 | 审阅稿 |
+|---|---|---|
+| batch-01 | dev021～032 | [当前稿](batch-01/review.md) |
+| batch-02 | dev033～044 | [当前稿](batch-02/review.md) |
+| batch-03 | dev045～067 | [当前稿](batch-03/review.md) |
+| batch-04 | dev068～090 | [当前稿](batch-04/review.md) |
 
-| 子类 | 全70目标 | 当前实际 | 剩余 |
-|---|---:|---:|---:|
-| 同义改写 | 7 | 7 | 0 |
-| 数值/配置/表格 | 6 | 6 | 0 |
-| 易混 | 6 | 6 | 0 |
-| 短问 | 5 | 5 | 0 |
-| 单问版本 | 4 | 4 | 0 |
-| 链式 | 10 | 10 | 0 |
-| 并列/比较 | 10 | 10 | 0 |
-| 分散/有序 | 8 | 8 | 0 |
-| 库内缺依据 | 4 | 4 | 0 |
-| 错误前提 | 3 | 3 | 0 |
-| 无关 | 1 | 1 | 0 |
-| 纯注入 | 1 | 1 | 0 |
-| 版本不明 | 3 | 3 | 0 |
-| 缺关键信息 | 2 | 2 | 0 |
+冻结语料：`langgenius/dify-docs@c80a31868611b673bd77725a6310c685068a585e`，182篇，CC BY 4.0。来源重建继续使用生产clean_mdx/chunk_document；本轮不查询数据库，不调用RAG、无检索基线或付费模型。
 
-| 批次 | 题号 | 数量 | 审阅稿 |
-|---|---|---:|---|
-| batch-01 | dev021～032 | 12 | [第一批修订](batch-01/review.md) |
-| batch-02 | dev033～044 | 12 | [第二批修订](batch-02/review.md) |
-| batch-03 | dev045～067 | 23 | [新增03](batch-03/review.md) |
-| batch-04 | dev068～090 | 23 | [新增04](batch-04/review.md) |
+新增46题每篇金标（含等价来源）最多用于一次；全70每篇最多两次。**H4例外只限配置参考页重复专题页已有变量、默认值或该配置取值说明的OR来源，主金标仍计数。** 本轮白名单为dev034、048、057、070、083中的environments；048/070已换成原页独有数值，不再实际使用该豁免。057是NOTION_INTEGRATION_TYPE=internal的配置值复述，同类规则与原因见phase-17 context。不能将其他专题页或不相关事实自报为豁免。
 
-题目在[questions.jsonl](questions.jsonl)，参考答案、逐vital原文行号、真实子块/父块、失败风险和量化证据在[evidence.json](evidence.json)。孪生逐字差异见[twin-comparisons.json](twin-comparisons.json)，182篇目录统计见[corpus-distribution.json](corpus-distribution.json)。冻结语料 commit：`c80a31868611b673bd77725a6310c685068a585e`（CC BY 4.0）。
+OR以每个必答点的`all_of/any_of`为准，侧表`nugget_gold_doc_groups`提供对应文档组；题级`gold_doc_groups`只表示整题的必要文档约束。dev083仍需专题页提供401症状和不同可注册域名边界，environments只能替代其实际覆盖的变量说明，不能单篇满足整题。`all_equivalent_gold_docs`保留部分等价来源以便复用审计。
 
-[validation.json](validation.json)记录实际/目标、逐题条件和拒绝替换情况。[原样检索诊断](retrieval-diagnostics.md)与[前5原始记录](retrieval-selftest.jsonl)记录每题一次检索，不传edition、不分解。
+**历史记录须按版本阅读**：retrieval-selftest.jsonl、retrieval-diagnostics.md、runtime-verification.json和semantic-review.json保存2026-10-19原运行与原审题；本轮未覆盖这些档案。当前题干/金标已经改变，原召回比例不是修订版结果，正式评测前需另存新检索记录。blueprint及generation-notes同为初版历史。
 
-已通过蓝图内部审查，提交在正式新题之前；[蓝图独立审题](blueprint-review.md)核对事实支持、桥接和版本差异。机械核验可用[工具说明](tools/README.md)复跑，静态检查不能证明实际难度或答案效果。
-
-最终独立语义审查初次为39接受、7退回；7项已由主agent核原文修复，保留[原始结论与闭环](semantic-review.json)。正式题点与初版蓝图的差异见[蓝图修订](blueprint-amendments.json)。作者/Claude最终审定仍待进行，未执行第二轮全量独立审题。
-
-70次原样检索均完成、无降级。单跳来源全组命中前5为25/28（89.3%），新增单跳17/19（89.5%）。超过70%阈值，已列13道加难候选，其中新增8道优先考虑；旧题仅作保留局限观察。命中不等于答对。
-
-等价来源用`gold_doc_groups`表示组内OR、组间AND；`gold_docs`只保留代表。正式评分加载器尚忽略OR字段，需适配后才能报正式召回。错误前提route=null须评纠正行为；模糊题允许合理反问或完整条件答案。所有`guessable_without_docs`保持null，等待独立无检索基线。
-
-本轮新增难度条件约束dev045～090。未点名旧题保持原样，旧dev025/041/042不足6000字符、旧三道教程链及部分旧多跳仅2vital等已知局限保留在检查记录，不冒充符合新增门槛。未运行完整系统、无检索基线或付费评分，评分规则未改。
+正式Question加载器仍忽略OR字段；本轮只修题和证据，未修改评分规则或评审Prompt。所有guessable_without_docs仍为null，待无检索基线。旧题局限及语义审定边界见validation与phase-17自查。

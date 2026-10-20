@@ -1,5 +1,17 @@
 {
-  "status": "draft_pending_external_review",
+  "status": "revised_pending_independent_review",
+  "updated_at": "2026-10-20",
+  "corpus_repo": "langgenius/dify-docs",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "ingest_version": "1",
+  "database_verified": false,
+  "source_license": "CC BY 4.0",
+  "source_workflow": "冻结原文写题→严格证据→独立审题→主agent修复→每题原样单次检索；未运行完整回答系统或用被测答案定金标",
+  "formal_dataset": "70开发+30测试；旧20另作回归",
+  "paid_calls": 0,
+  "baseline_run": false,
+  "rag_run": false,
+  "dataset_version": "dev70-review-repair-2026-10-20",
   "question_count": 23,
   "questions": [
     {
@@ -26,12 +38,13 @@
         "上游偶发失败，怎样让后续用备用文案照跑，文案类型有何要求？"
       ],
       "hardness_tag": "synonym",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把备用文案类型当作任意字符串，或把重试/失败分支误当默认值续跑。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
       "form_tags": [
-        "scenario_or_symptom"
+        "scenario_or_symptom",
+        "condition_or_exception"
       ],
       "nugget_evidence": [
         {
@@ -138,8 +151,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [],
@@ -149,7 +162,30 @@
         "at_most_80": true,
         "vital_count": 2,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/predefined-error-handling-logic"
+            ],
+            [
+              "self-host/use-dify/build/predefined-error-handling-logic"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/predefined-error-handling-logic"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev069",
@@ -175,11 +211,12 @@
         "范例待审时能撤回吗，递交前插件来源和试跑环境有何要求？"
       ],
       "hardness_tag": "synonym",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把Pending误认为不可撤回，或漏掉市场安装插件及最新版Community Edition实跑要求。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
       "form_tags": [
+        "scenario_or_symptom",
         "condition_or_exception"
       ],
       "nugget_evidence": [
@@ -294,8 +331,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "synonym_title_overlap_whitelist": [],
@@ -306,11 +343,39 @@
         "at_most_80": true,
         "vital_count": 3,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/publish/publish-to-marketplace"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/publish/publish-to-marketplace"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/publish/publish-to-marketplace"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev070",
-      "reference_answer": "导入包默认最大50 MB；用UPLOAD_SKILL_FILE_SIZE_LIMIT调整上限。",
+      "reference_answer": "每条消息最多附10个文件；图片每个不超过10 MB，其他文件每个不超过15 MB。这些只给Builder提供上下文，不自动进入Skill文件树。",
       "behavior_group": "single",
       "behavior_subtype": "numeric_table",
       "expected_behavior": "answered",
@@ -329,10 +394,10 @@
       "n_docs": 1,
       "n_subasks": 1,
       "subasks": [
-        "导入Skill包默认多大，调上限用哪个配置？"
+        "Builder消息附件数量和按类型大小限制"
       ],
       "hardness_tag": "numeric_table",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把Skill导入包的50MB限额套给Builder消息附件，混淆附件数与单文件大小。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -340,35 +405,34 @@
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "导入Skill包的默认大小上限为50 MB。",
+          "text": "Skill Builder每条消息最多附加10个文件。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/build/skills",
-                  "heading_path": "Skills > 导入 Skill",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L61-L61",
+                  "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L57-L57",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx",
-                  "raw_line_start": 61,
-                  "raw_line_end": 61,
-                  "original_excerpt": "大小默认不超过 50 MB",
+                  "raw_line_start": 57,
+                  "raw_line_end": 57,
+                  "original_excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/skills#c5",
-                    "excerpt": "大小默认不超过 50 MB",
+                    "chunk_id": "self-host/use-dify/build/skills#c4",
+                    "excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/skills#p3",
-                    "heading_path": "Skills > 导入 Skill",
+                    "parent_id": "self-host/use-dify/build/skills#p2",
+                    "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1437,
+                  "cleaned_character_offset": 1238,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
                 }
               ]
             }
@@ -376,35 +440,69 @@
         },
         {
           "nugget_index": 1,
-          "text": "导入包体积上限由UPLOAD_SKILL_FILE_SIZE_LIMIT调整。",
+          "text": "Skill Builder消息附件中图片每个不超过10 MB。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/use-dify/build/skills",
-                  "heading_path": "Skills > 导入 Skill",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L61-L61",
+                  "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L57-L57",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx",
-                  "raw_line_start": 61,
-                  "raw_line_end": 61,
-                  "original_excerpt": "`UPLOAD_SKILL_FILE_SIZE_LIMIT`",
+                  "raw_line_start": 57,
+                  "raw_line_end": 57,
+                  "original_excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/build/skills#c5",
-                    "excerpt": "`UPLOAD_SKILL_FILE_SIZE_LIMIT`",
+                    "chunk_id": "self-host/use-dify/build/skills#c4",
+                    "excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/build/skills#p3",
-                    "heading_path": "Skills > 导入 Skill",
+                    "parent_id": "self-host/use-dify/build/skills#p2",
+                    "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1455,
+                  "cleaned_character_offset": 1238,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "Skill Builder消息附件中其他文件每个不超过15 MB。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/build/skills",
+                  "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L57-L57",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx",
+                  "raw_line_start": 57,
+                  "raw_line_end": 57,
+                  "original_excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/build/skills#c4",
+                    "excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/build/skills#p2",
+                    "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 1238,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
                 }
               ]
             }
@@ -413,17 +511,19 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
-      "notes": [],
+      "notes": [
+        "H4补充发现：原Skill导入包50MB及变量还见new-agent/build L71（dev085主金标），不能豁免专题页。改考本页独有的Builder附件限制，保留数值子类。"
+      ],
       "answer_literals": [
-        "50 MB",
-        "UPLOAD_SKILL_FILE_SIZE_LIMIT"
+        "10",
+        "15"
       ],
       "numeric_confusables": [
         {
-          "literal": "10 个文件",
+          "literal": "10",
           "source": {
             "document_id": "self-host/use-dify/build/skills",
             "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
@@ -444,38 +544,9 @@
             },
             "cleaned_character_offset": 1238,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c",
-            "reconstruct_verified": true
-          }
-        },
-        {
-          "literal": "10 MB",
-          "source": {
-            "document_id": "self-host/use-dify/build/skills",
-            "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
-            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L57-L57",
-            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx",
-            "raw_line_start": 57,
-            "raw_line_end": 57,
-            "original_excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
-            "direct_evidence": {
-              "chunk_id": "self-host/use-dify/build/skills#c4",
-              "excerpt": "每条消息最多附加 10 个文件：图片不超过 10 MB，其他文件不超过 15 MB。这些文件只为 Skill Builder 提供上下文，不会成为 Skill 的一部分。要将文件加入 Skill，请通过文件树添加。",
-              "contains_excerpt": true
-            },
-            "supporting_parent": {
-              "parent_id": "self-host/use-dify/build/skills#p2",
-              "heading_path": "Skills > 创建 Skill > 使用 Skill Builder 起草",
-              "contains_excerpt": true
-            },
-            "cleaned_character_offset": 1238,
-            "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
           }
         },
         {
@@ -500,25 +571,81 @@
             },
             "cleaned_character_offset": 1238,
             "within_current_judge_first_12000_chars": true,
-            "database_verified": true,
-            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c",
-            "reconstruct_verified": true
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
+          }
+        },
+        {
+          "literal": "50 MB",
+          "source": {
+            "document_id": "self-host/use-dify/build/skills",
+            "heading_path": "Skills > 导入 Skill",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx#L61-L61",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/skills.mdx",
+            "raw_line_start": 61,
+            "raw_line_end": 61,
+            "original_excerpt": "大小默认不超过 50 MB",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/build/skills#c5",
+              "excerpt": "大小默认不超过 50 MB",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/build/skills#p3",
+              "heading_path": "Skills > 导入 Skill",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 1437,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": false,
+            "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+            "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
           }
         }
       ],
       "hardness_evidence": {
         "kind": "数值及配置查读",
-        "similarity": "均为Skill页面文件处理限制；Builder每消息10附件、图片10MB、其他文件15MB是同类干扰，不能套作导入包上限。"
+        "similarity": "均为Skill页面文件处理限制；Builder每消息10附件、图片10MB、其他文件15MB是同类干扰，不能套作导入包上限。",
+        "question_characters": 43,
+        "vital_count": 3
       },
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 22,
-        "at_most_40": true,
+        "question_characters": 43,
+        "at_most_40": false,
         "at_most_80": true,
-        "vital_count": 2,
+        "vital_count": 3,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/skills"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/skills"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/build/skills"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev071",
@@ -544,7 +671,7 @@
         "上传文件给外部存储该选哪种正文，非文本响应会变成什么变量？"
       ],
       "hardness_tag": "numeric_table",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把上传正文选成JSON或表单，或将非文本响应当作普通字符串变量。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -627,8 +754,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "answer_literals": [
@@ -723,7 +850,9 @@
       ],
       "hardness_evidence": {
         "kind": "正文格式枚举/配置查读，无答案数值",
-        "similarity": "JSON、表单数据、原始文本三种真实正文格式是同类选项；不借不同单位的数字冒充干扰。"
+        "similarity": "JSON、表单数据、原始文本三种真实正文格式是同类选项；不借不同单位的数字冒充干扰。",
+        "question_characters": 29,
+        "vital_count": 2
       },
       "twin_comparison_ids": [],
       "quantitative_evidence": {
@@ -732,11 +861,31 @@
         "at_most_80": true,
         "vital_count": 2,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/http-request"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/http-request"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev072",
-      "reference_answer": "仅适用于以think标签包裹思考的模型；开启“启用推理标签分离”后，text仅保留回答，思考内容移至reasoning_content输出。",
+      "reference_answer": "仅对用think标签包裹思考的模型生效。界面打开“启用推理标签分离”，API设reasoning_format=separated；打开后text保留回答、reasoning_content接收思考，关闭时reasoning_content为空。",
       "behavior_group": "single",
       "behavior_subtype": "neighbor",
       "expected_behavior": "answered",
@@ -755,11 +904,11 @@
       "n_docs": 1,
       "n_subasks": 2,
       "subasks": [
-        "适用的模型条件",
-        "回答与思考分离后的两个输出"
+        "适用模型",
+        "界面与API设置及关闭后的输出"
       ],
       "hardness_tag": "neighbor",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把分离功能推广到所有推理模型，或漏掉API的separated值及关闭时空输出。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -770,7 +919,7 @@
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "开启推理标签分离后，text仅保留回答。",
+          "text": "界面通过启用推理标签分离开关分离思考与回答。",
           "importance": "vital",
           "all_of": [
             {
@@ -795,10 +944,9 @@
                   },
                   "cleaned_character_offset": 2441,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
                 }
               ]
             }
@@ -806,7 +954,42 @@
         },
         {
           "nugget_index": 1,
-          "text": "分离的思考内容进入reasoning_content输出。",
+          "text": "API开启分离时设置reasoning_format为separated。",
+          "importance": "vital",
+          "all_of": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/nodes/llm",
+                  "heading_path": "大语言模型 > 从回答中分离推理内容",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/llm.mdx#L145-L145",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/llm.mdx",
+                  "raw_line_start": 145,
+                  "raw_line_end": 145,
+                  "original_excerpt": "开关打开时，`reasoning_format` 为 `separated`",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/nodes/llm#c11",
+                    "excerpt": "开关打开时，`reasoning_format` 为 `separated`",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/nodes/llm#p10",
+                    "heading_path": "大语言模型 > 从回答中分离推理内容",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 2587,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "text": "关闭分离开关时reasoning_content为空。",
           "importance": "vital",
           "all_of": [
             {
@@ -831,18 +1014,17 @@
                   },
                   "cleaned_character_offset": 2441,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
                 }
               ]
             }
           ]
         },
         {
-          "nugget_index": 2,
-          "text": "该开关只适用于以think标签包裹思考的模型。",
+          "nugget_index": 3,
+          "text": "分离设置仅适用于用think标签包裹推理内容的模型。",
           "importance": "vital",
           "all_of": [
             {
@@ -867,10 +1049,9 @@
                   },
                   "cleaned_character_offset": 2709,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
                 }
               ]
             }
@@ -881,11 +1062,12 @@
         "self-host/use-dify/nodes/parameter-extractor"
       ],
       "counterpart_docs": [],
-      "author_review_status": "primary_verified_after_independent_reject",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [
-        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
+        "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。",
+        "S4：删除同句两面拆分，加入独立API配置和关闭行为。"
       ],
       "neighbor_contrast": {
         "difference": "本题需要模型输出的推理通道分离；参数提取器从输入文本提取预设字段，不能代替该开关。",
@@ -942,12 +1124,48 @@
       },
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 27,
+        "question_characters": 37,
         "at_most_40": true,
         "at_most_80": true,
-        "vital_count": 3,
+        "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/llm"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/llm"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/llm"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/llm"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev073",
@@ -973,7 +1191,7 @@
         "每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？"
       ],
       "hardness_tag": "neighbor",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把前后依赖的反复润色当作独立迭代，或误称无退出条件会永远执行。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -1059,8 +1277,8 @@
         "self-host/use-dify/nodes/iteration"
       ],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "neighbor_contrast": {
@@ -1123,7 +1341,27 @@
         "at_most_80": true,
         "vital_count": 2,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/loop"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/loop"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev074",
@@ -1149,13 +1387,11 @@
         "在哪查哪步最慢和单步最近的入出参？"
       ],
       "hardness_tag": "short",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "只给总耗时，遗漏节点追踪入口或把最后运行当作完整运行历史。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -1232,8 +1468,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [],
@@ -1243,7 +1479,27 @@
         "at_most_80": true,
         "vital_count": 2,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/debug/history-and-logs"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/debug/history-and-logs"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev075",
@@ -1270,7 +1526,7 @@
         "允许发布时模板保存的位置"
       ],
       "hardness_tag": "single_version",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "忽略Sandbox套餐限制，或把自定义模板入口与公共市场混为一谈。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -1355,8 +1611,8 @@
       "counterpart_docs": [
         "self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
       ],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "counterpart_evidence": [
@@ -1395,12 +1651,32 @@
         "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
       ],
       "quantitative_evidence": {
-        "question_characters": 28,
+        "question_characters": 37,
         "at_most_40": true,
         "at_most_80": true,
         "vital_count": 2,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": "cloud",
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev076",
@@ -1593,37 +1869,35 @@
     },
     {
       "question_id": "dev077",
-      "reference_answer": "保留workflow_run_id，它指向运行结束后持久保存的记录。运营在应用“日志”中粘贴该编号定位记录，点击该次运行查看逐节点追踪，再点“按此参数测试”，在编辑器中以原输入重新运行。后者是新测试，并非恢复原运行。",
+      "reference_answer": "该错误表示沙箱无法执行代码，通常是服务停止。沙箱以独立容器运行，隔离宿主机和其他服务；其行为（含worker超时）通过docker/envs/core-services/sandbox.env.example中的SANDBOX_*变量调整。",
       "behavior_group": "multi",
       "behavior_subtype": "chain",
       "expected_behavior": "answered",
       "requires_corrects_premise": false,
       "gold_docs": [
-        "api-reference/guides/workflow",
-        "self-host/use-dify/monitor/logs"
+        "self-host/use-dify/debug/error-type",
+        "self-host/use-dify/nodes/code"
       ],
       "gold_doc_groups": [
         [
-          "api-reference/guides/workflow"
+          "self-host/use-dify/debug/error-type"
         ],
         [
-          "self-host/use-dify/monitor/logs",
-          "cloud/use-dify/monitor/logs"
+          "self-host/use-dify/nodes/code"
         ]
       ],
       "all_equivalent_gold_docs": [
-        "api-reference/guides/workflow",
-        "cloud/use-dify/monitor/logs",
-        "self-host/use-dify/monitor/logs"
+        "self-host/use-dify/debug/error-type",
+        "self-host/use-dify/nodes/code"
       ],
       "n_docs": 2,
       "n_subasks": 2,
       "subasks": [
-        "流程结束后保存的持久化标识",
-        "拿该标识定位逐步情况并按原输入重演"
+        "解析错误所指依赖",
+        "沿依赖查运行隔离形态和行为配置模板"
       ],
       "hardness_tag": "chain",
-      "most_likely_failure": "不能用task_id定位持久记录，也不能把重新测试描述为继续原运行；它是用原输入发起新测试。",
+      "most_likely_failure": "把沙箱服务无法执行误判成用户代码异常，或误改API输出限制模板而不是沙箱行为模板。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -1633,35 +1907,62 @@
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "应保留workflow_run_id作为运行结束后的持久化记录标识。",
+          "text": "CodeExecutionError表示沙箱无法执行代码，通常意味着服务停止。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "api-reference/guides/workflow",
-                  "heading_path": "Workflow 应用 API > 跟踪与控制运行",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx#L24-L24",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx",
-                  "raw_line_start": 24,
-                  "raw_line_end": 24,
-                  "original_excerpt": "无论选择哪种模式，响应都会携带两个 ID：`task_id` 用于控制运行中的任务，`workflow_run_id` 用于标识运行结束后持久保存的记录。",
+                  "document_id": "self-host/use-dify/debug/error-type",
+                  "heading_path": "错误类型 > 节点特定错误",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/error-type.mdx#L28-L28",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/error-type.mdx",
+                  "raw_line_start": 28,
+                  "raw_line_end": 28,
+                  "original_excerpt": "`CodeExecutionError`",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/workflow#c2",
-                    "excerpt": "无论选择哪种模式，响应都会携带两个 ID：`task_id` 用于控制运行中的任务，`workflow_run_id` 用于标识运行结束后持久保存的记录。",
+                    "chunk_id": "self-host/use-dify/debug/error-type#c1",
+                    "excerpt": "`CodeExecutionError`",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/workflow#p2",
-                    "heading_path": "Workflow 应用 API > 跟踪与控制运行",
+                    "parent_id": "self-host/use-dify/debug/error-type#p1",
+                    "heading_path": "错误类型 > 节点特定错误",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 308,
+                  "cleaned_character_offset": 229,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "4a1fb4eb9db8223ce56ac1fc1eaa6fcd31e4d2082ed28416efeb0e85f39ef272"
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/debug/error-type",
+                  "heading_path": "错误类型 > 节点特定错误",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/error-type.mdx#L29-L29",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/error-type.mdx",
+                  "raw_line_start": 29,
+                  "raw_line_end": 29,
+                  "original_excerpt": "<Info>沙箱服务无法执行你的代码 - 通常意味着服务已停止</Info>",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/debug/error-type#c1",
+                    "excerpt": "**说明：** 沙箱服务无法执行你的代码 - 通常意味着服务已停止\n",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/debug/error-type#p1",
+                    "heading_path": "错误类型 > 节点特定错误",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 250,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "4a1fb4eb9db8223ce56ac1fc1eaa6fcd31e4d2082ed28416efeb0e85f39ef272"
                 }
               ]
             }
@@ -1669,114 +1970,34 @@
         },
         {
           "nugget_index": 1,
-          "text": "在应用日志页粘贴运行ID可定位该次运行。",
+          "text": "沙箱以独立容器运行，将执行与宿主机及其他服务隔离。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/monitor/logs",
-                  "heading_path": "日志",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx#L8-L8",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 8,
-                  "raw_line_end": 8,
-                  "original_excerpt": "在任意应用的 **日志** 页面中，可看到应用的真实使用情况：用户提交了什么、应用如何响应、收到了哪些反馈。",
+                  "document_id": "self-host/use-dify/nodes/code",
+                  "heading_path": "代码 > 沙箱服务",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/code.mdx#L22-L22",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/code.mdx",
+                  "raw_line_start": 22,
+                  "raw_line_end": 22,
+                  "original_excerpt": "沙箱以独立容器运行，将代码执行与宿主机及其他服务隔离。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/monitor/logs#c0",
-                    "excerpt": "在任意应用的 **日志** 页面中，可看到应用的真实使用情况：用户提交了什么、应用如何响应、收到了哪些反馈。",
+                    "chunk_id": "self-host/use-dify/nodes/code#c1",
+                    "excerpt": "沙箱以独立容器运行，将代码执行与宿主机及其他服务隔离。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/monitor/logs#p0",
-                    "heading_path": "日志",
+                    "parent_id": "self-host/use-dify/nodes/code#p1",
+                    "heading_path": "代码 > 沙箱服务",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 0,
+                  "cleaned_character_offset": 193,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d",
-                  "reconstruct_verified": true
-                },
-                {
-                  "document_id": "cloud/use-dify/monitor/logs",
-                  "heading_path": "日志",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L8-L8",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 8,
-                  "raw_line_end": 8,
-                  "original_excerpt": "在任意应用的 **日志** 页面中，可看到应用的真实使用情况：用户提交了什么、应用如何响应、收到了哪些反馈。",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/monitor/logs#c0",
-                    "excerpt": "在任意应用的 **日志** 页面中，可看到应用的真实使用情况：用户提交了什么、应用如何响应、收到了哪些反馈。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/monitor/logs#p0",
-                    "heading_path": "日志",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 0,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452",
-                  "reconstruct_verified": true
-                }
-              ]
-            },
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/monitor/logs",
-                  "heading_path": "日志 > 浏览日志",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx#L33-L33",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 33,
-                  "raw_line_end": 33,
-                  "original_excerpt": "要查找某次对话，可搜索消息中的文字或终端用户的会话 ID。要查找某次工作流运行，可搜索运行的输入或输出，或直接粘贴运行 ID。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/monitor/logs#c3",
-                    "excerpt": "要查找某次对话，可搜索消息中的文字或终端用户的会话 ID。要查找某次工作流运行，可搜索运行的输入或输出，或直接粘贴运行 ID。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/monitor/logs#p2",
-                    "heading_path": "日志 > 浏览日志",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 657,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d",
-                  "reconstruct_verified": true
-                },
-                {
-                  "document_id": "cloud/use-dify/monitor/logs",
-                  "heading_path": "日志 > 浏览日志",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L33-L33",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 33,
-                  "raw_line_end": 33,
-                  "original_excerpt": "要查找某次对话，可搜索消息中的文字或终端用户的会话 ID。要查找某次工作流运行，可搜索运行的输入或输出，或直接粘贴运行 ID。",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/monitor/logs#c3",
-                    "excerpt": "要查找某次对话，可搜索消息中的文字或终端用户的会话 ID。要查找某次工作流运行，可搜索运行的输入或输出，或直接粘贴运行 ID。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/monitor/logs#p2",
-                    "heading_path": "日志 > 浏览日志",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 657,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "2458153713fa91d5a1c796aaba5f38e7fe0027d0f2efbb55dc781aa31d7ef7f0"
                 }
               ]
             }
@@ -1784,121 +2005,34 @@
         },
         {
           "nugget_index": 2,
-          "text": "点击该次运行可查看逐节点执行追踪。",
+          "text": "沙箱worker超时等行为通过docker/envs/core-services/sandbox.env.example中的SANDBOX_*变量调整。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/monitor/logs",
-                  "heading_path": "日志 > 查看运行",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx#L48-L48",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 48,
-                  "raw_line_end": 48,
-                  "original_excerpt": "对于 Workflow 应用，点击某次运行可查看其结果、带状态和 token 总量的输入输出，以及逐节点的执行追踪，便于定位运行失败或变慢的环节。",
+                  "document_id": "self-host/use-dify/nodes/code",
+                  "heading_path": "代码 > 沙箱服务",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/code.mdx#L22-L22",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/code.mdx",
+                  "raw_line_start": 22,
+                  "raw_line_end": 22,
+                  "original_excerpt": "通过 `docker/envs/core-services/sandbox.env.example` 中的 `SANDBOX_*` 环境变量调整其行为（worker 超时、经由 SSRF 代理的网络访问、端口）",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/monitor/logs#c5",
-                    "excerpt": "对于 Workflow 应用，点击某次运行可查看其结果、带状态和 token 总量的输入输出，以及逐节点的执行追踪，便于定位运行失败或变慢的环节。",
+                    "chunk_id": "self-host/use-dify/nodes/code#c1",
+                    "excerpt": "通过 `docker/envs/core-services/sandbox.env.example` 中的 `SANDBOX_*` 环境变量调整其行为（worker 超时、经由 SSRF 代理的网络访问、端口）",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/monitor/logs#p4",
-                    "heading_path": "日志 > 查看运行",
+                    "parent_id": "self-host/use-dify/nodes/code#p1",
+                    "heading_path": "代码 > 沙箱服务",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 972,
+                  "cleaned_character_offset": 220,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d",
-                  "reconstruct_verified": true
-                },
-                {
-                  "document_id": "cloud/use-dify/monitor/logs",
-                  "heading_path": "日志 > 查看运行",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L48-L48",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 48,
-                  "raw_line_end": 48,
-                  "original_excerpt": "对于 Workflow 应用，点击某次运行可查看其结果、带状态和 token 总量的输入输出，以及逐节点的执行追踪，便于定位运行失败或变慢的环节。",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/monitor/logs#c5",
-                    "excerpt": "对于 Workflow 应用，点击某次运行可查看其结果、带状态和 token 总量的输入输出，以及逐节点的执行追踪，便于定位运行失败或变慢的环节。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/monitor/logs#p4",
-                    "heading_path": "日志 > 查看运行",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 972,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 3,
-          "text": "按此参数测试会在编辑器中用原输入重新运行。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
-                {
-                  "document_id": "self-host/use-dify/monitor/logs",
-                  "heading_path": "日志 > 查看运行",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx#L50-L50",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 50,
-                  "raw_line_end": 50,
-                  "original_excerpt": "要复现问题，点击 **按此参数测试**：工作流会在编辑器中以该次运行的输入重新运行。",
-                  "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/monitor/logs#c5",
-                    "excerpt": "要复现问题，点击 **按此参数测试**：工作流会在编辑器中以该次运行的输入重新运行。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "self-host/use-dify/monitor/logs#p4",
-                    "heading_path": "日志 > 查看运行",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1047,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d",
-                  "reconstruct_verified": true
-                },
-                {
-                  "document_id": "cloud/use-dify/monitor/logs",
-                  "heading_path": "日志 > 查看运行",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx#L50-L50",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/logs.mdx",
-                  "raw_line_start": 50,
-                  "raw_line_end": 50,
-                  "original_excerpt": "要复现问题，点击 **按此参数测试**：工作流会在编辑器中以该次运行的输入重新运行。",
-                  "direct_evidence": {
-                    "chunk_id": "cloud/use-dify/monitor/logs#c5",
-                    "excerpt": "要复现问题，点击 **按此参数测试**：工作流会在编辑器中以该次运行的输入重新运行。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "cloud/use-dify/monitor/logs#p4",
-                    "heading_path": "日志 > 查看运行",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 1047,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "2458153713fa91d5a1c796aaba5f38e7fe0027d0f2efbb55dc781aa31d7ef7f0"
                 }
               ]
             }
@@ -1906,179 +2040,142 @@
         }
       ],
       "distractor_docs": [
-        "self-host/use-dify/debug/history-and-logs",
-        "cloud/use-dify/monitor/analysis"
+        "self-host/deploy/troubleshooting/docker-issues",
+        "self-host/deploy/advanced-deployments/local-source-code"
       ],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
-      "notes": [],
-      "chain": {
-        "bridge_type": "API响应持久化标识→控制台精确定位与原参数重演",
-        "first_document": "api-reference/guides/workflow",
-        "second_document": "self-host/use-dify/monitor/logs",
-        "second_document_answer_keywords": [
-          "运行 ID",
-          "日志",
-          "输入或输出",
-          "逐节点的执行追踪",
-          "按此参数测试",
-          "编辑器"
-        ],
-        "dependency": "必须先从返回中的两个ID选出持久运行ID，再将该实体传给第二篇中的界面定位机制；第二篇新增精确搜索、逐节点追踪和原参数复现的操作，不能只回答导航到日志页。",
-        "generic_distractor_documents": [
-          {
-            "document_id": "self-host/use-dify/debug/history-and-logs",
-            "shared_generic_terms": [
-              "流程",
-              "各步",
-              "运营"
-            ],
-            "why_not_sufficient": "同样讲执行追踪和每节点耗时，不给API两个ID含义、真实日志按运行ID查找及按此参数测试入口。",
-            "source": {
-              "document_id": "self-host/use-dify/debug/history-and-logs",
-              "heading_path": "运行历史 > 应用运行历史 > 追踪",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/history-and-logs.mdx#L44-L44",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/debug/history-and-logs.mdx",
-              "raw_line_start": 44,
-              "raw_line_end": 44,
-              "original_excerpt": "准确显示工作流的执行过程，包括哪些节点按什么顺序运行、每个节点耗时多长，以及数据在节点间如何流动。这对于找出瓶颈和理解具有分支或循环的复杂工作流很有用。",
-              "direct_evidence": {
-                "chunk_id": "self-host/use-dify/debug/history-and-logs#c4",
-                "excerpt": "准确显示工作流的执行过程，包括哪些节点按什么顺序运行、每个节点耗时多长，以及数据在节点间如何流动。这对于找出瓶颈和理解具有分支或循环的复杂工作流很有用。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "self-host/use-dify/debug/history-and-logs#p4",
-                "heading_path": "运行历史 > 应用运行历史 > 追踪",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 246,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577",
-              "reconstruct_verified": true
-            }
-          },
-          {
-            "document_id": "cloud/use-dify/monitor/analysis",
-            "shared_generic_terms": [
-              "流程",
-              "各步",
-              "运营"
-            ],
-            "why_not_sufficient": "同样讲应用监控和token指标，但为聚合趋势，不提供单次运行定位和原参数重演。",
-            "source": {
-              "document_id": "cloud/use-dify/monitor/analysis",
-              "heading_path": "仪表盘",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/analysis.mdx#L8-L8",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/monitor/analysis.mdx",
-              "raw_line_start": 8,
-              "raw_line_end": 8,
-              "original_excerpt": "该仪表盘随时间跟踪四个指标，以展示你的应用的表现：",
-              "direct_evidence": {
-                "chunk_id": "cloud/use-dify/monitor/analysis#c0",
-                "excerpt": "该仪表盘随时间跟踪四个指标，以展示你的应用的表现：",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "cloud/use-dify/monitor/analysis#p0",
-                "heading_path": "仪表盘",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 0,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1",
-              "reconstruct_verified": true
-            }
-          }
-        ]
-      },
-      "twin_comparison_ids": [
-        "cloud/use-dify/monitor/logs <=> self-host/use-dify/monitor/logs"
+      "notes": [
+        "S3补充：原持久ID事实在streaming L95亦等价，补OR会与059撞新46复用。整体替换为错误码→依赖文档，无旧074追踪事实重叠。"
       ],
+      "chain": {
+        "bridge_type": "错误定义→运行依赖→隔离与配置模板",
+        "first_document": "self-host/use-dify/debug/error-type",
+        "second_document": "self-host/use-dify/nodes/code",
+        "second_document_answer_keywords": [
+          "沙箱",
+          "sandbox",
+          "SANDBOX_*",
+          "SSRF",
+          "CODE_*"
+        ],
+        "dependency": "先从唯一错误码定义识别沙箱依赖，再沿该依赖查独立容器隔离及其配置模板；第二篇不定义CodeExecutionError，第一篇没有隔离形态和模板。",
+        "generic_distractor_documents": [
+          "self-host/deploy/troubleshooting/docker-issues",
+          "self-host/deploy/advanced-deployments/local-source-code"
+        ],
+        "semantic_status": "replacement_independently_reviewed_source_supported"
+      },
+      "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 34,
-        "at_most_40": true,
+        "question_characters": 57,
+        "at_most_40": false,
         "at_most_80": true,
-        "vital_count": 4,
+        "vital_count": 3,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/debug/error-type"
+            ],
+            [
+              "self-host/use-dify/debug/error-type"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/code"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/code"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev078",
-      "reference_answer": "human_input_required事件携带form_token，随后workflow_paused事件结束当前响应流。先上传本地文件，取返回的id，在提交中用upload_file_id引用。提交被拒时表单保持不变；修正输入后可用同一form_token重新提交。",
+      "reference_answer": "选择Chatflow，每条消息会触发流程；它必需直接回复节点收尾。该节点用{{variable_name}}引用上游值，可用渐进式响应在后台继续处理时先发送确认。",
       "behavior_group": "multi",
       "behavior_subtype": "chain",
       "expected_behavior": "answered",
       "requires_corrects_premise": false,
       "gold_docs": [
-        "api-reference/guides/chatflow",
-        "api-reference/guides/human-input-flow"
+        "self-host/use-dify/build/workflow-chatflow",
+        "self-host/use-dify/nodes/answer"
       ],
       "gold_doc_groups": [
         [
-          "api-reference/guides/chatflow"
+          "self-host/use-dify/build/workflow-chatflow"
         ],
         [
-          "api-reference/guides/human-input-flow"
+          "self-host/use-dify/nodes/answer"
         ]
       ],
       "all_equivalent_gold_docs": [
-        "api-reference/guides/chatflow",
-        "api-reference/guides/human-input-flow"
+        "self-host/use-dify/build/workflow-chatflow",
+        "self-host/use-dify/nodes/answer"
       ],
       "n_docs": 2,
       "n_subasks": 2,
       "subasks": [
-        "进入等待与结束当前响应的事件",
-        "沿事件凭证提交本地附件及被拒后的复用"
+        "由逐消息执行要求确定应用和收尾环节",
+        "沿确定的环节配置上游值和阶段确认"
       ],
       "hardness_tag": "chain",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "直接给Workflow的输出节点，或以为必须等后台处理完成才能发出阶段确认。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
       "form_tags": [
-        "scenario_or_symptom",
-        "condition_or_exception"
+        "scenario_or_symptom"
       ],
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "human_input_required事件携带form_token交互凭证。",
+          "text": "Chatflow中每条用户消息都会触发设计的流程。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "api-reference/guides/chatflow",
-                  "heading_path": "Chatflow 应用 API > 人工介入暂停",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chatflow.mdx#L47-L47",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chatflow.mdx",
-                  "raw_line_start": 47,
-                  "raw_line_end": 47,
-                  "original_excerpt": "事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
+                  "document_id": "self-host/use-dify/build/workflow-chatflow",
+                  "heading_path": "Workflow 与 Chatflow > Workflow vs. Chatflow",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/workflow-chatflow.mdx#L31-L31",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/workflow-chatflow.mdx",
+                  "raw_line_start": 31,
+                  "raw_line_end": 31,
+                  "original_excerpt": "用户通过聊天界面进行交互，每条消息在生成回复前，都会触发你设计的流程。适用于交互式助手、引导式问答，或任何需要在每次回复背后进行结构化处理的对话场景。",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/chatflow#c5",
-                    "excerpt": "事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
+                    "chunk_id": "self-host/use-dify/build/workflow-chatflow#c1",
+                    "excerpt": "用户通过聊天界面进行交互，每条消息在生成回复前，都会触发你设计的流程。适用于交互式助手、引导式问答，或任何需要在每次回复背后进行结构化处理的对话场景。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/chatflow#p5",
-                    "heading_path": "Chatflow 应用 API > 人工介入暂停",
+                    "parent_id": "self-host/use-dify/build/workflow-chatflow#p1",
+                    "heading_path": "Workflow 与 Chatflow > Workflow vs. Chatflow",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 861,
+                  "cleaned_character_offset": 566,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "dcab3e989dd79e416895c78d709eeed50b23125eca12470ff8ea45e2407c7aa1",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "e9f44943abc262a5b8d7a757be8782e0dd15f9fd4287677a8705d079934b16a3"
                 }
               ]
             }
@@ -2086,35 +2183,34 @@
         },
         {
           "nugget_index": 1,
-          "text": "workflow_paused事件结束当前响应流。",
+          "text": "Chatflow必需使用直接回复节点作为结束节点。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "api-reference/guides/chatflow",
-                  "heading_path": "Chatflow 应用 API > 人工介入暂停",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chatflow.mdx#L47-L47",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/chatflow.mdx",
-                  "raw_line_start": 47,
-                  "raw_line_end": 47,
-                  "original_excerpt": "事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
+                  "document_id": "self-host/use-dify/build/workflow-chatflow",
+                  "heading_path": "Workflow 与 Chatflow > Workflow vs. Chatflow",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/workflow-chatflow.mdx#L42-L42",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/build/workflow-chatflow.mdx",
+                  "raw_line_start": 42,
+                  "raw_line_end": 42,
+                  "original_excerpt": "| 结束节点 | [输出](/zh/self-host/use-dify/nodes/output)（可选） | [直接回复](/zh/self-host/use-dify/nodes/answer)（必需） |",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/chatflow#c5",
-                    "excerpt": "事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
+                    "chunk_id": "self-host/use-dify/build/workflow-chatflow#c2",
+                    "excerpt": "| 结束节点 | 输出（可选） | 直接回复（必需） |\n",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/chatflow#p5",
-                    "heading_path": "Chatflow 应用 API > 人工介入暂停",
+                    "parent_id": "self-host/use-dify/build/workflow-chatflow#p1",
+                    "heading_path": "Workflow 与 Chatflow > Workflow vs. Chatflow",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 861,
+                  "cleaned_character_offset": 785,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "dcab3e989dd79e416895c78d709eeed50b23125eca12470ff8ea45e2407c7aa1",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "e9f44943abc262a5b8d7a757be8782e0dd15f9fd4287677a8705d079934b16a3"
                 }
               ]
             }
@@ -2122,64 +2218,34 @@
         },
         {
           "nugget_index": 2,
-          "text": "本地附件先上传，返回的id在提交中以upload_file_id引用。",
+          "text": "直接回复节点用{{variable_name}}语法引用上游节点变量。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "api-reference/guides/human-input-flow",
-                  "heading_path": "人工介入 API 集成流程 > 流程",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L33-L33",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
-                  "raw_line_start": 33,
-                  "raw_line_end": 33,
-                  "original_excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 [上传文件](/zh/api-reference/files/upload-file) 上传。",
+                  "document_id": "self-host/use-dify/nodes/answer",
+                  "heading_path": "直接回复 > 内容配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/answer.mdx#L18-L18",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/answer.mdx",
+                  "raw_line_start": 18,
+                  "raw_line_end": 18,
+                  "original_excerpt": "使用 `{{variable_name}}` 语法引用任何先前工作流节点的变量。编辑器支持丰富的内容格式化和变量插入，以创建动态的、上下文相关的响应。",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/human-input-flow#c2",
-                    "excerpt": "若接收者为 `file` 或 `file-list` 输入附加了本地文件，请先通过 上传文件 上传。",
+                    "chunk_id": "self-host/use-dify/nodes/answer#c1",
+                    "excerpt": "使用 `{{variable_name}}` 语法引用任何先前工作流节点的变量。编辑器支持丰富的内容格式化和变量插入，以创建动态的、上下文相关的响应。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/human-input-flow#p1",
-                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "parent_id": "self-host/use-dify/nodes/answer#p1",
+                    "heading_path": "直接回复 > 内容配置",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 737,
+                  "cleaned_character_offset": 191,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3",
-                  "reconstruct_verified": true
-                }
-              ]
-            },
-            {
-              "any_of": [
-                {
-                  "document_id": "api-reference/guides/human-input-flow",
-                  "heading_path": "人工介入 API 集成流程 > 流程",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L33-L33",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
-                  "raw_line_start": 33,
-                  "raw_line_end": 33,
-                  "original_excerpt": "该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。",
-                  "direct_evidence": {
-                    "chunk_id": "api-reference/guides/human-input-flow#c2",
-                    "excerpt": "该接口返回一个 `id`，提交时作为 `upload_file_id` 引用。",
-                    "contains_excerpt": true
-                  },
-                  "supporting_parent": {
-                    "parent_id": "api-reference/guides/human-input-flow#p1",
-                    "heading_path": "人工介入 API 集成流程 > 流程",
-                    "contains_excerpt": true
-                  },
-                  "cleaned_character_offset": 787,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589"
                 }
               ]
             }
@@ -2187,35 +2253,34 @@
         },
         {
           "nugget_index": 3,
-          "text": "提交被拒后可修正输入，以同一form_token重新提交。",
+          "text": "直接回复节点的渐进式响应能在后台继续处理时先发送确认。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "api-reference/guides/human-input-flow",
-                  "heading_path": "人工介入 API 集成流程 > 流程",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx#L44-L44",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/human-input-flow.mdx",
-                  "raw_line_start": 44,
-                  "raw_line_end": 44,
-                  "original_excerpt": "若提交被拒绝（操作无效、缺少必填输入，或远程文件抓取失败），表单保持不变，修正输入后可用同一个 `form_token` 重新提交。",
+                  "document_id": "self-host/use-dify/nodes/answer",
+                  "heading_path": "直接回复 > 多个直接回复节点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/answer.mdx#L46-L46",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/nodes/answer.mdx",
+                  "raw_line_start": 46,
+                  "raw_line_end": 46,
+                  "original_excerpt": "**渐进式响应** - 在后台处理继续的同时提供即时确认",
                   "direct_evidence": {
-                    "chunk_id": "api-reference/guides/human-input-flow#c4",
-                    "excerpt": "若提交被拒绝（操作无效、缺少必填输入，或远程文件抓取失败），表单保持不变，修正输入后可用同一个 `form_token` 重新提交。",
+                    "chunk_id": "self-host/use-dify/nodes/answer#c3",
+                    "excerpt": "**渐进式响应** - 在后台处理继续的同时提供即时确认",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "api-reference/guides/human-input-flow#p1",
-                    "heading_path": "人工介入 API 集成流程 > 流程",
+                    "parent_id": "self-host/use-dify/nodes/answer#p3",
+                    "heading_path": "直接回复 > 多个直接回复节点",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1232,
+                  "cleaned_character_offset": 568,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589"
                 }
               ]
             }
@@ -2223,107 +2288,78 @@
         }
       ],
       "distractor_docs": [
-        "api-reference/guides/workflow",
-        "api-reference/guides/streaming"
+        "self-host/use-dify/nodes/output",
+        "self-host/use-dify/build/chatbot"
       ],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
-      "notes": [],
+      "notes": [
+        "H5：替换原暂停表单题，改用应用选择→其必需收尾节点→节点专属编排行为。第二篇不解释逐消息触发语义，第一篇不提供插值和渐进式响应细节。"
+      ],
       "chain": {
-        "bridge_type": "暂停事件产物→表单状态机与恢复关联",
-        "first_document": "api-reference/guides/chatflow",
-        "second_document": "api-reference/guides/human-input-flow",
+        "bridge_type": "交互模式→应用类型→必需收尾节点",
+        "first_document": "self-host/use-dify/build/workflow-chatflow",
+        "second_document": "self-host/use-dify/nodes/answer",
         "second_document_answer_keywords": [
-          "form_token",
-          "id",
-          "upload_file_id",
-          "表单保持不变",
-          "重新提交"
+          "直接回复",
+          "{{variable_name}}",
+          "渐进式响应",
+          "固定文本",
+          "流式更新"
         ],
-        "dependency": "Chatflow篇是所问workflow_paused原流结束事件的来源，第一步产生form_token；后续本地附件引用和提交被拒绝后的令牌复用由第二篇补足。第一篇不能完成后续，第二篇未给workflow_paused结束事件名。",
+        "dependency": "逐消息触发条件先选Chatflow，再由第一篇表格确定必需收尾节点，沿该实体查找变量插入和后台确认能力；并非两项互不相关的配置。",
         "generic_distractor_documents": [
-          {
-            "document_id": "api-reference/guides/workflow",
-            "shared_generic_terms": [
-              "事件",
-              "交互",
-              "本地",
-              "提交"
-            ],
-            "why_not_sufficient": "同样包含暂停事件和句柄，是第一步的邻近来源；没有本地附件upload_file_id及被拒绝后同token重试的第二步规则。",
-            "source": {
-              "document_id": "api-reference/guides/workflow",
-              "heading_path": "Workflow 应用 API > 人工介入暂停",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx#L37-L37",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/workflow.mdx",
-              "raw_line_start": 37,
-              "raw_line_end": 37,
-              "original_excerpt": "运行的事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
-              "direct_evidence": {
-                "chunk_id": "api-reference/guides/workflow#c3",
-                "excerpt": "运行的事件流会推送 `human_input_required` 事件，其中携带 `form_token` 和本次运行的 `workflow_run_id`，随后以 `workflow_paused` 事件结束。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "api-reference/guides/workflow#p3",
-                "heading_path": "Workflow 应用 API > 人工介入暂停",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 685,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32",
-              "reconstruct_verified": true
-            }
-          },
-          {
-            "document_id": "api-reference/guides/streaming",
-            "shared_generic_terms": [
-              "事件",
-              "交互",
-              "本地",
-              "提交"
-            ],
-            "why_not_sufficient": "同样讲暂停/恢复/同user，但不提供表单本地附件映射或拒绝后的表单/令牌状态。",
-            "source": {
-              "document_id": "api-reference/guides/streaming",
-              "heading_path": "处理流式响应 > 重连与恢复",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx#L99-L99",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/api-reference/guides/streaming.mdx",
-              "raw_line_start": 99,
-              "raw_line_end": 99,
-              "original_excerpt": "对由工作流驱动的运行（Workflow 和 Chatflow 应用），连接断开并非致命问题。",
-              "direct_evidence": {
-                "chunk_id": "api-reference/guides/streaming#c7",
-                "excerpt": "对由工作流驱动的运行（Workflow 和 Chatflow 应用），连接断开并非致命问题。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "api-reference/guides/streaming#p5",
-                "heading_path": "处理流式响应 > 重连与恢复",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 2346,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50",
-              "reconstruct_verified": true
-            }
-          }
-        ]
+          "self-host/use-dify/nodes/output",
+          "self-host/use-dify/build/chatbot"
+        ],
+        "semantic_status": "replacement_pending_independent_review"
       },
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 61,
+        "question_characters": 48,
         "at_most_40": false,
         "at_most_80": true,
         "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/use-dify/build/workflow-chatflow"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/build/workflow-chatflow"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/answer"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/answer"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev079",
@@ -2355,14 +2391,11 @@
         "该环节的嵌套取值和缺失值兜底"
       ],
       "hardness_tag": "chain",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "取错Agent正文输出，或把嵌套字段访问与default兜底当作同一语法。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
-      "form_tags": [
-        "scenario_or_symptom",
-        "condition_or_exception"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -2514,8 +2547,8 @@
         "self-host/use-dify/nodes/answer"
       ],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "chain": {
@@ -2611,7 +2644,43 @@
         "at_most_80": true,
         "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": "self_host",
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "learn/tutorials/workflow-101/lesson-09"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "learn/tutorials/workflow-101/lesson-09"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/template"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/template"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev080",
@@ -2647,7 +2716,7 @@
         "Phoenix Cloud的密钥类型"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "将Arize的Space ID填入Phoenix空间主机名，或错用个人密钥。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -2839,8 +2908,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [
@@ -2853,7 +2922,38 @@
         "at_most_80": true,
         "vital_count": 3,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-arize",
+              "self-host/use-dify/monitor/integrations/integrate-arize"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-phoenix",
+              "self-host/use-dify/monitor/integrations/integrate-phoenix"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-phoenix",
+              "self-host/use-dify/monitor/integrations/integrate-phoenix"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev081",
@@ -2889,7 +2989,7 @@
         "LangSmith的凭据类型及项目名错误结果"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "混淆Langfuse的Public Key和Host，或把LangSmith项目名不匹配误报为鉴权失败。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -3144,8 +3244,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [
@@ -3153,12 +3253,52 @@
         "cloud/use-dify/monitor/integrations/integrate-langsmith <=> self-host/use-dify/monitor/integrations/integrate-langsmith"
       ],
       "quantitative_evidence": {
-        "question_characters": 49,
+        "question_characters": 50,
         "at_most_40": false,
         "at_most_80": true,
         "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-langfuse",
+              "self-host/use-dify/monitor/integrations/integrate-langfuse"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-langfuse",
+              "self-host/use-dify/monitor/integrations/integrate-langfuse"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-langsmith",
+              "self-host/use-dify/monitor/integrations/integrate-langsmith"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "cloud/use-dify/monitor/integrations/integrate-langsmith",
+              "self-host/use-dify/monitor/integrations/integrate-langsmith"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev082",
@@ -3193,13 +3333,11 @@
         "默认凭证修改入口"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "只建议HTTP节点而漏掉OpenAPI导入，或混淆画布凭据和工作空间默认凭据位置。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [
         {
           "nugget_index": 0,
@@ -3427,8 +3565,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [
@@ -3440,7 +3578,48 @@
         "at_most_80": true,
         "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/tools",
+              "self-host/use-dify/workspace/tools"
+            ],
+            [
+              "cloud/use-dify/workspace/tools",
+              "self-host/use-dify/workspace/tools"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/tools"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/tools"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/use-dify/nodes/tools"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev083",
@@ -3462,6 +3641,7 @@
         ]
       ],
       "all_equivalent_gold_docs": [
+        "self-host/deploy/configuration/environments",
         "self-host/deploy/quick-start/faqs",
         "self-host/deploy/troubleshooting/common-issues"
       ],
@@ -3473,7 +3653,7 @@
         "Cookie域名共享边界"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "混淆Cookie域与控制台CORS，或声称不同可注册域名之间也能共享Cookie。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -3513,6 +3693,30 @@
                   "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c67e086fda05236eefff8a049207b36b832282bb8be2a62eee3c277de6e99656",
                   "reconstruct_verified": true
+                },
+                {
+                  "document_id": "self-host/deploy/configuration/environments",
+                  "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx#L419-L419",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx",
+                  "raw_line_start": 419,
+                  "raw_line_end": 419,
+                  "original_excerpt": "| `COOKIE_DOMAIN` | （空） | 当前端和后端运行在不同子域上时，设为共享的顶级域名（例如 `example.com`）。这允许认证 Cookie 在子域间共享。为空时 Cookie 使用最安全的 `__Host-` 前缀，并锁定到单个域。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/configuration/environments#c57",
+                    "excerpt": "| `COOKIE_DOMAIN` | （空） | 当前端和后端运行在不同子域上时，设为共享的顶级域名（例如 `example.com`）。这允许认证 Cookie 在子域间共享。为空时 Cookie 使用最安全的 `__Host-` 前缀，并锁定到单个域。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/configuration/environments#p27",
+                    "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 17141,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
                 }
               ]
             }
@@ -3549,6 +3753,30 @@
                   "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "c67e086fda05236eefff8a049207b36b832282bb8be2a62eee3c277de6e99656",
                   "reconstruct_verified": true
+                },
+                {
+                  "document_id": "self-host/deploy/configuration/environments",
+                  "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx#L420-L420",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx",
+                  "raw_line_start": 420,
+                  "raw_line_end": 420,
+                  "original_excerpt": "| `NEXT_PUBLIC_COOKIE_DOMAIN` | （空） | 跨子域 Cookie 的前端标志。设为 `1`（或任何非空值）启用，后端从 `COOKIE_DOMAIN` 读取实际域名。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/configuration/environments#c58",
+                    "excerpt": "| `NEXT_PUBLIC_COOKIE_DOMAIN` | （空） | 跨子域 Cookie 的前端标志。设为 `1`（或任何非空值）启用，后端从 `COOKIE_DOMAIN` 读取实际域名。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/configuration/environments#p27",
+                    "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 17273,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
                 }
               ]
             }
@@ -3585,6 +3813,30 @@
                   "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
                   "source_file_sha256": "acd853e3e56f5fb003e99233aaf1715ed0f7f33f4ba15f25e5b3c48e9a117d70",
                   "reconstruct_verified": true
+                },
+                {
+                  "document_id": "self-host/deploy/configuration/environments",
+                  "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx#L418-L418",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/configuration/environments.mdx",
+                  "raw_line_start": 418,
+                  "raw_line_end": 418,
+                  "original_excerpt": "| `CONSOLE_CORS_ALLOW_ORIGINS` | `*` | 控制台 API 跨域请求的允许来源。如果未设置，回退到 `CONSOLE_WEB_URL`。 |",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/configuration/environments#c57",
+                    "excerpt": "| `CONSOLE_CORS_ALLOW_ORIGINS` | `*` | 控制台 API 跨域请求的允许来源。如果未设置，回退到 `CONSOLE_WEB_URL`。 |",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/configuration/environments#p27",
+                    "heading_path": "环境变量 > 服务器配置 > CORS 配置",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 17053,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
                 }
               ]
             },
@@ -3658,8 +3910,8 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "twin_comparison_ids": [],
@@ -3669,11 +3921,57 @@
         "at_most_80": true,
         "vital_count": 4,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "reference_page_or_exception": {
+        "document_id": "self-host/deploy/configuration/environments",
+        "rule": "H4方案①：仅配置参考页重复专题页已有变量/默认值的OR来源，不计复用；主金标计数。"
+      },
+      "edition": "self_host",
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments",
+              "self-host/deploy/quick-start/faqs"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments",
+              "self-host/deploy/quick-start/faqs"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/deploy/configuration/environments",
+              "self-host/deploy/troubleshooting/common-issues"
+            ],
+            [
+              "self-host/deploy/troubleshooting/common-issues"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 3,
+          "groups": [
+            [
+              "self-host/deploy/quick-start/faqs"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev084",
-      "reference_answer": "服务端至少需要1.27.0，外置连接须能访问gRPC端口50051。Dify1.11.0及以后在Worker运行迁移脚本时使用uv run --no-cache。完成后在Dify界面针对迁移后的知识库测试检索功能。",
+      "reference_answer": "服务端至少1.27.0；WEAVIATE_GRPC_ENDPOINT填写hostname:port，不加协议前缀。Dify1.11.0及之后在Worker执行迁移脚本使用uv run --no-cache。",
       "behavior_group": "multi",
       "behavior_subtype": "scattered_ordered",
       "expected_behavior": "answered",
@@ -3690,20 +3988,18 @@
         "self-host/deploy/troubleshooting/weaviate-v4-migration"
       ],
       "n_docs": 1,
-      "n_subasks": 4,
+      "n_subasks": 3,
       "subasks": [
-        "外置服务端最低版本",
-        "外置gRPC端口",
-        "迁移命令选项",
-        "迁移验收方法"
+        "服务端最低版本",
+        "gRPC地址格式",
+        "新版本Worker的迁移脚本选项"
       ],
       "hardness_tag": "scattered_ordered",
-      "most_likely_failure": "把v4客户端升级和逐小版本服务器阶梯混淆；不考dev026备份cp-a/Aggregate/回滚事实。",
+      "most_likely_failure": "把gRPC端点加上http/grpc协议头，或漏掉新版Worker的无缓存选项。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
       "form_tags": [
-        "scenario_or_symptom",
         "condition_or_exception"
       ],
       "nugget_evidence": [
@@ -3714,6 +4010,30 @@
           "all_of": [
             {
               "any_of": [
+                {
+                  "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 概述",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L15-L15",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
+                  "raw_line_start": 15,
+                  "raw_line_end": 15,
+                  "original_excerpt": "从 **Dify v1.9.2** 开始，weaviate-client 已从 v3 升级到 v4.17.0。此升级带来了显著的性能改进和更好的稳定性，但需要 **Weaviate 服务器版本 1.27.0 或更高版本**。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c1",
+                    "excerpt": "从 **Dify v1.9.2** 开始，weaviate-client 已从 v3 升级到 v4.17.0。此升级带来了显著的性能改进和更好的稳定性，但需要 **Weaviate 服务器版本 1.27.0 或更高版本**。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p1",
+                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 概述",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 266,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+                },
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
                   "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 概述",
@@ -3734,10 +4054,57 @@
                   },
                   "cleaned_character_offset": 388,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+                },
+                {
+                  "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 概述 > 谁会受到影响？",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L25-L25",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
+                  "raw_line_start": 25,
+                  "raw_line_end": 25,
+                  "original_excerpt": "- 运行低于 1.27.0 版本的自部署 Weaviate 实例的自部署 Dify 用户",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c2",
+                    "excerpt": "- 运行低于 1.27.0 版本的自部署 Weaviate 实例的自部署 Dify 用户",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p2",
+                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 概述 > 谁会受到影响？",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 543,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+                },
+                {
+                  "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 破坏性变更 > 客户端 v4 要求",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L39-L39",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
+                  "raw_line_start": 39,
+                  "raw_line_end": 39,
+                  "original_excerpt": "1. **最低服务器版本**：需要 Weaviate 服务器 1.27.0 或更高版本",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c3",
+                    "excerpt": "1. **最低服务器版本**：需要 Weaviate 服务器 1.27.0 或更高版本",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p3",
+                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 破坏性变更 > 客户端 v4 要求",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 780,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
                 }
               ]
             }
@@ -3745,35 +4112,34 @@
         },
         {
           "nugget_index": 1,
-          "text": "外置Weaviate须确保gRPC端口50051可达。",
+          "text": "WEAVIATE_GRPC_ENDPOINT采用hostname:port格式，不含协议前缀。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
-                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 前提条件",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L91-L91",
+                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L503-L503",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
-                  "raw_line_start": 91,
-                  "raw_line_end": 91,
-                  "original_excerpt": "- 如果使用外部 Weaviate，确认 gRPC 端口 (50051) 可访问",
+                  "raw_line_start": 503,
+                  "raw_line_end": 503,
+                  "original_excerpt": "**格式**：`hostname:port`（无协议前缀）",
                   "direct_evidence": {
-                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c7",
-                    "excerpt": "- 如果使用外部 Weaviate，确认 gRPC 端口 (50051) 可访问",
+                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c35",
+                    "excerpt": "**格式**：`hostname:port`（无协议前缀）",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p6",
-                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 前提条件",
+                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p15",
+                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 配置变更 > 新环境变量",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1886,
+                  "cleaned_character_offset": 10144,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b",
-                  "reconstruct_verified": true
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
                 }
               ]
             }
@@ -3781,7 +4147,7 @@
         },
         {
           "nugget_index": 2,
-          "text": "Dify1.11.0及之后用uv run --no-cache运行迁移脚本。",
+          "text": "Dify1.11.0及之后在Worker运行迁移脚本使用uv run --no-cache。",
           "importance": "vital",
           "all_of": [
             {
@@ -3806,15 +4172,10 @@
                   },
                   "cleaned_character_offset": 6108,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b",
-                  "reconstruct_verified": true
-                }
-              ]
-            },
-            {
-              "any_of": [
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+                },
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
                   "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 迁移路径 > 路径 A：带备份的迁移（从 1.19）",
@@ -3835,46 +4196,33 @@
                   },
                   "cleaned_character_offset": 6149,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b",
-                  "reconstruct_verified": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 3,
-          "text": "迁移后应在Dify界面测试迁移知识库的检索功能。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+                },
                 {
                   "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
-                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 迁移路径 > 路径 A：带备份的迁移（从 1.19）",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L319-L319",
+                  "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 故障排除 > 问题：运行迁移脚本时权限被拒绝（Dify 1.11.0+）",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx#L809-L809",
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/troubleshooting/weaviate-v4-migration.mdx",
-                  "raw_line_start": 319,
-                  "raw_line_end": 319,
-                  "original_excerpt": "4. **在 UI 中验证**：打开 Dify，针对迁移后的知识库测试检索功能。",
+                  "raw_line_start": 809,
+                  "raw_line_end": 809,
+                  "original_excerpt": "uv run --no-cache migrate_weaviate_collections.py",
                   "direct_evidence": {
-                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c23",
-                    "excerpt": "4. **在 UI 中验证**：打开 Dify，针对迁移后的知识库测试检索功能。",
+                    "chunk_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#c53",
+                    "excerpt": "uv run --no-cache migrate_weaviate_collections.py",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p10",
-                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 迁移路径 > 路径 A：带备份的迁移（从 1.19）",
+                    "parent_id": "self-host/deploy/troubleshooting/weaviate-v4-migration#p31",
+                    "heading_path": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+ > 故障排除 > 问题：运行迁移脚本时权限被拒绝（Dify 1.11.0+）",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 6460,
-                  "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b",
-                  "reconstruct_verified": true
+                  "cleaned_character_offset": 14999,
+                  "within_current_judge_first_12000_chars": false,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
                 }
               ]
             }
@@ -3883,25 +4231,50 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
-      "notes": [],
+      "notes": [
+        "H2：删除可同父块回答的端口问，改为p15的地址格式；版本和脚本选项的重复出现处记OR，按最小父块覆盖计算。"
+      ],
       "twin_comparison_ids": [],
       "quantitative_evidence": {
-        "question_characters": 57,
+        "question_characters": 53,
         "at_most_40": false,
         "at_most_80": true,
-        "vital_count": 4,
+        "vital_count": 3,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。",
         "cleaned_characters": 16351,
-        "necessary_parent_ids": [
-          "self-host/deploy/troubleshooting/weaviate-v4-migration#p1",
-          "self-host/deploy/troubleshooting/weaviate-v4-migration#p10",
-          "self-host/deploy/troubleshooting/weaviate-v4-migration#p6"
-        ],
         "within_current_judge_first_12000_chars": true
-      }
+      },
+      "edition": "self_host",
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "self-host/deploy/troubleshooting/weaviate-v4-migration"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "self-host/deploy/troubleshooting/weaviate-v4-migration"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "self-host/deploy/troubleshooting/weaviate-v4-migration"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev085",
@@ -4124,18 +4497,16 @@
         "官方补丁交付承诺时长"
       ],
       "hardness_tag": "out_of_database",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "把社区插件维护承诺当作Dify官方SLA，编造首次响应或补丁期限。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "按蓝图行为归类；库内缺依据和错误前提的路由留null，最终行为单独判定。",
-      "form_tags": [
-        "condition_or_exception"
-      ],
+      "form_tags": [],
       "nugget_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "no_answer_audit": {
@@ -4285,7 +4656,10 @@
         "at_most_80": true,
         "vital_count": 0,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev087",
@@ -4316,13 +4690,14 @@
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "按蓝图行为归类；库内缺依据和错误前提的路由留null，最终行为单独判定。",
       "form_tags": [
+        "scenario_or_symptom",
         "condition_or_exception"
       ],
       "nugget_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "contradiction_evidence": [
@@ -4392,7 +4767,10 @@
         "at_most_80": true,
         "vital_count": 0,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": "self_host",
+      "nugget_gold_doc_groups": [],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev088",
@@ -4414,14 +4792,12 @@
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
-      "form_tags": [
-        "scenario_or_symptom"
-      ],
+      "form_tags": [],
       "nugget_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "primary_verified_after_independent_reject",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [
         "最终独立审题后主agent按冻结原文修正；具体发现、原版hash和闭环见semantic-review.json及blueprint-amendments.json。"
@@ -4438,7 +4814,10 @@
         "at_most_80": true,
         "vital_count": 0,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev089",
@@ -4473,15 +4852,17 @@
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
-      "form_tags": [],
+      "form_tags": [
+        "condition_or_exception"
+      ],
       "nugget_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [
         "cloud/use-dify/workspace/app-management",
         "self-host/use-dify/workspace/app-management"
       ],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "counterpart_evidence": [
@@ -4563,7 +4944,10 @@
         "at_most_80": true,
         "vital_count": 0,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev090",
@@ -4598,7 +4982,7 @@
         "想把外部系统的资料接进来，怎么配？"
       ],
       "hardness_tag": "missing_slot",
-      "most_likely_failure": "忽略条件或套用邻近说明。",
+      "most_likely_failure": "未确认资料接入形态就一律走外部知识库，漏掉业务API返回字符串补入提示词的路径。",
       "guessable_without_docs": null,
       "guessability_note": "未运行无检索基线；不凭常识推断模型能否答对。",
       "route_rationale": "保留已通过蓝图的行为及子类；多跳按必要推理而非篇数判定。",
@@ -4606,8 +4990,8 @@
       "nugget_evidence": [],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "accepted_by_independent_final_reviewer",
-      "database_verified": true,
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
+      "database_verified": false,
       "formal_source_method": "逐原子事实用durable locate_evidence从冻结原文严格重建；跨块使用all_of；未沿用蓝图mapping_pending。",
       "notes": [],
       "interpretations": [
@@ -4904,7 +5288,51 @@
         "at_most_80": true,
         "vital_count": 0,
         "formal_nugget_atomicity": "原子性及题干对齐已自读；仍待fresh独立审题，不因字段齐全判pass。"
-      }
+      },
+      "edition": null,
+      "nugget_gold_doc_groups": [],
+      "reconstruct_verified": true
     }
-  ]
+  ],
+  "reconstruct_verified": true,
+  "repair_verification": {
+    "question_ids": [
+      "dev021",
+      "dev024",
+      "dev029",
+      "dev030",
+      "dev031",
+      "dev033",
+      "dev034",
+      "dev035",
+      "dev036",
+      "dev037",
+      "dev041",
+      "dev043"
+    ],
+    "mode": "冻结raw+clean_mdx/chunk_document本机确定性重建",
+    "database_accessed": false,
+    "untouched_evidence": "未点名12题对象原样保留；其database_verified=true为历史声明，不代表本次本机重验。",
+    "reconstruct_verified_scope": "指定12题实际存在的所有原文/子块/父块证据；无文档金标题采用边界与无答案审计。",
+    "canonical_files_changed": false
+  },
+  "database_revalidation": {
+    "status": "pass",
+    "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+    "counts": {
+      "documents": 182,
+      "parent_chunks": 1252,
+      "chunks": 2090,
+      "chunk_embeddings": 2090
+    },
+    "all_document_content_hashes_match": true,
+    "all_child_text_ids_parent_links_match": true,
+    "all_parent_text_ids_match": true,
+    "embedding_model": "qwen3-embedding-0.6b",
+    "verification_method": "只读数据库与固定语料生产清洗/分块结果全量比对"
+  },
+  "database_verification_scope": "历史runtime-verification保留；本轮只用冻结文件和生产切块，新增/改写证据未查询实库。",
+  "retrieval_selftest_file": "retrieval-selftest.jsonl",
+  "semantic_review_file": "semantic-review.json",
+  "retrieval_selftest_status": "historical_pre_repair_not_rerun"
 }

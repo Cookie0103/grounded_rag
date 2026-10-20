@@ -5,15 +5,15 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-19（phase-16本轮完成：修订12题、补齐46题，新70交审稿齐备）
+最后更新：2026-10-20（phase-17：开发题复审修复完成，仓库外30题草案收尾核验中）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-16](build/phase-16-dev70-completion.md) 本轮完成并交审。指定12题修复、另12题原样；新增46先蓝图内部验收再写两组23，当前70/70。独立初审39接受/7退回，主agent修复并核验闭环。最终机械0硬失败；70次原样检索完成，单跳25/28=89.3%，加难候选已列。[完整审阅稿](../docs/eval/dev70/review-70.md)、[验证](../docs/eval/dev70/validation.json)、[审题记录](code_review/2026-10-19-phase-16-dev70.md)可直接交Claude复核。
+- **当前任务**：[phase-17](build/phase-17-dataset-repair-test30.md)；已按Claude报告及两轮独立复核修复开发题、OR与配额，四批副本已同步。30题已在仓库外制作，静态来源检查通过，正在汇总交接。具体当前稿见[全70审阅稿](../docs/eval/dev70/review-70.md)。
 - **本轮**：分支 `2026-10-19-cloud-tracing` 完成 [phase-11](build/phase-11-cloud-tracing.md) 的 T1～T4：补齐过程记录，真实本地问答、Langfuse 日本区上传及云端 API 读回均成功。作者要求汇总推送后，既有4项未提交修改已提交为`433ae94`，该分支首次推送到origin成功并建立跟踪；未检查远程CI结果。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：当前Mac已恢复锁定Python依赖与原定Qwen3嵌入/精排，MPS真实冒烟通过。本项目PostgreSQL/pgvector在5432，182篇/1252父块/2090子块及2090条Qwen3向量已恢复并与源全量比对；未补本轮不需要的BGE向量。`.env`保留作者设置，任务命令临时使用MPS和batch=4。旧Windows/RTX5070Ti及Langfuse结果为另一台电脑的历史证据。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：作者/Claude审定新70首版与8道新增加难候选，冻结后再安排完整系统/无检索基线。正式评分前需适配gold_doc_groups组内OR；本轮未改评分规则或正式题库。
+- **下一步**：作者/Claude审定修订70与仓库外新编30后冻结。正式评分前仍需适配逐点OR；本轮没有复跑检索、实库、完整系统或付费评测，旧召回记录只适用于修订前版本。
 - **当前手动试跑**：下方Windows的8000/serve记录是另一台电脑的历史证据；本轮Mac只恢复数据库与MPS检索，没有启动或声称保持HTTP服务。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -264,3 +264,11 @@
 - 原题各一次检索，不传edition、不分解：70条、无降级。单跳25/28（89.3%），新增17/19（89.5%）；超过70%后在retrieval-diagnostics列13道候选，其中新增8优先加难。保留真实首轮结果，未运行完整系统/无检索基线或付费模型，不作正式效果成绩。
 - 最终poe check：433 passed、35 deselected、覆盖率94.85%；题库工具8 passed；既有Question loader70题0 issues；本轮集成测试此前32 passed、436 deselected，未改业务或schema。最终真实DB只读再核182篇hash/2090子块/1252父块完全一致。
 - 交付入口：docs/eval/dev70/review-70.md；两半23各有question/evidence/review/validation；root validation含目标实际、逐题机械与语义条件、14项reject替换历史、70次检索及加难清单。原版蓝图及后续差异、孪生逐字比较、source/DB核验均保存。作者/Claude最终审定、OR正式加载器适配与正式效果评测属于下一步，未触碰封存30或backend/eval/data、评分、Prompt、.env及依赖版本。
+
+### 2026-10-20 · phase-17 T1：开发题复审修复
+
+- 保留作者两份Claude报告原样；在2026-10-20-dataset-repair分支修复H1～H6及题型、风险占位、镜像必答点、澄清轴和题级OR过宽问题。额外来源冲突通过替换048/070/077题点解决，067调整以维持nodes上限；030恢复真实跨篇。原因见phase-17 context及repair-2026-10-20.json。
+- 复用生产清洗/切块定位，逐点all_of/any_of和文档组一致；总表及四批JSONL、证据、审阅稿、事实账本和验证清单已同步。历史检索/实库/语义审查档案保留，当前README明确不把旧成绩套给修订版。
+- 实际执行validate_completion.py --mode completion --old20 docs/eval/dev20/questions.jsonl：0硬失败；既有旧题局限仍列观察，不降低门槛。test_tools.py通过；poe check格式/lint/分层/类型及单元测试通过，实际数值见phase-17自查报告。
+- source_index.py按字符串排序修复Windows排序差异；仅向.cache/dataset-repair输出，182篇/1252父块/2090子块重建与旧索引全部文档对象一致，分布JSON与已提交版相同；未动数据库或重算向量。
+- 本任务没有修改backend/eval/data、评分、评审Prompt、业务代码或预算；没有运行检索/完整系统/无检索或付费评测。T2仓库外测试草案与最终交接另记。

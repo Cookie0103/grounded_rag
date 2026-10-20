@@ -52,3 +52,10 @@ HF_HUB_OFFLINE=1 backend/.venv/bin/python docs/eval/dev70/tools/retrieval_selfte
 Windows/CUDA电脑可用`--device cuda`，或省略device读取既有配置。每题只调用一次`retriever.retrieve(question)`，不传edition、不分解、不生成或评审答案。JSONL保存实际前5子块及文档、组内OR命中、模型、设备、时间和降级状态。同一query hash和设备/模型已有成功记录时续跑会跳过，不进行挑选重试；更换题目或金标的复测应指定新的`--output`，保留首轮原始记录。最终70条与当前question hash、金标组一致的核对结果见root validation。
 
 上述机械工具的限制与真实运行证据分开：本轮确实完成了70次MPS检索和全量只读DB比对，结果见`../retrieval-selftest.jsonl`与`../runtime-verification.json`；来源helper仍只从文件重建，调用它本身不验证DB。初版蓝图的后续语义修订见`../blueprint-amendments.json`，复跑原版蓝图仅能重现当时的静态条件。
+# 2026-10-20修订说明
+
+验证器复用上限按作者已定H4规则，仅排除固定白名单题的environments配置等价OR；主金标及其他专题页仍计数。逐点来源以all_of/any_of为准，题级组不能用部分等价来源虚报整题全命中。H4边界有回归检查，`test_tools.py`可运行。
+
+`source_index.py`用相对路径字符串显式排序，避免WindowsPath大小写排序改变分布。检查时指定`--distribution .cache/...json`，不会覆盖已提交分布文件。本轮重建与历史分布JSON相同；不声称跨平台物理换行逐字节相同。
+
+本轮只做文件重建与静态核验，`retrieval-selftest.jsonl`仍是修订前原始记录。当前题目和金标已经变化，不得把历史召回比例当作本轮结果。当前状态见上级README与phase-17。

@@ -1,5 +1,17 @@
 {
-  "status": "draft_pending_external_review",
+  "status": "revised_pending_independent_review",
+  "updated_at": "2026-10-20",
+  "corpus_repo": "langgenius/dify-docs",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "ingest_version": "1",
+  "database_verified": false,
+  "source_license": "CC BY 4.0",
+  "source_workflow": "冻结原文写题→严格证据→独立审题→主agent修复→每题原样单次检索；未运行完整回答系统或用被测答案定金标",
+  "formal_dataset": "70开发+30测试；旧20另作回归",
+  "paid_calls": 0,
+  "baseline_run": false,
+  "rag_run": false,
+  "dataset_version": "dev70-review-repair-2026-10-20",
   "question_count": 12,
   "questions": [
     {
@@ -1408,40 +1420,39 @@
     },
     {
       "question_id": "dev030",
-      "reference_answer": "云版默认客户端使用Dify预先配置并维护的OAuth参数，无需额外设置即可一键添加凭据。自部署文档给出的流程是先在第三方平台注册OAuth应用，再在Dify的自定义客户端设置中填写Client ID和Client Secret，点击“保存并授权”。云版也提供自定义方式，这里比较其默认方式与自部署文档的流程。",
+      "reference_answer": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置。自定义端点需要自行准备API和鉴权用API Key；Dify调用时通过Authorization: Bearer {api_key}请求头携带密钥。",
       "behavior_group": "multi",
       "behavior_subtype": "parallel_compare",
       "expected_behavior": "answered",
       "requires_corrects_premise": false,
       "gold_docs": [
         "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+        "self-host/use-dify/workspace/api-extension/api-extension"
       ],
       "gold_doc_groups": [
         [
           "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
         ],
         [
-          "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+          "self-host/use-dify/workspace/api-extension/api-extension",
+          "cloud/use-dify/workspace/api-extension/api-extension"
         ]
       ],
       "n_docs": 2,
-      "n_subasks": 4,
+      "n_subasks": 2,
       "subasks": [
-        "云版默认客户端的准备要求",
-        "自部署在第三方平台的准备",
-        "自部署在Dify填入的凭据",
-        "完成授权的按钮"
+        "云端默认OAuth参数准备",
+        "自建自定义端点准备与鉴权契约"
       ],
       "hardness_tag": "parallel_compare",
-      "most_likely_failure": "把云版默认参数套给自部署，漏掉第三方应用注册或客户端凭据；反过来声称云版不能自定义。",
+      "most_likely_failure": "把云端默认OAuth准备项套给自定义API端点，或混淆端点API Key与OAuth客户端参数。",
       "guessable_without_docs": null,
       "guessability_note": "待无检索基线回填；出题阶段不推断能否凭常识答对。",
       "route_rationale": "需要综合不同规则或版本的独立事实，保留MULTI标注。",
       "nugget_evidence": [
         {
           "nugget_index": 0,
-          "text": "云版默认OAuth客户端使用Dify预置并维护的参数，无需额外设置即可添加凭据。",
+          "text": "云版默认OAuth客户端使用Dify预置参数，无需额外设置。",
           "importance": "vital",
           "all_of": [
             {
@@ -1453,24 +1464,21 @@
                   "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
                   "raw_line_start": 100,
                   "raw_line_end": 100,
-                  "original_excerpt": "    默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
+                  "original_excerpt": "默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
                   "direct_evidence": {
                     "chunk_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
                     "excerpt": "默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
                     "parent_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
                     "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\nDify 提供默认和自定义两种 OAuth 客户端配置方式。\n\n**默认**\n默认客户端使用 Dify 预先配置并维护的 OAuth 参数，无需任何额外设置，即可一键添加凭据。\n\n**自定义**\n自定义客户端允许你在第三方平台注册自己的 OAuth 应用并填入其参数。适用于没有默认客户端的数据源，或你有特定安全、合规要求的场景。\n\n**授权流程**\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
                     "contains_excerpt": true
                   },
                   "cleaned_character_offset": 1045,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "reconstruct_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
                   "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
                 }
               ]
@@ -1479,37 +1487,58 @@
         },
         {
           "nugget_index": 1,
-          "text": "自部署授权数据源前需在第三方平台注册OAuth应用。",
+          "text": "接入自定义端点前需准备API和用于鉴权的API Key。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L92-L92",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
-                  "raw_line_start": 92,
-                  "raw_line_end": 92,
-                  "original_excerpt": "使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
+                  "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
+                  "heading_path": "自定义端点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c6",
-                    "excerpt": "使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。",
+                    "chunk_id": "self-host/use-dify/workspace/api-extension/api-extension#c0",
+                    "excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
-                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "parent_id": "self-host/use-dify/workspace/api-extension/api-extension#p0",
+                    "heading_path": "自定义端点",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1006,
+                  "cleaned_character_offset": 84,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "reconstruct_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43"
+                },
+                {
+                  "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
+                  "heading_path": "自定义端点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/api-extension/api-extension#c0",
+                    "excerpt": "在扩展模块能力之前，你需要准备一个 API 和用于鉴权的 API Key。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/api-extension/api-extension#p0",
+                    "heading_path": "自定义端点",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 84,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "3a5f83e13b3d0181b6cdf133b87fa78baaff5117d3027a79e6621dae617c84bd"
                 }
               ]
             }
@@ -1517,75 +1546,58 @@
         },
         {
           "nugget_index": 2,
-          "text": "自部署在Dify自定义客户端中填写Client ID和Client Secret。",
+          "text": "Dify用Authorization: Bearer {api_key}请求头传递自定义端点API Key。",
           "importance": "vital",
           "all_of": [
             {
               "any_of": [
                 {
-                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
-                  "raw_line_start": 105,
-                  "raw_line_end": 105,
-                  "original_excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                  "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
+                  "heading_path": "自定义端点 > API 规范 > Header",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx#L30-L30",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/api-extension.mdx",
+                  "raw_line_start": 30,
+                  "raw_line_end": 30,
+                  "original_excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
-                    "excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
-                    "text": "**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "chunk_id": "self-host/use-dify/workspace/api-extension/api-extension#c2",
+                    "excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
-                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "parent_id": "self-host/use-dify/workspace/api-extension/api-extension#p2",
+                    "heading_path": "自定义端点 > API 规范 > Header",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1209,
+                  "cleaned_character_offset": 437,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "reconstruct_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nugget_index": 3,
-          "text": "填写自定义客户端参数后，点击“保存并授权”完成OAuth授权。",
-          "importance": "vital",
-          "all_of": [
-            {
-              "any_of": [
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43"
+                },
                 {
-                  "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-                  "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx#L105-L105",
-                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source.mdx",
-                  "raw_line_start": 105,
-                  "raw_line_end": 105,
-                  "original_excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                  "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
+                  "heading_path": "自定义端点 > API 规范 > Header",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx#L30-L30",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/api-extension.mdx",
+                  "raw_line_start": 30,
+                  "raw_line_end": 30,
+                  "original_excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
                   "direct_evidence": {
-                    "chunk_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#c7",
-                    "excerpt": "2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
-                    "text": "**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "chunk_id": "cloud/use-dify/workspace/api-extension/api-extension#c2",
+                    "excerpt": "| `Authorization` | Bearer \\{api_key\\} | API Key 以 Token 令牌的方式传输，你需要解析该 `api_key` 并确认是否和提供的 API Key 一致，保证接口安全。 |",
                     "contains_excerpt": true
                   },
                   "supporting_parent": {
-                    "parent_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source#p6",
-                    "heading_path": "数据源授权 > 授权方式和流程 > OAuth 授权",
-                    "text": "OAuth 是一种开放标准的授权协议，允许用户在不暴露密码的情况下，授权第三方应用访问其在特定服务提供商上的资源。Dify 提供两种 OAuth 授权配置方式：默认配置和自定义配置。\n\n#### 授权流程\n\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth**。\n\n2. 在授权页面中查看并确认权限范围后，点击 **允许访问**。\n\n#### OAuth 客户端设置\n使用自定义 OAuth 客户端授权数据源：先在第三方平台注册一个 OAuth 应用，再将其 **Client ID** 和 **Client Secret** 填入 Dify。当你有特定的安全或合规要求时，这种方式尤为适用。\n\n**授权流程**\n1. 在数据源配置界面，选择对应的数据源，点击右侧的 **配置**，选择 **添加 OAuth** 右侧的 **设置图标**，进入 OAuth 客户端设置。\n\n2. 点击 **自定义**，输入 **Client ID** 和 **Client Secret**。点击 **保存并授权**完成 OAuth 授权流程。",
+                    "parent_id": "cloud/use-dify/workspace/api-extension/api-extension#p2",
+                    "heading_path": "自定义端点 > API 规范 > Header",
                     "contains_excerpt": true
                   },
-                  "cleaned_character_offset": 1209,
+                  "cleaned_character_offset": 437,
                   "within_current_judge_first_12000_chars": true,
-                  "database_verified": true,
-                  "reconstruct_verified": true,
-                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-                  "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
+                  "database_verified": false,
+                  "verification_method": "冻结文件+生产clean_mdx/chunk_document，本机重建；未查询数据库",
+                  "source_file_sha256": "3a5f83e13b3d0181b6cdf133b87fa78baaff5117d3027a79e6621dae617c84bd"
                 }
               ]
             }
@@ -1627,83 +1639,53 @@
       ],
       "distractor_docs": [],
       "counterpart_docs": [],
-      "author_review_status": "pending_claude_and_author_review",
+      "author_review_status": "revised_2026_10_20_pending_independent_review",
       "notes": [
         "重写dev030为真正跨两版对照，不再拿云版登录的一句话充多跳。每个限制各自计一个vital；edition为null，版本由题干给出。",
-        "整体替换上传数值题。差异限定为冻结文档明确写出的云版默认方式与自部署自定义流程；不推断自部署运行时绝不存在默认客户端。"
-      ],
-      "counterpart_evidence": [
-        {
-          "any_of": [
-            {
-              "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
-              "heading_path": "上传本地文件",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L21-L21",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-              "raw_line_start": 21,
-              "raw_line_end": 21,
-              "original_excerpt": "| 单次上传文件数 | 1 | 50 |",
-              "direct_evidence": {
-                "chunk_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                "excerpt": "| 单次上传文件数 | 1 | 50 |",
-                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n上传限制因套餐而异（了解更多）：\n\n| | Sandbox | Professional 和 Team |\n|:--|:--|:--|\n| 单次上传文件数 | 1 | 50 |\n\n| 单个文件大小 | 15 MB | 50 MB |\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                "heading_path": "上传本地文件",
-                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n上传限制因套餐而异（了解更多）：\n\n| | Sandbox | Professional 和 Team |\n|:--|:--|:--|\n| 单次上传文件数 | 1 | 50 |\n\n| 单个文件大小 | 15 MB | 50 MB |\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。\n\n    提取的图片 URL 会保留在分段文本中，但你可以放心删除这些 URL 以保持文本整洁，这不会影响已提取的图片。\n\n    若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并索引以供检索。\n\n    每个分段最多支持 10 个图片附件，超出的图片不会被提取。\n\n    以上提取规则适用于如下图片类型：\n\n    - DOCX 和 XLSX 文件中嵌入的图片\n\n        **提示：**\n        其他文件类型（如 PDF）中嵌入的图片，可通过在 知识流水线 中使用合适的文档提取插件进行提取。\n\n    - 在任何文件类型中，通过以下 Markdown 语法引用、URL 可访问的图片：\n\n        - `![alt text](image_url)`\n        - `![alt text](image_url \"optional title\")`",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 192,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "reconstruct_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
-            }
-          ]
-        },
-        {
-          "any_of": [
-            {
-              "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme",
-              "heading_path": "上传本地文件",
-              "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx#L17-L17",
-              "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/create-knowledge/import-text-data/readme.mdx",
-              "raw_line_start": 17,
-              "raw_line_end": 17,
-              "original_excerpt": "    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
-              "direct_evidence": {
-                "chunk_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#c0",
-                "excerpt": "- 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）",
-                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）\n\n    - 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。",
-                "contains_excerpt": true
-              },
-              "supporting_parent": {
-                "parent_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme#p0",
-                "heading_path": "上传本地文件",
-                "text": "**注意：**\n知识库创建后，其数据源无法更改。\n\n创建即用型知识库时，可上传本地文件作为其数据源：\n\n1. 点击 **知识库** > **创建** > **创建即用型知识库**。\n\n2. 选择 **导入已有文本** 作为数据源，然后上传文件。\n\n    - 单次最多可上传 5 个文件（通过 `UPLOAD_FILE_BATCH_LIMIT` 设置）\n\n    - 单个文件最大支持 15 MB（通过 `UPLOAD_FILE_SIZE_LIMIT` 设置）\n\n**对于文件中的图片**\n\n    JPG、JPEG、PNG 和 GIF 格式且小于 2 MB 的图片将作为附件，自动提取到对应的分段。这些图片可独立管理，并在检索时与分段一同返回。\n\n    提取的图片 URL 会保留在分段文本中，但你可以放心删除这些 URL 以保持文本整洁，这不会影响已提取的图片。\n\n    若在索引设置中选择多模态嵌入模型（带有 **Vision** 图标），则提取出的图片也将被向量化并索引以供检索。\n\n    每个分段最多支持 10 个图片附件（通过 `SINGLE_CHUNK_ATTACHMENT_LIMIT` 设置），超出的图片不会被提取。图片尺寸限制由 `ATTACHMENT_IMAGE_FILE_SIZE_LIMIT` 控制。\n\n    以上提取规则适用于如下图片类型：\n\n    - DOCX 和 XLSX 文件中嵌入的图片\n\n        **提示：**\n        其他文件类型（如 PDF）中嵌入的图片，可通过在知识流水线中使用合适的文档提取插件进行提取。\n\n    - 在任何文件类型中，通过以下 Markdown 语法引用、URL 可访问的图片：\n\n        - `![alt text](image_url)`\n        - `![alt text](image_url \"optional title\")`",
-                "contains_excerpt": true
-              },
-              "cleaned_character_offset": 128,
-              "within_current_judge_first_12000_chars": true,
-              "database_verified": true,
-              "reconstruct_verified": true,
-              "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
-              "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
-            }
-          ]
-        }
+        "整体替换上传数值题。差异限定为冻结文档明确写出的云版默认方式与自部署自定义流程；不推断自部署运行时绝不存在默认客户端。",
+        "S10：本题仍MULTI（默认与自定义两个子问），Cloud一页可答全，不再冒称两版各独有或要求AND召回两篇。",
+        "S10最终替换：不再把单页自定义OAuth流程冒称跨篇；对照数据源默认OAuth与自定义API端点各自的凭据契约。"
       ],
       "all_equivalent_gold_docs": [
         "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
-        "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+        "cloud/use-dify/workspace/api-extension/api-extension",
+        "self-host/use-dify/workspace/api-extension/api-extension"
       ],
       "twin_comparison_ids": [
-        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+        "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source <=> self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+        "cloud/use-dify/workspace/api-extension/api-extension <=> self-host/use-dify/workspace/api-extension/api-extension"
       ],
-      "database_verified": true
+      "database_verified": false,
+      "edition": null,
+      "nugget_gold_doc_groups": [
+        {
+          "nugget_index": 0,
+          "groups": [
+            [
+              "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 1,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/api-extension/api-extension",
+              "self-host/use-dify/workspace/api-extension/api-extension"
+            ]
+          ]
+        },
+        {
+          "nugget_index": 2,
+          "groups": [
+            [
+              "cloud/use-dify/workspace/api-extension/api-extension",
+              "self-host/use-dify/workspace/api-extension/api-extension"
+            ]
+          ]
+        }
+      ],
+      "reconstruct_verified": true
     },
     {
       "question_id": "dev031",
@@ -1959,5 +1941,46 @@
       ],
       "twin_comparison_ids": []
     }
-  ]
+  ],
+  "reconstruct_verified": true,
+  "repair_verification": {
+    "question_ids": [
+      "dev021",
+      "dev024",
+      "dev029",
+      "dev030",
+      "dev031",
+      "dev033",
+      "dev034",
+      "dev035",
+      "dev036",
+      "dev037",
+      "dev041",
+      "dev043"
+    ],
+    "mode": "冻结raw+clean_mdx/chunk_document本机确定性重建",
+    "database_accessed": false,
+    "untouched_evidence": "未点名12题对象原样保留；其database_verified=true为历史声明，不代表本次本机重验。",
+    "reconstruct_verified_scope": "指定12题实际存在的所有原文/子块/父块证据；无文档金标题采用边界与无答案审计。",
+    "canonical_files_changed": false
+  },
+  "database_revalidation": {
+    "status": "pass",
+    "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+    "counts": {
+      "documents": 182,
+      "parent_chunks": 1252,
+      "chunks": 2090,
+      "chunk_embeddings": 2090
+    },
+    "all_document_content_hashes_match": true,
+    "all_child_text_ids_parent_links_match": true,
+    "all_parent_text_ids_match": true,
+    "embedding_model": "qwen3-embedding-0.6b",
+    "verification_method": "只读数据库与固定语料生产清洗/分块结果全量比对"
+  },
+  "database_verification_scope": "历史runtime-verification保留；本轮只用冻结文件和生产切块，新增/改写证据未查询实库。",
+  "retrieval_selftest_file": "retrieval-selftest.jsonl",
+  "semantic_review_file": "semantic-review.json",
+  "retrieval_selftest_status": "historical_pre_repair_not_rerun"
 }
