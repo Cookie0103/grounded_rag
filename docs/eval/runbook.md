@@ -232,3 +232,7 @@ uv run --no-sync python -m scripts.rejudge --src-run ../.cache/eval/runs/final-d
 默认Judge/evaluate仍为v1；仅本入口显式选v2并传缓存contexts。v2资料按父块顺序拼接，含“已截断”标记的总长度不超过24000字符；金标文档仍沿用原代表来源和截断方式。`judge_v1.md`和评分分值规则不变。
 
 v2为评审改动后的初步结果，校准通过前不是正式数字。新校准样本只从开发/回归抽取，种子20261021；作者/Claude核验前，不声称校准通过。所有测试题干、回答及人工核对材料留在仓库外，不据测试结果调整提示词或系统。
+
+2026-10-20审查修复：运行时加`--frozen ../harness/context/phase-20-v2-repair-freeze.json`，开始和退出均核对完整实现。已有断点不原地覆盖，使用`--seed-run <旧v2目录> --out-run <全新目录>`；脚本先核对模板/输入哈希，复用成功标签，并把历史错误带入`errors-history.json`。每题落盘错误，整套错误超过10%停止后续调用，恰好10%继续。`errors.json`只描述当前错误，补评成功不能删除历史。`finally`覆盖正常异常路径，强制终止仍靠落盘断点恢复。
+
+只读核验命令为`python -m scripts.audit_rejudge --run <新v2目录> --src-run <v1目录> --questions <冻结题集> --frozen ../harness/context/phase-20-v2-repair-freeze.json`；默认要求全部完成，`--partial`只能核对断点，不能证明完成。具体迁移与外部交付工具见[修复交接](../../harness/context/phase-20-review-repair.md)。v2的support说明来自作者原任务二/1/d，未删除；`flips.md`单列全部逐点标签变化，不能把所有分差归因于contexts。

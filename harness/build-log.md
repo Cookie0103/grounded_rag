@@ -5,16 +5,16 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-20（phase-20评测保持暂停；作者授权提交推送以跨电脑审查）
+最后更新：2026-10-20（phase-20运行保护/审计已修；交另一台电脑Claude复审，本机不续评）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
-- **当前任务**：[phase-20](build/phase-20-judge-v2.md) 实现完成、真实重评外部阻塞：质量门槛通过，final-dev70-v2成功36条；Claude CLI会话额度用尽，提示东京23:50恢复。错误与无标签题已分开保存，未启动reg20/test30；v1历史只读，未重跑系统或检索。作者随后要求提交推送以跨电脑Claude审查，迁移说明见[交接](context/phase-20-cross-computer-review.md)，真实评审仍暂停。
+- **当前任务**：[phase-20](build/phase-20-judge-v2.md) 运行保护/审计已修并通过完整质量检查；v2模板及Judge/evaluate不改，36条标签经只读迁移预检可复用，18条历史错误保留。作者原任务二/1/d明确批准support说明，未作废标签。reg20/test30仍未重评；本机不调用真实评审，修复交接见[新说明](context/phase-20-review-repair.md)。
 - **题集交接**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
 - **本轮**：沿用当天分支`2026-10-20-dataset-repair`，保留开工前评测、题集与审核材料的未提交修改；本任务只交付运行核验文档。实际配置、命令和输出摘要见[核验报告](context/phase-18-readiness-report.json)。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：当前主机为Windows/RTX 5070 Ti，原有Docker数据库已恢复在5432，Qwen3嵌入与精排使用CUDA，DeepSeek真实调用成功；两套向量数量与语料数量见核验报告。根`.env`、模型、batch和预算未修改；此前Mac/MPS结果属于另一台主机。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：作者已选择“稍后手动继续”，当前暂停，不创建自动任务。收到明确恢复后，先核验Claude额度与冻结文件，再运行仓库外resume_dev70.py复用成功标签，依次执行reg20和仓库外test30；完成后生成并严格审计全部交付。断点和审计脚本待办见本聊天仓库外eval-rejudge-v2-20261020/checkpoint.md。当前部分报告不代表三套完成。
+- **下一步**：把新版仓库外迁移包带到另一台电脑，Claude先复审本轮修复。真实评审时按新说明验证冻结清单，用`--seed-run`向全新目录迁移36条成功标签，再依次dev→reg→仓库外test；之后生成完整交付和独立校准。旧包原地续评脚本不再执行；本机不自动续评，当前部分报告不代表三套完成。
 - **当前手动试跑**：`http://127.0.0.1:8000`保持运行，`/health`数据库正常；服务无reload、离线加载本地模型。真实单题及暖检索探针均通过；单题耗时不能代表正式性能。进程与日志位置见核验报告。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
@@ -355,3 +355,13 @@
 - 本次重新运行 `backend/.venv/Scripts/python.exe -m poethepoet check`：ruff格式与lint通过、lint-imports 1 kept / 0 broken、mypy 158源文件通过、449 passed / 35 deselected、覆盖率94.93%；`git diff --check`通过。
 - 仓库外生成 `grounded-rag-eval-handoff-20261020.zip`，83个既有文件，5310342字节，SHA-256 `7997b2acd4097ce48b70ea118a008364e925ff754e691935811bcffa4c6f8674`；ZIP完整性及每文件哈希均核验。包含原始缓存和仓库外测试文件，供作者单独复制，不加入Git。包内含路径映射说明与清单，不含.env、密钥、模型和数据库。
 - Git只迁移代码与允许入库的文档。开发v2仅有36条成功标签，18条明确错误及16条无标签，回归/测试v2未启动；完整新校准样本和spot-check尚未完成。单独pull不能取得这些本地缓存，不能据此视作评测已完成。
+
+### 2026-10-20 · phase-20审查后修复（未真实续评）
+
+- 根据作者要求修复并准备推送，真实评审交另一台电脑Claude。本机真实评审调用0，未启动系统/检索，未读取测试结果调提示词。作者原指令二/1/d明确批准support说明，保留模板和36条标签，不能照转述审查把它记为越权。
+- rejudge增加finally保护文件复核、冻结清单起止核验与自身防改、逐题错误落盘、独立历史错误、完整阶段超过10%停机、经哈希验证的--seed-run向全新目录迁移。旧v1/v2目录不覆盖。flips单列所有nuggets变化，不能把混合改动的分差全部归因于contexts。
+- 新增scripts.rejudge_artifacts与scripts.audit_rejudge，完整清单显式核验；缺键、多键、重名或哈希不等均失败。对应失败单测通过。新版外部audit_v2委托该审计，原错误表达式仅在历史原件中保留，旧脚本不再执行。
+- 最终 backend/.venv/Scripts/python.exe -m poethepoet check：ruff格式/lint通过、lint-imports 1 kept / 0 broken、mypy 162文件通过；463 passed / 35 deselected，覆盖率94.93%。实际dev缓存只读迁移预检：70题输入、36条成功标签逐字节保留、18条历史错误保留，禁止创建评审器的断言未触发。新版全量交付脚本仅做语法检查，尚未执行完整交付审计，因为三套未完成。
+- 原受保护文件逐项哈希未变，Judge/evaluate/模板与旧v2冻结一致。新冻结清单记录159ab99来源基础及旧清单SHA，不篡改旧HEAD或原冻结。
+- 新版仓库外迁移包 grounded-rag-eval-handoff-20261020-repaired.zip：96文件，5457105字节，SHA-256 87fae93feb1f0f179ae6c1d2ae5d0340a4c3977d34ce0e88bee20bd01da33ad9，逐文件哈希与ZIP完整性通过。旧包只读。新版运行工具在eval-rejudge-v2-repaired-20261020，Git存完整源码审查副本及交接说明，不含缓存、密钥和测试原文。
+- 当前仍未收尾：Claude先复审；真实评审时dev缺失34条→reg20→仓库外test30；然后三套报告/对照、完整双向flips和nuggets变化、固定种子20261021的20条dev/reg校准样本、全部true→false原回答核查。历史18条错误必须保留，整题校准至少17/20一致才达到85%。下一台电脑所需提示词见harness/context/phase-20-claude-recheck-prompt.md。
