@@ -5,19 +5,19 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-10-22（phase-21消融实验进行中；四档检索完成，六档回答与评审运行中）
+最后更新：2026-10-22（phase-21四档检索与420份回答全部完成；169份评审后Claude周额度耗尽，余251份待评）
 
 - **代码**：phase-00～09 全部完成，分支 `2026-10-16-framework-build`，CI 绿；没有 PR，没合并 main（作者说之后再说）。
 - **项目导学**：2026-10-21按作者要求核对当前源码、最终评测记录与本地Adaptive-RAG，交付[导学](../导学-grounded-rag.md)和[面经底稿](../面经-grounded-rag.md)，说明架构、流程、来源差异、实测分母与能力边界；该轮仅写文档。
-- **消融实验**：[phase-21](build/phase-21-ablation-study.md)进行中，作者2026-10-22明确要求实际测量阶段贡献。四档检索真实完成，见[检索报告](../backend/eval/reports/2026-10-22-retrieval-ablation.md)；六档回答与Claude v2统一评审运行中。未读取封存测试集，未修改题库/评分/Prompt/预算。
-- **当前任务**：[phase-20](build/phase-20-judge-v2.md) 已按既定范围结项：代码复审、三套70/20/30重评、原函数复算、Windows严格审计与全量核查均完成。作者完成固定20条复核并明确dev089=true，五字段整题18/20＝90%达到85%门槛；方法为复核预标，非盲标。原Codex80%预标、旧36条标签、18条历史错误与全部原始结果保留。见[作者校准结项](code_review/2026-10-20-judge-v2-author-calibration.md)。
+- **当前任务：消融实验**：[phase-21](build/phase-21-ablation-study.md)评审阻塞。四档检索与六档×70＝420份新回答全部完成；账本费用、真实开关、原评分与输入哈希审计通过，见[实验报告](../backend/eval/reports/2026-10-22-ablation.md)。Claude v2评审169/420后周额度耗尽，剩251份；CLI显示2026-10-25东京12:00恢复。完整检索结果可用，答案质量仅有共同28题局部诊断，不能代表全量。未读取封存测试集，未修改题库/评分/Prompt/预算。
+- **上一阶段**：[phase-20](build/phase-20-judge-v2.md) 已按既定范围结项：代码复审、三套70/20/30重评、原函数复算、Windows严格审计与全量核查均完成。作者完成固定20条复核并明确dev089=true，五字段整题18/20＝90%达到85%门槛；方法为复核预标，非盲标。原Codex80%预标、旧36条标签、18条历史错误与全部原始结果保留。见[作者校准结项](code_review/2026-10-20-judge-v2-author-calibration.md)。
 - **题集交接**：[phase-17](build/phase-17-dataset-repair-test30.md) 已完成交付。70题已按Claude报告和独立复核修订，四批副本同步；[全70当前稿](../docs/eval/dev70/review-70.md)。新编30题在仓库外，入口和压缩包位置见[交接清单](context/phase-17-test30-handoff.json)；开发者参与出题的边界已说明，待作者/Claude最终审定冻结。
 - **本轮**：在干净工作区从`2026-10-21-project-guide`创建当天分支`2026-10-22-ablation-study`；按作者要求运行开发集消融，输入与源代码哈希冻结，原始过程落`.cache/ablation-20261022/`。
 - **评测准备**：[phase-12](build/phase-12-evaluation-dataset.md) 完成。作者确认的五项能力指标在 [metrics-v1](../docs/eval/metrics-v1.md)，指定Notion已整理为唯一表格化方案。[20道开发题草案](../docs/eval/dev20/README.md) 及51个要点已执行首轮试评，118条事实逐项核验。当前结果属于agent辅助诊断，作者金标审核、人工校准和通用E/F/C自动评审仍未完成。
 - **本机配置**：当前主机为Windows/RTX 5070 Ti，原有Docker数据库已恢复在5432，Qwen3嵌入与精排使用CUDA，DeepSeek真实调用成功；两套向量数量与语料数量见核验报告。根`.env`、模型、batch和预算未修改；此前Mac/MPS结果属于另一台主机。
 - **旧20结果**：[phase-13首轮档案](../docs/eval/results/runs/2026-10-19_1855_dev20_full-service/README.md)及Langfuse核验保留，不改冻结快照。作者新口径为20回归 + 70新开发 + 30测试，共120题；旧20不计入新70，原初评数字不作新70对外成绩。
-- **下一步**：完成六档回答与同口径评审，复算配对差值、保存真实消融结果；预算或外部额度不足则保留断点并明确实际分母。之前“作者复核预标、20条样本90%一致”仍仅适用于此前完整系统样本，不代表本轮各档重新人工校准。
-- **当前手动试跑**：`http://127.0.0.1:8000`保持运行，`/health`数据库正常；服务无reload、离线加载本地模型。真实单题及暖检索探针均通过；单题耗时不能代表正式性能。进程与日志位置见核验报告。
+- **下一步**：Claude额度恢复后仅执行本轮run.py的judge，补余251条标签，再执行report.py与audit.py；不再生成或检索，冻结哈希变化时回到原源码快照后续评。命令见[交接](context/phase-21-ablation-study-context.md)。之前“20条样本90%一致”仍仅适用于此前完整系统的复核预标，不代表本轮各档新的人类校准；未安排自动任务。
+- **手动试跑历史**：phase-18曾验证`http://127.0.0.1:8000`及`/health`，进程与日志位置见核验报告。本轮启动现有Docker数据库并直接评测Pipeline，没有重新验证HTTP服务状态；不把旧记录当作本轮在线证明。
 - **继续开发的话**：从当前分支建 `YYYY-MM-DD-xxx-yyy`；优先做 PLANS §8.2 里不依赖外部输入的项（如 `traces` 保留期清理、HTTP 模式 MCP 验证）；改提示词只对比开发集，不碰测试集。
 
 ## 阶段状态
@@ -47,7 +47,7 @@
 | [phase-18 Windows连接核验](build/phase-18-windows-readiness.md) | 完成 | 本机REST、数据库、真实模型与Langfuse读回通过，服务保持运行 |
 | [phase-19 三套初步评测](build/phase-19-final-evaluation.md) | 完成、待人工校准 | 三套全完成且无错；开发/回归云端核验，测试仓库外存储，校准样本交付，未提交Git |
 | [phase-20 v2缓存重评](build/phase-20-judge-v2.md) | 完成 | 三套、严格审计和作者样本复核完成；18/20＝90%达标，非盲标；原记录与分歧保留 |
-| [phase-21 开发集消融](build/phase-21-ablation-study.md) | 进行中 | 四档检索已完成；六档回答与统一v2评审运行中 |
+| [phase-21 开发集消融](build/phase-21-ablation-study.md) | 阻塞（待Claude额度） | 四档检索与420份新回答、169份评审和本轮审计完成；余251份待评，完整质量消融未完成 |
 
 最终检查状态见下方2026-10-19活动记录。上次GPU pytest（2026-10-16）为3 passed；本轮真实试评调用Qwen3嵌入/精排与DeepSeek，未执行封存测试或已校准的正式效果评测。
 
@@ -404,3 +404,13 @@
 - `python -m poethepoet check`通过：ruff格式/lint、分层、mypy通过，463 passed / 35 deselected，覆盖率94.93%。无业务/数据库结构变更，不运行无关集成测试。
 - DeepSeek首次外发被自动审批拒绝；新增只读公开来源核验，GitHub固定commit的182篇blob与本地一致，实库2090子块和1252父块同原清洗/切块重建逐字一致；以此证明无内部文档输入后原命令获准。未换路径绕过审批、未改预算或密钥。
 - 六档新作答与原Claude judge_v2统一评审正在独立缓存运行；此条不代表回答实验完成。原始用量继续经BudgetLedger记账，每题过程即时落盘。
+
+### 2026-10-22 · phase-21 T2～T3：420份真实作答与统一评审断点
+
+- 执行`backend/.venv/Scripts/python.exe ../.cache/ablation-20261022/run.py generate`：六档各70/70，合计420份新回答全部完成、系统错误0；未复用旧完整系统答案，未运行或读取测试题。每题答案/步骤保存在.cache/ablation-20261022/<system>/answers.jsonl。
+- 同时执行原脚本`judge`：Claude CLI 2.1.306、原judge_v2，累计169份成功标签（五档各28、routed29）；随后6个并发在途请求返回退出码1，批量停止。无项目资料的最小诊断实际返回`You've hit your weekly limit · resets Oct 25, 12pm (Asia/Tokyo)`，即2026-10-25东京12:00恢复；原输出和错误已归档，未切裁判补分或自动安排未来任务。
+- 共同已评子集28题，按执行顺序形成、非随机样本。局部相邻档配对差值、题型组成、全部169条原标签与各自分母见backend/eval/reports/2026-10-22-ablation.md及同名前缀summary/scores文件；不得当作70题最终质量成绩。检索四档为完整56道可回答金标题，不受评审额度影响。
+- `python ../.cache/ablation-20261022/report.py`和`python ../.cache/ablation-20261022/audit.py`实际退出0：真实精排/评分/校验开关、检索无缓存、420题号及169条标签、原评分与配对差值均核对通过；原输入/源码/Prompt哈希不变。842次成功completion的token计价、SystemAnswer费用合计与原BudgetLedger差额一致，为8.8915104元，低于10元；费用仍是项目固定单价估算，不是账单实扣。
+- 四档检索完整结果、精排的MRR配对区间和逐题退步例子已更新到报告；精排Recall差值区间含0，不能宣称稳定召回提升。跨篇必要来源被前5块集中挤出的坏例保留，本轮未调系统/Prompt追分。
+- 完整质量检查沿用本轮已通过的`python -m poethepoet check`：463 passed / 35 deselected，覆盖率94.93%，后续未改业务或任何backend源码，无需重复运行。最终`git diff --check`通过；未修改.env、预算、依赖、API或数据库。
+- 交接：阶段标阻塞，T2未勾成全量完成。Claude额度恢复后只运行run.py judge补余251条，再report.py、audit.py；不重新生成、检索或清理原缓存。源码/题集/Prompt哈希变化时应恢复冻结快照，不能放宽检查；具体命令见phase-21 context。原始输出、缓存和日志留.cache；本轮仅本地提交，不推送或开PR。

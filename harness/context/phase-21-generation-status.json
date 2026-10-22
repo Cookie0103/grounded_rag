@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "counts": {
+    "no-retrieval": 70,
+    "naive-rag": 70,
+    "hybrid-no-rerank": 70,
+    "hybrid-rag": 70,
+    "routed": 70,
+    "full": 70
+  },
+  "spent_cny": 8.891510400000005,
+  "errors": {},
+  "budget_reserve_cny": 0
+}

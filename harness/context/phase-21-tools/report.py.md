@@ -3,6 +3,7 @@ import csv
 import hashlib
 import json
 import sys
+from collections import Counter
 from dataclasses import asdict
 from pathlib import Path
 
@@ -59,12 +60,19 @@ def main():
         "p95_ms": float(np.percentile([r["latency_ms"] for r in g.values()], 95)),
         "mean_ms": mean([r["latency_ms"] for r in g.values()])} for n, g in groups.items()}
     retrieval_diffs = {}
+    mrr_diffs = {}
     for first, second in (("vector", "hybrid"), ("bm25", "hybrid"), ("hybrid", "hybrid-rerank")):
         retrieval_diffs[f"{first}->{second}"] = paired(
             {i: float(r["hit"]) for i, r in groups[first].items()},
             {i: float(r["hit"]) for i, r in groups[second].items()})
+        mrr_diffs[f"{first}->{second}"] = paired(
+            {i: r["mrr"] for i, r in groups[first].items()},
+            {i: r["mrr"] for i, r in groups[second].items()})
     summary = {"manifest": "manifest.json", "protected_hashes_unchanged": True,
-        "retrieval": retrieval, "retrieval_differences": retrieval_diffs, "systems": {}, "answer_differences": {}}
+        "analysis_scripts_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (OUT / "report.py", OUT / "audit.py", OUT / "public_audit.py")},
+        "retrieval": retrieval, "retrieval_differences": retrieval_diffs,
+        "retrieval_mrr_differences": mrr_diffs, "systems": {}, "answer_differences": {}}
     lines = ["# 开发集消融实测（2026-10-22）", "",
         "同一份70道开发题；可回答且有金标题56道。仅开发集，不读取或运行封存测试集。",
         f"代码：`{manifest['code_commit']}`；语料：`{manifest['corpus_commit']}`。",
@@ -79,15 +87,25 @@ def main():
     for n, label in zip(RETRIEVALS, RETRIEVAL_LABELS):
         r = retrieval[n]
         lines.append(f"| {label} | {r['hits']}/{r['n']} | {pct(r['recall_at_5'])} | {r['mrr']:.4f} | {r['mean_ms']:.1f} | {r['p95_ms']:.1f} |")
-    lines += ["", "| 配对比较 | Recall差值，百分点 [95%区间] | 改善/退步题数 |", "|---|---:|---:|"]
+    lines += ["", "| 配对比较 | Recall差值，百分点 [95%区间] | MRR差值 [95%区间] | Recall改善/退步题数 |", "|---|---:|---:|---:|"]
     for name, r in retrieval_diffs.items():
-        lines.append(f"| {name} | {diff_text(r)} | {len(r['increases'])}/{len(r['decreases'])} |")
+        m = mrr_diffs[name]
+        mrr_text = f"{m['mean_difference']:+.4f} [{m['ci_low']:+.4f}, {m['ci_high']:+.4f}]"
+        lines.append(f"| {name} | {diff_text(r)} | {mrr_text} | {len(r['increases'])}/{len(r['decreases'])} |")
+    lines += ["", "精排相对混合检索：Recall净增2题（4改善、2退步），差值区间含0；MRR提高0.1071，配对区间约[0.0163, 0.1979]。",
+        "本轮支持精排让第一篇相关文档更靠前；对整题必要文档全部进入top5的收益仍不确定，同时平均检索耗时增加约187.5ms。",
+        "以上是该固定开发题集的一次观测，探索性区间未做多重比较校正，不能外推为普遍收益。", "",
+        "逐题例子：dev021（Workflow受理/结束帧）精排后streaming文档升至首位，原混合结果未命中；",
+        "dev080（Arize与Phoenix的空间字段）精排后前5块只来自Phoenix的两版文档，Arize必要来源被挤出，MRR仍为1但整题Recall从命中变为未命中。",
+        "另一退步题dev046也失去goto-anything必要来源。这些观察说明按子块精排可能集中在少数文档，名次改善与跨篇覆盖是不同指标；本轮保留失败，不调参补分。"]
     lines += ["", "## 回答质量与运行成本", "",
         "所有档位重新作答，独立缓存；六档按题交错且循环轮换，四题并发。预热不计入延迟，P95包含同机资源竞争。",
         "同题生成一次，temperature=0仍不能排除模型随机变化。前三种RAG使用同一baseline_naive_rag_v1提示词与父块扩展。",
         "评审统一为Claude CLI默认模型、原judge_v2；复用score_question、summarize与原报告函数，未改规则或提示词。",
         "原v2评审仅在此前20条完整系统样本经作者复核预标校准；本轮新系统答案尚无新的人类校准，分数为自动评审实验结果。", "",
-        "| 方案 | 作答/70 | 评审/作答 | 可信得分 [95%区间] | V_strict | Recall@5 | P95秒 | 生成元/题 |",
+        "可信得分范围[-1,1]，由原+1/+0.5/0/-1规则汇总；V_strict为已评可回答题的vital要点完整支持比例的宏平均，partial不计；未评题不补0。",
+        "各指标分母不同：可信得分只含已评审题，V_strict只含已评审的可回答题（列中括号为题数），Recall只含已生成的可回答金标题，延迟/费用来自全部已生成回答。", "",
+        "| 方案 | 作答/70 | 评审/作答 | 可信得分 [95%区间] | V_strict（题数） | Recall@5 | P95秒 | 生成元/题 |",
         "|---|---:|---:|---:|---:|---:|---:|---:|"]
     scored_maps = {}
     all_scored = {}
@@ -101,7 +119,8 @@ def main():
         s = summarize(scored)
         answer_list = [answers[q.id] for q in selected]
         ret = retrieval_stats(list(zip(selected, answer_list)))
-        r = {"answers": len(answers), "judged": len(scored), "trust": asdict(s),
+        vital_n = sum(item.question.answerable for item in scored)
+        r = {"answers": len(answers), "judged": len(scored), "v_strict_question_count": vital_n, "trust": asdict(s),
              "retrieval": asdict(ret), "p95_ms": latency_p95_ms(answer_list),
              "generation_cny_per_question": cost_per_question(answer_list),
              "generation_cny_total": sum(a.cost_cny for a in answer_list)}
@@ -112,7 +131,7 @@ def main():
             result = EvalResult(name, selected, answer_list, scored=scored)
             (OUT / name / "report.md").write_text(render_report(result), encoding="utf-8")
         trust_text = f"{s.trust:+.3f} [{s.ci_low:+.3f}, {s.ci_high:+.3f}]" if scored else "待评"
-        lines.append(f"| {label} | {len(answers)}/70 | {len(scored)}/{len(answers)} | {trust_text} | {pct(s.v_strict) if scored else '待评'} | {ret.recall_at_5 * 100:.2f}% ({ret.questions}) | {r['p95_ms']/1000:.2f} | {r['generation_cny_per_question']:.5f} |")
+        lines.append(f"| {label} | {len(answers)}/70 | {len(scored)}/{len(answers)} | {trust_text} | {pct(s.v_strict) if scored else '待评'} ({vital_n}) | {ret.recall_at_5 * 100:.2f}% ({ret.questions}) | {r['p95_ms']/1000:.2f} | {r['generation_cny_per_question']:.5f} |")
         for item in scored:
             details.append({"system": name, "question_id": item.question.id,
                 "answerable": item.question.answerable, "points": item.score.points,
@@ -127,8 +146,24 @@ def main():
         lines.append(f"| {first} → {second} | {trust['n']} | {diff_text(trust, 1) if trust['n'] else '待评'} | {diff_text(vital) if vital['n'] else '待评'} |")
     complete = all(r["answers"] == 70 and r["judged"] == 70 for r in summary["systems"].values())
     summary["complete"] = complete
+    summary["generation_total_cny"] = sum(r["generation_cny_total"] for r in summary["systems"].values())
+    common_ids = set.intersection(*(set(m) for m in scored_maps.values()))
+    common_summary = {n: asdict(summarize([all_scored[n][i] for i in sorted(common_ids)])) for n in NAMES}
+    summary["common_judged_ids"] = sorted(common_ids)
+    summary["common_judged_summary"] = common_summary
+    if not complete:
+        types = dict(Counter(q.type for q in qs if q.id in common_ids))
+        lines += ["", "### 共同已评审子集（仅断点诊断）", "",
+            f"六档共同已评{len(common_ids)}题，题号为`{', '.join(sorted(common_ids))}`。这是执行顺序形成的子集，不是随机抽样，不能替代70题全量消融。",
+            f"共同子集题型：`{json.dumps(types, ensure_ascii=False)}`；V_strict分母为其中{sum(q.answerable for q in qs if q.id in common_ids)}道可回答题。",
+            "Claude周额度耗尽（CLI明确返回2026-10-25 12:00 Asia/Tokyo恢复），后续标签待恢复后续评；未换评审器或修改Prompt。", "",
+            "| 方案 | 共同题数 | 可信得分 | V_strict |", "|---|---:|---:|---:|"]
+        for n, label in zip(NAMES, LABELS):
+            r = common_summary[n]
+            lines.append(f"| {label} | {r['count']} | {r['trust']:+.4f} | {pct(r['v_strict'])} |")
     lines += ["", "## 解释边界与复现", "",
-        f"本轮状态：{'六档全量完成' if complete else '生成或评审仍未完成，表中按实际分母；不得当作全量结论'}。",
+        f"本轮状态：{'六档全量完成' if complete else '回答质量评审未完成，表中按实际分母；不得当作70题全量质量结论'}。",
+        f"本轮六档已生成回答的合计记账估算费用：¥{summary['generation_total_cny']:.6f}。",
         "区间来自同题配对差值的bootstrap（沿用原函数1000次、种子0）；包含0时不能宣称稳定提升。探索性多组比较，未做多重校正；区间仅反映题目抽样，不涵盖judge误差或生成随机波动。",
         "routed同时加入护栏、路由、改写/分解与不同的引用生成提示词；full同时增加证据评分、补检索、校验/再生成/拒答，不能把组间差值再分给其中某一个模块。",
         "所有RAG都使用父块扩展，本轮无法估计父子块策略的独立贡献。检索命中率也不能等同答案准确率。",
@@ -142,6 +177,7 @@ def main():
         ".\\.venv\\Scripts\\python.exe ..\\.cache\\ablation-20261022\\report.py", "```", "",
         "同目录命令只续本轮断点；新实验须使用新目录并冻结新manifest。执行脚本与只读复算脚本随阶段context归档，原始JSONL留.cache/ablation-20261022。"]
     write_json(OUT / "summary.json", summary)
+    lines.insert(2, f"> 状态：检索四档已全量完成；六档共生成{sum(r['answers'] for r in summary['systems'].values())}/420份回答、评审{sum(r['judged'] for r in summary['systems'].values())}/420份。{'全量完成。' if complete else '回答质量评审不完整，所有质量分数仅作断点诊断，不是70题最终成绩。'}\n")
     (OUT / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     (OUT / "scores.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in details), encoding="utf-8")
     print(json.dumps({"retrieval": retrieval, "retrieval_differences": retrieval_diffs,

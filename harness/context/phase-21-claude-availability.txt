@@ -1,0 +1,6 @@
+Claude CLI 2.1.306：批量评审169条成功标签后，后续6条并发在途调用返回退出码1，已停止。
+最小诊断输入（无项目资料）：仅做评审器可用性诊断，请只输出OK，不使用工具。
+原始stdout：You've hit your weekly limit · resets Oct 25, 12pm (Asia/Tokyo)
+诊断退出码：1
+恢复时间：2026-10-25 12:00 Asia/Tokyo
+另有既有Write规则未匹配的启动警告；未在本任务修改该配置。

@@ -1,0 +1,37 @@
+[
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Embedding-0.6B\\snapshots\\97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\config.json",
+    "bytes": 727,
+    "sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Embedding-0.6B\\snapshots\\97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\model.safetensors",
+    "bytes": 1191586416,
+    "sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Embedding-0.6B\\snapshots\\97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\tokenizer_config.json",
+    "bytes": 9706,
+    "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Embedding-0.6B\\snapshots\\97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3\\1_Pooling\\config.json",
+    "bytes": 313,
+    "sha256": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Reranker-0.6B\\snapshots\\e61197ed45024b0ed8a2d74b80b4d909f1255473\\config.json",
+    "bytes": 727,
+    "sha256": "d479c427a9ca5295218063d4f9aca4f297ab4ac27487cca7af42c84643d51ef0"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Reranker-0.6B\\snapshots\\e61197ed45024b0ed8a2d74b80b4d909f1255473\\model.safetensors",
+    "bytes": 1191588280,
+    "sha256": "27cd75a405b9c1b46b59abfd88aaa209e6fed2a1972cde9b70e7659537c5e65b"
+  },
+  {
+    "path": ".cache\\models\\models--Qwen--Qwen3-Reranker-0.6B\\snapshots\\e61197ed45024b0ed8a2d74b80b4d909f1255473\\tokenizer_config.json",
+    "bytes": 9706,
+    "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+  }
+]

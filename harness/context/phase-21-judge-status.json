@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "no-retrieval": 28,
+    "naive-rag": 28,
+    "hybrid-no-rerank": 28,
+    "hybrid-rag": 28,
+    "routed": 29,
+    "full": 28
+  },
+  "failures": 6
+}
