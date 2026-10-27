@@ -1,0 +1,1006 @@
+{
+  "date": "2026-10-20",
+  "scope": "当前批次逐题检查；全局配额/复用检查见../validation.json",
+  "question_count": 12,
+  "summary": {
+    "pass": 40,
+    "legacy_observation_pass": 70,
+    "legacy_observation": 5
+  },
+  "checks": [
+    {
+      "check": "source_document_exists",
+      "scope": "dev033",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents <=> self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "required_revision_vital",
+      "scope": "dev033",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（作者点名旧题）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev033",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev033",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "synonym_no_title_trigram",
+      "scope": "dev033",
+      "status": "legacy_observation_pass",
+      "actual": {},
+      "target": "与182篇title+全部小标题无连续3字重合；显式白名单除外"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev034",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "required_revision_vital",
+      "scope": "dev034",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（作者点名旧题）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev034",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev034",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "numeric_answer_literal_leak",
+      "scope": "dev034",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "literals": [
+          "400,000",
+          "400000",
+          "CODE_MAX_STRING_LENGTH"
+        ],
+        "leaks": []
+      },
+      "target": "答案数值/字段/枚举均不出现在题干"
+    },
+    {
+      "check": "numeric_three_confusables",
+      "scope": "dev034",
+      "status": "legacy_observation",
+      "actual": {
+        "count": 0,
+        "errors": []
+      },
+      "target": ">=3不同数字/字段/相似行，均有source"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev035",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev035",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev035",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 5,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "neighbor_contrast_sources",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "source_count": 2,
+        "distractor_docs": [
+          "self-host/use-dify/nodes/variable-aggregator"
+        ]
+      },
+      "target": "差异+金标与干扰原句"
+    },
+    {
+      "check": "neighbor_no_two_candidates",
+      "scope": "dev035",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "题干不同时列两个候选官方名称"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev036",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev036",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev036",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev036",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev036",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "required_revision_vital",
+      "scope": "dev036",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（作者点名旧题）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev036",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev036",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev036",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev037",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev037",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/personal-account-management <=> self-host/use-dify/workspace/personal-account-management"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev037",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev037",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev037",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "required_revision_vital",
+      "scope": "dev037",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（作者点名旧题）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev037",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev037",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev037",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev038",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev038",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev038",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "chain_second_keywords",
+      "scope": "dev038",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "keywords": [
+          "参数提取器",
+          "__is_success",
+          "__reason",
+          "提取成功状态",
+          "错误描述",
+          "0",
+          "1"
+        ],
+        "leaks": [],
+        "absent_from_second": [],
+        "title_leak": false
+      },
+      "target": ">=5、在第二篇、题干不含关键词/第二篇标题"
+    },
+    {
+      "check": "chain_generic_distractors",
+      "scope": "dev038",
+      "status": "legacy_observation",
+      "actual": [],
+      "target": ">=2篇真实泛词干扰来源"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev039",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev039",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev039",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "chain_second_keywords",
+      "scope": "dev039",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "keywords": [
+          "变量聚合器",
+          "string",
+          "number",
+          "object",
+          "boolean",
+          "array",
+          "file"
+        ],
+        "leaks": [],
+        "absent_from_second": [],
+        "title_leak": false
+      },
+      "target": ">=5、在第二篇、题干不含关键词/第二篇标题"
+    },
+    {
+      "check": "chain_generic_distractors",
+      "scope": "dev039",
+      "status": "legacy_observation",
+      "actual": [],
+      "target": ">=2篇真实泛词干扰来源"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev040",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev040",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev040",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev040",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev040",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev040",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev040",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev040",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev041",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/metadata <=> self-host/use-dify/knowledge/metadata"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev041",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev041",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 10,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "scattered_three_parents",
+      "scope": "dev041",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "all_parents": [
+          "cloud/use-dify/knowledge/metadata#p1",
+          "cloud/use-dify/knowledge/metadata#p2",
+          "cloud/use-dify/knowledge/metadata#p3",
+          "self-host/use-dify/knowledge/metadata#p1",
+          "self-host/use-dify/knowledge/metadata#p2",
+          "self-host/use-dify/knowledge/metadata#p3"
+        ],
+        "minimum_required_across_or_choices": 3
+      },
+      "target": ">=3不同必需父块，any_of不能膨胀计数（独立事实另审）"
+    },
+    {
+      "check": "scattered_long_cleaned_document",
+      "scope": "dev041",
+      "status": "legacy_observation",
+      "actual": {
+        "cloud/use-dify/knowledge/metadata": 4946,
+        "self-host/use-dify/knowledge/metadata": 4946
+      },
+      "target": "来源清洗文>=6000字符"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev042",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev042",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev042",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "scattered_three_parents",
+      "scope": "dev042",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "all_parents": [
+          "cloud/use-dify/workspace/subscription-management#p3",
+          "cloud/use-dify/workspace/subscription-management#p4",
+          "cloud/use-dify/workspace/subscription-management#p5"
+        ],
+        "minimum_required_across_or_choices": 3
+      },
+      "target": ">=3不同必需父块，any_of不能膨胀计数（独立事实另审）"
+    },
+    {
+      "check": "scattered_long_cleaned_document",
+      "scope": "dev042",
+      "status": "legacy_observation",
+      "actual": {
+        "cloud/use-dify/workspace/subscription-management": 2025
+      },
+      "target": "来源清洗文>=6000字符"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev043",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev043",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev043",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev043",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev043",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev043",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev043",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev043",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 0,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev044",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/logs <=> self-host/use-dify/monitor/logs"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev044",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev044",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 6,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "ambiguous_edition_null_no_version_words",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": {
+        "edition": null,
+        "version_words": []
+      },
+      "target": "edition=null，题干无版本词"
+    },
+    {
+      "check": "ambiguous_edition_two_sources",
+      "scope": "dev044",
+      "status": "legacy_observation_pass",
+      "actual": [
+        "cloud/use-dify/monitor/logs",
+        "cloud/use-dify/monitor/logs",
+        "self-host/use-dify/monitor/logs"
+      ],
+      "target": "两版本原句+不同答案；语义另审"
+    }
+  ],
+  "global_validation": "../validation.json",
+  "retrieval_rerun": false,
+  "semantic_freeze": "pending_author"
+}

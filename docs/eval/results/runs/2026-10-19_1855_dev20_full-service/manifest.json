@@ -1,0 +1,61 @@
+{
+  "run_id": "2026-10-19_1855_dev20_full-service",
+  "system": "full-service",
+  "split": "dev",
+  "started_at": "2026-10-19T09:56:17.253838+00:00",
+  "status": "reviewed_pending_human_calibration",
+  "code_commit": "bd4a312c3e58b538b05ad703701346f76806ff06",
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "ingest_version": "1",
+  "prompt_hash": "5d5d79f0",
+  "concurrency": 1,
+  "session_history": false,
+  "answer_cache_initially_empty": true,
+  "cold_start_question": "dev001",
+  "overall_index_deferred": true,
+  "judge": {
+    "mode": "current_codex_session",
+    "effort_requested": "high",
+    "effort_independently_verified": false,
+    "human_calibrated": false,
+    "limitations": "当前会话agent辅助评审，同模型族参与出题，未做跨模型独立评审或作者人工校准；high为请求档位，无独立API回执。"
+  },
+  "snapshot_sha256": {
+    "questions.jsonl": "164b7b15587218e60aa2ac7c499336f367882bce6fd7d2fb2e1674eb84417f7b",
+    "evidence.json": "f9f5b7ac77831e1f777b6ca5dc32866f0e9265bca5143c65895888abf06a6c12",
+    "metrics-v1.md": "634ea49112f7a60fbfcf2cc458f50dacc48b61b08e4a080ab68561d5c187087f"
+  },
+  "config": {
+    "embedding_model": "qwen3",
+    "reranker_model": "qwen3",
+    "embed_device": "cuda",
+    "chat_model": "deepseek",
+    "deepseek_model": "deepseek-flash",
+    "daily_budget_cny": 10.0
+  },
+  "budget_before_cny": 0.09982656000000001,
+  "question_count": 20,
+  "system_errors": {},
+  "finished_at": "2026-10-19T10:02:37.505417+00:00",
+  "budget_after_cny": 1.0032098400000002,
+  "reviewed_at": "2026-10-19T19:11:54.858391+09:00",
+  "review_rule": "metrics-v1",
+  "review_claims": 118,
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.20.0",
+    "sentence-transformers": "6.1.0",
+    "langfuse": "5.0.2"
+  },
+  "provider_immutable_snapshot_version": null,
+  "cloud_verification": "verified",
+  "local_model_snapshots": {
+    "models--Qwen--Qwen3-Embedding-0.6B": [
+      "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+    ],
+    "models--Qwen--Qwen3-Reranker-0.6B": [
+      "e61197ed45024b0ed8a2d74b80b4d909f1255473"
+    ]
+  },
+  "cloud_verified_at": "2026-10-19T10:09:47.840871+00:00"
+}

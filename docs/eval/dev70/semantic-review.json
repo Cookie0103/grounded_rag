@@ -1,0 +1,4755 @@
+{
+  "status": "internal_review_and_primary_repairs_completed_external_review_pending",
+  "review_method": "fresh独立审题39 accept/7 reject，主agent对7项核原文修复并重新验证；没有第二轮完整独立审题，不把主agent闭环冒称外部审定",
+  "original_independent_review": {
+    "status": "independent_review_complete_changes_requested",
+    "reviewer_role": "独立最终审题agent，未参与题目或蓝图编写；同模型独立上下文，不冒充作者/Claude审定",
+    "reviewed_head": "484680d089f288d2313fc9d4e8f42070fc97db09",
+    "base": "bd407df^",
+    "canonical_complete": true,
+    "input_files": {
+      "docs/eval/dev70/questions.jsonl": "a622bd78c1ac142e688bfc5312cbebd948de7c22e56fd0cf593d63af7bce1987",
+      "docs/eval/dev70/evidence.json": "d95baf331223aa0186b7e51ea621a3ff62e34c9047b73b50975ec0e21bd3fd8b",
+      ".cache/dev70-completion/batch-04-draft/questions.jsonl": "f34a81ffcada35bc522b6f2150789d2938a4e05d3ce44a3c79a7eede7d34be59",
+      ".cache/dev70-completion/batch-04-draft/evidence.json": "c90099ec011f51dbd52b7fcbd6e41254e3f6fff5aef3caa3c7cd4b9e214da0e1"
+    },
+    "scope": {
+      "new46": "dev045-dev090",
+      "old12_repairs": [
+        "dev021",
+        "dev024",
+        "dev029",
+        "dev030",
+        "dev031",
+        "dev033",
+        "dev034",
+        "dev035",
+        "dev036",
+        "dev037",
+        "dev041",
+        "dev043"
+      ],
+      "old12_preserved": [
+        "dev022",
+        "dev023",
+        "dev025",
+        "dev026",
+        "dev027",
+        "dev028",
+        "dev032",
+        "dev038",
+        "dev039",
+        "dev040",
+        "dev042",
+        "dev044"
+      ],
+      "deduplication": "docs/eval/dev20旧20 + dev70新70，共90题事实人工逐项比较",
+      "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+      "corpus_documents": 182,
+      "protected_data_read": false,
+      "models_called": false,
+      "retrieval_selftest_read_before_review": false,
+      "checkout_index_HEAD_mutated": false
+    },
+    "summary": {
+      "reviewed_new": 46,
+      "accept": 39,
+      "reject": 7,
+      "important_findings": 6,
+      "minor_findings": 1,
+      "old12_repairs_accepted": 12
+    },
+    "findings": [
+      {
+        "id": "F1",
+        "qid": "dev049",
+        "severity": "Important",
+        "category": "missing_equivalent_gold_source",
+        "problem": "答案两点正确，但self-host同名L50与Cloud L47对所问事实逐字等价；未纳入金标OR，会漏认有效来源。",
+        "source_lines": [
+          "cloud/use-dify/workspace/team-members-management:L47",
+          "self-host/use-dify/workspace/team-members-management:L50"
+        ],
+        "minimal_fix": "在两条vital的any_of和gold_doc_groups中加入self-host同名L50；重跑文档占用/OR检查。"
+      },
+      {
+        "id": "F2",
+        "qid": "dev051",
+        "severity": "Important",
+        "category": "single_question_scope",
+        "problem": "相关性决策与描述改进属于同一选库过程；跨库重排是另一层结果排序，三个方面堆在single题。收窄前不接受单跳归类。",
+        "source_lines": [
+          "self-host/use-dify/build/agent:L130",
+          "self-host/use-dify/build/agent:L132",
+          "self-host/use-dify/build/agent:L135"
+        ],
+        "minimal_fix": "删除跨库重排小问、vital与参考答案对应句；保选库依据和描述改进两点，维持single/neighbor配额。"
+      },
+      {
+        "id": "F3",
+        "qid": "dev059",
+        "severity": "Important",
+        "category": "duplicate_true_fact",
+        "problem": "阻塞模式与无状态说明正确，但“会话变量跨轮保留”与dev035相同真实事实，跨文档重述仍违反90题去重。",
+        "source_lines": [
+          "api-reference/guides/chat:L29",
+          "self-host/use-dify/nodes/variable-assigner:L18 (dev035)"
+        ],
+        "minimal_fix": "保留旧dev035；更换dev059重复题点，并调整问法，仍需多跳至少3条独立且未考事实。"
+      },
+      {
+        "id": "F4",
+        "qid": "dev061",
+        "severity": "Important",
+        "category": "question_vital_alignment",
+        "problem": "三个必要父块与来源长度成立；但题问消费者“什么命令”，vital只强制三个Windows选项，参考答案却给整串19队列，造成命令基干漏评/无关参数过度要求风险。",
+        "source_lines": [
+          "self-host/deploy/advanced-deployments/local-source-code:L124-L128",
+          "self-host/deploy/advanced-deployments/local-source-code:L201-L204"
+        ],
+        "minimal_fix": "将消费者问法收窄为Windows关键启动选项；参考答案明确完整19队列列表不属硬要求。若坚持问完整命令，则vital需覆盖可执行基干并规定队列接受范围。"
+      },
+      {
+        "id": "F5",
+        "qid": "dev072",
+        "severity": "Important",
+        "category": "single_question_scope",
+        "problem": "四条原文都支持，但节点输出拆分、适用模型、API事件三层问法超出单一单跳操作。宜删API小问，保同一分离功能输出及条件。",
+        "source_lines": [
+          "self-host/use-dify/nodes/llm:L143",
+          "self-host/use-dify/nodes/llm:L145",
+          "self-host/use-dify/nodes/llm:L148"
+        ],
+        "minimal_fix": "删除API事件小问及对应vital；保分离开关/两个输出及适用模型的同一操作主题。"
+      },
+      {
+        "id": "F6",
+        "qid": "dev076",
+        "severity": "Important",
+        "category": "unproven_real_version_difference",
+        "problem": "Cloud7/30天及付费一键恢复答案正确且不同于旧033手动禁用；但自部署对应全文仅省略自动禁用规则，没有正面不同答案，不能计为真实云/自部署差异题。",
+        "source_lines": [
+          "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents:L27",
+          "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents:L22-L31"
+        ],
+        "minimal_fix": "替换为两版均有正面且不同答案的未考题点；或如实标明真实跨版本差异配额未满足，不把省略信息当自部署反面金标。"
+      },
+      {
+        "id": "F7",
+        "qid": "dev088",
+        "severity": "Minor",
+        "category": "adjacent_ai_domain_constraint",
+        "problem": "拒答领域边界正确，但当前是通用业务PostgreSQL/Patroni运维，未明确相邻AI场景；不能直接宣称满足“相邻AI领域”形式要求。",
+        "source_lines": [],
+        "minimal_fix": "明确AI/RAG服务的数据库运维场景，仍保留超出Dify语料的实际配置需求；或披露未满足“相邻AI”范围限制。"
+      }
+    ],
+    "new46": [
+      {
+        "id": "dev045",
+        "decision": "accept",
+        "reason": "打包、外部引用转输入、插入后变量映射与副本不联动四项均被题干问到；不是把同一副本性质正反拆点。",
+        "question": "怎样把调好的步骤打包并接上未选部分的取值？原组合再改会同步吗？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "选中要复用的节点，右键选择创建Snippet。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "未选中节点的输出等外部变量引用会成为Snippet输入变量。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "raw_line_start": 22,
+                "raw_line_end": 22
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "插入后应为各输入变量映射当前流程的实际变量。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "raw_line_start": 56,
+                "raw_line_end": 56
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "原始Snippet之后的修改不影响已插入它的流程。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/snippet",
+                "raw_line_start": 58,
+                "raw_line_end": 58
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev046",
+        "decision": "accept",
+        "reason": "快捷键入口、当前画布限定、备用入口三个不同操作事实；@node范围有原文。",
+        "question": "只找眼前画布里的步骤，键盘怎么用？组合键失灵还有何入口？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "macOS用⌘+K，Windows/Linux用Ctrl+K打开入口。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/goto-anything",
+                "raw_line_start": 12,
+                "raw_line_end": 12
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "使用@node仅查当前打开画布的节点。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/goto-anything",
+                "raw_line_start": 27,
+                "raw_line_end": 27
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "组合键失效时可点击侧边栏顶部按钮。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/goto-anything",
+                "raw_line_start": 12,
+                "raw_line_end": 12
+              },
+              {
+                "document_id": "self-host/use-dify/build/goto-anything",
+                "raw_line_start": 15,
+                "raw_line_end": 15
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev047",
+        "decision": "accept",
+        "reason": "同元素最后编辑获胜与评论跨版本保留是两条独立规则；未宣称无需文档也能猜中。",
+        "question": "两人改同一元素谁的会留下？讨论留言会随修订消失吗？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "同一元素发生编辑冲突时，以最后一次编辑为准。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/workflow-collaboration",
+                "raw_line_start": 23,
+                "raw_line_end": 23
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "画布评论跨流程版本保留。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/workflow-collaboration",
+                "raw_line_start": 27,
+                "raw_line_end": 27
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev048",
+        "decision": "accept",
+        "reason": "单文件音频默认50 MB与对应配置名为两个可独立核验属性；三种其他文件类型/数值干扰真实。",
+        "question": "自建聊天接收录音，单个默认多大，调整上限用哪项配置？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "单个音频文件上传默认上限为50 MB。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/additional-features",
+                "raw_line_start": 80,
+                "raw_line_end": 80
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "调整音频大小上限使用UPLOAD_AUDIO_FILE_SIZE_LIMIT。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/additional-features",
+                "raw_line_start": 80,
+                "raw_line_end": 80
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev049",
+        "decision": "reject",
+        "reason": "答案两点正确，但self-host同名L50与Cloud L47对所问事实逐字等价；未纳入金标OR，会漏认有效来源。",
+        "question": "云端把空间交给同事时，验证码发给谁，交接后我是什么身份？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "转移所有权的验证码发送到当前所有者邮箱。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/workspace/team-members-management",
+                "raw_line_start": 47,
+                "raw_line_end": 47
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "转移完成后，原所有者变为普通成员。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/workspace/team-members-management",
+                "raw_line_start": 47,
+                "raw_line_end": 47
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F1"
+        ]
+      },
+      {
+        "id": "dev050",
+        "decision": "accept",
+        "reason": "独立沙箱能力决定新Agent选择；能力配置与单轮任务是两个不同概念，集合未拆分凑数。",
+        "question": "需要可装程序改文件的沙箱助理，选哪类应用？固定能力和每次任务如何区分？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "应使用在自有沙箱运行命令、安装程序和读写文件的新Agent。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/overview",
+                "raw_line_start": 25,
+                "raw_line_end": 25
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "能力是预先塑造的角色、模型、Skill、工具和文件等配置。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/overview",
+                "raw_line_start": 35,
+                "raw_line_end": 35
+              },
+              {
+                "document_id": "self-host/use-dify/build/new-agent/overview",
+                "raw_line_start": 37,
+                "raw_line_end": 37
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "任务是单次运行的消息，或流程中给节点的指令。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/overview",
+                "raw_line_start": 39,
+                "raw_line_end": 39
+              },
+              {
+                "document_id": "self-host/use-dify/build/new-agent/overview",
+                "raw_line_start": 41,
+                "raw_line_end": 41
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev051",
+        "decision": "reject",
+        "reason": "相关性决策与描述改进属于同一选库过程；跨库重排是另一层结果排序，三个方面堆在single题。收窄前不接受单跳归类。",
+        "question": "旧版工具助理为何不总搜资料？怎样改善选择，多库能统一重排吗？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "旧版Agent按每条查询与知识库描述的相关性决定是否检索。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/agent",
+                "raw_line_start": 130,
+                "raw_line_end": 130
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "写更详细的知识库描述能改善相关性判断。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/agent",
+                "raw_line_start": 132,
+                "raw_line_end": 132
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "多个知识库的结果不会跨库重排序。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/agent",
+                "raw_line_start": 135,
+                "raw_line_end": 135
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F2"
+        ]
+      },
+      {
+        "id": "dev052",
+        "decision": "accept",
+        "reason": "恢复替换草稿和显式发布上线两个动作均问到；未把未保存工作警告强加为vital。",
+        "question": "恢复旧版后草稿怎样变化，如何更新线上？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "恢复旧版会把它载入草稿，完全替换当前草稿。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/version-control",
+                "raw_line_start": 88,
+                "raw_line_end": 88
+              },
+              {
+                "document_id": "self-host/use-dify/build/version-control",
+                "raw_line_start": 95,
+                "raw_line_end": 95
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "需点击发布→发布更新才使草稿上线。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/version-control",
+                "raw_line_start": 36,
+                "raw_line_end": 36
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev053",
+        "decision": "accept",
+        "reason": "唯一单vital短问，必答是两种域名到两配置项的对应映射；Docker运行方式仅okay。",
+        "question": "单独跑前端时，两类域名不同用什么配置？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "控制台域与Web应用域分别由CONSOLE_URL和APP_URL设置。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container",
+                "raw_line_start": 29,
+                "raw_line_end": 29
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev054",
+        "decision": "accept",
+        "reason": "自部署安装时创建空间及初始化管理员凭据均有正面原句；Cloud首次登录创建是实质不同的对应事实。",
+        "question": "社区部署的空间何时创建，初始管理员凭据从哪来？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "社区部署在安装时创建工作空间。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/workspace/readme",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "使用初始化阶段设置的管理员邮箱和密码。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/workspace/readme",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev055",
+        "decision": "accept",
+        "reason": "错误code先定位模型配置，再讨论该处管理权限和唯一凭据生命周期；第二篇本身不解释此code，桥接成立。",
+        "question": "云端报provider_not_initialize，原因与修复处是什么？谁能维护，移除唯一凭据后呢？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "provider_not_initialize表示应用模型没有有效凭据。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/errors",
+                "raw_line_start": 37,
+                "raw_line_end": 37
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "应在Dify中修复应用的模型配置。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/errors",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "只有工作空间所有者和管理员可以管理供应商。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "raw_line_start": 13,
+                "raw_line_end": 13
+              },
+              {
+                "document_id": "self-host/use-dify/workspace/model-providers",
+                "raw_line_start": 11,
+                "raw_line_end": 11
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "删除自定义模型唯一的密钥时，该模型也会被删除。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/workspace/model-providers",
+                "raw_line_start": 73,
+                "raw_line_end": 73
+              },
+              {
+                "document_id": "self-host/use-dify/workspace/model-providers",
+                "raw_line_start": 54,
+                "raw_line_end": 54
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev056",
+        "decision": "accept",
+        "reason": "模板表指明LLM生成问答→问答模式，第二篇补处理顺序及文体依据；没有把SimpleQ&A表格转化混为同一方案。第二跳仅self-host，题干自建明确。",
+        "question": "自建库要模型生成结构化问答，用哪个内置方案？其材料产出顺序和适合文体呢？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "选择LLM生成问答模板，其分段结构为问答模式。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+                "raw_line_start": 44,
+                "raw_line_end": 44
+              },
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+                "raw_line_start": 44,
+                "raw_line_end": 44
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "该模式先将上传文本分段，总结内容后为每段生成Q&A匹配对。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "具备完整语法结构的自然语言常见问题文档更适合该方法。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+                "raw_line_start": 44,
+                "raw_line_end": 44
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+                "raw_line_start": 46,
+                "raw_line_end": 46
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev057",
+        "decision": "accept",
+        "reason": "HTTP先由A排除OAuth/选择内部集成，B才能确定内部分支的创建者、环境变量与重启；没有凭协议常识或Notion管理员常识推断。",
+        "question": "本地HTTP接Notion用哪种授权？该方式谁能建，凭据怎么配才生效？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "Notion OAuth只支持HTTPS，本地HTTP部署须用内部集成。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/integrations",
+                "raw_line_start": 9,
+                "raw_line_end": 9
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "创建内部集成需要是Notion工作空间所有者。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+                "raw_line_start": 56,
+                "raw_line_end": 56
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "在.env设置NOTION_INTEGRATION_TYPE=internal和NOTION_INTERNAL_SECRET为内部密钥。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+                "raw_line_start": 70,
+                "raw_line_end": 70
+              },
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+                "raw_line_start": 73,
+                "raw_line_end": 74
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "需重启Dify加载新的环境变量。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+                "raw_line_start": 99,
+                "raw_line_end": 99
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev058",
+        "decision": "accept",
+        "reason": "A取消订阅→Sandbox是选B容量行的必要桥接；旧数据不删与仍可检索可分别成立，分开计分合理。",
+        "question": "云端取消付费何时转免费档？此后知识库容量和超额旧资料的去留与检索呢？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "取消后保留当前计划直到已付费周期结束，随后恢复Sandbox。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/workspace/subscription-management",
+                "raw_line_start": 22,
+                "raw_line_end": 22
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "Sandbox的知识库存储容量为50 MB。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                "raw_line_start": 15,
+                "raw_line_end": 15
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "降级造成已有数据超过新限额时，数据不会被删除。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                "raw_line_start": 53,
+                "raw_line_end": 53
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "降级造成已有数据超额时，应用仍能正常检索。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+                "raw_line_start": 53,
+                "raw_line_end": 53
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev059",
+        "decision": "reject",
+        "reason": "阻塞模式与无状态说明正确，但“会话变量跨轮保留”与dev035相同真实事实，跨文档重述仍违反90题去重。",
+        "question": "旧版Agent与文本生成API的跨轮记忆和阻塞返回各怎样？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "旧版Agent应用仅支持流式返回。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/chat",
+                "raw_line_start": 17,
+                "raw_line_end": 17
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "对话API的会话变量跨多轮保留。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/chat",
+                "raw_line_start": 29,
+                "raw_line_end": 29
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "文本生成API的调用之间不保留会话状态。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/completion",
+                "raw_line_start": 9,
+                "raw_line_end": 9
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "文本生成API支持生成结束后一次性返回的阻塞模式。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/completion",
+                "raw_line_start": 17,
+                "raw_line_end": 17
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F3"
+        ]
+      },
+      {
+        "id": "dev060",
+        "decision": "accept",
+        "reason": "聊天线程隔离与离散工作流批处理比较主题成立；每行一次执行和UTF-8分别有出处。",
+        "question": "聊天页如何隔开多主题记忆？任务页适合什么任务，跑CSV每行含义与编码呢？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "聊天Web应用各对话线程维护各自记忆和上下文。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/webapp/chatflow-webapp",
+                "raw_line_start": 103,
+                "raw_line_end": 103
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "Workflow网页用于产生特定输出的离散任务。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "批处理CSV的每一行都是一次Workflow执行。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+                "raw_line_start": 88,
+                "raw_line_end": 88
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "从Excel导出导入用CSV时应选Unicode UTF-8编码。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+                "raw_line_start": 108,
+                "raw_line_end": 108
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev061",
+        "decision": "reject",
+        "reason": "三个必要父块与来源长度成立；但题问消费者“什么命令”，vital只强制三个Windows选项，参考答案却给整串19队列，造成命令基干漏评/无关参数过度要求风险。",
+        "question": "Windows源码调试：API前起哪些依赖，文件导入消费者和定时调度各用什么命令？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "启动API前，用middleware配置启动数据库、沙箱和插件守护进程。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 33,
+                "raw_line_end": 33
+              },
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 41,
+                "raw_line_end": 41
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "Windows的Celery Worker命令使用-P solo --without-gossip --without-mingle。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 124,
+                "raw_line_end": 124
+              },
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 128,
+                "raw_line_end": 128
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "定时任务需另起uv run celery -A app.celery beat服务。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 201,
+                "raw_line_end": 201
+              },
+              {
+                "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+                "raw_line_start": 204,
+                "raw_line_end": 204
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F4"
+        ]
+      },
+      {
+        "id": "dev062",
+        "decision": "accept",
+        "reason": "公网/容器文件地址和签名时效为同一文件访问排障主题；配置名由真实父标题定位，默认回退与双空失败条件有原文。",
+        "question": "自建流程外链预览、容器取文件及旧链接过期，分别查何配置，地址留空会怎样？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "FILES_URL是预览和下载基础URL，留空回退CONSOLE_API_URL。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 89,
+                "raw_line_end": 89
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 91,
+                "raw_line_end": 91
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "FILES_URL与CONSOLE_API_URL都为空时，文件预览无法工作。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 93,
+                "raw_line_end": 93
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "容器内部取文件用INTERNAL_FILES_URL，留空回退FILES_URL。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 99,
+                "raw_line_end": 99
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 101,
+                "raw_line_end": 101
+              },
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 103,
+                "raw_line_end": 103
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "FILES_ACCESS_TIMEOUT规定签名链接的秒级有效期，过期需重新请求。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/configuration/environments",
+                "raw_line_start": 111,
+                "raw_line_end": 111
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev063",
+        "decision": "accept",
+        "reason": "所求是已介绍部署/备份功能附近的灾备目标承诺；13词独立raw复扫全零，三近邻完整阅读无替代表述。仅资料不足，不断言现实无能力。",
+        "question": "官方对自部署跨机房灾备承诺的恢复点、恢复时间和切换期限各是多少？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev064",
+        "decision": "accept",
+        "reason": "已介绍账单下载发票，但没有日本税务注册号或期限；14词独立raw复扫全零，三近邻不提供答案。未把资料不足写成不提供发票。",
+        "question": "云版日本企业付款后，税务发票注册号与申请和开票期限怎样规定？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev065",
+        "decision": "accept",
+        "reason": "操作式错误前提有直接矛盾：除用户输入外才可复制；变量/集成/知识库在目标重评估。纠正未扩展成完全不能跨实例复制。",
+        "question": "把含用户输入的全部节点复制到另一实例，让原空间资源原样继承，怎么做？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev066",
+        "decision": "accept",
+        "reason": "限定知识流水线文件源；Cloud1/50与自部署默认20都有正面表格行，无版本词且edition=null。不同于旧即用型上传。",
+        "question": "知识流水线的本地文件源一批能传多少份？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev067",
+        "decision": "accept",
+        "reason": "“支持文件”确可指接收文件或让模型理解；用户输入节点仅收集与多模态模型开关分别支持两种解释，反问/条件答案合理。",
+        "question": "想让应用支持文件，在哪儿配置？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev068",
+        "decision": "accept",
+        "reason": "失败后备用值续跑与类型匹配是同一错误恢复需求的两项规则；题干不泄默认值官方名。",
+        "question": "上游偶发失败，怎样让后续用备用文案照跑，文案类型有何要求？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "选择默认值模式可在节点失败时用备用值继续运行。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+                "raw_line_start": 23,
+                "raw_line_end": 23
+              },
+              {
+                "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+                "raw_line_start": 24,
+                "raw_line_end": 24
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "备用值必须与节点输出类型相同。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+                "raw_line_start": 31,
+                "raw_line_end": 31
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev069",
+        "decision": "accept",
+        "reason": "待审撤回与提交前兼容性要求属于一个市场递交周期；插件来源与试跑环境分别有明确原句。",
+        "question": "范例待审时能撤回吗，递交前插件来源和试跑环境有何要求？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "Pending状态的模板可撤回为Draft后修改并重新提交。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+                "raw_line_start": 17,
+                "raw_line_end": 17
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "提交前应用使用的所有插件须直接从市场安装。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+                "raw_line_start": 21,
+                "raw_line_end": 21
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "提交前应在最新Community Edition上至少运行一次应用。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+                "raw_line_start": 22,
+                "raw_line_end": 22
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev070",
+        "decision": "accept",
+        "reason": "Skill导入包50 MB及配置名直接支持；Builder附加文件的数量/图像体积/其他体积为实际相近干扰，未泄答案。",
+        "question": "导入Skill包默认多大，调上限用哪个配置？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "导入Skill包的默认大小上限为50 MB。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/skills",
+                "raw_line_start": 61,
+                "raw_line_end": 61
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "导入包体积上限由UPLOAD_SKILL_FILE_SIZE_LIMIT调整。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/skills",
+                "raw_line_start": 61,
+                "raw_line_end": 61
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev071",
+        "decision": "accept",
+        "reason": "正文选择与返回文件变量是一次外部文件HTTP交互的两端；JSON/表单/原始文本为真实同级正文枚举，题干无二进制答案泄漏。",
+        "question": "上传文件给外部存储该选哪种正文，非文本响应会变成什么变量？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "上传文件变量使用二进制请求正文。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/http-request",
+                "raw_line_start": 95,
+                "raw_line_end": 95
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "二进制响应内容成为文件变量。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/http-request",
+                "raw_line_start": 85,
+                "raw_line_end": 85
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev072",
+        "decision": "reject",
+        "reason": "四条原文都支持，但节点输出拆分、适用模型、API事件三层问法超出单一单跳操作。宜删API小问，保同一分离功能输出及条件。",
+        "question": "思考混进答复时，怎样拆两份输出，适用哪些模型，API用什么事件单独传？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "开启推理标签分离后，text仅保留回答。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "raw_line_start": 143,
+                "raw_line_end": 143
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "分离的思考内容进入reasoning_content输出。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "raw_line_start": 143,
+                "raw_line_end": 143
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "该开关只适用于以think标签包裹思考的模型。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "raw_line_start": 148,
+                "raw_line_end": 148
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "流式API用reasoning_chunk事件独立返回推理内容。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/llm",
+                "raw_line_start": 145,
+                "raw_line_end": 145
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F5"
+        ]
+      },
+      {
+        "id": "dev073",
+        "decision": "accept",
+        "reason": "逐轮依赖决定loop而非iteration，未设条件时的最大次数停止规则直接支持；未把其他停止方式捆为硬要求。",
+        "question": "每轮沿用上一稿再润色，该用什么节点？没设退出条件会何时停？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "依赖上一轮结果继续处理应使用循环节点。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "raw_line_start": 8,
+                "raw_line_end": 8
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "未指定终止条件时，循环持续到最大循环次数。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/loop",
+                "raw_line_start": 53,
+                "raw_line_end": 53
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev074",
+        "decision": "accept",
+        "reason": "运行追踪定位耗时与单节点最后运行读取最近入出参为同一调试需求；两条出处直接支持。",
+        "question": "在哪查哪步最慢和单步最近的入出参？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "应用运行历史的追踪展示各节点耗时。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/debug/history-and-logs",
+                "raw_line_start": 44,
+                "raw_line_end": 44
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "节点配置面板的最后运行展示最近输入、输出和时间。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/debug/history-and-logs",
+                "raw_line_start": 52,
+                "raw_line_end": 52
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev075",
+        "decision": "accept",
+        "reason": "Cloud Sandbox不可发布模板的限制有正面原句；“获准发布后”条件使自定义模板去向可答。不能据自部署省略套餐段外推无限制。",
+        "question": "云端Sandbox能存流水线模板吗，获准发布后模板在哪？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "云端Sandbox不能将流水线发布为可复用模板。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+                "raw_line_start": 54,
+                "raw_line_end": 54
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "发布为流水线后，模板出现在自定义模板中。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+                "raw_line_start": 49,
+                "raw_line_end": 49
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev076",
+        "decision": "reject",
+        "reason": "Cloud7/30天及付费一键恢复答案正确且不同于旧033手动禁用；但自部署对应全文仅省略自动禁用规则，没有正面不同答案，不能计为真实云/自部署差异题。",
+        "question": "云端文档久未活跃，Sandbox与两档付费各多久停用，付费怎样恢复？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "云端Sandbox文档的未活跃自动禁用阈值为7天。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+                "raw_line_start": 27,
+                "raw_line_end": 27
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "云端Professional和Team文档的未活跃自动禁用阈值为30天。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+                "raw_line_start": 27,
+                "raw_line_end": 27
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "Professional和Team可一键重新启用被自动禁用的文档。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+                "raw_line_start": 27,
+                "raw_line_end": 27
+              }
+            ]
+          }
+        ],
+        "findings": [
+          "F6"
+        ]
+      },
+      {
+        "id": "dev077",
+        "decision": "accept",
+        "reason": "A区分task_id与workflow_run_id，B按此运行实体定位、逐节点追踪、原输入新测试；B不提供精确持久字段名，桥接必要。",
+        "question": "后端跑完流程后该留哪个持久编号？运营拿它怎样查到各步并按原输入重演？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "应保留workflow_run_id作为运行结束后的持久化记录标识。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/workflow",
+                "raw_line_start": 24,
+                "raw_line_end": 24
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "在应用日志页粘贴运行ID可定位该次运行。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "raw_line_start": 8,
+                "raw_line_end": 8
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "raw_line_start": 8,
+                "raw_line_end": 8
+              },
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "raw_line_start": 33,
+                "raw_line_end": 33
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "raw_line_start": 33,
+                "raw_line_end": 33
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "点击该次运行可查看逐节点执行追踪。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "raw_line_start": 48,
+                "raw_line_end": 48
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "raw_line_start": 48,
+                "raw_line_end": 48
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "按此参数测试会在编辑器中用原输入重新运行。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/logs",
+                "raw_line_start": 50,
+                "raw_line_end": 50
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/logs",
+                "raw_line_start": 50,
+                "raw_line_end": 50
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev078",
+        "decision": "accept",
+        "reason": "明确问携带凭证事件及结束原流事件；workflow_paused只在A提供，B提供附件id映射及被拒后同token重试，第二篇不能独立答全题。",
+        "question": "Chatflow等人填写时，携带交互凭证和结束当前响应的事件各是哪一个？用它附本地文件怎样引用，提交被拒后凭证还能复用吗？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "human_input_required事件携带form_token交互凭证。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/chatflow",
+                "raw_line_start": 47,
+                "raw_line_end": 47
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "workflow_paused事件结束当前响应流。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/chatflow",
+                "raw_line_start": 47,
+                "raw_line_end": 47
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "本地附件先上传，返回的id在提交中以upload_file_id引用。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/human-input-flow",
+                "raw_line_start": 33,
+                "raw_line_end": 33
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "提交被拒后可修正输入，以同一form_token重新提交。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "api-reference/guides/human-input-flow",
+                "raw_line_start": 44,
+                "raw_line_end": 44
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev079",
+        "decision": "accept",
+        "reason": "课程给节点位置及Agent text交接，B给课程没有的嵌套语法/default；唯一教程→节点链。未在第二问泄模板/Jinja2/default。",
+        "question": "Dify第9课的固定排版环节放在哪，正文取谁的值？该环节怎样读嵌套姓名并兜底缺失项？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "第9课的模板转换节点放在Agent之后、输出之前。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "learn/tutorials/workflow-101/lesson-09",
+                "raw_line_start": 35,
+                "raw_line_end": 35
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "模板body变量接Agent的text输出。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "learn/tutorials/workflow-101/lesson-09",
+                "raw_line_start": 45,
+                "raw_line_end": 45
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "该环节用点号或括号访问嵌套对象或数组元素。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/template",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "该环节用default过滤器给缺失字段提供默认值。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/template",
+                "raw_line_start": 76,
+                "raw_line_end": 76
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev080",
+        "decision": "accept",
+        "reason": "只强制两平台不同空间字段及Phoenix系统密钥三事实，未强制未问的完整凭据/创建空间流程；两版等价来源齐全。",
+        "question": "Arize AX与Phoenix Cloud除密钥、项目名外各缺哪个空间字段？后者要哪类密钥？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "Arize AX还需Space ID。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-arize",
+                "raw_line_start": 37,
+                "raw_line_end": 37
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-arize",
+                "raw_line_start": 37,
+                "raw_line_end": 37
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "Phoenix Cloud还需空间主机名。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+                "raw_line_start": 87,
+                "raw_line_end": 87
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-phoenix",
+                "raw_line_start": 87,
+                "raw_line_end": 87
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "Phoenix Cloud在空间设置中创建系统密钥。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+                "raw_line_start": 73,
+                "raw_line_end": 73
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-phoenix",
+                "raw_line_start": 73,
+                "raw_line_end": 73
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev081",
+        "decision": "accept",
+        "reason": "Host为地址、Public Key为公开身份，语义职责不同且分别问到；PAT与错名新建项目是另一平台两个明确属性，未强制Secret Key。",
+        "question": "Langfuse除保密凭据还填什么地址和公开标识？LangSmith凭据选哪类，项目名写错会怎样？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "Langfuse需要填写Host。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-langfuse",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "Langfuse需要填写Public Key。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-langfuse",
+                "raw_line_start": 42,
+                "raw_line_end": 42
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "LangSmith凭据类型选择Personal Access Token。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+                "raw_line_start": 49,
+                "raw_line_end": 49
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-langsmith",
+                "raw_line_start": 49,
+                "raw_line_end": 49
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "LangSmith配置的项目名不一致会自动创建新项目。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+                "raw_line_start": 76,
+                "raw_line_end": 76
+              },
+              {
+                "document_id": "cloud/use-dify/monitor/integrations/integrate-langsmith",
+                "raw_line_start": 76,
+                "raw_line_end": 76
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev082",
+        "decision": "accept",
+        "reason": "导入OpenAPI和画布具体操作/凭证选择、默认凭证入口组成完整接入流程；每项直接有据，没有因无现成插件断言不能接。",
+        "question": "无现成插件的接口如何接入，在画布怎样选操作和凭证，默认凭证在哪改？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "可通过导入OpenAPI规范生成工具接口。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/workspace/tools",
+                "raw_line_start": 28,
+                "raw_line_end": 28
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/tools",
+                "raw_line_start": 28,
+                "raw_line_end": 28
+              },
+              {
+                "document_id": "self-host/use-dify/workspace/tools",
+                "raw_line_start": 30,
+                "raw_line_end": 30
+              },
+              {
+                "document_id": "cloud/use-dify/workspace/tools",
+                "raw_line_start": 30,
+                "raw_line_end": 30
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "画布中通过添加节点>工具选择具体操作。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/tools",
+                "raw_line_start": 15,
+                "raw_line_end": 15
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "需认证的工具可在节点选择现有凭证或创建新凭证。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/tools",
+                "raw_line_start": 17,
+                "raw_line_end": 17
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "默认凭证在集成>工具>工具插件中修改。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/nodes/tools",
+                "raw_line_start": 20,
+                "raw_line_end": 20
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev083",
+        "decision": "accept",
+        "reason": "Cookie子域配置、控制台CORS及不可跨可注册域名边界均被问到且有文档；作为排查方向而非排他病因。",
+        "question": "自建拆子域后登录失效，要改哪两个Cookie变量？换域名后401看哪个控制台跨域项，域名共享有何边界？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "COOKIE_DOMAIN应设为前后端共享的顶级域名。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/quick-start/faqs",
+                "raw_line_start": 75,
+                "raw_line_end": 75
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "NEXT_PUBLIC_COOKIE_DOMAIN应设为1以启用跨子域Cookie。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/quick-start/faqs",
+                "raw_line_start": 76,
+                "raw_line_end": 76
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "更换域名后401可检查CONSOLE_CORS_ALLOW_ORIGINS。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/common-issues",
+                "raw_line_start": 23,
+                "raw_line_end": 23
+              },
+              {
+                "document_id": "self-host/deploy/troubleshooting/common-issues",
+                "raw_line_start": 25,
+                "raw_line_end": 25
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "Cookie不能跨不同可注册域名共享。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/quick-start/faqs",
+                "raw_line_start": 83,
+                "raw_line_end": 83
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev084",
+        "decision": "accept",
+        "reason": "服务端最低版本、gRPC端口、1.11+迁移选项、检索验收分别有据；必要父块3、清洗长文16351字，未强制停机/对象数等未问事项。",
+        "question": "外置Weaviate接v4客户端前要升到哪版、通哪个端口？Dify1.11后Worker迁移加什么选项，如何验收？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "Weaviate v4客户端需要服务端1.27.0或更高版本。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                "raw_line_start": 18,
+                "raw_line_end": 18
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "外置Weaviate须确保gRPC端口50051可达。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                "raw_line_start": 91,
+                "raw_line_end": 91
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "Dify1.11.0及之后用uv run --no-cache运行迁移脚本。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                "raw_line_start": 300,
+                "raw_line_end": 300
+              },
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                "raw_line_start": 301,
+                "raw_line_end": 301
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "迁移后应在Dify界面测试迁移知识库的检索功能。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+                "raw_line_start": 319,
+                "raw_line_end": 319
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev085",
+        "decision": "accept",
+        "reason": "放弃构建、运行临时内容、新对话笔记、版本恢复分别四动作与四父块；与旧普通工作流草稿恢复不是同一事实。",
+        "question": "Agent构建时放弃、运行时新增文件、重开对话和恢复旧版，分别怎样影响文件或构建笔记？",
+        "vital_checks": [
+          {
+            "nugget_index": 0,
+            "text": "放弃构建会丢弃本轮对长期文件的改动。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/build",
+                "raw_line_start": 137,
+                "raw_line_end": 137
+              }
+            ]
+          },
+          {
+            "nugget_index": 1,
+            "text": "发布后的运行中新添加内容都是临时的。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/build",
+                "raw_line_start": 150,
+                "raw_line_end": 150
+              }
+            ]
+          },
+          {
+            "nugget_index": 2,
+            "text": "每次新对话开始时Agent都会重新读取构建笔记。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/build",
+                "raw_line_start": 156,
+                "raw_line_end": 156
+              }
+            ]
+          },
+          {
+            "nugget_index": 3,
+            "text": "恢复Agent版本时，沙箱长期文件也恢复到该版本。",
+            "asked": true,
+            "raw_support": "supported",
+            "atomicity": "可独立核验；语义职责/完整枚举/条件规则按内容判断，不按同句或字段个数判定",
+            "sources": [
+              {
+                "document_id": "self-host/use-dify/build/new-agent/build",
+                "raw_line_start": 179,
+                "raw_line_end": 179
+              }
+            ]
+          }
+        ],
+        "findings": []
+      },
+      {
+        "id": "dev086",
+        "decision": "accept",
+        "reason": "第三方社区集成已被介绍但漏洞时限无依据；10词独立raw复扫全零，读三近邻后也没有另一种表达给期限。",
+        "question": "社区集成报漏洞后，官方承诺多久响应、多久发补丁？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev087",
+        "decision": "accept",
+        "reason": "保留触发器直接发MCP与“仅用户输入启动可发布”“开始节点互斥”正面矛盾；操作问法满足产品专属错误前提。",
+        "question": "教我保留事件触发器，把同一流程直接发布成MCP服务。",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev088",
+        "decision": "reject",
+        "reason": "拒答领域边界正确，但当前是通用业务PostgreSQL/Patroni运维，未明确相邻AI场景；不能直接宣称满足“相邻AI领域”形式要求。",
+        "question": "给PostgreSQL业务库写一套Patroni跨机房自动故障转移配置。",
+        "vital_checks": [],
+        "findings": [
+          "F7"
+        ]
+      },
+      {
+        "id": "dev089",
+        "decision": "accept",
+        "reason": "Cloud始终最新兼容与自部署较新DSL前可能升级均是正面断言；无版本词/null，反问或条件答案合理。",
+        "question": "别人导出的DSL，导入就一定兼容吗？",
+        "vital_checks": [],
+        "findings": []
+      },
+      {
+        "id": "dev090",
+        "decision": "accept",
+        "reason": "已有外部RAG与业务API动态资料是两个真实需求槽位；两种接法及管理/字符串Prompt边界都有据，不与旧顶层必填字段题重复。",
+        "question": "想把外部系统的资料接进来，怎么配？",
+        "vital_checks": [],
+        "findings": []
+      }
+    ],
+    "old12_repair_verification": [
+      {
+        "id": "dev021",
+        "decision": "accept",
+        "reason": "受理和终止两个事件均明确问到、各有直接来源。"
+      },
+      {
+        "id": "dev024",
+        "decision": "accept",
+        "reason": "续跑模式与失败元素null输出分开，独立且都问到。"
+      },
+      {
+        "id": "dev029",
+        "decision": "accept",
+        "reason": "语义分类、规则分流、ELIF顺序细节有据，移除了重复的调试改值。"
+      },
+      {
+        "id": "dev030",
+        "decision": "accept",
+        "reason": "OAuth默认/自定义流程正面有据；不把自部署文档流程泛化为产品没有默认客户端。"
+      },
+      {
+        "id": "dev031",
+        "decision": "accept",
+        "reason": "expected_route=null；保持库内缺依据，不断言产品不去重。"
+      },
+      {
+        "id": "dev033",
+        "decision": "accept",
+        "reason": "禁用排除检索与归档只读两点明确问到。"
+      },
+      {
+        "id": "dev034",
+        "decision": "accept",
+        "reason": "默认字符串长度与配置名分别有据。"
+      },
+      {
+        "id": "dev035",
+        "decision": "accept",
+        "reason": "候选名已删，跨轮保存需求及同会话边界清晰；保留该事实，重复在新059修。"
+      },
+      {
+        "id": "dev036",
+        "decision": "accept",
+        "reason": "旧链立即失效与含认证凭据的保密原因两点独立。"
+      },
+      {
+        "id": "dev037",
+        "decision": "accept",
+        "reason": "登录方式集合与同邮箱关联不同事实。"
+      },
+      {
+        "id": "dev041",
+        "decision": "accept",
+        "reason": "类型全集/字段名字符全集/单篇删字段范围各有原文；4946字符legacy限制明确保留。"
+      },
+      {
+        "id": "dev043",
+        "decision": "accept",
+        "reason": "纯索密注入，gold/nuggets为空，整题拒绝，未混正常HTTP问题。"
+      }
+    ],
+    "old12_retention_verification": {
+      "ids": [
+        "dev022",
+        "dev023",
+        "dev025",
+        "dev026",
+        "dev027",
+        "dev028",
+        "dev032",
+        "dev038",
+        "dev039",
+        "dev040",
+        "dev042",
+        "dev044"
+      ],
+      "question_lines_unchanged": true,
+      "evidence_objects_unchanged": true,
+      "original_question_snapshot_equals_base": true,
+      "original_evidence_snapshot_equals_base": true,
+      "legacy_limitations_not_reopened": [
+        "dev025/041/042不到6000字符",
+        "旧三教程链及旧multi部分仅2 vital",
+        "未点名旧题不据新增要求扩大修改"
+      ]
+    },
+    "global_review": {
+      "atomicity_policy": "按语义职责与能否独立判对错，不按同一句或字段数：dev081 Host地址和Public Key身份可各为vital；dev030 Client ID/Secret完整凭据集合、dev041类型全集可作一条集合事实。配置映射与条件默认值按被问的规则整体核验，不拆正反凑数。",
+      "distribution": {
+        "new46": {
+          "single": 19,
+          "multi": 17,
+          "refuse_correct": 6,
+          "clarify": 4
+        },
+        "all70": {
+          "single": 28,
+          "multi": 28,
+          "refuse_correct": 9,
+          "clarify": 5
+        },
+        "qualification": "数字配额满足不代表051/072主题跨度及076版本差异语义配额通过。"
+      },
+      "fact_deduplication": {
+        "status": "fail",
+        "duplicates": [
+          {
+            "ids": [
+              "dev035",
+              "dev059"
+            ],
+            "fact": "会话变量在同一会话多轮之间持续保留"
+          }
+        ],
+        "other_observed_new_fact_duplicates": [],
+        "nearby_but_distinct_examples": [
+          "dev066知识流水线文件源与旧015/016即用型上传",
+          "dev076自动停用规则与旧033手动禁用/归档",
+          "dev077控制台逐节点追踪与旧028日志API仅运行级汇总",
+          "dev085Agent文件/构建笔记生命周期与dev052普通草稿恢复"
+        ]
+      },
+      "gold_coverage": {
+        "current_unique_documents_including_OR": 69,
+        "duplicate_document_uses_new46": {},
+        "nodes_documents": 7,
+        "low_coverage_documents": 27,
+        "qualification": "dev049缺一个等价self-host来源，修复后需重算；其余已列孪生题点等价/真实差异逐项核对。"
+      },
+      "chains": {
+        "ids": [
+          "dev055",
+          "dev056",
+          "dev057",
+          "dev058",
+          "dev077",
+          "dev078",
+          "dev079"
+        ],
+        "decision": "accept",
+        "substantive_forms": [
+          "错误code→模型配置/凭据生命周期",
+          "模板选择→分段模式→材料处理",
+          "HTTP条件→可用授权分支",
+          "取消计划→套餐→容量行",
+          "API持久标识→控制台定位/重演",
+          "暂停事件凭证→提交状态与附件映射",
+          "课程数据交接→模板语法"
+        ],
+        "tutorial_to_node_count": 1,
+        "keyword_leak": "未见第二问直接泄所列答案标识；078明确问两个事件，第二篇不能单独答全题。",
+        "generic_distractors": "每链两篇都确有泛语义接近内容且不完整回答第二步；这是来源辨别合理性，不是实际检索难度证据。"
+      },
+      "synonym_questions": {
+        "ids": [
+          "dev045",
+          "dev046",
+          "dev047",
+          "dev068",
+          "dev069"
+        ],
+        "decision": "accept",
+        "reason": "未发现完整标题/官方功能名泄漏；题干不靠答案关键名定位。"
+      },
+      "numeric_or_table_questions": {
+        "ids": [
+          "dev048",
+          "dev049",
+          "dev070",
+          "dev071"
+        ],
+        "decision": "accept_for_content",
+        "reason": "数值/角色/正文枚举干扰实际存在且可区分，题干未泄所求值；049仍须修OR金标。"
+      },
+      "neighbor_questions": {
+        "ids": [
+          "dev050",
+          "dev051",
+          "dev072",
+          "dev073"
+        ],
+        "reason": "各差异句决定不同选择，题干未直接列双候选；051/072需收窄主题。"
+      },
+      "scattered": [
+        {
+          "id": "dev061",
+          "cleaned_characters": {
+            "self-host/deploy/advanced-deployments/local-source-code": 9408
+          },
+          "necessary_parent_ids": [
+            "self-host/deploy/advanced-deployments/local-source-code#p2",
+            "self-host/deploy/advanced-deployments/local-source-code#p5",
+            "self-host/deploy/advanced-deployments/local-source-code#p7"
+          ],
+          "necessary_sources_within_first_12000": true
+        },
+        {
+          "id": "dev062",
+          "cleaned_characters": {
+            "self-host/deploy/configuration/environments": 79316
+          },
+          "necessary_parent_ids": [
+            "self-host/deploy/configuration/environments#p10",
+            "self-host/deploy/configuration/environments#p11",
+            "self-host/deploy/configuration/environments#p9"
+          ],
+          "necessary_sources_within_first_12000": true
+        },
+        {
+          "id": "dev084",
+          "cleaned_characters": {
+            "self-host/deploy/troubleshooting/weaviate-v4-migration": 16351
+          },
+          "necessary_parent_ids": [
+            "self-host/deploy/troubleshooting/weaviate-v4-migration#p1",
+            "self-host/deploy/troubleshooting/weaviate-v4-migration#p10",
+            "self-host/deploy/troubleshooting/weaviate-v4-migration#p6"
+          ],
+          "necessary_sources_within_first_12000": true
+        },
+        {
+          "id": "dev085",
+          "cleaned_characters": {
+            "self-host/use-dify/build/new-agent/build": 6225
+          },
+          "necessary_parent_ids": [
+            "self-host/use-dify/build/new-agent/build#p10",
+            "self-host/use-dify/build/new-agent/build#p11",
+            "self-host/use-dify/build/new-agent/build#p12",
+            "self-host/use-dify/build/new-agent/build#p9"
+          ],
+          "necessary_sources_within_first_12000": true
+        }
+      ],
+      "near_absence": [
+        {
+          "id": "dev063",
+          "documents_scanned": 182,
+          "meaningful_near_terms_checked": 13,
+          "nonzero": {},
+          "three_closest_documents_read": [
+            "self-host/deploy/troubleshooting/storage-and-migration",
+            "self-host/deploy/overview",
+            "self-host/deploy/quick-start/docker-compose"
+          ],
+          "conclusion": "未发现同义表述提供所问参数；不存在的依据不外推为产品不提供。"
+        },
+        {
+          "id": "dev064",
+          "documents_scanned": 182,
+          "meaningful_near_terms_checked": 14,
+          "nonzero": {},
+          "three_closest_documents_read": [
+            "cloud/use-dify/workspace/subscription-management",
+            "cloud/use-dify/workspace/readme",
+            "cloud/use-dify/workspace/model-providers"
+          ],
+          "conclusion": "未发现同义表述提供所问参数；不存在的依据不外推为产品不提供。"
+        },
+        {
+          "id": "dev086",
+          "documents_scanned": 182,
+          "meaningful_near_terms_checked": 10,
+          "nonzero": {},
+          "three_closest_documents_read": [
+            "self-host/use-dify/workspace/plugins",
+            "self-host/use-dify/publish/publish-to-marketplace",
+            "self-host/deploy/overview"
+          ],
+          "conclusion": "未发现同义表述提供所问参数；不存在的依据不外推为产品不提供。"
+        }
+      ],
+      "version_review": {
+        "clear_positive_differences": [
+          "dev054安装创建/首次登录创建",
+          "dev066本地文件源20与1/50",
+          "dev089最新DSL兼容与较新DSL前可能需升级",
+          "旧dev030默认OAuth与自定义准备流程"
+        ],
+        "dev075": "Sandbox禁止与成功保存后的去向均明确；不推断自部署无任何限制。",
+        "dev076": "Cloud规则正确但另一版省略，真实跨版本差异未获证。"
+      },
+      "ambiguity": {
+        "dev066": "版本/套餐确实影响同一文件源数量",
+        "dev067": "接收文件与理解内容两个真实需求",
+        "dev089": "目标部署与相对DSL版本影响答案",
+        "dev090": "检索服务与动态业务API两种真实接法"
+      },
+      "false_premises": {
+        "ids": [
+          "dev065",
+          "dev087"
+        ],
+        "decision": "accept",
+        "reason": "均有直接产品专属矛盾，两题都是操作问法；纯索密仅沿用旧043。"
+      },
+      "forms": {
+        "author_tag_counts": {
+          "scenario_or_symptom": 33,
+          "condition_or_exception": 16
+        },
+        "independently_confirmed_scenario_or_symptom_examples": [
+          "dev045",
+          "dev046",
+          "dev047",
+          "dev048",
+          "dev049",
+          "dev050",
+          "dev051",
+          "dev052",
+          "dev055",
+          "dev057",
+          "dev058",
+          "dev061",
+          "dev062",
+          "dev068",
+          "dev071",
+          "dev072",
+          "dev073",
+          "dev074",
+          "dev077",
+          "dev078",
+          "dev083",
+          "dev085"
+        ],
+        "independently_confirmed_condition_or_exception_examples": [
+          "dev045",
+          "dev046",
+          "dev049",
+          "dev052",
+          "dev055",
+          "dev057",
+          "dev058",
+          "dev062",
+          "dev068",
+          "dev072",
+          "dev073",
+          "dev075",
+          "dev076",
+          "dev078",
+          "dev083",
+          "dev085"
+        ],
+        "decision": "实际明确例子分别22/16，超过14/7；不限于作者form_tags。问法包含症状、动作、短问、比较、条件、流程与澄清，不只是顿号列问。"
+      },
+      "scoring_and_scope": "变更范围未出现backend评分规则/评审Prompt或受保护题集；未读封存题。结构与精确引用不等于语义正确。"
+    },
+    "independent_static_checks": {
+      "raw_index_hashes_checked": 182,
+      "raw_index_hash_failures": [],
+      "distinct_source_records_checked": 195,
+      "source_line_character_failures": [],
+      "per_question_source_records": {
+        "dev045": 4,
+        "dev046": 3,
+        "dev047": 2,
+        "dev048": 4,
+        "dev049": 4,
+        "dev050": 6,
+        "dev051": 4,
+        "dev052": 3,
+        "dev053": 2,
+        "dev054": 2,
+        "dev055": 8,
+        "dev056": 7,
+        "dev057": 7,
+        "dev058": 5,
+        "dev059": 4,
+        "dev060": 4,
+        "dev061": 6,
+        "dev062": 7,
+        "dev063": 0,
+        "dev064": 0,
+        "dev065": 4,
+        "dev066": 2,
+        "dev067": 4,
+        "dev068": 3,
+        "dev069": 3,
+        "dev070": 3,
+        "dev071": 5,
+        "dev072": 4,
+        "dev073": 3,
+        "dev074": 2,
+        "dev075": 3,
+        "dev076": 4,
+        "dev077": 11,
+        "dev078": 6,
+        "dev079": 6,
+        "dev080": 6,
+        "dev081": 6,
+        "dev082": 7,
+        "dev083": 5,
+        "dev084": 5,
+        "dev085": 4,
+        "dev086": 3,
+        "dev087": 2,
+        "dev088": 0,
+        "dev089": 2,
+        "dev090": 10
+      },
+      "note": "逐字检查只作为辅助，最终支持结论来自题干-vital-原文语义审阅。"
+    },
+    "declined_to_judge": [
+      {
+        "scope": "作者或Claude最终审定",
+        "reason": "本agent无真人/跨模型审定资格。"
+      },
+      {
+        "scope": "真实难度、可猜性、Naive与复杂RAG效果",
+        "reason": "未运行模型、未看被测回答；guessable保持null。"
+      },
+      {
+        "scope": "原题检索命中及单跳>70%加难候选",
+        "reason": "遵循先独立审题，未读取retrieval-selftest；由主agent另行诊断。"
+      },
+      {
+        "scope": "完整系统、数据库运行与poe检查通过",
+        "reason": "本轮只审题和只读diff，未运行完整系统/模型；机械报告不替代实际运行证据。"
+      },
+      {
+        "scope": "封存测试与保护数据",
+        "reason": "明确禁止，未读取。"
+      }
+    ],
+    "next_step": "主agent一次修复上述条目、保留原审查结论及逐项解决证据，再运行完整机械/poe/原题检索检查；本报告不把待修当通过。"
+  },
+  "primary_resolution": [
+    {
+      "finding_id": "F1",
+      "question_id": "dev049",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "补题点等价OR金标",
+      "current_question": "交接团队负责人时，验证码寄给谁，原负责人之后是什么角色？",
+      "verification": {
+        "two_gold_alternatives": true,
+        "null_edition": true,
+        "each_vital_has_both_OR": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    },
+    {
+      "finding_id": "F2",
+      "question_id": "dev051",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "收窄单跳为选库依据及改善",
+      "current_question": "旧版工具助理为什么漏选资料，怎样改进选库判断？",
+      "verification": {
+        "two_vitals": true,
+        "removed_reranking": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    },
+    {
+      "finding_id": "F3",
+      "question_id": "dev059",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "去除与dev035重复的跨轮保留事实",
+      "current_question": "旧版Agent和文本生成API的返回方式有何差别？两者流式正文各用什么事件？",
+      "verification": {
+        "four_vitals": true,
+        "no_session_retention_fact": true,
+        "both_body_events": true,
+        "sources_exact": "需结合最终source_integrity与原文逐条审阅"
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    },
+    {
+      "finding_id": "F4",
+      "question_id": "dev061",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "命令问法与必答点对齐",
+      "current_question": "Windows源码调试：API前起哪些依赖，消费者需哪些兼容选项，定时服务怎么起？",
+      "verification": {
+        "question_asks_options": true,
+        "no_queue_hard_requirement": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    },
+    {
+      "finding_id": "F5",
+      "question_id": "dev072",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "收窄为同一推理分离功能",
+      "current_question": "思考混进答复时，哪些模型能拆开，拆后两份输出各去哪儿？",
+      "verification": {
+        "three_vitals": true,
+        "removed_API_question": true,
+        "removed_API_vital": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    },
+    {
+      "finding_id": "F6",
+      "question_id": "dev076",
+      "original_severity": "Important",
+      "original_reject_preserved": true,
+      "resolution": "原题仅Cloud有自动禁用条款，不足以证明两版本真实差异；改为Cloud清除默认目标与自部署填写目标的双边正面操作差异。",
+      "current_question": "从市场给云端装集成却跳到别处，怎样改回？谁能调整安装权限？",
+      "verification": {
+        "replaced_document": true,
+        "two_vitals": true,
+        "positive_counterparts": true,
+        "independently_reviewed_replacement_candidate": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": "final_review已核对Cloud L36/L46及self-host L36/L38，认可单问版本与第二vital主题范围。"
+    },
+    {
+      "finding_id": "F7",
+      "question_id": "dev088",
+      "original_severity": "Minor",
+      "original_reject_preserved": true,
+      "resolution": "明确相邻AI框架RAG服务场景",
+      "current_question": "我用LangGraph搭RAG，给它的PostgreSQL业务库写一套Patroni跨机房故障转移配置。",
+      "verification": {
+        "AI_adjacent_scenario": true,
+        "outside_Dify_product": true
+      },
+      "status": "resolved_by_primary_with_source_and_mechanical_verification",
+      "independent_recheck_of_final_canonical": false,
+      "replacement_candidate_review": null
+    }
+  ],
+  "final_new46_outcomes": [
+    {
+      "id": "dev045",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev046",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev047",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev048",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev049",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev050",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev051",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev052",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev053",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev054",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev055",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev056",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev057",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev058",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev059",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev060",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev061",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev062",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev063",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev064",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev065",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev066",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev067",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev068",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev069",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev070",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev071",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev072",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev073",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev074",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev075",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev076",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev077",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev078",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev079",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev080",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev081",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev082",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev083",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev084",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev085",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev086",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev087",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev088",
+      "status": "primary_verified_after_independent_reject",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev089",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    },
+    {
+      "id": "dev090",
+      "status": "accepted_by_independent_reviewer",
+      "source_support_checked": true,
+      "external_review": "pending"
+    }
+  ],
+  "postfix_global_mechanical_checks": [
+    {
+      "check": "new46_count",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 46,
+      "target": 46
+    },
+    {
+      "check": "new70_count",
+      "scope": "new70",
+      "status": "pass",
+      "actual": 70,
+      "target": 70
+    },
+    {
+      "check": "old20_for_90_question_dedup",
+      "scope": "input+old20",
+      "status": "pass",
+      "actual": 20,
+      "target": "明确提供dev001–020（不自行搜索受保护路径）"
+    },
+    {
+      "check": "batch1_groups",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": 10,
+        "multi": 8,
+        "refusal": 3,
+        "ambiguity": 2
+      },
+      "target": {
+        "single": 10,
+        "multi": 8,
+        "refusal": 3,
+        "ambiguity": 2
+      }
+    },
+    {
+      "check": "batch1_subtypes",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": {
+          "synonym": 3,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 2,
+          "edition_single": 1
+        },
+        "multi": {
+          "chain": 4,
+          "parallel_compare": 2,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 2,
+          "false_premise": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      },
+      "target": {
+        "single": {
+          "synonym": 3,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 2,
+          "edition_single": 1
+        },
+        "multi": {
+          "chain": 4,
+          "parallel_compare": 2,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 2,
+          "false_premise": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      }
+    },
+    {
+      "check": "batch1_three_asks",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "detected_ids": [
+          "dev062"
+        ],
+        "non_scattered": []
+      },
+      "target": "最多2且仅scattered；问数须另审"
+    },
+    {
+      "check": "batch2_groups",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": 9,
+        "multi": 9,
+        "refusal": 3,
+        "ambiguity": 2
+      },
+      "target": {
+        "single": 9,
+        "multi": 9,
+        "refusal": 3,
+        "ambiguity": 2
+      }
+    },
+    {
+      "check": "batch2_subtypes",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": {
+          "synonym": 2,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 1,
+          "edition_single": 2
+        },
+        "multi": {
+          "chain": 3,
+          "parallel_compare": 4,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 1,
+          "false_premise": 1,
+          "out_of_domain": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      },
+      "target": {
+        "single": {
+          "synonym": 2,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 1,
+          "edition_single": 2
+        },
+        "multi": {
+          "chain": 3,
+          "parallel_compare": 4,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 1,
+          "false_premise": 1,
+          "out_of_domain": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      }
+    },
+    {
+      "check": "batch2_three_asks",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "detected_ids": [
+          "dev084",
+          "dev085"
+        ],
+        "non_scattered": []
+      },
+      "target": "最多2且仅scattered；问数须另审"
+    },
+    {
+      "check": "new46_document_reuse_including_or",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {},
+      "target": "每篇<=1"
+    },
+    {
+      "check": "new70_document_reuse_including_or",
+      "scope": "new70",
+      "status": "pass",
+      "actual": {},
+      "target": "每篇<=2"
+    },
+    {
+      "check": "new70_document_coverage",
+      "scope": "new70",
+      "status": "pass",
+      "actual": 97,
+      "target": ">=50不同原文（含等价来源）"
+    },
+    {
+      "check": "new46_nodes_documents",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 7,
+      "target": "<=8",
+      "details": [
+        "self-host/use-dify/nodes/http-request",
+        "self-host/use-dify/nodes/llm",
+        "self-host/use-dify/nodes/loop",
+        "self-host/use-dify/nodes/start",
+        "self-host/use-dify/nodes/template",
+        "self-host/use-dify/nodes/tools",
+        "self-host/use-dify/nodes/user-input"
+      ]
+    },
+    {
+      "check": "new46_low_coverage_documents",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 29,
+      "target": ">=12（每篇去重，含等价）",
+      "details": {
+        "cloud/use-dify/workspace/team-members-management": "工作空间管理",
+        "self-host/use-dify/workspace/team-members-management": "工作空间管理",
+        "self-host/deploy/advanced-deployments/start-the-frontend-docker-container": "部署配置",
+        "self-host/use-dify/workspace/readme": "工作空间管理",
+        "cloud/use-dify/workspace/model-providers": "模型接入",
+        "self-host/use-dify/workspace/model-providers": "模型接入",
+        "api-reference/guides/errors": "API参考",
+        "self-host/deploy/troubleshooting/integrations": "部署配置",
+        "cloud/use-dify/workspace/subscription-management": "云版计费",
+        "api-reference/guides/completion": "API参考",
+        "api-reference/guides/chat": "API参考",
+        "self-host/use-dify/publish/webapp/workflow-webapp": "应用发布",
+        "self-host/use-dify/publish/webapp/chatflow-webapp": "应用发布",
+        "self-host/deploy/advanced-deployments/local-source-code": "部署配置",
+        "self-host/deploy/configuration/environments": "部署配置",
+        "self-host/use-dify/publish/publish-to-marketplace": "应用发布",
+        "cloud/use-dify/workspace/plugins": "插件",
+        "api-reference/guides/workflow": "API参考",
+        "api-reference/guides/chatflow": "API参考",
+        "api-reference/guides/human-input-flow": "API参考",
+        "self-host/use-dify/workspace/tools": "工作空间管理",
+        "cloud/use-dify/workspace/tools": "工作空间管理",
+        "self-host/deploy/quick-start/faqs": "部署配置",
+        "self-host/deploy/troubleshooting/common-issues": "部署配置",
+        "self-host/deploy/troubleshooting/weaviate-v4-migration": "部署配置",
+        "self-host/use-dify/workspace/app-management": "工作空间管理",
+        "cloud/use-dify/workspace/app-management": "工作空间管理",
+        "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension": "工作空间管理",
+        "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension": "工作空间管理"
+      }
+    },
+    {
+      "check": "new46_form_tag_scenario_or_symptom",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 33,
+      "target": 14,
+      "details": {
+        "ids": [
+          "dev045",
+          "dev046",
+          "dev047",
+          "dev048",
+          "dev049",
+          "dev050",
+          "dev051",
+          "dev055",
+          "dev056",
+          "dev057",
+          "dev058",
+          "dev060",
+          "dev061",
+          "dev062",
+          "dev063",
+          "dev064",
+          "dev065",
+          "dev066",
+          "dev068",
+          "dev071",
+          "dev072",
+          "dev073",
+          "dev074",
+          "dev076",
+          "dev077",
+          "dev078",
+          "dev079",
+          "dev081",
+          "dev082",
+          "dev083",
+          "dev084",
+          "dev085",
+          "dev088"
+        ],
+        "limitation": "仅计声明；题干是否真实体现该形式需独立审查"
+      }
+    },
+    {
+      "check": "new46_form_tag_condition_or_exception",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 17,
+      "target": 7,
+      "details": {
+        "ids": [
+          "dev045",
+          "dev046",
+          "dev055",
+          "dev062",
+          "dev065",
+          "dev069",
+          "dev072",
+          "dev073",
+          "dev075",
+          "dev076",
+          "dev078",
+          "dev079",
+          "dev083",
+          "dev084",
+          "dev085",
+          "dev086",
+          "dev087"
+        ],
+        "limitation": "仅计声明；题干是否真实体现该形式需独立审查"
+      }
+    },
+    {
+      "check": "new46_bridge_types",
+      "scope": "new46",
+      "status": "pass",
+      "actual": [
+        "API响应持久化标识→控制台精确定位与原参数重演",
+        "LLM生成模板→问答模式→生成顺序与自然语言前提",
+        "教程数据交接→格式语法及缺失值处理",
+        "暂停事件产物→表单状态机与恢复关联",
+        "订阅状态变更→套餐实体→额度及超额旧数据行为",
+        "诊断标识→配置修复→凭据生命周期",
+        "部署协议条件→可用授权模式→对应权限与凭据流程"
+      ],
+      "target": ">=4种声明；语义分类另审"
+    },
+    {
+      "check": "new46_course_to_node",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 1,
+      "target": "<=1"
+    },
+    {
+      "check": "new46_one_vital_questions",
+      "scope": "new46",
+      "status": "pass",
+      "actual": [
+        "dev053"
+      ],
+      "target": "<=2"
+    },
+    {
+      "check": "new70_one_vital_questions",
+      "scope": "new70",
+      "status": "pass",
+      "actual": [
+        "dev053"
+      ],
+      "target": "<=14"
+    },
+    {
+      "check": "document_fact_exact_duplicates",
+      "scope": "input+old20",
+      "status": "pass",
+      "actual": [],
+      "target": "0（仅逐字归一化）"
+    },
+    {
+      "check": "unmentioned_old_questions_preserved",
+      "scope": "old24",
+      "status": "pass",
+      "actual": [],
+      "target": "未点名旧题逐字段保持"
+    }
+  ],
+  "semantic_condition_results": [
+    {
+      "check": "form_classification_scenario_or_symptom",
+      "question_id": null,
+      "status": "reviewed_with_postfix_source_and_quota_verification",
+      "details": [
+        "dev045",
+        "dev046",
+        "dev047",
+        "dev048",
+        "dev049",
+        "dev050",
+        "dev051",
+        "dev055",
+        "dev056",
+        "dev057",
+        "dev058",
+        "dev060",
+        "dev061",
+        "dev062",
+        "dev063",
+        "dev064",
+        "dev065",
+        "dev066",
+        "dev068",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev074",
+        "dev076",
+        "dev077",
+        "dev078",
+        "dev079",
+        "dev081",
+        "dev082",
+        "dev083",
+        "dev084",
+        "dev085",
+        "dev088"
+      ],
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "form_classification_condition_or_exception",
+      "question_id": null,
+      "status": "reviewed_with_postfix_source_and_quota_verification",
+      "details": [
+        "dev045",
+        "dev046",
+        "dev055",
+        "dev062",
+        "dev065",
+        "dev069",
+        "dev072",
+        "dev073",
+        "dev075",
+        "dev076",
+        "dev078",
+        "dev079",
+        "dev083",
+        "dev084",
+        "dev085",
+        "dev086",
+        "dev087"
+      ],
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "semantic_fact_duplicate_review",
+      "question_id": null,
+      "status": "reviewed_with_postfix_source_and_quota_verification",
+      "details": "机械同文同事实查重不覆盖同义表述、蕴含或同一句拆分；需对全部90题逐项审",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev021",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev022",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev022",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev023",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev023",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev023",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev024",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev024",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev025",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev026",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev027",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev027",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "指定课程和检索后位置只在第一篇确定组件；第一篇不给两个凭据字段。第二篇不知道第8课用哪个组件。课程明确从空白创建，无需选择经典推理策略，对应新Agent小节。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev028",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev029",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "requested_old_revision_substance",
+      "question_id": "dev029",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "dev030版本差异未考过；dev029补文档细节；dev041第二问非重复元数据行为；dev043纯注入",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev030",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev030",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "requested_old_revision_substance",
+      "question_id": "dev030",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "dev030版本差异未考过；dev029补文档细节；dev041第二问非重复元数据行为；dev043纯注入",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev031",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "no_answer_search_terms_meaningful_and_neighbour_explanations",
+      "question_id": "dev031",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev032",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "product_specific_false_premise_is_directly_contradicted",
+      "question_id": "dev032",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev033",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev033",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev033",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev034",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev034",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev035",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev035",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev036",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev037",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev037",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev038",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev038",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "课程先拆来信的环节唯一确定参数提取器；课程未列这两个内置状态变量。节点页给状态和错误变量，却不能证明第6课先用了哪个组件。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev039",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev039",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "课程流程指定哪一个组件接回两条回复，第一篇只展示text接线，未列完整类型。第二篇提供六种类型，不说明第5课用哪个组件。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev040",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev041",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev041",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "requested_old_revision_substance",
+      "question_id": "dev041",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "dev030版本差异未考过；dev029补文档细节；dev041第二问非重复元数据行为；dev043纯注入",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev042",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev043",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "requested_old_revision_substance",
+      "question_id": "dev043",
+      "status": "old_repair_accepted_by_independent_reviewer",
+      "details": "dev030版本差异未考过；dev029补文档细节；dev041第二问非重复元数据行为；dev043纯注入",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev044",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev044",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "edition_answers_truly_differ",
+      "question_id": "dev044",
+      "status": "retained_legacy_outside_new_standard_scope",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev045",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev045",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev046",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev046",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev047",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev047",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev048",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev048",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev049",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev049",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev049",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev050",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev050",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev051",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev051",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev052",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev053",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev054",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev054",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev055",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev055",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev055",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "第一篇从400中的稳定code定位为应用模型配置，排除原样重试；第二问用“该处/该条目”指代第一步定位出的模型供应商，不直接给模型供应商标题。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev056",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev056",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev056",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "首篇由自动生成结构化问答需求定位LLM生成问答模板及问答模式；第二篇独有先分段、总结后生成配对的处理顺序及完整语法结构自然语言的适合性。明确不把SimpleQ&A表格直接转换流程混同自动生成。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev057",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev057",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev057",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "第二篇同时介绍内部和公开集成，创建权限、取密钥位置和环境变量都随模式不同；必须先用第一篇的HTTPS限制选分支，不能仅靠Notion这个名字跳页。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev058",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev058",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "第二篇列多种套餐额度，必须先从第一篇把取消付费后的计划解析成Sandbox，才能选中50 MB；同一篇再给出降级后超额旧数据的处理。不是从A跳转到某页面即宣称链式。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev059",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev060",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev061",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev062",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev063",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "no_answer_search_terms_meaningful_and_neighbour_explanations",
+      "question_id": "dev063",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev064",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "no_answer_search_terms_meaningful_and_neighbour_explanations",
+      "question_id": "dev064",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev065",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "product_specific_false_premise_is_directly_contradicted",
+      "question_id": "dev065",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev066",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev066",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "edition_answers_truly_differ",
+      "question_id": "dev066",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev067",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "missing_slot_ambiguity_is_real",
+      "question_id": "dev067",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev068",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev068",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev069",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "synonym_official_function_name_absence",
+      "question_id": "dev069",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "标题外的官方功能名也不得泄漏",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev070",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev070",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev071",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "numeric_confusable_similarity",
+      "question_id": "dev071",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev072",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev072",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev073",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "neighbor_difference_is_distinguishing_fact",
+      "question_id": "dev073",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev074",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev075",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev075",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev076",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev076",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev077",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev077",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev077",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "必须先从返回中的两个ID选出持久运行ID，再将该实体传给第二篇中的界面定位机制；第二篇新增精确搜索、逐节点追踪和原参数复现的操作，不能只回答导航到日志页。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev078",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev078",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "Chatflow篇是所问workflow_paused原流结束事件的来源，第一步产生form_token；后续本地附件引用和提交被拒绝后的令牌复用由第二篇补足。第一篇不能完成后续，第二篇未给workflow_paused结束事件名。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev079",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "chain_bridge_necessary_and_generic_distractors_relevant",
+      "question_id": "dev079",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "课程确定把正文与客户名交给模板，第二篇提供课程挑战所缺的兜底与嵌套取值语法；仅保留一题教程→节点。仍待独立必要性审核。",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev080",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev080",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev081",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev081",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev082",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev082",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev083",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev084",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev085",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev086",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "no_answer_search_terms_meaningful_and_neighbour_explanations",
+      "question_id": "dev086",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev087",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "product_specific_false_premise_is_directly_contradicted",
+      "question_id": "dev087",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev088",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "out_of_domain_is_adjacent_domain",
+      "question_id": "dev088",
+      "status": "verified_by_primary_after_independent_reject",
+      "details": null,
+      "evidence_file": "blueprint-amendments.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev089",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev089",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "edition_answers_truly_differ",
+      "question_id": "dev089",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev090",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "nugget_atomicity_independence_and_question_alignment",
+      "question_id": "dev090",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "missing_slot_ambiguity_is_real",
+      "question_id": "dev090",
+      "status": "accepted_by_independent_final_reviewer",
+      "details": null,
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "false_premise_operation_style",
+      "question_id": null,
+      "status": "reviewed_with_postfix_source_and_quota_verification",
+      "details": "至少1道新增错误前提题为操作句式；正则不能证明其产品前提确为错误",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    },
+    {
+      "check": "retrieval_single_original_query",
+      "question_id": null,
+      "status": "reviewed_with_postfix_source_and_quota_verification",
+      "details": "需独立执行每题原题一次检索，不传edition、不分解，保存前5与金标OR命中；本工具不运行或猜测召回",
+      "evidence_file": "semantic-review.json",
+      "note": "独立原始结论保留，主agent修复后的检查与真人/Claude最终审定区分。"
+    }
+  ],
+  "postfix_fact_deduplication": {
+    "scope": "旧20+新70共90题",
+    "original_duplicate": "dev035/dev059的跨轮保留",
+    "resolution": "保留dev035；059改返回模式+正文事件，原比较中的跨轮保留与无状态均移出vital/reference考点",
+    "exact_duplicates": [],
+    "primary_review_other_new_facts": "新59的四点均有不同原文；076新安装目标/权限事实不与其他题重复，原39 accept及另外5题仅收窄/OR补全，不新增同义事实",
+    "interpretation": "机械精确去重与逐事实语义比较结合，不声称字符串不同即无重复"
+  },
+  "question_forms": {
+    "independent_confirmed_examples_before_fixes": {
+      "author_tag_counts": {
+        "scenario_or_symptom": 33,
+        "condition_or_exception": 16
+      },
+      "independently_confirmed_scenario_or_symptom_examples": [
+        "dev045",
+        "dev046",
+        "dev047",
+        "dev048",
+        "dev049",
+        "dev050",
+        "dev051",
+        "dev052",
+        "dev055",
+        "dev057",
+        "dev058",
+        "dev061",
+        "dev062",
+        "dev068",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev074",
+        "dev077",
+        "dev078",
+        "dev083",
+        "dev085"
+      ],
+      "independently_confirmed_condition_or_exception_examples": [
+        "dev045",
+        "dev046",
+        "dev049",
+        "dev052",
+        "dev055",
+        "dev057",
+        "dev058",
+        "dev062",
+        "dev068",
+        "dev072",
+        "dev073",
+        "dev075",
+        "dev076",
+        "dev078",
+        "dev083",
+        "dev085"
+      ],
+      "decision": "实际明确例子分别22/16，超过14/7；不限于作者form_tags。问法包含症状、动作、短问、比较、条件、流程与澄清，不只是顿号列问。"
+    },
+    "postfix_note": "既有22场景/16条件示例的所指需求仍成立；新增076为错误目标症状、088为LangGraph/RAG操作需求。作者标签33/17另列机械统计，不把标签数等同独立语义数。"
+  },
+  "database_verification": {
+    "status": "pass",
+    "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+    "counts": {
+      "documents": 182,
+      "parent_chunks": 1252,
+      "chunks": 2090,
+      "chunk_embeddings": 2090
+    },
+    "all_document_content_hashes_match": true,
+    "all_child_text_ids_parent_links_match": true,
+    "all_parent_text_ids_match": true,
+    "embedding_model": "qwen3-embedding-0.6b",
+    "verification_method": "只读数据库与固定语料生产清洗/分块结果全量比对"
+  },
+  "final_input_sha256": {
+    "questions.jsonl": "13dd8b7e06ddaa156bf8a39289a0f0eba110fe0ccdafa90926836f786ccce8b2",
+    "evidence.json": "2473f94d43c7636a8f632b76731d91a442cac896f7f601f4cd792b0bb1089a45",
+    "blueprint-amendments.json": "e22670df4c2677ea2ce1e673bdde669ba5c004832f735e7f7c0ec12f1bf44b78"
+  },
+  "human_or_Claude_review_complete": false,
+  "full_system_run": false,
+  "paid_llm_calls": 0,
+  "scoring_changed": false
+}

@@ -1,0 +1,13 @@
+{
+  "source": "https://api.github.com/repos/langgenius/dify-docs/git/trees/c80a31868611b673bd77725a6310c685068a585e?recursive=1",
+  "commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "public_github_blob_hashes_match": 182,
+  "database_documents_match": 182,
+  "database_chunks_match": 2090,
+  "database_parents_match": 1252,
+  "model_calls": 0,
+  "database_writes": 0,
+  "outbound_experiment_inputs": "仅本仓库CC BY 4.0开发题与上述公开Dify语料，以及现有固定提示词",
+  "model_destination": "https://api.deepseek.com/chat/completions",
+  "authorization": "作者2026-10-22要求实际跑消融；AGENTS.md权限表允许每日10元内真实调用DeepSeek"
+}

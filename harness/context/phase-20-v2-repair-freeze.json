@@ -1,0 +1,19 @@
+{
+  "version": "v2-runtime-repair-20261020",
+  "source_git_base": "159ab9955cf1c1aeb20c739681df37b88d93f184",
+  "previous_frozen_sha256": "687fddc730e9aadf37878c96b00d62ebcc10806d7414e9ef682df947b72c8c31",
+  "previous_frozen_preserved": true,
+  "prompt_unchanged": true,
+  "reuse_existing_labels": 36,
+  "historical_errors": 18,
+  "relationship": "judge/evaluate/prompt字节不变；仅运行保护与审计修复；新提交承接旧运行来源，不改写旧冻结记录。",
+  "frozen_files": {
+    "backend/eval/judge.py": "99b5f110d92459a3921accfbc22104bc881d3603c6fcc0a17def292dac847237",
+    "backend/eval/evaluate.py": "58c7938115ef4ae5572c3da2a1b7b66dce51d325a5148c948b7aec119035e62b",
+    "backend/eval/prompts/judge_v2.md": "6005863ef1f57e8e88a229d09d621adbded91c21d9171f2020dede0e02295e95",
+    "backend/scripts/rejudge.py": "6c345fb0b1fcad014484180fb863bab1143c58b38c63aebe9ecce83ac57d8167",
+    "backend/scripts/rejudge_artifacts.py": "a714b6e4a8ed6eb58f85a355a535cf73ca73b161e83421a214d18684c81bcb24",
+    "backend/scripts/audit_rejudge.py": "9b9cb4802c69f6284f6119c26539e7ab480764ef8c9f39a16a89da2978b0f9d1"
+  },
+  "human_calibrated": false
+}

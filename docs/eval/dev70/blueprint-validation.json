@@ -1,0 +1,1622 @@
+{
+  "mode": "blueprint",
+  "method": "独立静态机械检查，未运行RAG、未读取受保护题集",
+  "input_count": 46,
+  "new46_present": 46,
+  "checks": [
+    {
+      "check": "unique_ids",
+      "scope": "input",
+      "status": "pass",
+      "actual": [
+        "dev045",
+        "dev046",
+        "dev047",
+        "dev048",
+        "dev049",
+        "dev050",
+        "dev051",
+        "dev052",
+        "dev053",
+        "dev054",
+        "dev055",
+        "dev056",
+        "dev057",
+        "dev058",
+        "dev059",
+        "dev060",
+        "dev061",
+        "dev062",
+        "dev063",
+        "dev064",
+        "dev065",
+        "dev066",
+        "dev067",
+        "dev068",
+        "dev069",
+        "dev070",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev074",
+        "dev075",
+        "dev076",
+        "dev077",
+        "dev078",
+        "dev079",
+        "dev080",
+        "dev081",
+        "dev082",
+        "dev083",
+        "dev084",
+        "dev085",
+        "dev086",
+        "dev087",
+        "dev088",
+        "dev089",
+        "dev090"
+      ],
+      "target": "id唯一"
+    },
+    {
+      "check": "corpus_count",
+      "scope": "source",
+      "status": "pass",
+      "actual": 182,
+      "target": 182
+    },
+    {
+      "check": "new46_count",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 46,
+      "target": 46
+    },
+    {
+      "check": "old20_for_90_question_dedup",
+      "scope": "input+old20",
+      "status": "pass",
+      "actual": 20,
+      "target": "明确提供dev001–020（不自行搜索受保护路径）"
+    },
+    {
+      "check": "batch1_groups",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": 10,
+        "multi": 8,
+        "refusal": 3,
+        "ambiguity": 2
+      },
+      "target": {
+        "single": 10,
+        "multi": 8,
+        "refusal": 3,
+        "ambiguity": 2
+      }
+    },
+    {
+      "check": "batch1_subtypes",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": {
+          "synonym": 3,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 2,
+          "edition_single": 1
+        },
+        "multi": {
+          "chain": 4,
+          "parallel_compare": 2,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 2,
+          "false_premise": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      },
+      "target": {
+        "single": {
+          "synonym": 3,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 2,
+          "edition_single": 1
+        },
+        "multi": {
+          "chain": 4,
+          "parallel_compare": 2,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 2,
+          "false_premise": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      }
+    },
+    {
+      "check": "batch1_three_asks",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "detected_ids": [],
+        "non_scattered": []
+      },
+      "target": "最多2且仅scattered；问数须另审"
+    },
+    {
+      "check": "batch2_groups",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": 9,
+        "multi": 9,
+        "refusal": 3,
+        "ambiguity": 2
+      },
+      "target": {
+        "single": 9,
+        "multi": 9,
+        "refusal": 3,
+        "ambiguity": 2
+      }
+    },
+    {
+      "check": "batch2_subtypes",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "single": {
+          "synonym": 2,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 1,
+          "edition_single": 2
+        },
+        "multi": {
+          "chain": 3,
+          "parallel_compare": 4,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 1,
+          "false_premise": 1,
+          "out_of_domain": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      },
+      "target": {
+        "single": {
+          "synonym": 2,
+          "numeric_table": 2,
+          "neighbor": 2,
+          "short": 1,
+          "edition_single": 2
+        },
+        "multi": {
+          "chain": 3,
+          "parallel_compare": 4,
+          "scattered_ordered": 2
+        },
+        "refusal": {
+          "no_answer_in_corpus": 1,
+          "false_premise": 1,
+          "out_of_domain": 1
+        },
+        "ambiguity": {
+          "edition_ambiguous": 1,
+          "missing_context": 1
+        }
+      }
+    },
+    {
+      "check": "batch2_three_asks",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {
+        "detected_ids": [],
+        "non_scattered": []
+      },
+      "target": "最多2且仅scattered；问数须另审"
+    },
+    {
+      "check": "new46_document_reuse_including_or",
+      "scope": "new46",
+      "status": "pass",
+      "actual": {},
+      "target": "每篇<=1"
+    },
+    {
+      "check": "new70_document_reuse_including_or",
+      "scope": "new70",
+      "status": "pending_scope",
+      "actual": {},
+      "target": "每篇<=2"
+    },
+    {
+      "check": "new70_document_coverage",
+      "scope": "new70",
+      "status": "pending_scope",
+      "actual": 69,
+      "target": ">=50不同原文（含等价来源）"
+    },
+    {
+      "check": "new46_nodes_documents",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 7,
+      "target": "<=8",
+      "details": [
+        "self-host/use-dify/nodes/http-request",
+        "self-host/use-dify/nodes/llm",
+        "self-host/use-dify/nodes/loop",
+        "self-host/use-dify/nodes/start",
+        "self-host/use-dify/nodes/template",
+        "self-host/use-dify/nodes/tools",
+        "self-host/use-dify/nodes/user-input"
+      ]
+    },
+    {
+      "check": "new46_low_coverage_documents",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 27,
+      "target": ">=12（每篇去重，含等价）",
+      "details": {
+        "cloud/use-dify/workspace/team-members-management": "工作空间管理",
+        "self-host/deploy/advanced-deployments/start-the-frontend-docker-container": "部署配置",
+        "self-host/use-dify/workspace/readme": "工作空间管理",
+        "api-reference/guides/errors": "API参考",
+        "self-host/use-dify/workspace/model-providers": "模型接入",
+        "cloud/use-dify/workspace/model-providers": "模型接入",
+        "self-host/deploy/troubleshooting/integrations": "部署配置",
+        "cloud/use-dify/workspace/subscription-management": "云版计费",
+        "api-reference/guides/completion": "API参考",
+        "api-reference/guides/chat": "API参考",
+        "self-host/use-dify/publish/webapp/workflow-webapp": "应用发布",
+        "self-host/use-dify/publish/webapp/chatflow-webapp": "应用发布",
+        "self-host/deploy/advanced-deployments/local-source-code": "部署配置",
+        "self-host/deploy/configuration/environments": "部署配置",
+        "self-host/use-dify/publish/publish-to-marketplace": "应用发布",
+        "api-reference/guides/workflow": "API参考",
+        "api-reference/guides/chatflow": "API参考",
+        "api-reference/guides/human-input-flow": "API参考",
+        "self-host/use-dify/workspace/tools": "工作空间管理",
+        "cloud/use-dify/workspace/tools": "工作空间管理",
+        "self-host/deploy/troubleshooting/common-issues": "部署配置",
+        "self-host/deploy/quick-start/faqs": "部署配置",
+        "self-host/deploy/troubleshooting/weaviate-v4-migration": "部署配置",
+        "self-host/use-dify/workspace/app-management": "工作空间管理",
+        "cloud/use-dify/workspace/app-management": "工作空间管理",
+        "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension": "工作空间管理",
+        "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension": "工作空间管理"
+      }
+    },
+    {
+      "check": "new46_form_tag_scenario_or_symptom",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 38,
+      "target": 14,
+      "details": {
+        "ids": [
+          "dev045",
+          "dev046",
+          "dev047",
+          "dev048",
+          "dev049",
+          "dev050",
+          "dev051",
+          "dev055",
+          "dev056",
+          "dev057",
+          "dev058",
+          "dev059",
+          "dev060",
+          "dev061",
+          "dev062",
+          "dev063",
+          "dev064",
+          "dev065",
+          "dev066",
+          "dev068",
+          "dev069",
+          "dev070",
+          "dev071",
+          "dev072",
+          "dev073",
+          "dev075",
+          "dev076",
+          "dev077",
+          "dev078",
+          "dev079",
+          "dev080",
+          "dev081",
+          "dev082",
+          "dev083",
+          "dev084",
+          "dev085",
+          "dev086",
+          "dev087"
+        ],
+        "limitation": "仅计声明；题干是否真实体现该形式需独立审查"
+      }
+    },
+    {
+      "check": "new46_form_tag_condition_or_exception",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 17,
+      "target": 7,
+      "details": {
+        "ids": [
+          "dev045",
+          "dev046",
+          "dev055",
+          "dev062",
+          "dev065",
+          "dev068",
+          "dev069",
+          "dev072",
+          "dev073",
+          "dev075",
+          "dev076",
+          "dev078",
+          "dev079",
+          "dev083",
+          "dev084",
+          "dev085",
+          "dev087"
+        ],
+        "limitation": "仅计声明；题干是否真实体现该形式需独立审查"
+      }
+    },
+    {
+      "check": "new46_bridge_types",
+      "scope": "new46",
+      "status": "pass",
+      "actual": [
+        "API响应持久化标识→控制台精确定位与原参数重演",
+        "LLM生成模板→问答模式→生成顺序与自然语言前提",
+        "教程数据交接→格式语法及缺失值处理",
+        "暂停事件产物→表单状态机与恢复关联",
+        "订阅状态变更→套餐实体→额度及超额旧数据行为",
+        "诊断标识→配置修复→凭据生命周期",
+        "部署协议条件→可用授权模式→对应权限与凭据流程"
+      ],
+      "target": ">=4种声明；语义分类另审"
+    },
+    {
+      "check": "new46_course_to_node",
+      "scope": "new46",
+      "status": "pass",
+      "actual": 1,
+      "target": "<=1"
+    },
+    {
+      "check": "document_fact_exact_duplicates",
+      "scope": "input+old20",
+      "status": "pass",
+      "actual": [],
+      "target": "0（仅逐字归一化）"
+    },
+    {
+      "check": "unmentioned_old_questions_preserved",
+      "scope": "old24",
+      "status": "pass",
+      "actual": [],
+      "target": "未点名旧题逐字段保持"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev045",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev045",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev046",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev046",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev047",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev047",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev048",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev048",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev049",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev049",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/team-members-management <=> self-host/use-dify/workspace/team-members-management"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev050",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev050",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev051",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev051",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev052",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev052",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev053",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev053",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev054",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev054",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/readme <=> self-host/use-dify/workspace/readme"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev055",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev055",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/model-providers <=> self-host/use-dify/workspace/model-providers"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev055",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "诊断标识→配置修复→凭据生命周期",
+        "bridge_explanation": "第一篇从400中的稳定code定位为应用模型配置，排除原样重试；第二问用“该处/该条目”指代第一步定位出的模型供应商，不直接给模型供应商标题。",
+        "second_document_answer_keywords": [
+          "所有者",
+          "管理员",
+          "工作空间",
+          "API密钥",
+          "自定义模型",
+          "删除"
+        ],
+        "generic_distractor_documents": [
+          "self-host/use-dify/workspace/plugins",
+          "self-host/use-dify/workspace/tools"
+        ],
+        "semantic_status": "plausible_substantive_bridge_requires_independent_review",
+        "first_document": "api-reference/guides/errors",
+        "second_document": "cloud/use-dify/workspace/model-providers",
+        "dependency": "第一篇从400中的稳定code定位为应用模型配置，排除原样重试；第二问用“该处/该条目”指代第一步定位出的模型供应商，不直接给模型供应商标题。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev056",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev056",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods <=> self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+          "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev056",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "LLM生成模板→问答模式→生成顺序与自然语言前提",
+        "bridge_explanation": "首篇由自动生成结构化问答需求定位LLM生成问答模板及问答模式；第二篇独有先分段、总结后生成配对的处理顺序及完整语法结构自然语言的适合性。明确不把SimpleQ&A表格直接转换流程混同自动生成。",
+        "second_document_answer_keywords": [
+          "分段",
+          "总结内容",
+          "自动生成",
+          "Q&A匹配对",
+          "完整语法结构",
+          "自然语言"
+        ],
+        "generic_distractor_documents": [
+          "self-host/use-dify/knowledge/test-retrieval",
+          "self-host/use-dify/build/chatbot"
+        ],
+        "semantic_status": "substantive_processing_order_bridge_pending_independent_review",
+        "first_document": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+        "second_document": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+        "dependency": "首篇由自动生成结构化问答需求定位LLM生成问答模板及问答模式；第二篇独有先分段、总结后生成配对的处理顺序及完整语法结构自然语言的适合性。明确不把SimpleQ&A表格直接转换流程混同自动生成。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev057",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev057",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion <=> self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev057",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "部署协议条件→可用授权模式→对应权限与凭据流程",
+        "bridge_explanation": "第二篇同时介绍内部和公开集成，创建权限、取密钥位置和环境变量都随模式不同；必须先用第一篇的HTTPS限制选分支，不能仅靠Notion这个名字跳页。",
+        "second_document_answer_keywords": [
+          "内部集成",
+          "工作空间所有者",
+          ".env",
+          "NOTION_INTEGRATION_TYPE",
+          "NOTION_INTERNAL_SECRET",
+          "重启Dify"
+        ],
+        "generic_distractor_documents": [
+          "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+          "self-host/use-dify/workspace/api-extension/api-extension"
+        ],
+        "semantic_status": "substantive_bridge_source_reviewed_pending_independent_review",
+        "first_document": "self-host/deploy/troubleshooting/integrations",
+        "second_document": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+        "dependency": "第二篇同时介绍内部和公开集成，创建权限、取密钥位置和环境变量都随模式不同；必须先用第一篇的HTTPS限制选分支，不能仅靠Notion这个名字跳页。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev058",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev058",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev058",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "订阅状态变更→套餐实体→额度及超额旧数据行为",
+        "bridge_explanation": "第二篇列多种套餐额度，必须先从第一篇把取消付费后的计划解析成Sandbox，才能选中50 MB；同一篇再给出降级后超额旧数据的处理。不是从A跳转到某页面即宣称链式。",
+        "second_document_answer_keywords": [
+          "50 MB",
+          "现有数据",
+          "新套餐上限",
+          "不会被删除",
+          "正常检索"
+        ],
+        "generic_distractor_documents": [
+          "cloud/use-dify/knowledge/knowledge-request-rate-limit",
+          "self-host/use-dify/knowledge/readme"
+        ],
+        "semantic_status": "substantive_bridge_source_reviewed_pending_independent_review",
+        "first_document": "cloud/use-dify/workspace/subscription-management",
+        "second_document": "cloud/use-dify/knowledge/knowledge-storage-limit",
+        "dependency": "第二篇列多种套餐额度，必须先从第一篇把取消付费后的计划解析成Sandbox，才能选中50 MB；同一篇再给出降级后超额旧数据的处理。不是从A跳转到某页面即宣称链式。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev059",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev059",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev060",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev060",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev061",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev061",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev062",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev062",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev063",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev063",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev064",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev064",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev065",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev065",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev066",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev066",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration <=> self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev067",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev067",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents <=> self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/logs <=> self-host/use-dify/monitor/logs"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "API响应持久化标识→控制台精确定位与原参数重演",
+        "bridge_explanation": "必须先从返回中的两个ID选出持久运行ID，再将该实体传给第二篇中的界面定位机制；第二篇新增精确搜索、逐节点追踪和原参数复现的操作，不能只回答导航到日志页。",
+        "second_document_answer_keywords": [
+          "运行ID",
+          "日志",
+          "输入或输出",
+          "逐节点的执行追踪",
+          "按此参数测试",
+          "编辑器"
+        ],
+        "generic_distractor_documents": [
+          "self-host/use-dify/debug/history-and-logs",
+          "cloud/use-dify/monitor/analysis"
+        ],
+        "semantic_status": "substantive_bridge_source_reviewed_pending_independent_review",
+        "first_document": "api-reference/guides/workflow",
+        "second_document": "self-host/use-dify/monitor/logs",
+        "dependency": "必须先从返回中的两个ID选出持久运行ID，再将该实体传给第二篇中的界面定位机制；第二篇新增精确搜索、逐节点追踪和原参数复现的操作，不能只回答导航到日志页。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "暂停事件产物→表单状态机与恢复关联",
+        "bridge_explanation": "Chatflow篇是所问workflow_paused原流结束事件的来源，第一步产生form_token；后续本地附件引用和提交被拒绝后的令牌复用由第二篇补足。第一篇不能完成后续，第二篇未给workflow_paused结束事件名。",
+        "second_document_answer_keywords": [
+          "本地文件",
+          "上传文件",
+          "id",
+          "upload_file_id",
+          "form_token",
+          "重新提交"
+        ],
+        "generic_distractor_documents": [
+          "api-reference/guides/workflow",
+          "api-reference/guides/streaming"
+        ],
+        "semantic_status": "event_names_and_token_state_bridge_pending_independent_review",
+        "first_document": "api-reference/guides/chatflow",
+        "second_document": "api-reference/guides/human-input-flow",
+        "dependency": "Chatflow篇是所问workflow_paused原流结束事件的来源，第一步产生form_token；后续本地附件引用和提交被拒绝后的令牌复用由第二篇补足。第一篇不能完成后续，第二篇未给workflow_paused结束事件名。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "chain_bridge_metadata",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "bridge_type": "教程数据交接→格式语法及缺失值处理",
+        "bridge_explanation": "课程确定把正文与客户名交给模板，第二篇提供课程挑战所缺的兜底与嵌套取值语法；仅保留一题教程→节点。仍待独立必要性审核。",
+        "second_document_answer_keywords": [
+          "点号",
+          "括号",
+          "嵌套对象",
+          "数组元素",
+          "default",
+          "默认值"
+        ],
+        "generic_distractor_documents": [
+          "self-host/use-dify/nodes/llm",
+          "self-host/use-dify/nodes/answer"
+        ],
+        "semantic_status": "tutorial_node_allowed_one_pending_review",
+        "first_document": "learn/tutorials/workflow-101/lesson-09",
+        "second_document": "self-host/use-dify/nodes/template",
+        "dependency": "课程确定把正文与客户名交给模板，第二篇提供课程挑战所缺的兜底与嵌套取值语法；仅保留一题教程→节点。仍待独立必要性审核。"
+      },
+      "target": "列明起点、终点和桥接类型；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/integrations/integrate-arize <=> self-host/use-dify/monitor/integrations/integrate-arize",
+          "cloud/use-dify/monitor/integrations/integrate-phoenix <=> self-host/use-dify/monitor/integrations/integrate-phoenix"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/integrations/integrate-langfuse <=> self-host/use-dify/monitor/integrations/integrate-langfuse",
+          "cloud/use-dify/monitor/integrations/integrate-langsmith <=> self-host/use-dify/monitor/integrations/integrate-langsmith"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/tools <=> self-host/use-dify/workspace/tools"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/app-management <=> self-host/use-dify/workspace/app-management"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/connect-external-knowledge-base <=> self-host/use-dify/knowledge/connect-external-knowledge-base",
+          "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension <=> self-host/use-dify/workspace/api-extension/external-data-tool-api-extension"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    }
+  ],
+  "semantic_review": [
+    {
+      "check": "form_classification_scenario_or_symptom",
+      "question_id": null,
+      "status": "requires_independent_semantic_review",
+      "details": [
+        "dev045",
+        "dev046",
+        "dev047",
+        "dev048",
+        "dev049",
+        "dev050",
+        "dev051",
+        "dev055",
+        "dev056",
+        "dev057",
+        "dev058",
+        "dev059",
+        "dev060",
+        "dev061",
+        "dev062",
+        "dev063",
+        "dev064",
+        "dev065",
+        "dev066",
+        "dev068",
+        "dev069",
+        "dev070",
+        "dev071",
+        "dev072",
+        "dev073",
+        "dev075",
+        "dev076",
+        "dev077",
+        "dev078",
+        "dev079",
+        "dev080",
+        "dev081",
+        "dev082",
+        "dev083",
+        "dev084",
+        "dev085",
+        "dev086",
+        "dev087"
+      ]
+    },
+    {
+      "check": "form_classification_condition_or_exception",
+      "question_id": null,
+      "status": "requires_independent_semantic_review",
+      "details": [
+        "dev045",
+        "dev046",
+        "dev055",
+        "dev062",
+        "dev065",
+        "dev068",
+        "dev069",
+        "dev072",
+        "dev073",
+        "dev075",
+        "dev076",
+        "dev078",
+        "dev079",
+        "dev083",
+        "dev084",
+        "dev085",
+        "dev087"
+      ]
+    },
+    {
+      "check": "semantic_fact_duplicate_review",
+      "question_id": null,
+      "status": "requires_independent_semantic_review",
+      "details": "机械同文同事实查重不覆盖同义表述、蕴含或同一句拆分；需对全部90题逐项审"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev049",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev054",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev055",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev056",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev057",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev066",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev075",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev076",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev077",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev080",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev081",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev082",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev089",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    },
+    {
+      "check": "twin_fact_equivalence_or_edition_difference",
+      "question_id": "dev090",
+      "status": "requires_independent_semantic_review",
+      "details": "全文不同也可能题点等价；须比较本题事实，不能据文件差异判版本题"
+    }
+  ],
+  "summary": {
+    "pass": 118,
+    "pending_scope": 2
+  },
+  "semantic_review_complete": false,
+  "mechanical_checks_complete": false,
+  "limitations": [
+    "不证明独立事实、题干要求、同义官方名、bridge必要性、近邻合理性、领域相邻性、答案正确性或语义去重",
+    "form_tags、bridge_type只是可审查声明，未因字段存在宣称语义通过",
+    "未运行真实单次检索、未验证数据库、未计算正式评测分数；读取原文只限冻结182篇",
+    "静态文件不能证明蓝图实际先于新题生成；该顺序需Git提交/执行日志证据"
+  ],
+  "external_semantic_review_evidence": [
+    {
+      "path": "/Users/ke.chen/開発/grounded_rag/docs/eval/dev70/blueprint-review.json",
+      "sha256": "2dcb1ed0f8295f168326eefd4606d746570172b2c20558d2c4c380f8d1e14480",
+      "bytes": 99587,
+      "status": "external_evidence_attached_not_auto_accepted"
+    }
+  ],
+  "status": "passed_before_formal_question_writing",
+  "blueprint_sha256": "9d12377f9d3e4c64321a53bb6796b75f627a852ca73a71207f38e263a53192cf",
+  "semantic_review_file": "blueprint-review.json",
+  "internal_semantic_review": {
+    "accept": 46,
+    "reject": 0,
+    "reviewed_source_snapshot_sha256": "7b4f049a447988ce05925c6786531f8400222f0815921690cb71e44f7a31f976",
+    "normalization": "仅补chain.first_document/second_document/dependency，来自已审gold_doc_groups顺序与bridge_explanation；不改事实/原文/题意/配额；少覆盖目录按机械工具精确映射统计（27篇），不泛算整个build目录"
+  },
+  "new70_planned_global_supplement": {
+    "unique_gold_documents": 95,
+    "max_document_uses": 2,
+    "excess": {},
+    "passed": true
+  },
+  "blueprint_temporal_gate": {
+    "existing_question_count_at_gate": 24,
+    "new_formal_questions_written": 0,
+    "evidence": "本次蓝图提交先于正式写题agent派发；后续commit记录可核对"
+  },
+  "author_or_claude_review_complete": false
+}

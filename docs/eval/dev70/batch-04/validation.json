@@ -1,0 +1,2317 @@
+{
+  "date": "2026-10-20",
+  "scope": "当前批次逐题检查；全局配额/复用检查见../validation.json",
+  "question_count": 23,
+  "summary": {
+    "pass": 228
+  },
+  "checks": [
+    {
+      "check": "source_document_exists",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "synonym_no_title_trigram",
+      "scope": "dev068",
+      "status": "pass",
+      "actual": {},
+      "target": "与182篇title+全部小标题无连续3字重合；显式白名单除外"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": 3,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "synonym_no_title_trigram",
+      "scope": "dev069",
+      "status": "pass",
+      "actual": {},
+      "target": "与182篇title+全部小标题无连续3字重合；显式白名单除外"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": 3,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 6,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "numeric_answer_literal_leak",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "literals": [
+          "10",
+          "15"
+        ],
+        "leaks": []
+      },
+      "target": "答案数值/字段/枚举均不出现在题干"
+    },
+    {
+      "check": "numeric_three_confusables",
+      "scope": "dev070",
+      "status": "pass",
+      "actual": {
+        "count": 3,
+        "errors": []
+      },
+      "target": ">=3不同数字/字段/相似行，均有source"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 5,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "numeric_answer_literal_leak",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "literals": [
+          "二进制",
+          "文件变量"
+        ],
+        "leaks": []
+      },
+      "target": "答案数值/字段/枚举均不出现在题干"
+    },
+    {
+      "check": "numeric_three_confusables",
+      "scope": "dev071",
+      "status": "pass",
+      "actual": {
+        "count": 3,
+        "errors": []
+      },
+      "target": ">=3不同数字/字段/相似行，均有source"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 6,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "neighbor_contrast_sources",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": {
+        "source_count": 2,
+        "distractor_docs": [
+          "self-host/use-dify/nodes/parameter-extractor"
+        ]
+      },
+      "target": "差异+金标与干扰原句"
+    },
+    {
+      "check": "neighbor_no_two_candidates",
+      "scope": "dev072",
+      "status": "pass",
+      "actual": [],
+      "target": "题干不同时列两个候选官方名称"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "neighbor_contrast_sources",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": {
+        "source_count": 2,
+        "distractor_docs": [
+          "self-host/use-dify/nodes/iteration"
+        ]
+      },
+      "target": "差异+金标与干扰原句"
+    },
+    {
+      "check": "neighbor_no_two_candidates",
+      "scope": "dev073",
+      "status": "pass",
+      "actual": [],
+      "target": "题干不同时列两个候选官方名称"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "short_has_vital",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=1"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev074",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline <=> self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev075",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/plugins <=> self-host/use-dify/workspace/plugins"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=2（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev076",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": 3,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "chain_second_keywords",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": {
+        "keywords": [
+          "沙箱",
+          "sandbox",
+          "SANDBOX_*",
+          "SSRF",
+          "CODE_*"
+        ],
+        "leaks": [],
+        "absent_from_second": [],
+        "title_leak": false
+      },
+      "target": ">=5、在第二篇、题干不含关键词/第二篇标题"
+    },
+    {
+      "check": "chain_generic_distractors",
+      "scope": "dev077",
+      "status": "pass",
+      "actual": [
+        "self-host/deploy/troubleshooting/docker-issues",
+        "self-host/deploy/advanced-deployments/local-source-code"
+      ],
+      "target": ">=2篇真实泛词干扰来源"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "chain_second_keywords",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": {
+        "keywords": [
+          "直接回复",
+          "{{variable_name}}",
+          "渐进式响应",
+          "固定文本",
+          "流式更新"
+        ],
+        "leaks": [],
+        "absent_from_second": [],
+        "title_leak": false
+      },
+      "target": ">=5、在第二篇、题干不含关键词/第二篇标题"
+    },
+    {
+      "check": "chain_generic_distractors",
+      "scope": "dev078",
+      "status": "pass",
+      "actual": [
+        "self-host/use-dify/nodes/output",
+        "self-host/use-dify/build/chatbot"
+      ],
+      "target": ">=2篇真实泛词干扰来源"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 6,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "chain_second_keywords",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": {
+        "keywords": [
+          "点号",
+          "括号",
+          "嵌套对象",
+          "数组元素",
+          "default",
+          "默认值"
+        ],
+        "leaks": [],
+        "absent_from_second": [],
+        "title_leak": false
+      },
+      "target": ">=5、在第二篇、题干不含关键词/第二篇标题"
+    },
+    {
+      "check": "chain_generic_distractors",
+      "scope": "dev079",
+      "status": "pass",
+      "actual": [
+        "self-host/use-dify/nodes/llm",
+        "self-host/use-dify/nodes/answer"
+      ],
+      "target": ">=2篇真实泛词干扰来源"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/integrations/integrate-arize <=> self-host/use-dify/monitor/integrations/integrate-arize",
+          "cloud/use-dify/monitor/integrations/integrate-phoenix <=> self-host/use-dify/monitor/integrations/integrate-phoenix"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": 3,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev080",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 6,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/monitor/integrations/integrate-langfuse <=> self-host/use-dify/monitor/integrations/integrate-langfuse",
+          "cloud/use-dify/monitor/integrations/integrate-langsmith <=> self-host/use-dify/monitor/integrations/integrate-langsmith"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev081",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 8,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/tools <=> self-host/use-dify/workspace/tools"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev082",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 7,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev083",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 8,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": 3,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 8,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "scattered_three_parents",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "all_parents": [
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p1",
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p10",
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p15",
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p2",
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p3",
+          "self-host/deploy/troubleshooting/weaviate-v4-migration#p31"
+        ],
+        "minimum_required_across_or_choices": 3
+      },
+      "target": ">=3不同必需父块，any_of不能膨胀计数（独立事实另审）"
+    },
+    {
+      "check": "scattered_long_cleaned_document",
+      "scope": "dev084",
+      "status": "pass",
+      "actual": {
+        "self-host/deploy/troubleshooting/weaviate-v4-migration": 16351
+      },
+      "target": "来源清洗文>=6000字符"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_count",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": 4,
+      "target": ">=3（独立性另审）"
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 4,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "scattered_three_parents",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "all_parents": [
+          "self-host/use-dify/build/new-agent/build#p10",
+          "self-host/use-dify/build/new-agent/build#p11",
+          "self-host/use-dify/build/new-agent/build#p12",
+          "self-host/use-dify/build/new-agent/build#p9"
+        ],
+        "minimum_required_across_or_choices": 4
+      },
+      "target": ">=3不同必需父块，any_of不能膨胀计数（独立事实另审）"
+    },
+    {
+      "check": "scattered_long_cleaned_document",
+      "scope": "dev085",
+      "status": "pass",
+      "actual": {
+        "self-host/use-dify/build/new-agent/build": 6225
+      },
+      "target": "来源清洗文>=6000字符"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 3,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "no_answer_ten_zero_terms",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": {
+        "CVE": [],
+        "漏洞报告": [],
+        "漏洞赏金": [],
+        "漏洞奖励": [],
+        "security.txt": [],
+        "bug bounty": [],
+        "漏洞受理": [],
+        "响应时限": [],
+        "安全热线": [],
+        "补丁承诺": []
+      },
+      "target": ">=10不同近似词原文全文0命中"
+    },
+    {
+      "check": "no_answer_three_neighbours",
+      "scope": "dev086",
+      "status": "pass",
+      "actual": [
+        {
+          "document_id": "self-host/use-dify/workspace/plugins",
+          "reviewed_complete_cleaned_document": true,
+          "content_boundary": "说明市场审核/发布者维护和安装更新权限，未承诺漏洞响应或补丁交付期限。",
+          "source": {
+            "document_id": "self-host/use-dify/workspace/plugins",
+            "heading_path": "集成 > 安装集成",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/plugins.mdx#L33-L33",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/plugins.mdx",
+            "raw_line_start": 33,
+            "raw_line_end": 33,
+            "original_excerpt": "- [**市场**](https://marketplace.dify.ai/)：来自 Dify、合作伙伴和社区开发者的集成。每项集成都在发布前经过审核和测试，之后由发布者维护。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/workspace/plugins#c2",
+              "excerpt": "- **市场**：来自 Dify、合作伙伴和社区开发者的集成。每项集成都在发布前经过审核和测试，之后由发布者维护。\n",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/workspace/plugins#p2",
+              "heading_path": "集成 > 安装集成",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 493,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+            "source_file_sha256": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8",
+            "reconstruct_verified": true
+          }
+        },
+        {
+          "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+          "reviewed_complete_cleaned_document": true,
+          "content_boundary": "说明应用模板审核与Pending撤回流程，不给社区集成安全漏洞时限。",
+          "source": {
+            "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+            "heading_path": "发布应用到市场 > 提交模板",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/publish-to-marketplace.mdx#L15-L15",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/publish/publish-to-marketplace.mdx",
+            "raw_line_start": 15,
+            "raw_line_end": 15,
+            "original_excerpt": "提交后，模板进入 **Pending** 状态。通过审核后，即可发布到市场。",
+            "direct_evidence": {
+              "chunk_id": "self-host/use-dify/publish/publish-to-marketplace#c1",
+              "excerpt": "提交后，模板进入 **Pending** 状态。通过审核后，即可发布到市场。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/use-dify/publish/publish-to-marketplace#p1",
+              "heading_path": "发布应用到市场 > 提交模板",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 112,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+            "source_file_sha256": "b2dd8afc0e9e1f51af6cd9083510e622a170e4260adcb5f52289758daa9276ea",
+            "reconstruct_verified": true
+          }
+        },
+        {
+          "document_id": "self-host/deploy/overview",
+          "reviewed_complete_cleaned_document": true,
+          "content_boundary": "提供社区提问和反馈渠道，没有官方漏洞受理时长承诺。",
+          "source": {
+            "document_id": "self-host/deploy/overview",
+            "heading_path": "部署 Dify",
+            "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/overview.mdx#L43-L43",
+            "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/deploy/overview.mdx",
+            "raw_line_start": 43,
+            "raw_line_end": 43,
+            "original_excerpt": "向社区提问，或反馈你遇到的问题。",
+            "direct_evidence": {
+              "chunk_id": "self-host/deploy/overview#c0",
+              "excerpt": "向社区提问，或反馈你遇到的问题。",
+              "contains_excerpt": true
+            },
+            "supporting_parent": {
+              "parent_id": "self-host/deploy/overview#p0",
+              "heading_path": "部署 Dify",
+              "contains_excerpt": true
+            },
+            "cleaned_character_offset": 309,
+            "within_current_judge_first_12000_chars": true,
+            "database_verified": true,
+            "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+            "source_file_sha256": "ff230d0eafb48c5f2fcb4f4a66e8d8a29c4e1c84cc3f28d99e0eb2aeb40adffe",
+            "reconstruct_verified": true
+          }
+        }
+      ],
+      "target": ">=3近邻及缺依据说明；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "false_premise_contradiction_quote",
+      "scope": "dev087",
+      "status": "pass",
+      "actual": 2,
+      "target": ">=1直接矛盾原句（是否矛盾另审）"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": {
+        "pairs": [],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev088",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 0,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/workspace/app-management <=> self-host/use-dify/workspace/app-management"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 2,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "ambiguous_edition_null_no_version_words",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": {
+        "edition": null,
+        "version_words": []
+      },
+      "target": "edition=null，题干无版本词"
+    },
+    {
+      "check": "ambiguous_edition_two_sources",
+      "scope": "dev089",
+      "status": "pass",
+      "actual": [
+        "cloud/use-dify/workspace/app-management",
+        "self-host/use-dify/workspace/app-management"
+      ],
+      "target": "两版本原句+不同答案；语义另审"
+    },
+    {
+      "check": "source_document_exists",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": [],
+      "target": "全部在冻结182篇"
+    },
+    {
+      "check": "twin_character_comparison_and_or",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": {
+        "pairs": [
+          "cloud/use-dify/knowledge/connect-external-knowledge-base <=> self-host/use-dify/knowledge/connect-external-knowledge-base",
+          "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension <=> self-host/use-dify/workspace/api-extension/external-data-tool-api-extension"
+        ],
+        "errors": []
+      },
+      "target": "存在孪生先逐字比较；相同来源同组OR"
+    },
+    {
+      "check": "question_evidence_present",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": true,
+      "target": "evidence中有对应项"
+    },
+    {
+      "check": "reference_answer_and_risk",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": {
+        "answer": true,
+        "risk": true
+      },
+      "target": "两项非空"
+    },
+    {
+      "check": "guessability_null",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": null,
+      "target": null
+    },
+    {
+      "check": "vital_conjunction_screen",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": [],
+      "target": "禁用连接多个事实词；无词也不证明原子性"
+    },
+    {
+      "check": "evidence_nugget_alignment",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": [],
+      "target": "nugget逐项一致，all_of/any_of非空"
+    },
+    {
+      "check": "source_integrity",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": {
+        "source_leaves_checked": 10,
+        "failures": []
+      },
+      "target": "raw行/hash/chunk/parent/heading/offset/url逐项匹配"
+    },
+    {
+      "check": "missing_slot_two_interpretations",
+      "scope": "dev090",
+      "status": "pass",
+      "actual": [
+        {
+          "interpretation": "外部系统已有RAG或知识检索服务",
+          "answer": "连接外部知识库API；无需迁移内容，Dify仅检索，外部负责管理。",
+          "evidence": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/knowledge/connect-external-knowledge-base",
+                  "heading_path": "连接外部知识库",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/connect-external-knowledge-base.mdx#L9-L9",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/connect-external-knowledge-base.mdx",
+                  "raw_line_start": 9,
+                  "raw_line_end": 9,
+                  "original_excerpt": "如果你的团队自建 RAG 系统，或将内容托管在第三方知识服务（如 [AWS Bedrock](https://aws.amazon.com/bedrock/)）中，你可将这些外部知识源连接到 Dify，无需将内容迁移至 Dify 内置的知识库。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/knowledge/connect-external-knowledge-base#c0",
+                    "excerpt": "如果你的团队自建 RAG 系统，或将内容托管在第三方知识服务（如 AWS Bedrock）中，你可将这些外部知识源连接到 Dify，无需将内容迁移至 Dify 内置的知识库。\n",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/knowledge/connect-external-knowledge-base#p0",
+                    "heading_path": "连接外部知识库",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "fe41e0c323b8d6569f66180d8aa10d5aeafa4e0bb88f835bdba38c2c6721332e",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "cloud/use-dify/knowledge/connect-external-knowledge-base",
+                  "heading_path": "连接外部知识库",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/connect-external-knowledge-base.mdx#L9-L9",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/connect-external-knowledge-base.mdx",
+                  "raw_line_start": 9,
+                  "raw_line_end": 9,
+                  "original_excerpt": "如果你的团队自建 RAG 系统，或将内容托管在第三方知识服务（如 [AWS Bedrock](https://aws.amazon.com/bedrock/)）中，你可将这些外部知识源连接到 Dify，无需将内容迁移至 Dify 内置的知识库。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/knowledge/connect-external-knowledge-base#c0",
+                    "excerpt": "如果你的团队自建 RAG 系统，或将内容托管在第三方知识服务（如 AWS Bedrock）中，你可将这些外部知识源连接到 Dify，无需将内容迁移至 Dify 内置的知识库。\n",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/knowledge/connect-external-knowledge-base#p0",
+                    "heading_path": "连接外部知识库",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "b5b126250cfab2ecea40d0e4c2ac9b331446f34323ecdb3278368a6ac00c56f8",
+                  "reconstruct_verified": true
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/knowledge/connect-external-knowledge-base",
+                  "heading_path": "连接外部知识库",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/connect-external-knowledge-base.mdx#L32-L32",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/knowledge/connect-external-knowledge-base.mdx",
+                  "raw_line_start": 32,
+                  "raw_line_end": 32,
+                  "original_excerpt": "Dify 对外部知识库仅拥有检索权限，无法修改或管理你的外部内容。你需要独立维护外部知识库及其检索逻辑。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/knowledge/connect-external-knowledge-base#c1",
+                    "excerpt": "Dify 对外部知识库仅拥有检索权限，无法修改或管理你的外部内容。你需要独立维护外部知识库及其检索逻辑。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/knowledge/connect-external-knowledge-base#p0",
+                    "heading_path": "连接外部知识库",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 400,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "fe41e0c323b8d6569f66180d8aa10d5aeafa4e0bb88f835bdba38c2c6721332e",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "cloud/use-dify/knowledge/connect-external-knowledge-base",
+                  "heading_path": "连接外部知识库",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/connect-external-knowledge-base.mdx#L32-L32",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/knowledge/connect-external-knowledge-base.mdx",
+                  "raw_line_start": 32,
+                  "raw_line_end": 32,
+                  "original_excerpt": "Dify 对外部知识库仅拥有检索权限，无法修改或管理你的外部内容。你需要独立维护外部知识库及其检索逻辑。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/knowledge/connect-external-knowledge-base#c1",
+                    "excerpt": "Dify 对外部知识库仅拥有检索权限，无法修改或管理你的外部内容。你需要独立维护外部知识库及其检索逻辑。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/knowledge/connect-external-knowledge-base#p0",
+                    "heading_path": "连接外部知识库",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 400,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "b5b126250cfab2ecea40d0e4c2ac9b331446f34323ecdb3278368a6ac00c56f8",
+                  "reconstruct_verified": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "interpretation": "业务API按当前输入提供一段额外资料",
+          "answer": "配置外部数据工具，将输入传给API，返回字符串加入Prompt。",
+          "evidence": [
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L7-L7",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 7,
+                  "raw_line_end": 7,
+                  "original_excerpt": "在创建 AI 应用时，开发者可以通过 [自定义端点](/zh/self-host/use-dify/workspace/api-extension/api-extension) 的方式实现使用外部工具获取额外数据组装至 Prompt 中作为 LLM 额外信息。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#c0",
+                    "excerpt": "在创建 AI 应用时，开发者可以通过 自定义端点 的方式实现使用外部工具获取额外数据组装至 Prompt 中作为 LLM 额外信息。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#p0",
+                    "heading_path": "外部数据工具",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "c5414b192cde7f4b7466924d94e9d3c477c4527f84f588e69c644c94064eb9fb",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L7-L7",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 7,
+                  "raw_line_end": 7,
+                  "original_excerpt": "在创建 AI 应用时，开发者可以通过 [自定义端点](/zh/cloud/use-dify/workspace/api-extension/api-extension) 的方式实现使用外部工具获取额外数据组装至 Prompt 中作为 LLM 额外信息。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#c0",
+                    "excerpt": "在创建 AI 应用时，开发者可以通过 自定义端点 的方式实现使用外部工具获取额外数据组装至 Prompt 中作为 LLM 额外信息。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#p0",
+                    "heading_path": "外部数据工具",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 0,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "d8792b05b0f64dfa61f2db0676adf72bcf66edc0edba9aec9c7af93e7defc304",
+                  "reconstruct_verified": true
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具 > 扩展点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "该扩展点将终端用户传入的应用变量内容和对话输入内容（对话型应用固定参数）作为参数，传给 API。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#c1",
+                    "excerpt": "该扩展点将终端用户传入的应用变量内容和对话输入内容（对话型应用固定参数）作为参数，传给 API。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#p1",
+                    "heading_path": "外部数据工具 > 扩展点",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 123,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "c5414b192cde7f4b7466924d94e9d3c477c4527f84f588e69c644c94064eb9fb",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具 > 扩展点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L13-L13",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 13,
+                  "raw_line_end": 13,
+                  "original_excerpt": "该扩展点将终端用户传入的应用变量内容和对话输入内容（对话型应用固定参数）作为参数，传给 API。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#c1",
+                    "excerpt": "该扩展点将终端用户传入的应用变量内容和对话输入内容（对话型应用固定参数）作为参数，传给 API。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#p1",
+                    "heading_path": "外部数据工具 > 扩展点",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 123,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "d8792b05b0f64dfa61f2db0676adf72bcf66edc0edba9aec9c7af93e7defc304",
+                  "reconstruct_verified": true
+                }
+              ]
+            },
+            {
+              "any_of": [
+                {
+                  "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具 > 扩展点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L15-L15",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/self-host/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 15,
+                  "raw_line_end": 15,
+                  "original_excerpt": "开发者需要实现对应工具的查询逻辑，并返回字符串类型的查询结果。",
+                  "direct_evidence": {
+                    "chunk_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#c1",
+                    "excerpt": "开发者需要实现对应工具的查询逻辑，并返回字符串类型的查询结果。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension#p1",
+                    "heading_path": "外部数据工具 > 扩展点",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 173,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "c5414b192cde7f4b7466924d94e9d3c477c4527f84f588e69c644c94064eb9fb",
+                  "reconstruct_verified": true
+                },
+                {
+                  "document_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+                  "heading_path": "外部数据工具 > 扩展点",
+                  "source_url": "https://github.com/langgenius/dify-docs/blob/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx#L15-L15",
+                  "frozen_path": "data/raw/dify-docs/c80a31868611b673bd77725a6310c685068a585e/zh/cloud/use-dify/workspace/api-extension/external-data-tool-api-extension.mdx",
+                  "raw_line_start": 15,
+                  "raw_line_end": 15,
+                  "original_excerpt": "开发者需要实现对应工具的查询逻辑，并返回字符串类型的查询结果。",
+                  "direct_evidence": {
+                    "chunk_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#c1",
+                    "excerpt": "开发者需要实现对应工具的查询逻辑，并返回字符串类型的查询结果。",
+                    "contains_excerpt": true
+                  },
+                  "supporting_parent": {
+                    "parent_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension#p1",
+                    "heading_path": "外部数据工具 > 扩展点",
+                    "contains_excerpt": true
+                  },
+                  "cleaned_character_offset": 173,
+                  "within_current_judge_first_12000_chars": true,
+                  "database_verified": true,
+                  "verification_method": "固定原文逐字定位+生产清洗/切块完整包含；只读实库全量比对182篇hash、2090子块及1252父块全部一致（runtime-verification.json）",
+                  "source_file_sha256": "d8792b05b0f64dfa61f2db0676adf72bcf66edc0edba9aec9c7af93e7defc304",
+                  "reconstruct_verified": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "target": ">=2种理解与各自答案；语义另审"
+    }
+  ],
+  "global_validation": "../validation.json",
+  "retrieval_rerun": false,
+  "semantic_freeze": "pending_author"
+}

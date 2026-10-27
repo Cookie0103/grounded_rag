@@ -1,0 +1,6 @@
+{"system": "full", "question_id": "dev049", "error": "JudgeError: 命令 claude 退出码 1："}
+{"system": "no-retrieval", "question_id": "dev049", "error": "JudgeError: 命令 claude 退出码 1："}
+{"system": "naive-rag", "question_id": "dev049", "error": "JudgeError: 命令 claude 退出码 1："}
+{"system": "hybrid-no-rerank", "question_id": "dev049", "error": "JudgeError: 命令 claude 退出码 1："}
+{"system": "hybrid-rag", "question_id": "dev049", "error": "JudgeError: 命令 claude 退出码 1："}
+{"system": "full", "question_id": "dev050", "error": "JudgeError: 命令 claude 退出码 1："}

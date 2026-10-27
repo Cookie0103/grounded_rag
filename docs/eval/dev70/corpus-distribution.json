@@ -1,0 +1,2259 @@
+{
+  "corpus_commit": "c80a31868611b673bd77725a6310c685068a585e",
+  "document_count": 182,
+  "implementation_sha256": {
+    "cleaner.py": "f3bb0915e57156b9d820f8976f5db95c2f3d0b9fe0e68ad9c6e255b0e1419d42",
+    "chunker.py": "d6abab001fa50e59066a73b7230dac586f98b6e02a98d9e4ff2c3f0586fd7e70",
+    "corpus.py": "9bf678ce1d932fb6368ffa0d5b199de9668ae5bc42d5c6765e6803740858bd51"
+  },
+  "parent_count": 1252,
+  "child_count": 2090,
+  "cleaned_characters": 534522,
+  "by_directory": {
+    ".": 2,
+    "api-reference/guides": 11,
+    "cloud/use-dify/knowledge": 8,
+    "cloud/use-dify/knowledge/create-knowledge": 3,
+    "cloud/use-dify/knowledge/create-knowledge/import-text-data": 3,
+    "cloud/use-dify/knowledge/knowledge-pipeline": 7,
+    "cloud/use-dify/knowledge/manage-knowledge": 2,
+    "cloud/use-dify/monitor": 3,
+    "cloud/use-dify/monitor/integrations": 7,
+    "cloud/use-dify/workspace": 8,
+    "cloud/use-dify/workspace/api-extension": 4,
+    "learn": 1,
+    "learn/tutorials": 5,
+    "learn/tutorials/workflow-101": 10,
+    "self-host/deploy": 1,
+    "self-host/deploy/advanced-deployments": 2,
+    "self-host/deploy/configuration": 1,
+    "self-host/deploy/platform-guides": 2,
+    "self-host/deploy/quick-start": 2,
+    "self-host/deploy/troubleshooting": 6,
+    "self-host/use-dify/build": 13,
+    "self-host/use-dify/build/new-agent": 2,
+    "self-host/use-dify/debug": 4,
+    "self-host/use-dify/getting-started": 1,
+    "self-host/use-dify/knowledge": 6,
+    "self-host/use-dify/knowledge/create-knowledge": 3,
+    "self-host/use-dify/knowledge/create-knowledge/import-text-data": 3,
+    "self-host/use-dify/knowledge/knowledge-pipeline": 7,
+    "self-host/use-dify/knowledge/manage-knowledge": 2,
+    "self-host/use-dify/monitor": 3,
+    "self-host/use-dify/monitor/integrations": 7,
+    "self-host/use-dify/nodes": 21,
+    "self-host/use-dify/nodes/trigger": 4,
+    "self-host/use-dify/publish": 3,
+    "self-host/use-dify/publish/webapp": 4,
+    "self-host/use-dify/workspace": 7,
+    "self-host/use-dify/workspace/api-extension": 4
+  },
+  "by_category": {
+    "api-reference": 11,
+    "build": 15,
+    "debug": 4,
+    "deploy": 14,
+    "getting-started": 1,
+    "home": 1,
+    "knowledge": 44,
+    "learn": 16,
+    "monitor": 20,
+    "nodes": 25,
+    "publish": 7,
+    "quick-start": 1,
+    "workspace": 23
+  },
+  "by_edition": {
+    "cloud": 45,
+    "common": 29,
+    "self_host": 108
+  },
+  "long_document_minimum_characters": 6000,
+  "long_documents": [
+    {
+      "document_id": "self-host/deploy/configuration/environments",
+      "title": "环境变量",
+      "cleaned_characters": 79316,
+      "parents": 73,
+      "children": 260
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+      "title": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+",
+      "cleaned_characters": 16351,
+      "parents": 42,
+      "children": 64
+    },
+    {
+      "document_id": "quick-start",
+      "title": "30 分钟快速入门",
+      "cleaned_characters": 12425,
+      "parents": 16,
+      "children": 32
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+      "title": "步骤二：编排知识流水线",
+      "cleaned_characters": 11190,
+      "parents": 25,
+      "children": 40
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+      "title": "步骤二：编排知识流水线",
+      "cleaned_characters": 10932,
+      "parents": 24,
+      "children": 39
+    },
+    {
+      "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+      "title": "使用源代码本地启动",
+      "cleaned_characters": 9408,
+      "parents": 12,
+      "children": 23
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path",
+      "title": "Weaviate 服务器升级路径",
+      "cleaned_characters": 7971,
+      "parents": 10,
+      "children": 23
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-langsmith",
+      "title": "集成 LangSmith",
+      "cleaned_characters": 7526,
+      "parents": 5,
+      "children": 26
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+      "title": "集成 LangSmith",
+      "cleaned_characters": 7526,
+      "parents": 5,
+      "children": 26
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-langfuse",
+      "title": "集成 Langfuse",
+      "cleaned_characters": 7160,
+      "parents": 6,
+      "children": 24
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+      "title": "集成 Langfuse",
+      "cleaned_characters": 7160,
+      "parents": 6,
+      "children": 24
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-phoenix",
+      "title": "集成 Phoenix",
+      "cleaned_characters": 7130,
+      "parents": 10,
+      "children": 26
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+      "title": "集成 Phoenix",
+      "cleaned_characters": 7104,
+      "parents": 10,
+      "children": 26
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-weave",
+      "title": "集成 W&B Weave",
+      "cleaned_characters": 6677,
+      "parents": 6,
+      "children": 22
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-weave",
+      "title": "集成 W&B Weave",
+      "cleaned_characters": 6640,
+      "parents": 5,
+      "children": 21
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-arize",
+      "title": "集成 Arize",
+      "cleaned_characters": 6542,
+      "parents": 6,
+      "children": 22
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-arize",
+      "title": "集成 Arize",
+      "cleaned_characters": 6537,
+      "parents": 6,
+      "children": 22
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-opik",
+      "title": "集成 Opik",
+      "cleaned_characters": 6508,
+      "parents": 6,
+      "children": 21
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-opik",
+      "title": "集成 Opik",
+      "cleaned_characters": 6508,
+      "parents": 6,
+      "children": 21
+    },
+    {
+      "document_id": "self-host/use-dify/build/new-agent/build",
+      "title": "构建 Agent",
+      "cleaned_characters": 6225,
+      "parents": 15,
+      "children": 23
+    }
+  ],
+  "low_coverage_mapping_note": "部署/发布/工作空间/API按明确路径计数；插件/模型/云版计费仅列精确文档；build不泛计",
+  "low_coverage_documents": [
+    {
+      "document_id": "api-reference/guides/agent",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/chat",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/chatflow",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/completion",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/end-user-identity",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/errors",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/get-started",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/human-input-flow",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/knowledge",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/streaming",
+      "group": "API参考"
+    },
+    {
+      "document_id": "api-reference/guides/workflow",
+      "group": "API参考"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/cloudflare-worker",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/moderation-api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/app-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/model-providers",
+      "group": "模型接入"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/personal-account-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/plugins",
+      "group": "插件"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/readme",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/subscription-management",
+      "group": "云版计费"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/team-members-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/tools",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/configuration/environments",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/overview",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/platform-guides/bt-panel",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/platform-guides/dify-premium",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/quick-start/docker-compose",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/quick-start/faqs",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/common-issues",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/docker-issues",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/integrations",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/storage-and-migration",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+      "group": "部署配置"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/README",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/publish-mcp",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/chatflow-webapp",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/embedding-in-websites",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+      "group": "应用发布"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/cloudflare-worker",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/moderation-api-extension",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/app-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/model-providers",
+      "group": "模型接入"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/personal-account-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/plugins",
+      "group": "插件"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/readme",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/team-members-management",
+      "group": "工作空间管理"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/tools",
+      "group": "工作空间管理"
+    }
+  ],
+  "documents": [
+    {
+      "document_id": "api-reference/guides/agent",
+      "title": "Agent API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1753,
+      "parent_count": 6,
+      "child_count": 8,
+      "source_file_sha256": "453590f385130b02ee134ddd8ab60288db6bf53cce330760296eb7a30d5a74fa"
+    },
+    {
+      "document_id": "api-reference/guides/chat",
+      "title": "对话型应用 API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1365,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "a6a064466a562a1a1454853b9557149a679dc8632982cea08356382defbc5274"
+    },
+    {
+      "document_id": "api-reference/guides/chatflow",
+      "title": "Chatflow 应用 API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1782,
+      "parent_count": 9,
+      "child_count": 10,
+      "source_file_sha256": "dcab3e989dd79e416895c78d709eeed50b23125eca12470ff8ea45e2407c7aa1"
+    },
+    {
+      "document_id": "api-reference/guides/completion",
+      "title": "文本生成应用 API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 869,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "fc5dafc7598b781d10ff8282669b92af3da17618fed18c24c8e1b8c13ecef9ef"
+    },
+    {
+      "document_id": "api-reference/guides/end-user-identity",
+      "title": "终端用户身份",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 668,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "3a4279e7c61518c9cfc9f141cb63ac899e5d5c19e35c97af818289810bb1a109"
+    },
+    {
+      "document_id": "api-reference/guides/errors",
+      "title": "处理错误与速率限制",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1508,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "3c4435414c2d28ae0683cb7381bc3979b3d13fd269c34611932e1ca372fee90f"
+    },
+    {
+      "document_id": "api-reference/guides/get-started",
+      "title": "Dify API 快速开始",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1097,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "305b5519272b8cad432b92bc58d15c9d21ebf0181121cddc58a5d9e512a698de"
+    },
+    {
+      "document_id": "api-reference/guides/human-input-flow",
+      "title": "人工介入 API 集成流程",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 3963,
+      "parent_count": 5,
+      "child_count": 13,
+      "source_file_sha256": "85bbd05677cd6fcf878f69eb03eeab9afcd288f7f0ef9ebea833bf639c93dea3"
+    },
+    {
+      "document_id": "api-reference/guides/knowledge",
+      "title": "知识库 API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 3273,
+      "parent_count": 11,
+      "child_count": 15,
+      "source_file_sha256": "9612bd87772203fda7b78b9ef1e1ae26f585ed08f9f8325b906b51b9fc15221f"
+    },
+    {
+      "document_id": "api-reference/guides/streaming",
+      "title": "处理流式响应",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 2773,
+      "parent_count": 7,
+      "child_count": 10,
+      "source_file_sha256": "ea6e8df7088ec0bcb72b76009a9e3ae8cefc50df645b59be675fdf654a9fdd50"
+    },
+    {
+      "document_id": "api-reference/guides/workflow",
+      "title": "Workflow 应用 API",
+      "directory": "api-reference/guides",
+      "category": "api-reference",
+      "cleaned_characters": 1697,
+      "parent_count": 8,
+      "child_count": 9,
+      "source_file_sha256": "c41724a7896a140c6f5fc53c109a145ca4505ca07684c230aa37f00f1709dc32"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/connect-external-knowledge-base",
+      "title": "连接外部知识库",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 1717,
+      "parent_count": 5,
+      "child_count": 7,
+      "source_file_sha256": "b5b126250cfab2ecea40d0e4c2ac9b331446f34323ecdb3278368a6ac00c56f8"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/chunking-and-cleaning-text",
+      "title": "指定分段设置",
+      "directory": "cloud/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 1853,
+      "parent_count": 6,
+      "child_count": 8,
+      "source_file_sha256": "50e1469e7694d0cc7f35f47a3ba09a4fc33e4ca95f5246dfcc4f0f44a585d372"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/readme",
+      "title": "上传本地文件",
+      "directory": "cloud/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 754,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "eca9b3d7a3d2193a09ef4d518831f053d4d70be1b55c12bc1311cf21a3a6ab13"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+      "title": "从 Notion 导入数据",
+      "directory": "cloud/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 590,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "db449bf7733e5eb6878527f753d9e82ea3745d4c29b3a21f71c35c98b7914bcd"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/import-text-data/sync-from-website",
+      "title": "从网页导入数据",
+      "directory": "cloud/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 1045,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "8a0f4af3220a8fda3c99815fd3b51d17287b470ef6dd152b579b65204432638d"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/introduction",
+      "title": "创建即用型知识库",
+      "directory": "cloud/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 265,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "2950df27a89591f4d5ade98c19c8c6bd3b0007a171b0250871949250a944cd40"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+      "title": "指定索引方式与检索设置",
+      "directory": "cloud/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 3464,
+      "parent_count": 4,
+      "child_count": 12,
+      "source_file_sha256": "b0bbf3bffeb76f2133d045ad43f055f1d4d208f56c254d644b6141c214878879"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/external-knowledge-api",
+      "title": "外部知识库 API",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 3457,
+      "parent_count": 10,
+      "child_count": 13,
+      "source_file_sha256": "f0fa5ea394fc07e95365d945ba892f0a10201f9af7568d6ec8c600d1eaab0137"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/integrate-knowledge-within-application",
+      "title": "在应用内集成知识库",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 5533,
+      "parent_count": 5,
+      "child_count": 17,
+      "source_file_sha256": "36127f3171006f0cc9e5c12ddaac81feaa9b6180750ba63ffc9f35a7fd66c92e"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+      "title": "数据源授权",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 1341,
+      "parent_count": 7,
+      "child_count": 8,
+      "source_file_sha256": "63c4a5deaef95073f7fc2fc09a6d37d17e543acd0c345394ee5343d19e6bbf0a"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+      "title": "步骤一：创建知识流水线",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 1848,
+      "parent_count": 4,
+      "child_count": 8,
+      "source_file_sha256": "c24753feb231553298fbba1b5d47c47d3165ad9e2dbc8b042d58e93459516ab0"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+      "title": "步骤二：编排知识流水线",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 10932,
+      "parent_count": 24,
+      "child_count": 39,
+      "source_file_sha256": "c9f16024b4b0aa66f9506d3805493a1dc364cf2d87ecaad7a99015ab5d5ea847"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/manage-knowledge-base",
+      "title": "步骤五：管理和使用知识库",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 152,
+      "parent_count": 2,
+      "child_count": 2,
+      "source_file_sha256": "9f886f5b9de24ceb55b26a82c015113978ca56680a771f35a54701b6497f0f2e"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+      "title": "步骤三：发布知识流水线",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 476,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "22526fd3a864664687e4f1081c7080e477c1b1d4d8b1190f59024057e4ba4ee0"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/readme",
+      "title": "构建自定义知识库",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 584,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "3a5ddbbf6d2864df8eb587d1e535b07782feb7b466da3de7ebecfe86c4cb3ba2"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-pipeline/upload-files",
+      "title": "步骤四：上传文件",
+      "directory": "cloud/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 616,
+      "parent_count": 2,
+      "child_count": 2,
+      "source_file_sha256": "9cdb3d49aff51e94acd87b2ec65af76a86e44faf989b1539575b206cfcca0b23"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-request-rate-limit",
+      "title": "知识库请求频率限制",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 530,
+      "parent_count": 3,
+      "child_count": 3,
+      "source_file_sha256": "5e7b0e826cf599cb2dcc6da33d0b1eb5a488d288546dab3922aaf931602894e2"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/knowledge-storage-limit",
+      "title": "知识库数据存储空间限制",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 979,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "fc4b20156eab796e934e5363b382dff5b5e4d4a504bd1e3a747f814bcea81149"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/manage-knowledge/introduction",
+      "title": "调整知识库设置",
+      "directory": "cloud/use-dify/knowledge/manage-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 458,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "5bff12c879b0354eb607e672117c76fad980ee1ad301f6cf44bd296b1d880bd2"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+      "title": "维护知识库内容",
+      "directory": "cloud/use-dify/knowledge/manage-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 2282,
+      "parent_count": 5,
+      "child_count": 8,
+      "source_file_sha256": "177109ed3847e4fb8efbf9ffc097b7f11c71c9ecb6f590cb80ca78f1f100c08e"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/metadata",
+      "title": "管理文档元数据",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 4946,
+      "parent_count": 6,
+      "child_count": 17,
+      "source_file_sha256": "72a18ef75331052c7e7e2b1aa46d1dbabc6369c608f0ff33623c2a835e923c9c"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/readme",
+      "title": "知识库",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 1186,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "f8e45d6f77a0795de690eb7f59990db2443d091ee7281514bc6f31dcc6f07d87"
+    },
+    {
+      "document_id": "cloud/use-dify/knowledge/test-retrieval",
+      "title": "测试检索",
+      "directory": "cloud/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 263,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "6e56257edcc00b3424135ae7b8d23b3f0322c77c5f807af9878959e0de7dadf6"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/analysis",
+      "title": "仪表盘",
+      "directory": "cloud/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 247,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "0a26258a0d24b24186c04733dc3a1e178ee94b4317e9937642f66d958ebab7e1"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/annotation-reply",
+      "title": "标注系统",
+      "directory": "cloud/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 1167,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "7721cb6bd46a6272951f512497a884a381d3a73507ef883599790e62b62869a3"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-aliyun",
+      "title": "集成阿里云云监控",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 4136,
+      "parent_count": 12,
+      "child_count": 15,
+      "source_file_sha256": "c656823d8d31917c78bf8b09ddf930e0edd58b43c310c2bd62a78d481f45ba17"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-arize",
+      "title": "集成 Arize",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6537,
+      "parent_count": 6,
+      "child_count": 22,
+      "source_file_sha256": "0b094daf692a21e3a3122ac96fe8ca6974a9eb7432085728a439b0dcb066c67b"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-langfuse",
+      "title": "集成 Langfuse",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7160,
+      "parent_count": 6,
+      "child_count": 24,
+      "source_file_sha256": "4b7dbbddff438797e86e904667b04f9e7829774586a22fbffe6cc715cc5d546a"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-langsmith",
+      "title": "集成 LangSmith",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7526,
+      "parent_count": 5,
+      "child_count": 26,
+      "source_file_sha256": "d983b4c1ff82aedb2ca0765a3aa28d20a1a39810a46ae3a5b5be4f1d0108108b"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-opik",
+      "title": "集成 Opik",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6508,
+      "parent_count": 6,
+      "child_count": 21,
+      "source_file_sha256": "77d6c177250636a4a90ce7853eff4f9ebb79262b031b0ebecacc951ed0aef727"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-phoenix",
+      "title": "集成 Phoenix",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7130,
+      "parent_count": 10,
+      "child_count": 26,
+      "source_file_sha256": "874b35df4d2df0f327cdcebb1a9772aa7a00845fd8d053e901a31693d8b0d6d7"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/integrations/integrate-weave",
+      "title": "集成 W&B Weave",
+      "directory": "cloud/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6640,
+      "parent_count": 5,
+      "child_count": 21,
+      "source_file_sha256": "a231282d50230af60bbabea2b0884e5dd72bccbfafe916ca97e9d66c50d092e8"
+    },
+    {
+      "document_id": "cloud/use-dify/monitor/logs",
+      "title": "日志",
+      "directory": "cloud/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 2163,
+      "parent_count": 9,
+      "child_count": 11,
+      "source_file_sha256": "d0fda818ecedcdd7c082a09af468c17b0fbd32b69e8101ddf5d728f327efa452"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/api-extension",
+      "title": "自定义端点",
+      "directory": "cloud/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 5482,
+      "parent_count": 14,
+      "child_count": 20,
+      "source_file_sha256": "3a5f83e13b3d0181b6cdf133b87fa78baaff5117d3027a79e6621dae617c84bd"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/cloudflare-worker",
+      "title": "使用 Cloudflare Workers 部署自定义端点",
+      "directory": "cloud/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 2980,
+      "parent_count": 4,
+      "child_count": 9,
+      "source_file_sha256": "78a1b1aa0202ebfb5d3f94a9e0e025e67bfa7949c92b6830d6cc66102f294950"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/external-data-tool-api-extension",
+      "title": "外部数据工具",
+      "directory": "cloud/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 1270,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "d8792b05b0f64dfa61f2db0676adf72bcf66edc0edba9aec9c7af93e7defc304"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/api-extension/moderation-api-extension",
+      "title": "敏感内容审查",
+      "directory": "cloud/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 5673,
+      "parent_count": 5,
+      "child_count": 12,
+      "source_file_sha256": "edfd24c813f165644bb085683f5b86fcd108f3f56151d04ded4d6e97648f4729"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/app-management",
+      "title": "管理应用",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1704,
+      "parent_count": 9,
+      "child_count": 10,
+      "source_file_sha256": "2a16c12dc7b0b51a4e75cebde00309b29e1932b6185b6dffec7da0db53466cba"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/model-providers",
+      "title": "模型供应商",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1889,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "049efa4e1248614bc0272dc1f6b6b1ea3cd1918ebc1034d63655b9c8960e6f8b"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/personal-account-management",
+      "title": "个人设置",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 972,
+      "parent_count": 7,
+      "child_count": 7,
+      "source_file_sha256": "699efa0372ae940f2a0e1c16a0d140237216c710dc517a2434ee9dbefc2235b2"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/plugins",
+      "title": "集成",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1075,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "2d9127209a2f263dd9b0478c69d723955056a419c62d2948618ecb7bbbf1933e"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/readme",
+      "title": "工作空间",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 738,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "8c579ca34e23663568cc8d34e799acf855d5dbfce1bf5f743ddc18d463f66b87"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/subscription-management",
+      "title": "计费",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 2025,
+      "parent_count": 6,
+      "child_count": 9,
+      "source_file_sha256": "b72dce3125858ac2ac31759debc6515bba9f192f8f0532504cc45527dfb48765"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/team-members-management",
+      "title": "管理成员",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 804,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "babd843319d4db71b993b9565405a61c23464084ac7b540d9e3ad73bf53e1838"
+    },
+    {
+      "document_id": "cloud/use-dify/workspace/tools",
+      "title": "Dify 工具",
+      "directory": "cloud/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1597,
+      "parent_count": 5,
+      "child_count": 7,
+      "source_file_sha256": "2731167eb523bc8e089bcac61430f190bc92dd16825e11ea268dd53f878a3a83"
+    },
+    {
+      "document_id": "home",
+      "title": "Dify 文档",
+      "directory": ".",
+      "category": "home",
+      "cleaned_characters": 644,
+      "parent_count": 1,
+      "child_count": 3,
+      "source_file_sha256": "a6f291c64ef9c522c9c3d2e8eb98903f7c68904d3469adf85d3d3d25dff9a4da"
+    },
+    {
+      "document_id": "learn/key-concepts",
+      "title": "核心概念",
+      "directory": "learn",
+      "category": "learn",
+      "cleaned_characters": 2644,
+      "parent_count": 6,
+      "child_count": 12,
+      "source_file_sha256": "d071f694bce940b8fcd98248f7d3825f841241d2036c303c47521079b8a714db"
+    },
+    {
+      "document_id": "learn/tutorials/article-reader",
+      "title": "使用文件上传搭建文章理解助手",
+      "directory": "learn/tutorials",
+      "category": "learn",
+      "cleaned_characters": 2869,
+      "parent_count": 9,
+      "child_count": 12,
+      "source_file_sha256": "865dd054dacd7c241d895eab5a84c7dc2c27aa50d362c8a0221dd63942e77a44"
+    },
+    {
+      "document_id": "learn/tutorials/build-ai-image-generation-app",
+      "title": "如何搭建 AI 图片生成应用",
+      "directory": "learn/tutorials",
+      "category": "learn",
+      "cleaned_characters": 2435,
+      "parent_count": 8,
+      "child_count": 11,
+      "source_file_sha256": "0c717defccf2c9298a4652226df79ab2cd1232337530aeb33cb4b6c9a3d061e9"
+    },
+    {
+      "document_id": "learn/tutorials/customer-service-bot",
+      "title": "使用知识库搭建智能客服机器人",
+      "directory": "learn/tutorials",
+      "category": "learn",
+      "cleaned_characters": 2888,
+      "parent_count": 20,
+      "child_count": 21,
+      "source_file_sha256": "c0e053d4b645241f08bebad8ccd31e5807722b4777e9991ab78968f5b259e890"
+    },
+    {
+      "document_id": "learn/tutorials/simple-chatbot",
+      "title": "简单聊天机器人",
+      "directory": "learn/tutorials",
+      "category": "learn",
+      "cleaned_characters": 2025,
+      "parent_count": 8,
+      "child_count": 11,
+      "source_file_sha256": "ab1c0c7fd761d1949c2627ab1f458c1d20879125daed4b17e33d87bdf96815a2"
+    },
+    {
+      "document_id": "learn/tutorials/twitter-chatflow",
+      "title": "ChatFlow 实战：搭建 Twitter 账号分析助手",
+      "directory": "learn/tutorials",
+      "category": "learn",
+      "cleaned_characters": 1936,
+      "parent_count": 12,
+      "child_count": 14,
+      "source_file_sha256": "05e52d99677eba045a6750e3425c870b0be6a230b9f613c746c0e9f1080cad3d"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-01",
+      "title": "第 1 课：什么是工作流",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 921,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "25d1f0e4425de1667dc6eeff03aecb852469e77f1ffd3f86bd87a0c7bcc31f69"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-02",
+      "title": "第 2 课：流程的头和尾（开始与输出节点）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 2099,
+      "parent_count": 8,
+      "child_count": 11,
+      "source_file_sha256": "6242aa64cdda158fed69cfd8c8bf761c012c5c6d287ed1e16649129f33e17fbe"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-03",
+      "title": "第 3 课：工作流的大脑（LLM 节点）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 3374,
+      "parent_count": 10,
+      "child_count": 14,
+      "source_file_sha256": "00576eb691509f465cf43deca5be24699e845ab97321a5885804f67e7d544b9a"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-04",
+      "title": "第 4 课：小抄（知识检索）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 2881,
+      "parent_count": 7,
+      "child_count": 13,
+      "source_file_sha256": "b0e17cd314390632e3f79ba47462d63608302d6b7b42c486f688cc141b1a95e5"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-05",
+      "title": "第 5 课：工作流的岔路口（分类与执行）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 2603,
+      "parent_count": 7,
+      "child_count": 12,
+      "source_file_sha256": "1467aabc65eabed77451e7fc83d094ffa7108ec89e7478498fc642bc1115228a"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-06",
+      "title": "第 6 课：处理多个任务（参数提取 & 迭代）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 3342,
+      "parent_count": 6,
+      "child_count": 13,
+      "source_file_sha256": "9c4eeff32870773e9103cd821146536d68c1f93c1d0e27337b6daabcab0e42cc"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-07",
+      "title": "第 7 课：增强工作流（工具）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 3424,
+      "parent_count": 4,
+      "child_count": 12,
+      "source_file_sha256": "dadf00317ad46b3c046c2e55e2087a5bd563dbc6bd9a6eb0b0fee1ab9eabf548"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-08",
+      "title": "第 8 课：Agent 节点",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 2681,
+      "parent_count": 7,
+      "child_count": 12,
+      "source_file_sha256": "1825f981442ba82149845510ed9155b022b2b82df45d7413f84cdee5c61c7890"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-09",
+      "title": "第 9 课：排版设计师（模板）",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 1293,
+      "parent_count": 4,
+      "child_count": 6,
+      "source_file_sha256": "e81a084719b764da1fb9f512511ca818d748f567a075c30975502619edcd8155"
+    },
+    {
+      "document_id": "learn/tutorials/workflow-101/lesson-10",
+      "title": "第 10 课：发布和监控你的 AI 应用",
+      "directory": "learn/tutorials/workflow-101",
+      "category": "learn",
+      "cleaned_characters": 2366,
+      "parent_count": 6,
+      "child_count": 9,
+      "source_file_sha256": "7469dc9e3d1ff0d3275f2f6915dd6c85ee9e8acb40c495e241fd52aff321e265"
+    },
+    {
+      "document_id": "quick-start",
+      "title": "30 分钟快速入门",
+      "directory": ".",
+      "category": "quick-start",
+      "cleaned_characters": 12425,
+      "parent_count": 16,
+      "child_count": 32,
+      "source_file_sha256": "c3933c61176bb5a8b874465aff316936ce95df119e55454a8c6a0cb01020f91c"
+    },
+    {
+      "document_id": "self-host/deploy/advanced-deployments/local-source-code",
+      "title": "使用源代码本地启动",
+      "directory": "self-host/deploy/advanced-deployments",
+      "category": "deploy",
+      "cleaned_characters": 9408,
+      "parent_count": 12,
+      "child_count": 23,
+      "source_file_sha256": "c6cc00e7e8bd8367819285d1f1c908b3207b67bb94a0dc61f0f91bf0d06c4c18"
+    },
+    {
+      "document_id": "self-host/deploy/advanced-deployments/start-the-frontend-docker-container",
+      "title": "单独启动前端 Docker 容器",
+      "directory": "self-host/deploy/advanced-deployments",
+      "category": "deploy",
+      "cleaned_characters": 582,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "401825cb832b695fbd27a9ebbd78611b3d22eca622a5883ce8f726614a14996f"
+    },
+    {
+      "document_id": "self-host/deploy/configuration/environments",
+      "title": "环境变量",
+      "directory": "self-host/deploy/configuration",
+      "category": "deploy",
+      "cleaned_characters": 79316,
+      "parent_count": 73,
+      "child_count": 260,
+      "source_file_sha256": "1063d01e41786944394a4e2b127e94eda4912756426da5b02cfdeb117fb0ec51"
+    },
+    {
+      "document_id": "self-host/deploy/overview",
+      "title": "部署 Dify",
+      "directory": "self-host/deploy",
+      "category": "deploy",
+      "cleaned_characters": 449,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "ff230d0eafb48c5f2fcb4f4a66e8d8a29c4e1c84cc3f28d99e0eb2aeb40adffe"
+    },
+    {
+      "document_id": "self-host/deploy/platform-guides/bt-panel",
+      "title": "使用 aaPanel 部署",
+      "directory": "self-host/deploy/platform-guides",
+      "category": "deploy",
+      "cleaned_characters": 939,
+      "parent_count": 3,
+      "child_count": 3,
+      "source_file_sha256": "66f2894e84a3bf30a1ed10f9e21a16f8dbba52e44e66d6f96686598799f56295"
+    },
+    {
+      "document_id": "self-host/deploy/platform-guides/dify-premium",
+      "title": "AWS 上的 Dify Premium",
+      "directory": "self-host/deploy/platform-guides",
+      "category": "deploy",
+      "cleaned_characters": 2215,
+      "parent_count": 5,
+      "child_count": 9,
+      "source_file_sha256": "1958ce4a5dec6ca30c10ada77f6895fc2d87821478dcbdfecd369657c515c07b"
+    },
+    {
+      "document_id": "self-host/deploy/quick-start/docker-compose",
+      "title": "使用 Docker Compose 部署 Dify",
+      "directory": "self-host/deploy/quick-start",
+      "category": "deploy",
+      "cleaned_characters": 2706,
+      "parent_count": 8,
+      "child_count": 12,
+      "source_file_sha256": "b8fe3a49520e9c6fbb965b47dcf3585430eff9c2883761b499cbe81e4cc0cd04"
+    },
+    {
+      "document_id": "self-host/deploy/quick-start/faqs",
+      "title": "常见问题",
+      "directory": "self-host/deploy/quick-start",
+      "category": "deploy",
+      "cleaned_characters": 1650,
+      "parent_count": 5,
+      "child_count": 7,
+      "source_file_sha256": "c67e086fda05236eefff8a049207b36b832282bb8be2a62eee3c277de6e99656"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/common-issues",
+      "title": "常见问题",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 1935,
+      "parent_count": 12,
+      "child_count": 13,
+      "source_file_sha256": "acd853e3e56f5fb003e99233aaf1715ed0f7f33f4ba15f25e5b3c48e9a117d70"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/docker-issues",
+      "title": "Docker 问题",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 2031,
+      "parent_count": 10,
+      "child_count": 11,
+      "source_file_sha256": "c522607f379a3638de0df974d4f8ce5e3ec9609ba9aabe6188b76a65a3b216c7"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/integrations",
+      "title": "第三方集成",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 1212,
+      "parent_count": 5,
+      "child_count": 6,
+      "source_file_sha256": "a1f9723b30153bc9d65b036916a9fadb9a5c6bf896351b9a58c571dda4a19649"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/storage-and-migration",
+      "title": "存储与迁移",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 2134,
+      "parent_count": 9,
+      "child_count": 10,
+      "source_file_sha256": "241fc807325ca0e95d84fcbca3ac983e1950fb63c431d3ecc60b6c12c01394aa"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-server-migration-path",
+      "title": "Weaviate 服务器升级路径",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 7971,
+      "parent_count": 10,
+      "child_count": 23,
+      "source_file_sha256": "88a29135f696fb63ffb990e124f92d3a8ff4c300ffb7d71dd45dea9381b4dea3"
+    },
+    {
+      "document_id": "self-host/deploy/troubleshooting/weaviate-v4-migration",
+      "title": "Weaviate 迁移指南：升级到客户端 v4 和服务器 1.27+",
+      "directory": "self-host/deploy/troubleshooting",
+      "category": "deploy",
+      "cleaned_characters": 16351,
+      "parent_count": 42,
+      "child_count": 64,
+      "source_file_sha256": "9483692b6017ca7d91595f7ad4394b43649a1cea69d8adbd778c7411bc33e58b"
+    },
+    {
+      "document_id": "self-host/use-dify/build/additional-features",
+      "title": "应用工具箱",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 1743,
+      "parent_count": 10,
+      "child_count": 10,
+      "source_file_sha256": "78b5a344dbca62b49a1c0ed5545c62edf22f125b9e1eeb79bfbfdab07c4c6332"
+    },
+    {
+      "document_id": "self-host/use-dify/build/agent",
+      "title": "Agent",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 3244,
+      "parent_count": 7,
+      "child_count": 13,
+      "source_file_sha256": "a3c2a290ddcc31f691febb3faf8d67e1d82019fe45baea0181286fa3db751237"
+    },
+    {
+      "document_id": "self-host/use-dify/build/chatbot",
+      "title": "聊天助手",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 2787,
+      "parent_count": 6,
+      "child_count": 12,
+      "source_file_sha256": "7e17eeff2c9b05c9bc0274034c1e2c3b5780aaea3ab7a7bb705933b02fe07cf2"
+    },
+    {
+      "document_id": "self-host/use-dify/build/goto-anything",
+      "title": "全局搜索",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 867,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "009a12c0f44ffab05662e7f1c931041d47bea33cba605ad8de5e5b0b29fb1ced"
+    },
+    {
+      "document_id": "self-host/use-dify/build/new-agent/build",
+      "title": "构建 Agent",
+      "directory": "self-host/use-dify/build/new-agent",
+      "category": "build",
+      "cleaned_characters": 6225,
+      "parent_count": 15,
+      "child_count": 23,
+      "source_file_sha256": "0724c5fa4da820ab0cc43d7226340d26aa83ce9cdc7b3694385a6031d625c5e9"
+    },
+    {
+      "document_id": "self-host/use-dify/build/new-agent/overview",
+      "title": "Agent",
+      "directory": "self-host/use-dify/build/new-agent",
+      "category": "build",
+      "cleaned_characters": 1363,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "1dd2a22adee50c870f0a94f9d2e43cc0c6bcbe1dceb2bfafc7754f991ef160ef"
+    },
+    {
+      "document_id": "self-host/use-dify/build/orchestrate-node",
+      "title": "编排逻辑",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 507,
+      "parent_count": 3,
+      "child_count": 3,
+      "source_file_sha256": "14ca7249fa25914f0053d8b5a4b0ebc19f772f2fa2e8c9fa3276ded67b2ecac7"
+    },
+    {
+      "document_id": "self-host/use-dify/build/predefined-error-handling-logic",
+      "title": "处理错误",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 1111,
+      "parent_count": 3,
+      "child_count": 4,
+      "source_file_sha256": "4f6b27317355dc768fdc1e5c63643758d51806a7fef8ef6000f574dd819f22e1"
+    },
+    {
+      "document_id": "self-host/use-dify/build/shortcut-key",
+      "title": "快捷键",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 1186,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "0176f59fb4319f1a0243ea580dbd6e91037c67d6a46506fbca852d390ee2097a"
+    },
+    {
+      "document_id": "self-host/use-dify/build/skills",
+      "title": "Skills",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 1892,
+      "parent_count": 8,
+      "child_count": 10,
+      "source_file_sha256": "8adc86236db742726bb318e277e276536d36cc995916208c5893f60005f3235c"
+    },
+    {
+      "document_id": "self-host/use-dify/build/snippet",
+      "title": "Snippets",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 1611,
+      "parent_count": 6,
+      "child_count": 7,
+      "source_file_sha256": "a631ffa2d9304b1a96c21f6f6c829feda813d3a99c1efb57e79aec4531f4278e"
+    },
+    {
+      "document_id": "self-host/use-dify/build/text-generator",
+      "title": "文本生成应用",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 3258,
+      "parent_count": 6,
+      "child_count": 13,
+      "source_file_sha256": "dd13e9ac9073fb2119c385b954a478eb0c95d885a2dfd260f9dd41c2999d5828"
+    },
+    {
+      "document_id": "self-host/use-dify/build/version-control",
+      "title": "版本控制",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 667,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "be1a4929af8ba7b9e1a35657caac031498596769ec864a49cef69ea591d6ed95"
+    },
+    {
+      "document_id": "self-host/use-dify/build/workflow-chatflow",
+      "title": "Workflow 与 Chatflow",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 894,
+      "parent_count": 2,
+      "child_count": 3,
+      "source_file_sha256": "e9f44943abc262a5b8d7a757be8782e0dd15f9fd4287677a8705d079934b16a3"
+    },
+    {
+      "document_id": "self-host/use-dify/build/workflow-collaboration",
+      "title": "与团队成员协作",
+      "directory": "self-host/use-dify/build",
+      "category": "build",
+      "cleaned_characters": 949,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "2bd677dbc48efb7b1fdd966ab27c2dbecce55c43ebe59aa245e75def78c2ac64"
+    },
+    {
+      "document_id": "self-host/use-dify/debug/error-type",
+      "title": "错误类型",
+      "directory": "self-host/use-dify/debug",
+      "category": "debug",
+      "cleaned_characters": 1310,
+      "parent_count": 3,
+      "child_count": 6,
+      "source_file_sha256": "4a1fb4eb9db8223ce56ac1fc1eaa6fcd31e4d2082ed28416efeb0e85f39ef272"
+    },
+    {
+      "document_id": "self-host/use-dify/debug/history-and-logs",
+      "title": "运行历史",
+      "directory": "self-host/use-dify/debug",
+      "category": "debug",
+      "cleaned_characters": 390,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "87a6a5ef2af483e92601eb56d23ac4c6173cbd897051294a961c670997d2b577"
+    },
+    {
+      "document_id": "self-host/use-dify/debug/step-run",
+      "title": "单节点",
+      "directory": "self-host/use-dify/debug",
+      "category": "debug",
+      "cleaned_characters": 368,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "11bb78382282ad4bac0bca51a328bc8bdb5134c1442d6eafa7d4b5ddf2072297"
+    },
+    {
+      "document_id": "self-host/use-dify/debug/variable-inspect",
+      "title": "变量检查器",
+      "directory": "self-host/use-dify/debug",
+      "category": "debug",
+      "cleaned_characters": 406,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "80507b70e04420076973717d5098f3bb29055a380820165b8b831409aa29ee88"
+    },
+    {
+      "document_id": "self-host/use-dify/getting-started/introduction",
+      "title": "使用 Dify",
+      "directory": "self-host/use-dify/getting-started",
+      "category": "getting-started",
+      "cleaned_characters": 313,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "eb474e42eabe4ea08ac9eb18430092f5842556d4101ea80d1222beecfc82b714"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/connect-external-knowledge-base",
+      "title": "连接外部知识库",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 2009,
+      "parent_count": 6,
+      "child_count": 8,
+      "source_file_sha256": "fe41e0c323b8d6569f66180d8aa10d5aeafa4e0bb88f835bdba38c2c6721332e"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/chunking-and-cleaning-text",
+      "title": "指定分段设置",
+      "directory": "self-host/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 2017,
+      "parent_count": 7,
+      "child_count": 9,
+      "source_file_sha256": "77e95accc3a6150dc5d0dda60bc1db95e5c8621ecb05bd5dd24622b02981eb4c"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/readme",
+      "title": "上传本地文件",
+      "directory": "self-host/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 829,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "fe0dac02eeb3933c694263f0ef809728e755e5566121f25e94f0cb19eb83d905"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-notion",
+      "title": "从 Notion 导入数据",
+      "directory": "self-host/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 1496,
+      "parent_count": 6,
+      "child_count": 8,
+      "source_file_sha256": "afbe3bf8fbd164e58ca0b8bf4344e5dbd97f5b57c3909da5bf8af0dfe0bad726"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/import-text-data/sync-from-website",
+      "title": "从网页导入数据",
+      "directory": "self-host/use-dify/knowledge/create-knowledge/import-text-data",
+      "category": "knowledge",
+      "cleaned_characters": 1045,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "a840cdce4ede72912e6e540eb163ab0e87410dfa4587a7474ec61888dfd0f2c0"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/introduction",
+      "title": "创建即用型知识库",
+      "directory": "self-host/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 265,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "1128d8048fdbb4d8465b5bc7217c4d2f1d581036302e46f8d03dbaa91b1ed81a"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/create-knowledge/setting-indexing-methods",
+      "title": "指定索引方式与检索设置",
+      "directory": "self-host/use-dify/knowledge/create-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 3709,
+      "parent_count": 5,
+      "child_count": 14,
+      "source_file_sha256": "dd66767d4d463604edcd391b9786636199aacb944055cfea37cbcac138382869"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/external-knowledge-api",
+      "title": "外部知识库 API",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 3457,
+      "parent_count": 10,
+      "child_count": 13,
+      "source_file_sha256": "8fd70fb7084470e942638a3c8b6d24bc5da828df1db2d577a65e234113f84727"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/integrate-knowledge-within-application",
+      "title": "在应用内集成知识库",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 5533,
+      "parent_count": 5,
+      "child_count": 17,
+      "source_file_sha256": "f5bc81b518dac6ab63b599ece7a12855f1dabde3c3153e09e6960cb1506fe434"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/authorize-data-source",
+      "title": "数据源授权",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 1287,
+      "parent_count": 7,
+      "child_count": 8,
+      "source_file_sha256": "2528fbced6967b0feab571a9b06a5764a39a38eea5e14da6a11d9de9f6d95e00"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/create-knowledge-pipeline",
+      "title": "步骤一：创建知识流水线",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 1848,
+      "parent_count": 4,
+      "child_count": 8,
+      "source_file_sha256": "47b5e5f1a281eeb9b12227bea6f0d9e0b5c90b98c6d9044583d33042166fb190"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/knowledge-pipeline-orchestration",
+      "title": "步骤二：编排知识流水线",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 11190,
+      "parent_count": 25,
+      "child_count": 40,
+      "source_file_sha256": "04944795466b60ecae1c561bc7650cefa16cd5c97b6056e80c7d9242f2b3f2e3"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/manage-knowledge-base",
+      "title": "步骤五：管理和使用知识库",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 152,
+      "parent_count": 2,
+      "child_count": 2,
+      "source_file_sha256": "a948e5f8f0176fdb3a2a7854e1b61ebc94c7c3629356be493864d871635225ce"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/publish-knowledge-pipeline",
+      "title": "步骤三：发布知识流水线",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 389,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "e6a9551f52d617ed76d4cf4b883b6cc40fdf20c9aae5cea67345090ef3e6c196"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/readme",
+      "title": "构建自定义知识库",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 584,
+      "parent_count": 1,
+      "child_count": 2,
+      "source_file_sha256": "c6b21a6f44a9d873db3fcb6c7bf1470b53acd1d5ae1182b791396d7b44dd4fce"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/knowledge-pipeline/upload-files",
+      "title": "步骤四：上传文件",
+      "directory": "self-host/use-dify/knowledge/knowledge-pipeline",
+      "category": "knowledge",
+      "cleaned_characters": 616,
+      "parent_count": 2,
+      "child_count": 2,
+      "source_file_sha256": "cf152f6cccdf6f85861ef0b84fc4e9d201c641ae802c5ff436b67341d45fc532"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/manage-knowledge/introduction",
+      "title": "调整知识库设置",
+      "directory": "self-host/use-dify/knowledge/manage-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 458,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "95b6a6350410c60cc5c93a96b0931749fecceaccafd8d9ce37acd66824beb29e"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/manage-knowledge/maintain-knowledge-documents",
+      "title": "维护知识库内容",
+      "directory": "self-host/use-dify/knowledge/manage-knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 2208,
+      "parent_count": 5,
+      "child_count": 7,
+      "source_file_sha256": "ff8cf0be2745c632316d51f60563340207aab7ff986147d5e344626d787f32ae"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/metadata",
+      "title": "管理文档元数据",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 4946,
+      "parent_count": 6,
+      "child_count": 17,
+      "source_file_sha256": "71fe1d4ba9593b1b0de971305c4d9624a6b77fc8e6988a23aa30178e4269aee8"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/readme",
+      "title": "知识库",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 1186,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "b398f3583244febbdfec6615fea9977b4efe8583df1a065b045e0d30dc234987"
+    },
+    {
+      "document_id": "self-host/use-dify/knowledge/test-retrieval",
+      "title": "测试检索",
+      "directory": "self-host/use-dify/knowledge",
+      "category": "knowledge",
+      "cleaned_characters": 263,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "987a63027cb67d9ae3eb91c331351a92c5933e793c2ae2d4e2d48674d5b41a02"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/analysis",
+      "title": "仪表盘",
+      "directory": "self-host/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 247,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "0114547e43aadd6d0f2edce5231beb7903d04072b8d917bc16c50c1f48f2c4d1"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/annotation-reply",
+      "title": "标注系统",
+      "directory": "self-host/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 1165,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "7043842f91626a11a7fc2bcf513ebe38c1625d76ab240f90c175f08520d80f71"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-aliyun",
+      "title": "集成阿里云云监控",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 4167,
+      "parent_count": 12,
+      "child_count": 15,
+      "source_file_sha256": "1e7bb6552e8e056e255b3a3b0e37f941a65bf4b662f6d0177978ddf9bf236bcc"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-arize",
+      "title": "集成 Arize",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6542,
+      "parent_count": 6,
+      "child_count": 22,
+      "source_file_sha256": "a80d989956017989d83fae3a8b9168e40d7c3c2cd33ee948ccc57c013c363b8a"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-langfuse",
+      "title": "集成 Langfuse",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7160,
+      "parent_count": 6,
+      "child_count": 24,
+      "source_file_sha256": "0bedaf6a08814319a9680968e14bd19524609ccaa1f32578830e17e3086d7444"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-langsmith",
+      "title": "集成 LangSmith",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7526,
+      "parent_count": 5,
+      "child_count": 26,
+      "source_file_sha256": "e9a8141f5da0cee3986274a2ba1b078382f99ca7239d75ecdead06cbb196d456"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-opik",
+      "title": "集成 Opik",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6508,
+      "parent_count": 6,
+      "child_count": 21,
+      "source_file_sha256": "e5f81996ce4099fa77b1da0d94daa7f41456c2bee49cd2905dff54bf01e0dfd8"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-phoenix",
+      "title": "集成 Phoenix",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 7104,
+      "parent_count": 10,
+      "child_count": 26,
+      "source_file_sha256": "29ec947079b2fd5de8b5b24a9097c4d78a5309553c00d01c7fa545fd0a74de89"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/integrations/integrate-weave",
+      "title": "集成 W&B Weave",
+      "directory": "self-host/use-dify/monitor/integrations",
+      "category": "monitor",
+      "cleaned_characters": 6677,
+      "parent_count": 6,
+      "child_count": 22,
+      "source_file_sha256": "242447f3909fcebcf317a6091d8db421c9d1ff86ca5d56270d07bf559ab96a29"
+    },
+    {
+      "document_id": "self-host/use-dify/monitor/logs",
+      "title": "日志",
+      "directory": "self-host/use-dify/monitor",
+      "category": "monitor",
+      "cleaned_characters": 1500,
+      "parent_count": 6,
+      "child_count": 8,
+      "source_file_sha256": "51029bfabf4040b7f8f4c0ba3e83d5ba3bc65dd170b212a0470f59b9cbede72d"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/agent",
+      "title": "Agent",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 3568,
+      "parent_count": 13,
+      "child_count": 18,
+      "source_file_sha256": "f88042a33569fcecf04d1fb88d4f0fe66ea6134d2ef9d2607648e1b08c56420a"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/answer",
+      "title": "直接回复",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 933,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "fffd1acf415df11983ca5c6b7154c60db80a4f4312f339bd6a9ca0c3ab927589"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/code",
+      "title": "代码",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 2428,
+      "parent_count": 8,
+      "child_count": 11,
+      "source_file_sha256": "2458153713fa91d5a1c796aaba5f38e7fe0027d0f2efbb55dc781aa31d7ef7f0"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/doc-extractor",
+      "title": "文档提取器",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1635,
+      "parent_count": 10,
+      "child_count": 11,
+      "source_file_sha256": "8a1f684046a42572c6f1e1d66a9031b49a2bbfc9f19cac19e8dd62d9b171c4ba"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/http-request",
+      "title": "HTTP 请求",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 2208,
+      "parent_count": 12,
+      "child_count": 12,
+      "source_file_sha256": "9e0fbd381b3646f7d376615f09a5930b385d68178e63bd5304a1d031755fdc24"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/human-input",
+      "title": "人工介入",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 3533,
+      "parent_count": 7,
+      "child_count": 14,
+      "source_file_sha256": "d0342c7ef07390ba45baf7d57da0901a4bedec351109c341fd428702efa4f469"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/ifelse",
+      "title": "If-Else",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 747,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "636685337803847224709bfc792984caeed12a29534ffec8995cdb501b67b0b0"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/iteration",
+      "title": "迭代",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1780,
+      "parent_count": 11,
+      "child_count": 11,
+      "source_file_sha256": "b231fab4f10d60b33fb7d76af641f4fc4ebe9492be19e2aaf0cda817a8eb3fd6"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/knowledge-retrieval",
+      "title": "知识检索",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 2113,
+      "parent_count": 8,
+      "child_count": 9,
+      "source_file_sha256": "7e1a5a7638146383ee21ca570523f0df5a46d8b7eefb76d3e45122b8e56e62f3"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/list-operator",
+      "title": "列表操作符",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1235,
+      "parent_count": 7,
+      "child_count": 7,
+      "source_file_sha256": "468d1a054d71817e3d3a44b1d8b9a2196a65bf7dcf1c97579678f94179468ee4"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/llm",
+      "title": "大语言模型",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 2819,
+      "parent_count": 12,
+      "child_count": 14,
+      "source_file_sha256": "59563d365a33233f7573a29afca12f97a841a8b5b1043a407a44a904b632d125"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/loop",
+      "title": "循环",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1518,
+      "parent_count": 8,
+      "child_count": 8,
+      "source_file_sha256": "36e673e3768be06701c400a5c2f98faa480b83aa4568d0145f891d2ce4bcb5fa"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/output",
+      "title": "输出",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1325,
+      "parent_count": 6,
+      "child_count": 7,
+      "source_file_sha256": "8a291481c3f7b41f7b3fa08be59cecdad8883c4758f041a5165fdb2b70a8c142"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/parameter-extractor",
+      "title": "参数提取器",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1183,
+      "parent_count": 9,
+      "child_count": 9,
+      "source_file_sha256": "889ebdbacbcdb1d37576367cc5044ace9ad35ff4d9a0adf916ff0a876adc7e85"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/question-classifier",
+      "title": "问题分类器",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 910,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "91bbd8853e58585e7403154d69866276f4c92be61a446d033fa06fb79d6c5eb5"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/start",
+      "title": "开始节点",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 444,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "790f1e69bca79cc3f04b2ac11eb7ee10833dd22ae507729b44e22c3a9e96d7e3"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/template",
+      "title": "模板转换",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 4524,
+      "parent_count": 12,
+      "child_count": 18,
+      "source_file_sha256": "f0aa77bad2d01c6111c3e5f5dec8bdc12002dc323ada624cfc2ba52b354965ab"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/tools",
+      "title": "工具节点",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 248,
+      "parent_count": 1,
+      "child_count": 1,
+      "source_file_sha256": "58ce95b66d1d57f66032cd1a7e23b0110a3f33191413bab6b65b83e3bf9ba834"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/trigger/overview",
+      "title": "触发器",
+      "directory": "self-host/use-dify/nodes/trigger",
+      "category": "nodes",
+      "cleaned_characters": 1081,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "405fd60c63311899f2644be5c6cecfe9d8749f2e6ebf30b31103e01cab3aef23"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/trigger/plugin-trigger",
+      "title": "集成触发器",
+      "directory": "self-host/use-dify/nodes/trigger",
+      "category": "nodes",
+      "cleaned_characters": 1847,
+      "parent_count": 5,
+      "child_count": 8,
+      "source_file_sha256": "cf6ea56bf6a86cd3d6e8ce7be40ffcb858e6e9c94c2aa8c0b196b02e1960bbda"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/trigger/schedule-trigger",
+      "title": "定时触发器",
+      "directory": "self-host/use-dify/nodes/trigger",
+      "category": "nodes",
+      "cleaned_characters": 2104,
+      "parent_count": 6,
+      "child_count": 10,
+      "source_file_sha256": "03a7208a518f196d70674e3771e6a597eb622c59172485d374a2e52dcda2c490"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/trigger/webhook-trigger",
+      "title": "Webhook 触发器",
+      "directory": "self-host/use-dify/nodes/trigger",
+      "category": "nodes",
+      "cleaned_characters": 3760,
+      "parent_count": 8,
+      "child_count": 17,
+      "source_file_sha256": "eb1d110ae820e65689f40740c8f7364a803115b9e06d893d3e00963541986dce"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/user-input",
+      "title": "用户输入",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 3325,
+      "parent_count": 4,
+      "child_count": 10,
+      "source_file_sha256": "c99a83ea1e2a173a3fdc1009e6ee4426d7b622a83df0b472e555ff056ccab31f"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/variable-aggregator",
+      "title": "变量聚合器",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 520,
+      "parent_count": 3,
+      "child_count": 3,
+      "source_file_sha256": "92f51b8930740130027fe6ae57e521387edecc8bb80109d25be54d5595a86ed2"
+    },
+    {
+      "document_id": "self-host/use-dify/nodes/variable-assigner",
+      "title": "变量赋值器",
+      "directory": "self-host/use-dify/nodes",
+      "category": "nodes",
+      "cleaned_characters": 1231,
+      "parent_count": 7,
+      "child_count": 8,
+      "source_file_sha256": "78570b6389f2848d532769bc649042e4cad745e6e46b02525d94b6cf82a7a504"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/README",
+      "title": "分享你的 AI 应用",
+      "directory": "self-host/use-dify/publish",
+      "category": "publish",
+      "cleaned_characters": 1301,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "46d6ad5ec86a4b45f55f68741009bca17fea272d5cd95e88bbd8ad09f74acfda"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/publish-mcp",
+      "title": "MCP 服务器",
+      "directory": "self-host/use-dify/publish",
+      "category": "publish",
+      "cleaned_characters": 1082,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "0f1d7f976422c56e6a3b11652445546616870aeac89d1b711363aea42346c170"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/publish-to-marketplace",
+      "title": "发布应用到市场",
+      "directory": "self-host/use-dify/publish",
+      "category": "publish",
+      "cleaned_characters": 3519,
+      "parent_count": 6,
+      "child_count": 12,
+      "source_file_sha256": "b2dd8afc0e9e1f51af6cd9083510e622a170e4260adcb5f52289758daa9276ea"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/chatflow-webapp",
+      "title": "聊天 Web App",
+      "directory": "self-host/use-dify/publish/webapp",
+      "category": "publish",
+      "cleaned_characters": 1667,
+      "parent_count": 10,
+      "child_count": 10,
+      "source_file_sha256": "d052519abe9ced6dcfacf1dcc51a57b87c53af5735b8227f385555d80752bd11"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/embedding-in-websites",
+      "title": "嵌入 Web 应用",
+      "directory": "self-host/use-dify/publish/webapp",
+      "category": "publish",
+      "cleaned_characters": 4966,
+      "parent_count": 13,
+      "child_count": 19,
+      "source_file_sha256": "7a7494c2df197a231224a1696b372bb1aeb254c510075682711ede64e0e61dbb"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/web-app-settings",
+      "title": "Web App 设置",
+      "directory": "self-host/use-dify/publish/webapp",
+      "category": "publish",
+      "cleaned_characters": 1655,
+      "parent_count": 9,
+      "child_count": 9,
+      "source_file_sha256": "0383a6cc34837cb7e8bdd148b689f895fb5ba1b084eefd64a96f17dd039d95fc"
+    },
+    {
+      "document_id": "self-host/use-dify/publish/webapp/workflow-webapp",
+      "title": "Workflow Web 应用",
+      "directory": "self-host/use-dify/publish/webapp",
+      "category": "publish",
+      "cleaned_characters": 1604,
+      "parent_count": 9,
+      "child_count": 9,
+      "source_file_sha256": "36cb9d1dbf057967ef1e0b4c5c87e67e11970da09c7d2ab07807b2991d3ac7b4"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/api-extension",
+      "title": "自定义端点",
+      "directory": "self-host/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 5468,
+      "parent_count": 14,
+      "child_count": 20,
+      "source_file_sha256": "aa03496f560e172c5397b018c44e26fac00cd33c5fbb1fe1bf75eecef080da43"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/cloudflare-worker",
+      "title": "使用 Cloudflare Workers 部署自定义端点",
+      "directory": "self-host/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 2980,
+      "parent_count": 4,
+      "child_count": 9,
+      "source_file_sha256": "2fbc01e7691583cebfabd971a357c45c5489fe445ea1e78844fecce0c302deea"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/external-data-tool-api-extension",
+      "title": "外部数据工具",
+      "directory": "self-host/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 1270,
+      "parent_count": 4,
+      "child_count": 5,
+      "source_file_sha256": "c5414b192cde7f4b7466924d94e9d3c477c4527f84f588e69c644c94064eb9fb"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/api-extension/moderation-api-extension",
+      "title": "敏感内容审查",
+      "directory": "self-host/use-dify/workspace/api-extension",
+      "category": "workspace",
+      "cleaned_characters": 5673,
+      "parent_count": 5,
+      "child_count": 12,
+      "source_file_sha256": "ccdc663a82becd87e375dc004ba9797e4e4862d2c508905c8a7cc710933632c5"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/app-management",
+      "title": "管理应用",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1709,
+      "parent_count": 9,
+      "child_count": 10,
+      "source_file_sha256": "9162d0539da207865089bfa1605ea947f619ca3c93e32cd449118616e66bf211"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/model-providers",
+      "title": "模型供应商",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1101,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "94dbd653408d5da7773da1f4c9830ed3595e3194fe1c0c2f5162336363e07e2b"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/personal-account-management",
+      "title": "个人设置",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 523,
+      "parent_count": 6,
+      "child_count": 6,
+      "source_file_sha256": "6f096d22b79a938960ce23aa4147a4b7cee44446940fb9ae4ce1c8dd0218c1a2"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/plugins",
+      "title": "集成",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1186,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "073d4635e172c995380f0c3646ef2c8baee30269bfafbc146c95b5a6f6a7f8f8"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/readme",
+      "title": "工作空间",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 566,
+      "parent_count": 4,
+      "child_count": 4,
+      "source_file_sha256": "2e288e7e16234c2d2cbedad2a688970113e4d533d8d6c532b01d6252f1bdc1b4"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/team-members-management",
+      "title": "管理成员",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1271,
+      "parent_count": 5,
+      "child_count": 5,
+      "source_file_sha256": "754700dc77557074628d6e265089d07f1043d583575bcb465e80938ebc4e4b84"
+    },
+    {
+      "document_id": "self-host/use-dify/workspace/tools",
+      "title": "Dify 工具",
+      "directory": "self-host/use-dify/workspace",
+      "category": "workspace",
+      "cleaned_characters": 1597,
+      "parent_count": 5,
+      "child_count": 7,
+      "source_file_sha256": "3945b8c8f985cc1463a3e1976272fcdb8fd56d569d934e9aff09ce674b206fc8"
+    }
+  ]
+}

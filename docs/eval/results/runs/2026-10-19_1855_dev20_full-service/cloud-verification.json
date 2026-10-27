@@ -1,0 +1,351 @@
+{
+  "run_id": "2026-10-19_1855_dev20_full-service",
+  "verified_at": "2026-10-19T10:09:47.840871+00:00",
+  "traces": [
+    {
+      "question_id": "dev001",
+      "trace_id": "9b4812e423ca6fa8fdbacc715193d32b",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/9b4812e423ca6fa8fdbacc715193d32b",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "851cf5555ca3714f"
+    },
+    {
+      "question_id": "dev002",
+      "trace_id": "140f2040c1c981dae5fc5df4dcdee3a2",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/140f2040c1c981dae5fc5df4dcdee3a2",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "3a2cbf19bee5e5ab"
+    },
+    {
+      "question_id": "dev003",
+      "trace_id": "c82c9ef9ad62f4bf5a84b2bec8a93c73",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/c82c9ef9ad62f4bf5a84b2bec8a93c73",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "909b1c26e037979c"
+    },
+    {
+      "question_id": "dev004",
+      "trace_id": "1d75ffa7aa464a462bd2f8ce6339e867",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/1d75ffa7aa464a462bd2f8ce6339e867",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "8d64e092f12945e7"
+    },
+    {
+      "question_id": "dev005",
+      "trace_id": "40bd19fa68b20b7e2893f16c5ff638da",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/40bd19fa68b20b7e2893f16c5ff638da",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "34914f059f0c502a"
+    },
+    {
+      "question_id": "dev006",
+      "trace_id": "4df77517c4e73d85daa84577aba3a035",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/4df77517c4e73d85daa84577aba3a035",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "19c9a4fe788438f7"
+    },
+    {
+      "question_id": "dev007",
+      "trace_id": "81e7b25fe8e351c8d30110085eaf0e87",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/81e7b25fe8e351c8d30110085eaf0e87",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "ec975f61767db60b"
+    },
+    {
+      "question_id": "dev008",
+      "trace_id": "aa764a338a8e4fc7f29cd603add138d8",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/aa764a338a8e4fc7f29cd603add138d8",
+      "local_steps": 14,
+      "cloud_steps": 14,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "29636fd8542fbe08"
+    },
+    {
+      "question_id": "dev009",
+      "trace_id": "19cdbcfc394afddc49de8972146dc771",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/19cdbcfc394afddc49de8972146dc771",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "c5b0c3da0bd7352f"
+    },
+    {
+      "question_id": "dev010",
+      "trace_id": "df5671aa1c2aa53179ba1a1fdcc728e9",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/df5671aa1c2aa53179ba1a1fdcc728e9",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "18315fc39078c5f6"
+    },
+    {
+      "question_id": "dev011",
+      "trace_id": "35dff276f3ca5ba95296db05543501cf",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/35dff276f3ca5ba95296db05543501cf",
+      "local_steps": 11,
+      "cloud_steps": 11,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "dc1557135afe74c9"
+    },
+    {
+      "question_id": "dev012",
+      "trace_id": "760463ccc97ef9071a938e8f1ab5bec9",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/760463ccc97ef9071a938e8f1ab5bec9",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "2dd58f26dd2eba6b"
+    },
+    {
+      "question_id": "dev013",
+      "trace_id": "31229ceb066830de5b374a0bb9355fcb",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/31229ceb066830de5b374a0bb9355fcb",
+      "local_steps": 11,
+      "cloud_steps": 11,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "185486676a73073b"
+    },
+    {
+      "question_id": "dev014",
+      "trace_id": "693027f02226ef172822ab97de1a5960",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/693027f02226ef172822ab97de1a5960",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "4b0395d2043fa393"
+    },
+    {
+      "question_id": "dev015",
+      "trace_id": "bef327453b645b2436dfb8b8f3174628",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/bef327453b645b2436dfb8b8f3174628",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "463ad677f830e4df"
+    },
+    {
+      "question_id": "dev016",
+      "trace_id": "a96ce89046704be7d46db6718452a106",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/a96ce89046704be7d46db6718452a106",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "88992c888990f2bd"
+    },
+    {
+      "question_id": "dev017",
+      "trace_id": "4423e69a0c1ea9a1683977535e03445f",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/4423e69a0c1ea9a1683977535e03445f",
+      "local_steps": 8,
+      "cloud_steps": 8,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "817a25d020e4661b"
+    },
+    {
+      "question_id": "dev018",
+      "trace_id": "303e44acc6106353ba0f6e885e0b28ac",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/303e44acc6106353ba0f6e885e0b28ac",
+      "local_steps": 4,
+      "cloud_steps": 4,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "bad1aabed91d3a9d"
+    },
+    {
+      "question_id": "dev019",
+      "trace_id": "98207ba842efae8953d7b63150c20f40",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/98207ba842efae8953d7b63150c20f40",
+      "local_steps": 3,
+      "cloud_steps": 3,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "70b7b755d08391b3"
+    },
+    {
+      "question_id": "dev020",
+      "trace_id": "ea22a66b88345546ae3e8326b86ebdf7",
+      "url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/ea22a66b88345546ae3e8326b86ebdf7",
+      "local_steps": 13,
+      "cloud_steps": 13,
+      "all_step_payloads_equal": true,
+      "final_answer_equal": true,
+      "root_id": "da012455aa16d225"
+    }
+  ],
+  "scores": [
+    {
+      "question_id": "dev001",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev002",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev003",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev004",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev005",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev006",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev007",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev008",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 4,
+      "scores_matched": 4,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev009",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev010",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev011",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev012",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev013",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev014",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev015",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev016",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 6,
+      "scores_matched": 6,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev017",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 5,
+      "scores_matched": 5,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev018",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 3,
+      "scores_matched": 3,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev019",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 3,
+      "scores_matched": 3,
+      "all_scores_match": true
+    },
+    {
+      "question_id": "dev020",
+      "evaluator_payload_equal": true,
+      "expected_score_count": 2,
+      "scores_matched": 2,
+      "all_scores_match": true
+    }
+  ],
+  "production_traces_verified": 20,
+  "evaluation_payloads_verified": 20,
+  "all_score_values_verified": true
+}

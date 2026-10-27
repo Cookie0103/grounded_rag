@@ -1,0 +1,140 @@
+{
+  "run_id": "2026-10-19_1855_dev20_full-service",
+  "attempted": 20,
+  "executed": 20,
+  "reviewed": 20,
+  "system_errors": 0,
+  "review_errors": 0,
+  "human_calibrated": false,
+  "trust": {
+    "count": 20,
+    "trust": 0.825,
+    "ci_low": 0.575,
+    "ci_high": 1.0,
+    "accuracy": 0.875,
+    "hallucination": 0.0625,
+    "missing": 0.0625,
+    "v_strict": 0.921875,
+    "a_strict": 0.921875,
+    "unanswerable_acceptable": 1.0
+  },
+  "actual_routes": {
+    "SINGLE": 6,
+    "MULTI": 12,
+    "REFUSE": 2
+  },
+  "routing": {
+    "matched": 8,
+    "eligible": 19
+  },
+  "recall_at_5": {
+    "hits": 13,
+    "questions": 16
+  },
+  "latency_p95_ms": 42738.19123495779,
+  "generation_cost_estimate_cny": 0.90338328,
+  "metrics": {
+    "E": {
+      "macro_average": 0.96875,
+      "applicable": 16,
+      "not_applicable": 4,
+      "numerator_sum": 49,
+      "denominator_sum": 51
+    },
+    "A": {
+      "macro_average": 0.921875,
+      "applicable": 16,
+      "not_applicable": 4,
+      "numerator_sum": 46,
+      "denominator_sum": 51
+    },
+    "F": {
+      "macro_average": 0.9951923076923077,
+      "applicable": 16,
+      "not_applicable": 4,
+      "numerator_sum": 117,
+      "denominator_sum": 118
+    },
+    "C": {
+      "macro_average": 0.9847756410256411,
+      "applicable": 16,
+      "not_applicable": 4,
+      "numerator_sum": 116,
+      "denominator_sum": 118
+    },
+    "B": {
+      "macro_average": 1.0,
+      "applicable": 4,
+      "not_applicable": 16,
+      "numerator_sum": 4,
+      "denominator_sum": 4
+    }
+  },
+  "needs_human_review": [
+    "dev011",
+    "dev012",
+    "dev013"
+  ],
+  "by_type": {
+    "fact_single": {
+      "count": 7,
+      "trust": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "accuracy": 1.0,
+      "hallucination": 0.0,
+      "missing": 0.0,
+      "v_strict": 1.0,
+      "a_strict": 1.0,
+      "unanswerable_acceptable": 0.0
+    },
+    "reasoning": {
+      "count": 4,
+      "trust": 0.375,
+      "ci_low": -0.5,
+      "ci_high": 1.0,
+      "accuracy": 0.75,
+      "hallucination": 0.25,
+      "missing": 0.0,
+      "v_strict": 0.9375,
+      "a_strict": 0.9375,
+      "unanswerable_acceptable": 0.0
+    },
+    "summary": {
+      "count": 3,
+      "trust": 0.6666666666666666,
+      "ci_low": 0.0,
+      "ci_high": 1.0,
+      "accuracy": 0.6666666666666666,
+      "hallucination": 0.0,
+      "missing": 0.3333333333333333,
+      "v_strict": 0.6666666666666666,
+      "a_strict": 0.6666666666666666,
+      "unanswerable_acceptable": 0.0
+    },
+    "unanswerable": {
+      "count": 4,
+      "trust": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "accuracy": 0.0,
+      "hallucination": 0.0,
+      "missing": 0.0,
+      "v_strict": 0.0,
+      "a_strict": 0.0,
+      "unanswerable_acceptable": 1.0
+    },
+    "version": {
+      "count": 2,
+      "trust": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0,
+      "accuracy": 1.0,
+      "hallucination": 0.0,
+      "missing": 0.0,
+      "v_strict": 1.0,
+      "a_strict": 1.0,
+      "unanswerable_acceptable": 0.0
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-20",
+  "host": "Windows / RTX 5070 Ti",
+  "commit": "c6194f9b92d74b41fe86c20aa11847e65f3c7e02",
+  "branch": "2026-10-20-dataset-repair",
+  "working_tree": "开工前已有未提交的评测与题集修改；本报告只核验当时实际工作区，不代表纯HEAD",
+  "environment": {
+    "config": {
+      "embedding_model": "qwen3",
+      "embed_device": "cuda",
+      "embed_batch_size": 32,
+      "reranker_model": "qwen3",
+      "chat_model": "deepseek",
+      "deepseek_model": "deepseek-flash",
+      "langfuse_base_url": "https://jp.cloud.langfuse.com",
+      "daily_budget_cny": 10.0
+    },
+    "deepseek_key_present": true,
+    "gpu_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 5070 Ti",
+    "spent_cny": 0.0,
+    "langfuse_auth": true
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "grounded_rag",
+    "version": "PostgreSQL 16.15 (Debian 16.15-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+    "documents": 182,
+    "parent_chunks": 1252,
+    "chunks": 2090,
+    "embeddings": [
+      {
+        "model": "qwen3-embedding-0.6b",
+        "count": 2090
+      },
+      {
+        "model": "bge-m3",
+        "count": 2090
+      }
+    ],
+    "migration": "0005"
+  },
+  "smoke": {
+    "health": {
+      "status": "ok",
+      "database": "ok",
+      "trace_id": "7f82cc6b252d4b33aee04dcb6bcaa4ca"
+    },
+    "elapsed_seconds": 69.013,
+    "trace_id": "8714c97c8e6d4d95a0ea6db0c447181f",
+    "route": "MULTI",
+    "degraded": false,
+    "cached": false,
+    "abstained": false,
+    "citations": 6,
+    "steps": [
+      {
+        "name": "guard",
+        "ms": 0.007099995855242014
+      },
+      {
+        "name": "route",
+        "ms": 1309.8116999608465
+      },
+      {
+        "name": "decompose",
+        "ms": 4839.786300028209
+      },
+      {
+        "name": "retrieve",
+        "ms": 10949.026299989782
+      },
+      {
+        "name": "grade",
+        "ms": 1170.6971999956295
+      },
+      {
+        "name": "generate",
+        "ms": 9273.93069997197
+      },
+      {
+        "name": "verify",
+        "ms": 28359.372100036126
+      },
+      {
+        "name": "generate",
+        "ms": 6658.5215999512
+      },
+      {
+        "name": "verify",
+        "ms": 6290.193199994974
+      },
+      {
+        "name": "postprocess",
+        "ms": 0.0
+      }
+    ],
+    "cost_cny": 0.16414703999999997,
+    "spent_cny": 0.16414703999999997,
+    "cloud_verified": true,
+    "cloud_observations": 11,
+    "cloud_url": "https://jp.cloud.langfuse.com/project/cmvekgygw000bad0lmc99umxo/traces/e0a516f8bcbcc37ab87eb7c3cdb011ee"
+  },
+  "warm_retrieval": {
+    "candidates": 5,
+    "timings_ms": {
+      "embed": 26.45,
+      "bm25": 0.5,
+      "vector": 68.47,
+      "fuse": 0.04,
+      "rerank": 199.29,
+      "parents": 3.75,
+      "total": 298.23
+    },
+    "client_elapsed_ms": 374.06,
+    "all_reranked": true
+  },
+  "checks": {
+    "command_check": "backend/.venv/Scripts/python.exe -m poethepoet check",
+    "integration_passed": 32,
+    "coverage_percent": 94.87,
+    "unit_passed": 438,
+    "command_integration": "backend/.venv/Scripts/python.exe -m poethepoet test-int"
+  },
+  "service": {
+    "reload": false,
+    "prewarm": true,
+    "launcher_pid": 20508,
+    "server_pid": 2720,
+    "hf_hub_offline": true,
+    "url": "http://127.0.0.1:8000"
+  },
+  "scope": "单题连通性冒烟与单次暖检索探针，不是正式效果或性能评测；未读取封存测试"
+}

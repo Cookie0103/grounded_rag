@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "deny": ["Edit(/backend/eval/data/**)", "Write(/backend/eval/data/**)"]
+  }
+}

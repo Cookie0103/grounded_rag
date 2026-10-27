@@ -1,0 +1,50 @@
+{
+  "review_id": "2026-10-20-dev70-test30-final-claude-review",
+  "reviewer": "Claude (claude-sonnet-5-5)",
+  "branch": "2026-10-20-dataset-repair",
+  "commits": ["a029657", "c6194f9"],
+  "report_markdown": "harness/code_review/2026-10-20-dev70-test30-final-claude-review.md",
+  "test30_text_not_included": true,
+  "can_start_formal_evaluation": false,
+  "can_freeze_question_sets": {"dev70": "after fixing dev030 and dev084", "test30": "after fixing test029 (test017/018/023 and version coverage recommended)"},
+  "dev70": {
+    "accept": 68, "revise": 2, "reject": 0,
+    "revise_ids": {"dev030": "unrelated asks glued; no longer a version question", "dev084": "environments.mdx L636 grpc:// conflicts with migration doc 'hostname:port' (p15)"},
+    "previous_findings_resolved": ["dev048", "dev049", "dev055", "dev057", "dev059", "dev067", "dev070", "dev072", "dev077", "dev078", "dev083", "dev043", "risk_fields", "edition_labelling"],
+    "h4_scope_check": {"dev057": "compliant (environments restates vital1 only)", "dev083": "question-level groups not widened; nugget-level OR for COOKIE_DOMAIN/NEXT_PUBLIC_COOKIE_DOMAIN only"},
+    "legacy_observations_8": "difficulty-depth only; do not affect correctness or scoring; keep and disclose"
+  },
+  "test30": {
+    "accept": 27, "revise": 3, "reject": 0,
+    "revise_ids": {"test029": "must fix: nodes/trigger/overview L52-54 documents how to pause a published trigger; reference/acceptance wrongly forbid it", "test017": "recommended: two unrelated asks glued; dify-premium used 3x", "test018": "recommended: same"},
+    "quota": {"single": 12, "multi": 12, "refusal": 4, "ambiguity": 2, "matches_ratio": true},
+    "version_coverage": "no version-unspecified question; test011 is de facto single-version; recommend replacing test029 with a version-unspecified clarify",
+    "dedup_vs_old90": "no same doc+line duplicates",
+    "developer_authored_not_blind": true
+  },
+  "scoring_code_findings": {
+    "loader_ignores_or_groups": true,
+    "hit_at_k_requires_all_gold_docs": true,
+    "recall_risk_questions": {"dev70_answerable": "11/56", "test30_answerable": "8/24"},
+    "judge_sees": "question, kind text, nuggets, representative gold docs truncated to 12000 chars, answer; not reference_answer or evidence",
+    "gold_incomplete_by_truncation": false,
+    "every_nugget_has_judge_visible_evidence": true,
+    "truncated_docs": ["self-host/deploy/configuration/environments", "self-host/deploy/troubleshooting/weaviate-v4-migration", "quick-start"],
+    "eval_round_blocks_test30": ["requires split==dev", "any validation issue incl. warning raises (test009)", "archives questions into repo docs/eval/results/runs"],
+    "eval_run_shared_cache": ".cache/eval/<system> without run id; stale cache for changed dev ids",
+    "naming_conflict": "TrustSummary.accuracy = (perfect+acceptable)/answerable shown as 正确率; no strict success rate"
+  },
+  "blockers_for_answer_success_rate": [
+    {"id": "B1", "files": ["backend/eval/judge.py (config)", "docs/eval/runbook.md section 3"], "reason": "judge not human-calibrated; prior judge was same model family as author", "acceptance": "20-sample human vs judge agreement >=85%, judge version hash in manifest"},
+    {"id": "B2", "files": ["backend/scripts/eval_round.py", "backend/scripts/eval_run.py"], "reason": "test30 cannot run; archive would put sealed questions in repo; shared cache", "acceptance": "dry run with fake system: supports split=test, outside-repo archive root, warnings not fatal, empty output dir asserted"},
+    {"id": "B3", "files": ["backend/eval/report.py", "backend/eval/scoring.py (summary only, no rule change)"], "reason": "strict success rate must be separate from +1/+0.5/-1 trust score", "acceptance": "separate strict success rate and trust score columns; offline calc from verdicts acceptable"}
+  ],
+  "required_before_publishing_recall_or_attribution": [
+    {"id": "R1", "files": ["backend/eval/dataset.py", "backend/eval/metrics.py", "backend/eval/evaluate.py", "backend/eval/attribution.py"], "reason": "OR groups ignored", "acceptance": "group-aware hit with twin unit tests"}
+  ],
+  "non_blocking_later": ["E/F/C metrics", "no-retrieval baseline and guessable_without_docs", "judge evidence/equivalent-doc input (needs author approval)", "version-unspecified test question", "test023 merge nuggets"],
+  "checks": {
+    "executed": ["git status/fetch", "validate_completion completion mode (0 hard failures)", "test_tools 9 OK", "project load_questions/validate_questions on both sets", "judge-visible evidence check for all answerable questions", "equivalent-source reverse lookup", "parent-block checks for scattered questions", "wide regex absence checks", "read of eval code and scripts"],
+    "not_executed": ["retrieval", "full system", "no-retrieval baseline", "paid judge", "human calibration"]
+  }
+}
