@@ -43,6 +43,8 @@ class StepDetails(BaseModel):
     parents: list[ParentContext] = Field(default_factory=list)
     output: str | None = None
     tool_call: ToolTrace | None = None
+    first_token_ms: float | None = None
+    total_ms: float | None = None
 
 
 class Step(BaseModel):
@@ -70,6 +72,9 @@ class ChatResponse(BaseModel):
     tool_calls: list[ToolTrace] = Field(default_factory=list)
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    synthetic: bool = False
+    first_token_ms: float | None = None
+    total_ms: float | None = None
     citations: list[Citation] = Field(default_factory=list)
     steps: list[Step] = Field(default_factory=list)
     retrieved_docs: list[str] = Field(default_factory=list)
@@ -79,3 +84,15 @@ class ChatResponse(BaseModel):
     degraded: bool = False  # 精排或生成不可用，已降级
     cached: bool = False
     standalone_question: str | None = None  # 追问独立化之后的问题；没改写就是 None
+
+
+class AnswerDelta(BaseModel):
+    text: str
+
+
+class AnswerRetraction(BaseModel):
+    replacement: str
+    reasons: tuple[str, ...]
+
+
+type ChatStreamItem = Step | AnswerDelta | AnswerRetraction | ChatResponse

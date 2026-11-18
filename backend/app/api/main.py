@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.api.chat import router as chat_router
+from app.api.chat_replay import ChatStreams
 from app.api.errors import register_error_handlers
 from app.api.health import router as health_router
 from app.api.middleware import TraceMiddleware
@@ -18,6 +19,7 @@ from app.core.config import get_settings
 from app.core.errors import AppError
 from app.core.logging import configure_logging
 from app.core.resilience import TokenBucketLimiter
+from app.db.chat_replay import RedisChatReplay
 from app.db.engine import create_engine
 from app.orchestration.factory import build_services
 
@@ -38,6 +40,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     try:
         yield
     finally:
+        await app.state.chat_streams.close()
         if app.state.services is not None:
             await app.state.services.chat.close()
         await app.state.engine.dispose()
@@ -45,9 +48,11 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 def create_app() -> FastAPI:
     app = FastAPI(title="grounded_rag", lifespan=lifespan)
+    settings = get_settings()
     app.state.services = None  # 没开预热或预热失败时，第一次请求再建
     app.state.services_lock = asyncio.Lock()
-    app.state.limiter = TokenBucketLimiter(get_settings().rate_limit_per_minute)
+    app.state.limiter = TokenBucketLimiter(settings.rate_limit_per_minute)
+    app.state.chat_streams = ChatStreams(RedisChatReplay(settings.redis_url))
     app.add_middleware(TraceMiddleware)
     register_error_handlers(app)
     app.include_router(health_router)

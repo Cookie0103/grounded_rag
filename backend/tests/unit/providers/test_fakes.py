@@ -2,7 +2,14 @@ import math
 
 import pytest
 
-from app.providers.base import ChatMessage, Completion, FunctionCall, FunctionTool
+from app.providers.base import (
+    ChatDelta,
+    ChatMessage,
+    Completion,
+    FunctionCall,
+    FunctionTool,
+    StreamingChatModel,
+)
 from app.providers.fakes import FakeChatModel, FakeEmbedder, FakeReranker, char_bigrams
 
 
@@ -121,3 +128,30 @@ async def test_chat_model_fails_loudly_when_script_runs_out() -> None:
 
     with pytest.raises(RuntimeError, match="用完"):
         await model.complete(messages)
+
+
+async def test_chat_stream_uses_scripted_text_boundaries_and_consumes_one_response() -> None:
+    model = FakeChatModel(responses=[["ご案内", "します。"], ["確認", "しました。"]])
+    messages = [ChatMessage(role="user", content="返済額を教えてください。")]
+
+    assert isinstance(model, StreamingChatModel)
+    events = [event async for event in model.stream(messages)]
+
+    assert events == [
+        ChatDelta(text="ご案内"),
+        ChatDelta(text="します。"),
+        Completion(text="ご案内します。", model="fake", prompt_tokens=6, completion_tokens=3),
+    ]
+    assert (await model.complete(messages)).text == "確認しました。"
+    assert model.calls == [messages, messages]
+
+
+async def test_chat_stream_preserves_scripted_completion_metadata() -> None:
+    completion = Completion(
+        text="確認しました。", model="fake", prompt_tokens=10, completion_tokens=5
+    )
+    model = FakeChatModel([completion])
+
+    events = [item async for item in model.stream([])]
+
+    assert events == [ChatDelta(text=completion.text), completion]

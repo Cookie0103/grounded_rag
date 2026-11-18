@@ -4,10 +4,11 @@ import asyncio
 import json
 import math
 import re
-from collections.abc import Sequence
+from collections.abc import AsyncGenerator, AsyncIterator, Sequence
 from typing import Any
 
 import httpx
+from pydantic import BaseModel, Field, ValidationError
 
 from app.core.config import (
     DEEPSEEK_INPUT_USD_PER_MILLION,
@@ -17,7 +18,7 @@ from app.core.config import (
     USD_TO_CNY,
 )
 from app.core.errors import ConfigError, DependencyUnavailableError
-from app.providers.base import ChatMessage, Completion, FunctionCall, FunctionTool
+from app.providers.base import ChatDelta, ChatMessage, Completion, FunctionCall, FunctionTool
 from app.providers.budget import BudgetLedger
 
 TIMEOUT_SECONDS = 60.0
@@ -26,6 +27,38 @@ RETRY_STATUSES = (429, 500, 502, 503, 504)
 HTTP_ERROR_STATUS = 400
 UNAVAILABLE_LOGPROB = -9999.0
 INTENT_FIELD = re.compile(r'[{,]\s*"intent"\s*:\s*"([^"\\]+)"')
+
+
+class _StreamUsage(BaseModel):
+    prompt_tokens: int | None = Field(default=None, ge=0, strict=True)
+    completion_tokens: int | None = Field(default=None, ge=0, strict=True)
+
+
+class _StreamChoice(BaseModel):
+    delta: dict[str, Any] | None = None
+
+
+class _StreamChunk(BaseModel):
+    model: str | None = None
+    choices: list[_StreamChoice] = Field(default_factory=list)
+    usage: _StreamUsage | None = None
+    error: Any = None
+
+    def visible_text(self) -> str:
+        delta = self.choices[0].delta if self.choices else None
+        content = delta.get("content") if delta is not None else None
+        return content if isinstance(content, str) else ""
+
+
+async def _sse_data(response: httpx.Response) -> AsyncIterator[str]:
+    response.encoding = "utf-8-sig"
+    lines: list[str] = []
+    async for line in response.aiter_lines():
+        if not line and lines:
+            yield "\n".join(lines)
+            lines.clear()
+        elif line == "data" or line.startswith("data:"):
+            lines.append(line.partition(":")[2].removeprefix(" "))
 
 
 def _intent_span(text: str) -> tuple[int, int] | None:
@@ -127,28 +160,19 @@ class OpenAIChat:
         tools: Sequence[FunctionTool] | None = None,
         logprobs: bool = False,
     ) -> Completion:
-        if not self._api_key:
-            raise ConfigError(f"没有配置 {self.api_key_name}")
-        if self._ledger is not None:
-            self._ledger.check()
-        body: dict[str, Any] = {
-            "model": self._model,
-            "messages": [message.model_dump() for message in messages],
-            "temperature": 0,
-        }
+        headers = self._request_headers()
+        body = self._request_body(messages)
         if json_mode:
             body["response_format"] = {"type": "json_object"}
         if tools:
             body["tools"] = [{"type": "function", "function": tool.model_dump()} for tool in tools]
         if logprobs and self._supports_logprobs:
             body["logprobs"] = True
-        data = await self._post(body)
+        data = await self._post(body, headers)
         usage = data.get("usage", {})
         prompt_tokens = int(usage.get("prompt_tokens", 0))
         completion_tokens = int(usage.get("completion_tokens", 0))
-        amount = (
-            0.0 if self._is_free else cost_cny(prompt_tokens, completion_tokens, model=self._model)
-        )
+        amount = self._cost(prompt_tokens, completion_tokens)
         choice = data["choices"][0]
         message = choice["message"]
         text = message.get("content") or ""
@@ -169,8 +193,75 @@ class OpenAIChat:
             self._ledger.add(amount)
         return completion
 
-    async def _post(self, body: dict[str, Any]) -> dict[str, Any]:
-        headers = {"Authorization": f"Bearer {self._api_key}"}
+    async def stream(self, messages: list[ChatMessage]) -> AsyncGenerator[ChatDelta | Completion]:
+        """逐段转发可见文本，并在结束事件后返回完整响应与上游用量。"""
+        headers = self._request_headers()
+        body = self._request_body(messages)
+        body.update(stream=True, stream_options={"include_usage": True})
+        model = self._model
+        usage = _StreamUsage()
+        parts: list[str] = []
+        try:
+            # 上游可能在首个可见片段前就已计费，流式请求只发一次。
+            async with self._client.stream(
+                "POST", "/chat/completions", json=body, headers=headers
+            ) as response:
+                self._check_status(response)
+                async for data in _sse_data(response):
+                    if data == "[DONE]":
+                        break
+                    chunk = _StreamChunk.model_validate_json(data)
+                    if chunk.error is not None:
+                        raise DependencyUnavailableError(f"{self.provider_name} 返回流式错误")
+                    model = chunk.model or model
+                    usage = chunk.usage if chunk.usage is not None else usage
+                    if text := chunk.visible_text():
+                        parts.append(text)
+                        yield ChatDelta(text=text)
+                else:
+                    raise DependencyUnavailableError(f"{self.provider_name} 的模型流提前结束")
+        except httpx.RequestError as error:
+            raise DependencyUnavailableError(f"{self.provider_name} 的模型流中断") from error
+        except ValidationError:
+            raise DependencyUnavailableError(f"{self.provider_name} 返回无效的流式响应") from None
+        finally:
+            amount = self._record_stream_usage(usage)
+        yield Completion(
+            text="".join(parts),
+            model=model,
+            prompt_tokens=usage.prompt_tokens or 0,
+            completion_tokens=usage.completion_tokens or 0,
+            cost_cny=amount,
+        )
+
+    def _record_stream_usage(self, usage: _StreamUsage) -> float | None:
+        if usage.prompt_tokens is None or usage.completion_tokens is None:
+            return None
+        amount = self._cost(usage.prompt_tokens, usage.completion_tokens)
+        if self._ledger is not None and amount:
+            self._ledger.add(amount)
+        return amount
+
+    def _request_headers(self) -> dict[str, str]:
+        if not self._api_key:
+            raise ConfigError(f"没有配置 {self.api_key_name}")
+        if self._ledger is not None:
+            self._ledger.check()
+        return {"Authorization": f"Bearer {self._api_key}"}
+
+    def _request_body(self, messages: list[ChatMessage]) -> dict[str, Any]:
+        return {
+            "model": self._model,
+            "messages": [message.model_dump() for message in messages],
+            "temperature": 0,
+        }
+
+    def _cost(self, prompt_tokens: int, completion_tokens: int) -> float:
+        return (
+            0.0 if self._is_free else cost_cny(prompt_tokens, completion_tokens, model=self._model)
+        )
+
+    async def _post(self, body: dict[str, Any], headers: dict[str, str]) -> dict[str, Any]:
         for attempt in range(RETRIES + 1):
             try:
                 response = await self._client.post("/chat/completions", json=body, headers=headers)
@@ -190,10 +281,13 @@ class OpenAIChat:
         raise AssertionError("unreachable")  # pragma: no cover
 
     def _parse(self, response: httpx.Response) -> dict[str, Any]:
-        if response.status_code >= HTTP_ERROR_STATUS:
-            raise DependencyUnavailableError(f"{self.provider_name} 返回 {response.status_code}")
+        self._check_status(response)
         parsed: dict[str, Any] = response.json()
         return parsed
+
+    def _check_status(self, response: httpx.Response) -> None:
+        if response.status_code >= HTTP_ERROR_STATUS:
+            raise DependencyUnavailableError(f"{self.provider_name} 返回 {response.status_code}")
 
 
 class DeepSeekChat(OpenAIChat):

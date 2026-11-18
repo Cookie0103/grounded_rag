@@ -1,4 +1,5 @@
 import json
+from collections.abc import AsyncIterator
 from datetime import date
 from math import log
 from pathlib import Path
@@ -9,11 +10,20 @@ import pytest
 
 from app.core.config import Settings
 from app.core.errors import BudgetExceededError, ConfigError, DependencyUnavailableError
-from app.providers.base import ChatMessage, ChatTier, FunctionCall, FunctionTool
+from app.providers.base import (
+    ChatDelta,
+    ChatMessage,
+    ChatTier,
+    Completion,
+    FunctionCall,
+    FunctionTool,
+    StreamingChatModel,
+)
 from app.providers.budget import BudgetLedger
 from app.providers.deepseek import DeepSeekChat, cost_cny
 from app.providers.factory import get_chat_model
 from app.providers.fakes import FakeChatModel
+from app.providers.gateway import GatewayChat
 
 MESSAGES = [ChatMessage(role="user", content="你好")]
 OK = {
@@ -47,13 +57,171 @@ def _transport(
     seen: list[dict[str, Any]] = []
 
     def handle(request: httpx.Request) -> httpx.Response:
-        seen.append({"headers": dict(request.headers), "body": json.loads(request.content)})
+        seen.append(
+            {
+                "headers": dict(request.headers),
+                "body": json.loads(request.content),
+                "method": request.method,
+                "path": request.url.path,
+            }
+        )
         item = queue.pop(0)
         if isinstance(item, Exception):
             raise item
         return item
 
     return httpx.MockTransport(handle), seen
+
+
+class _Stream(httpx.AsyncByteStream):
+    def __init__(self, *chunks: bytes | httpx.TransportError) -> None:
+        self._chunks = chunks
+        self.read_count = 0
+        self.closed = False
+
+    async def __aiter__(self) -> AsyncIterator[bytes]:
+        for chunk in self._chunks:
+            self.read_count += 1
+            if isinstance(chunk, httpx.TransportError):
+                raise chunk
+            yield chunk
+
+    async def aclose(self) -> None:
+        self.closed = True
+
+
+def _sse_data(payload: dict[str, Any]) -> bytes:
+    return f"data: {json.dumps(payload, ensure_ascii=False)}\r\n\r\n".encode()
+
+
+async def test_gateway_streams_visible_text_then_reports_usage(tmp_path: Path) -> None:
+    first = b': keepalive\r\n\r\ndata: {"choices":\r\ndata: [{"delta":{"content":"'
+    first += 'ご案内"}}]}\r\n\r\n'.encode()
+    split = first.index("ご".encode()) + 1
+    upstream = _Stream(
+        _sse_data({"choices": [{"delta": {"role": "assistant", "reasoning_content": "非公開"}}]}),
+        first[:split],
+        first[split:],
+        _sse_data({"choices": [{"delta": {"content": "します。"}}], "usage": None}),
+        _sse_data({"choices": [{"delta": {}, "finish_reason": "stop"}]}),
+        _sse_data(
+            {
+                "model": "upstream",
+                "choices": [],
+                "usage": {"prompt_tokens": 100, "completion_tokens": 50},
+            }
+        ),
+        b"data: [DONE]\r\n\r\n",
+    )
+    transport, seen = _transport(httpx.Response(200, stream=upstream))
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=10)
+    async with httpx.AsyncClient(base_url="http://gateway/v1", transport=transport) as client:
+        chat = GatewayChat(
+            api_key="key",
+            base_url="http://gateway/v1",
+            model="deepseek-v4-pro",
+            ledger=ledger,
+            client=client,
+        )
+        assert isinstance(chat, StreamingChatModel)
+        stream = chat.stream(MESSAGES)
+        assert await anext(stream) == ChatDelta(text="ご案内")
+        assert upstream.read_count == 3
+        assert ledger.spent() == 0
+        rest = [item async for item in stream]
+
+    assert seen[0]["method"] == "POST"
+    assert seen[0]["path"] == "/v1/chat/completions"
+    assert seen[0]["headers"]["authorization"] == "Bearer key"
+    assert seen[0]["body"]["stream"] is True
+    assert seen[0]["body"]["stream_options"] == {"include_usage": True}
+    assert len(rest) == 2
+    assert rest[0] == ChatDelta(text="します。")
+    completion = rest[1]
+    assert isinstance(completion, Completion)
+    assert completion.text == "ご案内します。"
+    assert completion.model == "upstream"
+    assert (completion.prompt_tokens, completion.completion_tokens) == (100, 50)
+    assert completion.cost_cny == pytest.approx(0.002376)
+    assert ledger.spent() == pytest.approx(0.002376)
+    assert upstream.closed
+
+
+@pytest.mark.parametrize("usage", [None, {"prompt_tokens": 0, "completion_tokens": 0}])
+async def test_stream_never_estimates_usage_from_text(
+    usage: dict[str, int] | None, tmp_path: Path
+) -> None:
+    response = httpx.Response(
+        200,
+        content=(
+            _sse_data({"choices": [{"delta": {"content": "確認しました。"}}], "usage": usage})
+            + b"data: [DONE]\n\n"
+        ),
+    )
+    transport, _ = _transport(response)
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=10)
+
+    events = [event async for event in _chat(transport, ledger=ledger).stream(MESSAGES)]
+
+    assert len(events) == 2
+    completion = events[-1]
+    assert isinstance(completion, Completion)
+    assert (completion.prompt_tokens, completion.completion_tokens) == (0, 0)
+    assert completion.cost_cny == (None if usage is None else 0.0)
+    assert ledger.spent() == 0
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        b"",
+        b"data: {invalid}\n\n",
+        _sse_data({"error": {"message": "非公開"}}),
+        httpx.ReadTimeout("slow"),
+    ],
+)
+async def test_interrupted_stream_closes_without_reissuing_the_request(
+    failure: bytes | httpx.TransportError, tmp_path: Path
+) -> None:
+    upstream = _Stream(_sse_data({"choices": [{"delta": {"content": "受付"}}]}), failure)
+    transport, seen = _transport(httpx.Response(200, stream=upstream))
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=10)
+    stream = _chat(transport, ledger=ledger).stream(MESSAGES)
+
+    assert await anext(stream) == ChatDelta(text="受付")
+    with pytest.raises(DependencyUnavailableError, match="DeepSeek"):
+        await anext(stream)
+
+    assert len(seen) == 1
+    assert upstream.closed
+    assert ledger.spent() == 0
+
+
+async def test_interrupted_stream_records_usage_when_already_reported(tmp_path: Path) -> None:
+    upstream = _Stream(
+        _sse_data({"choices": [], "usage": {"prompt_tokens": 1000, "completion_tokens": 500}}),
+        httpx.ReadTimeout("slow"),
+    )
+    transport, seen = _transport(httpx.Response(200, stream=upstream))
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=10)
+
+    with pytest.raises(DependencyUnavailableError):
+        await anext(_chat(transport, ledger=ledger).stream(MESSAGES))
+
+    assert len(seen) == 1
+    assert ledger.spent() == pytest.approx(0.00648)
+    assert upstream.closed
+
+
+async def test_stream_checks_remaining_budget_before_request(tmp_path: Path) -> None:
+    transport, seen = _transport()
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=1)
+    ledger.add(1)
+
+    with pytest.raises(BudgetExceededError):
+        await anext(_chat(transport, ledger=ledger).stream(MESSAGES))
+
+    assert not seen
 
 
 async def test_successful_call_returns_text_tokens_and_sends_expected_request() -> None:

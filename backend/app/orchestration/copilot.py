@@ -3,8 +3,10 @@
 import time
 import unicodedata
 from collections.abc import AsyncIterator
+from datetime import date
 from typing import Literal, Self, cast
 
+from langgraph.config import get_stream_writer
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from pydantic import BaseModel, ConfigDict, ValidationError, model_validator
@@ -19,15 +21,19 @@ from app.orchestration.guard import check_input
 from app.orchestration.jsonutil import as_bool, parse_object
 from app.orchestration.models import (
     REFUSE,
+    AnswerDelta,
     Channel,
     ChatRequest,
     ChatResponse,
+    ChatStreamItem,
     Citation,
     Intent,
     Step,
     StepDetails,
 )
-from app.providers.base import ChatMessage, ChatModel, Completion
+from app.orchestration.output_guard import validate_output
+from app.orchestration.pii import redact_pii
+from app.providers.base import ChatDelta, ChatMessage, ChatModel, Completion, StreamingChatModel
 from app.retrieval.retriever import RetrievalResult, Retriever
 from app.tools.middleware import ToolRunner
 
@@ -48,7 +54,14 @@ GREETINGS = frozenset(
 )
 REPHRASE_TEXT = "ご質問の内容を確認するため、具体的な手続きや条件を添えてお尋ねください。"
 Failure = Literal[
-    "guard", "denied", "failed", "empty_policy", "retrieval_unavailable", "evidence", "generation"
+    "guard",
+    "denied",
+    "failed",
+    "empty_policy",
+    "retrieval_unavailable",
+    "evidence",
+    "generation",
+    "output_guard",
 ]
 AfterAgentIntent = Literal["direct", "escalate", "retrieve", "tool_branch"]
 
@@ -72,6 +85,7 @@ class _IntentResult(BaseModel):
 
 class _State(ToolOutcome, total=False):
     request: ChatRequest
+    stream_tokens: bool
     previous_intent: Intent | None
     previous_policy_question: str | None
     intent: Intent
@@ -127,11 +141,13 @@ class CopilotGraph:
         *,
         previous_intent: Intent | None = None,
         previous_policy_question: str | None = None,
-    ) -> AsyncIterator[Step | ChatResponse]:
+        stream_tokens: bool = False,
+    ) -> AsyncIterator[ChatStreamItem]:
         """逐节点发送步骤，再发送包含本轮证据摘要的响应。"""
         graph = self.agent_graph if request.channel == "agent" else self.customer_graph
         final: _State = {
             "request": request,
+            "stream_tokens": stream_tokens,
             "previous_intent": previous_intent,
             "previous_policy_question": previous_policy_question,
         }
@@ -141,6 +157,8 @@ class CopilotGraph:
         ):
             if mode == "custom" and isinstance(result, Step):
                 steps.append(result)
+                yield result
+            elif mode == "custom" and isinstance(result, AnswerDelta):
                 yield result
             elif mode == "values" and not namespace:
                 final = cast(_State, result)
@@ -270,7 +288,7 @@ class CopilotGraph:
             record("standalone", started, "独立化模型不可用，沿用原问")
             return None, []
         rewrite = (parse_object(completion.text) or {}).get("question")
-        rewrite = rewrite.strip() if isinstance(rewrite, str) else ""
+        rewrite = redact_pii(rewrite.strip()) if isinstance(rewrite, str) else ""
         standalone = rewrite if rewrite != question and check_input(rewrite) is None else None
         record("standalone", started, "已独立化" if standalone else "沿用原问")
         return standalone, [ModelUsage.from_completion(completion)]
@@ -288,24 +306,39 @@ class CopilotGraph:
             payload["policies"] = policy_context
         kind = "mixed" if evidence and policy_context else "lookup" if evidence else "policy"
         try:
-            completion = await self._large.complete(model_messages(f"generate_{kind}_v1", payload))
+            completion = await self._complete_generation(
+                model_messages(f"generate_{kind}_v1", payload), state.get("stream_tokens", False)
+            )
         except DependencyUnavailableError:
             record("generate", started, "生成模型不可用")
             return {"failure": "generation"}
-        cleaned, used = resolve_citations(
-            completion.text.strip(), state.get("potential_citations", [])
-        )
-        answer = cleaned.strip()
+        raw = completion.text if state.get("stream_tokens") else completion.text.strip()
+        citations = state.get("potential_citations", [])
         record(
             "generate",
             started,
-            f"使用 {len(used)} 个引用",
+            kind,
             StepDetails(context=policy_context or None),
         )
         update: _State = {"usage": [ModelUsage.from_completion(completion)]}
-        if not answer or (policy_context and not used):
+        if not raw.strip():
             return {**update, "failure": "evidence"}
+        if not _validate_generation(raw, state, evidence):
+            return {**update, "failure": "output_guard"}
+        answer, used = resolve_citations(raw, citations)
         return {**update, "answer": answer, "citations": used}
+
+    async def _complete_generation(
+        self, messages: list[ChatMessage], stream_tokens: bool
+    ) -> Completion:
+        if not stream_tokens or not isinstance(self._large, StreamingChatModel):
+            return await self._large.complete(messages)
+        async for item in self._large.stream(messages):
+            if isinstance(item, ChatDelta):
+                get_stream_writer()(AnswerDelta(text=item.text))
+            else:
+                return item
+        raise DependencyUnavailableError("模型流式响应提前结束")
 
     async def _grade(self, state: _State) -> _State:
         started = time.perf_counter()
@@ -424,6 +457,43 @@ def _strict_context(state: _State) -> str:
     return "\n\n".join(filter(None, parts))
 
 
+def _validate_generation(raw: str, state: _State, evidence: list[dict[str, object]]) -> bool:
+    started = time.perf_counter()
+    request_filter = state["request"].filter
+    as_of = request_filter.as_of if request_filter is not None else date.today()
+    policy_context = state.get("policy_context", "")
+    outcome = validate_output(
+        raw,
+        tool_evidence=evidence,
+        policy_texts=(policy_context,) if policy_context else (),
+        allowed_citations=state.get("potential_citations", []),
+        active_document_ids=_active_documents(state.get("retrieved"), as_of),
+        require_citations=bool(policy_context),
+    )
+    masked = redact_pii(raw)
+    reasons = outcome.reasons if raw == masked else (*outcome.reasons, "personal_information")
+    if reasons:
+        record("output_guard", started, ",".join(reasons), StepDetails(output=masked))
+        return False
+    record("output_guard", started, "通过")
+    return outcome.passed
+
+
+def _active_documents(retrieved: RetrievalResult | None, as_of: date) -> set[str]:
+    valid: set[str] = set()
+    if retrieved is not None:
+        for candidate in retrieved.candidates:
+            policy = candidate.chunk.policy
+            if (
+                policy is not None
+                and policy.status in {"online", "offline"}
+                and policy.effective_from <= as_of
+                and (policy.effective_to is None or as_of < policy.effective_to)
+            ):
+                valid.add(candidate.chunk.document_id)
+    return valid
+
+
 def _direct(state: _State) -> _State:
     return _fixed("direct")
 
@@ -454,6 +524,7 @@ def _degrade(state: _State) -> _State:
         "retrieval_unavailable": "degrade_service_v1",
         "evidence": "degrade_policy_v1",
         "generation": "degrade_service_v1",
+        "output_guard": "degrade_output_v1",
     }[failure]
     answer = prompts.render(filename).strip()
     record("degrade", started, failure)
@@ -468,6 +539,7 @@ def _response(state: _State, steps: list[Step]) -> ChatResponse:
     candidates = retrieved.candidates if retrieved else []
     answer = state["answer"]
     failure = state.get("failure")
+    citations = state.get("citations", [])
     if state.get("conservative") and not failure:
         answer = f"{answer}\n\n{REPHRASE_TEXT}"
     return ChatResponse(
@@ -475,16 +547,30 @@ def _response(state: _State, steps: list[Step]) -> ChatResponse:
         route=intent or REFUSE,
         intent=intent,
         secondary_intent=state.get("secondary_intent"),
-        citations=state.get("citations", []),
+        citations=citations,
         steps=steps,
         tool_calls=[run.trace for run in state.get("tool_runs", [])],
         retrieved_docs=list(dict.fromkeys(candidate.chunk.document_id for candidate in candidates)),
         contexts=[parent.text for parent in parents],
         prompt_tokens=sum(item.prompt_tokens for item in usage),
         completion_tokens=sum(item.completion_tokens for item in usage),
+        synthetic=_uses_synthetic_evidence(state, citations),
         cost_cny=sum(item.cost_cny for item in usage),
         abstained=bool(failure) or state.get("abstained", False),
         degraded=failure in ("denied", "failed", "retrieval_unavailable", "generation")
         or bool(retrieved and retrieved.degraded),
         standalone_question=state.get("standalone_question"),
+    )
+
+
+def _uses_synthetic_evidence(state: _State, citations: list[Citation]) -> bool:
+    if any(run.result.synthetic for run in state.get("tool_runs", [])):
+        return True
+    result = state.get("retrieved")
+    cited_docs = {citation.document_id for citation in citations}
+    return result is not None and any(
+        item.chunk.document_id in cited_docs
+        and item.chunk.policy is not None
+        and item.chunk.policy.synthetic
+        for item in result.candidates
     )

@@ -2,13 +2,15 @@
 
 import hashlib
 import math
-from collections.abc import Sequence
+from collections.abc import AsyncIterator, Sequence
 
-from app.providers.base import ChatMessage, Completion, FunctionTool
+from app.providers.base import ChatDelta, ChatMessage, Completion, FunctionTool
 
 FAKE_MODEL_NAME = "fake"
 DEFAULT_DIMENSION = 1024
 CHARS_PER_TOKEN = 2  # 粗略估算，只用于假实现的 token 数
+
+type _FakeResponse = str | Completion | Sequence[str]
 
 
 def char_bigrams(text: str) -> set[str]:
@@ -64,9 +66,9 @@ class FakeReranker:
 
 
 class FakeChatModel:
-    """返回预设文本或完成响应，没有预设时回显最后一条 user 消息。"""
+    """返回预设文本、完成响应或片段序列，没有预设时回显最后一条 user 消息。"""
 
-    def __init__(self, responses: Sequence[str | Completion] | None = None) -> None:
+    def __init__(self, responses: Sequence[_FakeResponse] | None = None) -> None:
         self._responses = list(responses) if responses is not None else None
         self._next = 0
         self.calls: list[list[ChatMessage]] = []
@@ -80,20 +82,35 @@ class FakeChatModel:
         tools: Sequence[FunctionTool] | None = None,
         logprobs: bool = False,
     ) -> Completion:
-        self.calls.append(list(messages))
-        self.offered_tools.append(list(tools) if tools is not None else None)
-        response = self._next_response(messages)
+        return self._completion(messages, self._next_response(messages, tools))
+
+    async def stream(self, messages: list[ChatMessage]) -> AsyncIterator[ChatDelta | Completion]:
+        """逐段返回预设片段，并按相同规则生成完整响应。"""
+        response = self._next_response(messages, None)
+        completion = self._completion(messages, response)
+        parts = (completion.text,) if isinstance(response, (str, Completion)) else response
+        for part in parts:
+            if part:
+                yield ChatDelta(text=part)
+        yield completion
+
+    def _completion(self, messages: list[ChatMessage], response: _FakeResponse) -> Completion:
         if isinstance(response, Completion):
             return response
+        text = response if isinstance(response, str) else "".join(response)
         prompt_chars = sum(len(message.content) for message in messages)
         return Completion(
-            text=response,
+            text=text,
             model=FAKE_MODEL_NAME,
             prompt_tokens=prompt_chars // CHARS_PER_TOKEN,
-            completion_tokens=len(response) // CHARS_PER_TOKEN,
+            completion_tokens=len(text) // CHARS_PER_TOKEN,
         )
 
-    def _next_response(self, messages: list[ChatMessage]) -> str | Completion:
+    def _next_response(
+        self, messages: list[ChatMessage], tools: Sequence[FunctionTool] | None
+    ) -> _FakeResponse:
+        self.calls.append(list(messages))
+        self.offered_tools.append(list(tools) if tools is not None else None)
         if self._responses is None:
             user_messages = [message for message in messages if message.role == "user"]
             return user_messages[-1].content if user_messages else ""

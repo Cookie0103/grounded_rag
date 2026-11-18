@@ -50,3 +50,10 @@ class TraceNotFoundError(AppError):
 
     code = "TRACE_NOT_FOUND"
     status_code = 404
+
+
+class ReplayExpiredError(AppError):
+    """对应的 SSE 缓冲已过期。"""
+
+    code = "REPLAY_EXPIRED"
+    status_code = 410

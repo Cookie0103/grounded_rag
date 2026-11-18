@@ -1,7 +1,7 @@
 """模型提供方接口：业务代码只依赖这里的 Protocol，不直接用第三方 SDK。"""
 
-from collections.abc import Sequence
-from typing import Any, Literal, Protocol
+from collections.abc import AsyncIterator, Sequence
+from typing import Any, Literal, Protocol, runtime_checkable
 
 from pydantic import BaseModel, Field
 
@@ -38,6 +38,12 @@ class Completion(BaseModel):
     confidence: float | None = None
 
 
+class ChatDelta(BaseModel):
+    """模型生成的一段可见文本。"""
+
+    text: str
+
+
 class ChatModel(Protocol):
     async def complete(
         self,
@@ -47,6 +53,13 @@ class ChatModel(Protocol):
         tools: Sequence[FunctionTool] | None = None,
         logprobs: bool = False,
     ) -> Completion: ...
+
+
+@runtime_checkable
+class StreamingChatModel(ChatModel, Protocol):
+    def stream(self, messages: list[ChatMessage]) -> AsyncIterator[ChatDelta | Completion]:
+        """逐段返回可见文本，正常结束时返回一次完整响应。"""
+        ...
 
 
 class Embedder(Protocol):

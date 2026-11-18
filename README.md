@@ -68,4 +68,14 @@ uv run poe test-int
 
 响应包含 `intent`、脱敏 `tool_calls`、`citations`、节点耗时和网关用量。配置 `STRICT_ANSWER_CHECKS=true` 可打开证据评分和忠实度校验。用 `uv run python -m scripts.phase_34_smoke` 跑 20 条合成日文样例，DeepSeek 用量计入原每日预算。
 
+## 阶段 35 流式问答与护栏
+
+`POST /chat` 加 `"stream": true` 会返回 SSE。每个数据事件带 `id` 和 `response_id`。断线后用 `GET /chat/stream/{response_id}` 并传 `Last-Event-ID` 继续读取，生成结束 120 秒后返回 410。客户端收到 `retract` 时用 `replacement` 替换已显示的文本，由 `answer` 事件确认最终文本。
+
+```bash
+uv run python -m scripts.stream_client --disconnect-after 5 '一部繰上返済の手続を教えてください。'
+```
+
+服务在进入模型前遮蔽问题中的电话、账户、卡号、个人编号和电邮。收到完整模型输出后检查数字证据、规程引用、禁用表达，首字与整段耗时分别进入 trace。使用合成工具数据或引用合成规程的响应带 `synthetic: true`。
+
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。

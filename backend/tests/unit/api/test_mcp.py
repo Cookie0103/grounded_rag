@@ -36,7 +36,9 @@ class StubChat:
         self.requests.append(request)
         return self._response
 
-    async def stream(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
+    async def stream(
+        self, request: ChatRequest, *, stream_tokens: bool = False
+    ) -> AsyncIterator[Step | ChatResponse]:
         yield await self.answer(request)
 
     async def close(self) -> None:

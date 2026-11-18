@@ -6,9 +6,10 @@ from datetime import date
 import pytest
 
 from app.core.config import DEFAULT_POLICY_RERANK, FINAL_TOP_K
+from app.core.policy import PolicyMetadata
 from app.db.policy_filter import MetaFilter
 from app.orchestration.copilot import CopilotGraph
-from app.orchestration.models import ChatRequest, ChatResponse, Step
+from app.orchestration.models import AnswerDelta, ChatRequest, ChatResponse, Step
 from app.providers.base import Completion, FunctionCall
 from app.providers.fakes import FakeChatModel
 from app.providers.mock_core import MockCoreReply, MockCoreRequest
@@ -59,7 +60,20 @@ class StubRetriever:
         if self.started is not None:
             await self.started.wait()
         parent = ParentContext("p1", "policy-a", "申込方法", POLICY)
-        candidate = Candidate(1, ChunkInfo("c1", "policy-a", "p1", "申込方法", POLICY))
+        policy = PolicyMetadata(
+            source="internal",
+            synthetic=True,
+            product_line="home_loan",
+            policy_type="手続",
+            policy_id="POL-TEST",
+            effective_from=date(2020, 1, 1),
+            status="online",
+            corpus_tier="S",
+            based_on=("public-fixture",),
+        )
+        candidate = Candidate(
+            1, ChunkInfo("c1", "policy-a", "p1", "申込方法", POLICY, policy=policy)
+        )
         return RetrievalResult(query, [candidate], [parent])
 
 
@@ -126,12 +140,12 @@ def _runner(core: StubCore) -> ToolRunner:
         ("smalltalk", "direct", "住宅ローン"),
         ("complaint", "escalate", "責任者"),
         ("lookup", "handoff", "担当者"),
-        ("policy", "generate", POLICY),
+        ("policy", "output_guard", POLICY),
     ],
 )
 async def test_customer_intents_use_separate_lanes(intent: str, node: str, message: str) -> None:
     small = FakeChatModel([_completion(json.dumps({"intent": intent}))])
-    large = FakeChatModel([_completion(f"{POLICY} [1] [9]")])
+    large = FakeChatModel([_completion(f"{POLICY} [1]")])
     retriever, core = StubRetriever(), StubCore()
     graph = CopilotGraph(small, large, retriever, _runner(core))
 
@@ -147,7 +161,6 @@ async def test_customer_intents_use_separate_lanes(intent: str, node: str, messa
         assert not any(char.isnumeric() for char in response.answer)
     if intent == "policy":
         assert [citation.document_id for citation in response.citations] == ["policy-a"]
-        assert "[9]" not in response.answer
 
 
 async def test_customer_mixed_intent_hands_off_without_retrieving_or_offering_tools() -> None:
@@ -373,9 +386,9 @@ async def test_unregistered_tools_or_invalid_arguments_never_reach_core(
     )
 
 
-async def test_policy_with_only_unknown_citations_abstains() -> None:
+async def test_policy_with_any_unknown_citations_abstains() -> None:
     small = FakeChatModel([_completion('{"intent":"policy"}')])
-    large = FakeChatModel([_completion(f"{POLICY} [9]")])
+    large = FakeChatModel([_completion(f"{POLICY} [1] [9]")])
     graph = CopilotGraph(small, large, StubRetriever(), _runner(StubCore()))
 
     response = await graph.answer(ChatRequest(question=QUESTION))
@@ -383,6 +396,32 @@ async def test_policy_with_only_unknown_citations_abstains() -> None:
     assert response.abstained
     assert POLICY not in response.answer
     assert not response.citations
+    assert (
+        next(step.note for step in response.steps if step.name == "output_guard")
+        == "invalid_citation"
+    )
+
+
+async def test_streamed_unsupported_amount_is_captured_for_retraction() -> None:
+    small = FakeChatModel([_completion('{"intent":"policy"}')])
+    large = FakeChatModel([["手数料は", "1,234円です。 [1]"]])
+    graph = CopilotGraph(small, large, StubRetriever(), _runner(StubCore()))
+
+    events = [
+        item async for item in graph.stream(ChatRequest(question=QUESTION), stream_tokens=True)
+    ]
+    assert [item.text for item in events if isinstance(item, AnswerDelta)] == [
+        "手数料は",
+        "1,234円です。 [1]",
+    ]
+    response = events[-1]
+    assert isinstance(response, ChatResponse)
+    assert response.abstained
+    assert "1,234" not in response.answer
+    blocked = next(step for step in response.steps if step.name == "output_guard")
+    assert blocked.note == "unsupported_number"
+    assert blocked.details is not None
+    assert blocked.details.output == "手数料は1,234円です。 [1]"
 
 
 async def test_strict_mode_runs_existing_grade_and_verify() -> None:
@@ -400,6 +439,12 @@ async def test_strict_mode_runs_existing_grade_and_verify() -> None:
 
     assert response.abstained
     assert not response.citations
-    assert [step.name for step in response.steps][-4:] == ["grade", "generate", "verify", "degrade"]
+    assert [step.name for step in response.steps][-5:] == [
+        "grade",
+        "generate",
+        "output_guard",
+        "verify",
+        "degrade",
+    ]
     assert "能不能回答用户的问题" in large.calls[0][-1].content
     assert "是否都能在「资料」里找到依据" in large.calls[2][-1].content
