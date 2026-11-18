@@ -6,7 +6,7 @@ from app.core.errors import CorpusError
 from app.ingest.cleaner import clean_mdx, count_residual_tags
 from app.ingest.corpus import RAW_DIR, list_raw_files
 
-FIXTURES = Path(__file__).resolve().parents[2] / "fixtures" / "dify"
+SYNTHETIC_FIXTURES = Path(__file__).resolve().parents[2] / "fixtures" / "dify"
 
 
 def _lines(*parts: str) -> str:
@@ -17,11 +17,13 @@ def _clean(body: str, *, title: str = "标题") -> str:
     return clean_mdx(f"---\ntitle: {title}\n---\n\n{body}").markdown
 
 
-# ---------------------------------------------------------------- 真实文档（golden）
+# ---------------------------------------------------------------- 合成夹具（golden）
 
 
-@pytest.mark.parametrize("source", sorted(FIXTURES.glob("*.mdx")), ids=lambda path: path.stem)
-def test_real_documents_match_the_reviewed_output(source: Path) -> None:
+@pytest.mark.parametrize(
+    "source", sorted(SYNTHETIC_FIXTURES.glob("*.mdx")), ids=lambda path: path.stem
+)
+def test_synthetic_documents_match_the_reviewed_output(source: Path) -> None:
     expected = source.with_suffix(".expected.md").read_text(encoding="utf-8")
 
     document = clean_mdx(source.read_text(encoding="utf-8"), path=source.name)

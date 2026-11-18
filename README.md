@@ -1,87 +1,82 @@
 # grounded_rag
 
-正在把现有问答后端改造成索尼银行住宅贷款坐席 Copilot 的概念验证。项目在本机运行，使用合成的客户与业务数据。项目目标、实现顺序和已验证进度分别见 [GOALS.md](GOALS.md)、[PLANS.md](PLANS.md) 和 [开发日志](harness/build-log.md)。
+一个在 Mac 上运行的住宅贷款坐席 Copilot 概念验证。业务背景来自索尼银行的公开住宅贷款页面，客户、合同、还款与内部规程使用合成数据。坐席能通过只读工具查数并查阅日文规程。客户泳道只回答规程，个别合同查询引导转人工。
 
-## 阶段 30 基础设施
+[本机实测报告](docs/eval/mac-poc-report.md) · [开发日志](harness/build-log.md) · [Dify 本机手册](docs/eval/dify-local.md)
 
-需要 Python 3.12、uv、Docker Desktop 和 Ollama。首次运行时以 `.env.example` 为模板创建仓库根目录的 `.env`，填入 `DEEPSEEK_API_KEY` 和自行生成的 `GATEWAY_API_KEY`。有现成配置时补齐对应字段即可。Apple Silicon 上用 `EMBED_DEVICE=mps`。
+## 架构
+
+```mermaid
+flowchart LR
+    A["坐席／客户"] --> B["FastAPI · SSE"]
+    B --> C["LangGraph 双泳道"]
+    C --> D["规程检索"]
+    C --> E["坐席只读工具"]
+    C --> F["LiteLLM 网关"]
+    C --> G["PostgreSQL 会话检查点"]
+    B --> H["Redis 流式回放"]
+    D --> I["pgvector + Elasticsearch kuromoji"]
+    E --> J["归属鉴权 · Redis 缓存"]
+    J --> K["模拟业务 API + MySQL"]
+    F --> L["Ollama Qwen3 4B"]
+    F --> M["DeepSeek V4 Pro"]
+    N["Dify 对照 Chatflow"] -.-> F
+    N -.-> K
+```
+
+图中虚线为 Dify 对照的目标连接。Dify 已部署，画布导入和真实同题回放的进度见[阶段 37](harness/build/phase-37-dify-compare.md)。
+
+## 用纯合成语料启动
+
+适用于一个新克隆。需要 Python 3.12、uv 和 Docker Compose。若本机已有 Postgres 或其他同端口服务，先用 [.env.example](.env.example) 注释里的 Compose 端口覆盖值调开冲突，同时更新对应连接地址。
 
 ```bash
-ollama pull qwen3:4b-instruct
-docker compose up -d --build --wait
+cp -n .env.example .env
+docker compose up -d --build --wait db es redis mock_core
 cd backend
-uv sync --locked --extra gpu
-uv run poe check
+UV_NO_CONFIG=1 uv sync --locked
+UV_NO_CONFIG=1 uv run --locked alembic upgrade head
+UV_NO_CONFIG=1 uv run --locked poe build-policies --as-of 2026-11-18 --synthetic-only --target-documents 12
+EMBEDDING_MODEL=fake UV_NO_CONFIG=1 uv run --locked poe ingest
+CHAT_MODEL=fake EMBEDDING_MODEL=fake RERANKER_MODEL=none UV_NO_CONFIG=1 uv run --locked poe serve
 ```
 
-执行前在另一个终端用 `OLLAMA_CONTEXT_LENGTH=4096 ollama serve` 启动本机 Ollama，监听 11434 端口。网关启用方式为 `CHAT_MODEL=gateway`，大模型用 DeepSeek，小模型用 Ollama 的本机模型。容器端口、模型别名及覆盖方式见 [.env.example](.env.example)。
-
-在 `backend/` 执行 `uv run python -m scripts.phase_30_models --gateway` 可验证两个档位及 token 用量。这会调用一次 DeepSeek，沿用本地每日预算。
-
-## 阶段 31 语料
-
-公开页面、清单和哈希位于本机 `data/raw/public/`。用已保存的本地资料生成日文合成规程，在 `backend/` 执行以下命令。
+另开终端检索一份有版本的合成规程。编号可替换为 `HL-DEMO-ADDRESS` 查看另一条样例。
 
 ```bash
-uv run alembic upgrade head
-uv run poe build-policies --as-of 2026-11-18
-uv run poe ingest
+curl --fail --json '{"query":"HL-DEMO-DOCS 返済予定表の再発行","filter":{"corpus_tier":"S","as_of":"2026-11-18"}}' \
+  http://127.0.0.1:8000/retrieve
+curl --fail --json '{"question":"こんにちは。","channel":"customer"}' http://127.0.0.1:8000/chat
 ```
 
-入库在 PostgreSQL 写入向量和版本元数据，并同步 kuromoji 索引。出题用语料包写入 `.cache/policy-question-pack.zip`，数据报告写入 `.cache/policy-corpus-report.json`。发布草稿规程时用 `uv run poe ingest --publish <文档ID>`。
+纯合成入口会写入当前目录的语料清单，已有公开层的环境请保留各自的入库配置。在 `backend/` 用 `uv run --locked --offline python -m scripts.copilot_regression` 跑固定假模型回归。
 
-## 阶段 32 检索
+## 本机完整链路
 
-`POST /retrieve` 用 pgvector 和 Elasticsearch 混合检索。查询日期默认取当天，语料档默认 L，精排默认关闭。请求中可指定 `filter.product_line`、`filter.policy_type`、`filter.as_of`、`filter.corpus_tier` 和 `rerank`。响应返回子块元数据和 `degraded` 标记。
+1. 在根目录 `.env` 配置现有 `DEEPSEEK_API_KEY`、本机 `GATEWAY_API_KEY` 和 `EMBED_DEVICE=mps`。
+2. 准备 Ollama 的 `qwen3:4b-instruct`，用 `OLLAMA_CONTEXT_LENGTH=4096 ollama serve` 启动。在仓库根目录运行 `docker compose up -d --build --wait`。
+3. 在 `backend/` 用 `uv sync --locked --extra gpu` 加载本机推理依赖。如果全局 uv 配置限制了已锁定的包，在当前命令设置 `UV_NO_CONFIG=1`。
+4. 按 [公开快照规则](PLANS.md#31-知识库语料) 用真实浏览器准备清单与快照，存到 `data/raw/public/`。依次执行 `uv run --locked alembic upgrade head`、`uv run --locked poe build-policies --as-of 2026-11-18`、`uv run --locked poe ingest` 和 `uv run --locked poe serve`。
+
+本机生成和查询沿用同一 LiteLLM 网关、原有 DeepSeek 每日预算与计费记录。模拟系统的端点、归属样本和故障设置见 [mock_core 说明](mock_core/README.md)。公开页面原文只供本机使用，代码按 MIT 许可发布，合成材料由生成器在本机生成并标记。
+
+## 接口
+
+- `POST /retrieve` 用日期、语料档、商品和规程类型硬过滤。默认混合检索，精排可按请求开启。
+- `POST /chat` 默认客户泳道。坐席请求带 `channel: "agent"`、`agent_id`、`customer_id`。会话连续时传同一 `session_id`。
+- `POST /chat` 加 `stream: true` 开启 SSE。断开后用 `GET /chat/stream/{response_id}`、`Last-Event-ID` 续推。收到 `retract` 时用 `replacement` 替换已显示文本，最终 `answer` 为确定答复。
+- `GET /traces/{trace_id}` 提供本机调试，`POST /feedback` 保存满意或不满意反馈。`uv run poe mcp` 提供与客户泳道共享的文档检索与问答。
+
+## 检查与评测
+
+在 `backend/` 执行以下命令。只在需要测试故障时显式打开两个本机调试开关。
 
 ```bash
-uv run poe retrieve-demo --corpus-tier S --as-of 2026-11-18 '繰上返済の手続を確認したいです。'
-uv run poe compare-retrieval
+uv run --locked poe check
+MOCK_ALLOW_FAULT_HEADERS=true docker compose -f ../docker-compose.yml up -d --build --wait db es redis mock_core
+uv run --locked poe test-int
+uv run --locked python -m scripts.generate_copilot_cases generate
+uv run --locked --offline python -m scripts.copilot_regression
 ```
 
-## 阶段 33 模拟业务与只读工具
-
-`mock_core` 启动时会为独立的 MySQL 数据库建表并灌入合成种子。对照测试经 HTTP 复用同一合成业务系统。用下列命令启动联调服务并在 `backend/` 跑集成测试。
-
-```bash
-MOCK_ALLOW_FAULT_HEADERS=true docker compose up -d --build --wait db es redis mock_core
-docker compose exec -T mock_core python -m mock_core.seed verify
-cd backend
-uv run poe test-int
-```
-
-日常运行时按默认配置启动 Compose，故障注入请求头会关闭。模拟坐席、接口和注入方式见 [模拟业务系统说明](mock_core/README.md)。
-
-## 阶段 34 坐席／客户双泳道
-
-在 `backend/` 执行 `uv run alembic upgrade head` 和 `uv run poe serve`。`POST /chat` 默认为客户泳道。坐席调用传 `channel: "agent"`，通过 `agent_id` 和 `customer_id` 指定本机合成工作台上下文。规程检索支持与 `/retrieve` 相同的 `filter`，连续对话传同一个 `session_id`。
-
-```json
-{
-  "question": "契約L0001の次回の返済予定額を照会してください。",
-  "channel": "agent",
-  "agent_id": "A001",
-  "customer_id": "C0001",
-  "session_id": "synthetic-demo"
-}
-```
-
-响应包含 `intent`、脱敏 `tool_calls`、`citations`、节点耗时和网关用量。配置 `STRICT_ANSWER_CHECKS=true` 可打开证据评分和忠实度校验。用 `uv run python -m scripts.phase_34_smoke` 跑 20 条合成日文样例，DeepSeek 用量计入原每日预算。
-
-## 阶段 35 流式问答与护栏
-
-`POST /chat` 加 `"stream": true` 会返回 SSE。每个数据事件带 `id` 和 `response_id`。断线后用 `GET /chat/stream/{response_id}` 并传 `Last-Event-ID` 继续读取，生成结束 120 秒后返回 410。客户端收到 `retract` 时用 `replacement` 替换已显示的文本，由 `answer` 事件确认最终文本。
-
-```bash
-uv run python -m scripts.stream_client --disconnect-after 5 '一部繰上返済の手続を教えてください。'
-```
-
-服务在进入模型前遮蔽问题中的电话、账户、卡号、个人编号和电邮。收到完整模型输出后检查数字证据、规程引用、禁用表达，首字与整段耗时分别进入 trace。使用合成工具数据或引用合成规程的响应带 `synthetic: true`。
-
-## 阶段 36 评测
-
-在 `backend/` 运行 `uv run python -m scripts.generate_copilot_cases generate` 生成合成开发集与保留集。`uv run --locked --offline python -m scripts.copilot_regression` 使用假模型执行离线 CI 门禁。
-
-实测报告使用本机网关和合成业务系统，默认回环端口为 18081。显式故障回放需在模拟服务开启 `MOCK_ALLOW_FAULT_HEADERS=true`，并以 `EVALUATION_MOCK_FAULTS=true` 启动本机 API。两种故障条件分别回放，`--merge-fault-run` 可把实测结果合入统一报告。规程出题、人工校准和一次封存评测按[作者评测手册](docs/eval/copilot-author.md)执行。
-
-第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。
+真实合成开发回放、作者规程出题、校准与封存步骤见 [作者评测手册](docs/eval/copilot-author.md)。Dify 的部署、模型绑定和同题回放见 [Dify 本机手册](docs/eval/dify-local.md)。阶段验收、已知限制和交接记录在 [开发日志](harness/build-log.md)，历史实现见 [归档](harness/archive/v1-dify-docs/README.md)。

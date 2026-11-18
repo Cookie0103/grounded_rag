@@ -81,14 +81,21 @@ class _SavedPage(_PublicItem):
 
 
 def build_policy_corpus(
-    root: Path, *, as_of: date, target_documents: int = TARGET_DOCUMENTS
+    root: Path,
+    *,
+    as_of: date,
+    target_documents: int = TARGET_DOCUMENTS,
+    synthetic_only: bool = False,
 ) -> list[PolicyMaterial]:
-    """读取保存清单并生成有标记的内部层、干扰层和入库索引清单。"""
-    public = _load_public(root)
-    if not public:
-        raise CorpusError("公开层清单里没有可用的住宅贷款页面")
-    evidence_by_id = {item.id: item for item in public}
-    core = public + _make_internal(root, as_of, public[0], evidence_by_id)
+    """生成有标记的 S、L 两档语料及入库清单，也支持独立合成演示。"""
+    if synthetic_only:
+        core = _make_demo(root, as_of.replace(day=1))
+    else:
+        public = _load_public(root)
+        if not public:
+            raise CorpusError("公开层清单里没有可用的住宅贷款页面")
+        evidence_by_id = {item.id: item for item in public}
+        core = public + _make_internal(root, as_of, public[0], evidence_by_id)
     if len(core) > target_documents:
         raise CorpusError(f"目标篇数 {target_documents} 小于 S 档的 {len(core)} 篇")
     result = core + _make_distractors(root, as_of, target_documents - len(core))
@@ -96,6 +103,49 @@ def build_policy_corpus(
         "".join(f"{item.model_dump_json()}\n" for item in result), encoding="utf-8"
     )
     return result
+
+
+def _make_demo(root: Path, transition: date) -> list[PolicyMaterial]:
+    evidence_id = "repo:backend/app/ingest/policy_corpus.py#_make_demo"
+    schedule_id = "HL-DEMO-DOCS"
+    schedule_title = "住宅ローンの返済予定表の再発行"
+    old = _internal_policy(
+        schedule_id, evidence_id, transition - timedelta(days=365), effective_to=transition
+    )
+    current = _internal_policy(schedule_id, evidence_id, transition)
+    address = _internal_policy("HL-DEMO-ADDRESS", evidence_id, transition)
+    return [
+        _write(
+            root,
+            f"{schedule_id}-v1",
+            f"{schedule_title}（旧版）",
+            old,
+            "## 受付手順\n\n"
+            "架空の応対訓練では、再発行の依頼を受付メモに残す。対象の返済予定表が"
+            "特定できない場合は、書類の名称を聞き直す。受付後は確認担当へ取り次ぎ、"
+            "発行の可否とお届け時期は確認後に案内する。",
+        ),
+        _write(
+            root,
+            f"{schedule_id}-v2",
+            schedule_title,
+            current,
+            "## 受付手順\n\n"
+            "架空の応対訓練では、最初に書類の名称と必要な対象期間を確認する。"
+            "次に、お客さまの連絡方法の希望を受付メモに残す。個別契約に関する確認が"
+            "必要なときは、本人確認を行う担当へ引き継ぐ。発行の可否とお届け時期は確認後に案内する。",
+        ),
+        _write(
+            root,
+            "HL-DEMO-ADDRESS-v1",
+            "住宅ローン契約の住所変更",
+            address,
+            "## 受付手順\n\n"
+            "架空の応対訓練では、住所変更と書類の送付先の確認を聞き分ける。一般的な手続の"
+            "問い合わせには、本人確認を行う担当へ引き継ぐ流れを案内する。変更を受け付けるときは、"
+            "確認が済んでいない事項を受付メモに残す。手続が完了したと案内するのは担当の確認後とする。",
+        ),
+    ]
 
 
 def _load_public(root: Path) -> list[PolicyMaterial]:
@@ -169,9 +219,9 @@ def _procedure_group(
         "受付メモには確認済み、追加確認、専門窓口への取次ぎの区分を残す。",
     )
     old = _internal_policy(
-        policy_id, evidence, transition - timedelta(days=365), effective_to=transition
+        policy_id, evidence.id, transition - timedelta(days=365), effective_to=transition
     )
-    current = _internal_policy(policy_id, evidence, transition)
+    current = _internal_policy(policy_id, evidence.id, transition)
     versions = [
         _write(
             root,
@@ -182,7 +232,7 @@ def _procedure_group(
         )
         for version, (policy, line) in enumerate(zip((old, current), guidance, strict=True), 1)
     ]
-    faq_policy = _internal_policy(f"{policy_id}-FAQ", evidence, transition)
+    faq_policy = _internal_policy(f"{policy_id}-FAQ", evidence.id, transition)
     versions.append(
         _write(
             root,
@@ -212,7 +262,7 @@ def _procedure_body(subject: str, channel: str, guidance: str, evidence: PolicyM
 
 def _internal_policy(
     policy_id: str,
-    evidence: PolicyMaterial,
+    evidence_id: str,
     effective_from: date,
     *,
     effective_to: date | None = None,
@@ -227,7 +277,7 @@ def _internal_policy(
         effective_to=effective_to,
         status="offline" if effective_to is not None else "online",
         corpus_tier="S",
-        based_on=(evidence.id,),
+        based_on=(evidence_id,),
     )
 
 
@@ -260,7 +310,7 @@ def _rate_notices(root: Path, month: date, evidence: PolicyMaterial) -> list[Pol
                 root,
                 policy_id,
                 f"{starts:%Y年%m月}・架空の金利通知",
-                _internal_policy(policy_id, evidence, starts, effective_to=end),
+                _internal_policy(policy_id, evidence.id, starts, effective_to=end),
                 body,
             )
         )

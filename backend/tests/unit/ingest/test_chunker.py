@@ -329,24 +329,24 @@ def _chunk_fixture(name: str) -> ChunkedDocument:
     return chunk_document(document.title, document.markdown)
 
 
-def test_real_document_headings_become_paths() -> None:
+def test_synthetic_document_headings_become_paths() -> None:
     chunked = _chunk_fixture("tabs-ifelse")
 
     assert _paths(chunked) == [
-        "If-Else",
-        "If-Else > 分支逻辑",
-        "If-Else > 条件类型",
-        "If-Else > 复杂条件",
-        "If-Else > 变量引用",
+        "観測日の振り分け",
+        "観測日の振り分け > 観測の可否",
+        "観測日の振り分け > 空模様の記録",
+        "観測日の振り分け > 例外の扱い",
+        "観測日の振り分け > 記録の引き継ぎ",
     ]
 
 
-def test_real_environment_variables_page_is_split_into_table_groups() -> None:
+def test_synthetic_environment_variables_page_is_split_into_table_groups() -> None:
     chunked = _chunk_fixture("environments-excerpt")
 
-    qdrant = [c for c in chunked.children if "QDRANT_URL" in c.text]
-    assert qdrant
-    assert qdrant[0].text.startswith("**Qdrant**") or "| 变量 | 默认值 | 说明 |" in qdrant[0].text
+    roof = [c for c in chunked.children if "SYNTHETIC_ROOF_PANEL" in c.text]
+    assert roof
+    assert roof[0].text.startswith("**屋上観測点**") or "| 変数 | 既定値 | 説明 |" in roof[0].text
     assert all(len(c.text) <= CHILD_MAX_CHARS for c in chunked.children)
 
 

@@ -26,32 +26,31 @@
 依赖方向只能向下 [自动 import-linter]：
 
 ```text
-api / mcp / eval → graph → retrieval / memory / ingest → providers / db / prompts → core
-reliability、observability：只被 providers / db / graph 调用，自身只依赖 core
-scripts：可调用任意层；任何模块不得 import scripts
+api → orchestration → retrieval / ingest / tools → providers / db → core
+scripts 可调用各层，提供 MCP 和评测等命令入口。应用模块不得 import scripts。
 ```
 
 - 调用大模型、嵌入、精排只能经过 `providers/`。`openai`、`httpx`、`torch`、`transformers`、`sentence_transformers` 只允许在 `providers/` 中 import。[自动 TID251]
 - 环境变量只在 `core/config.py`（pydantic-settings）读取。[自动 TID251 禁用 `os.environ` / `os.getenv`]
 - 模块之间传 pydantic 模型，不传裸 dict。
-- 所有外部调用（数据库、DeepSeek、模型推理）必须设超时；重试、熔断、降级只在 `reliability/` 实现。
+- 所有外部调用必须设超时。工具调用的重试和熔断集中在 `tools/middleware.py`，检索降级集中在 `retrieval/resilient.py`。
 - I/O 一律 `async`；GPU 推理等阻塞操作用 `asyncio.to_thread`，不堵事件循环。
-- Prompt 放 `prompts/`，文件名带版本（`route_v1.md`）；修改 Prompt 时新建版本，不覆盖旧版。
+- 运行时 Prompt 放 `app/prompts/`，文件名带版本（如 `intent_v1.md`）。修改 Prompt 时新建版本并保留旧版。
 - 目录按需创建：到用它的里程碑再建，不提前建空模块。
 
 ## 4. API
 
 - 契约以 pydantic 模型为准，由 FastAPI 生成 OpenAPI（`/docs`），不另写接口文档。
 - 路径用小写短横线，JSON 字段用 snake_case。只有一个版本，不加 `/v1` 前缀。
-- 每个响应都带 `trace_id`（成功时在 body 里，并加响应头 `X-Trace-Id`）。
+- 响应头用 `X-Trace-Id` 关联请求。问答终态、检索和错误等 JSON 响应中使用 `trace_id`。
 - 错误格式统一（包括 FastAPI 的参数校验错误）：
 
   ```json
-  {"error": {"code": "RETRIEVAL_TIMEOUT", "message": "检索超时"}, "trace_id": "..."}
+  {"error": {"code": "DEPENDENCY_UNAVAILABLE", "message": "依赖不可用"}, "trace_id": "..."}
   ```
 
-  `code` 用大写下划线，定义在 `core/errors.py`。状态码：400 参数错、404、422 校验失败、429 限流、500 内部错误、503 依赖不可用。
-- SSE 只有 4 种事件：`token`、`citation`、`done`、`error`，`data` 一律为 JSON。
+  `code` 用大写下划线，应用异常定义在 `core/errors.py`。常见状态包括 404 未找到、410 SSE 缓冲过期、422 校验失败、429 限流或预算用尽、500 内部错误和 503 依赖不可用。
+- SSE 事件为 `step`、`delta`、`retract`、`answer`、`error`，`data` 一律为 JSON。数据事件用 `id` 和 `response_id` 续推，由 `answer` 或 `error` 结束。
 - MCP 工具和 REST 接口调用同一个服务函数，不重复实现。
 - 列表接口暂不做分页，真需要时再定。
 
@@ -69,7 +68,7 @@ scripts：可调用任意层；任何模块不得 import scripts
 ## 6. 测试
 
 - `tests/unit/`：不联网、不用 GPU、不调 DeepSeek、不连数据库，外部依赖用 `providers/` 里的假实现。
-- `tests/integration/`：标记 `@pytest.mark.integration`，连接 docker 中 PostgreSQL 的**测试库** `grounded_rag_test`（由夹具自动创建并迁移），不碰开发库。
+- `tests/integration/` 标记 `@pytest.mark.integration`。PostgreSQL 使用夹具自动创建并迁移的**测试库** `grounded_rag_test`。按用例接入 Elasticsearch、Redis 和模拟业务服务。
 - `tests/gpu/`：标记 `@pytest.mark.gpu`，需要本机 GPU 和模型权重，只在本机用 `poe test-gpu` 跑，不进 CI。
 - 测试文件与源文件一一对应：`app/retrieval/fusion.py` → `tests/unit/retrieval/test_fusion.py`。
 - 测行为，不测实现细节；每个测试只验证一件事，名字写清预期（`test_rrf_merges_duplicate_chunks`）。
@@ -89,13 +88,13 @@ scripts：可调用任意层；任何模块不得 import scripts
 
 - 配置统一由 `core/config.py` 读取；`.env` 不提交，`.env.example` 列出全部字段并加注释。
 - 提交前检查私钥和大文件。[自动 pre-commit]
-- DeepSeek 用量：`providers/` 把每次调用的 token 和费用记到 `.cache/usage/<日期>.jsonl`；当天累计超过 `LLM_DAILY_BUDGET_CNY`（默认 10）就抛 `BudgetExceededError`。作者手动测试时设为 `0`，表示不限。
+- DeepSeek 用量由 `providers/` 根据返回的 token 数计算。每日预算在 `.cache/budget/<日期>.json` 累计，达到 `DAILY_BUDGET_CNY`（默认 10）后拒绝后续调用。作者手动测试时可设为 `0`，表示不限。
 
 ## 9. 可复现性
 
 - 文档里不手写实测数字（测试数、指标、覆盖率）。数字只出现在评测报告里，其他文档链接报告。
-- 每份评测报告都记录：commit、配置、模型名与版本、语料 commit、题集版本、日期。报告摘要提交到 `eval/reports/`，原始输出放 `.cache/`。
-- 遍历文件要先排序；凡是用到随机数的地方都固定种子；语料按固定 commit 下载。
+- 每份评测报告都记录 commit、配置、模型名与版本、语料版本或清单指纹、题集版本和日期。可公开的汇总进报告，开发评测原始输出放 `.cache/`，封存运行目录由作者放在仓库之外。
+- 遍历文件要先排序。用随机数时固定种子。记录合成语料生成日期和参数，公开来源只使用本地快照和清单复现。
 
 ## 10. 文件与目录
 

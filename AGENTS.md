@@ -2,7 +2,7 @@
 
 grounded_rag（第二版）：以索尼银行住宅贷款客服为背景的坐席 Copilot 概念验证——LangGraph 编排「只读查数工具 + 日文规程 RAG」，坐席与客户双泳道，对外提供 REST API（SSE）。代码主要由 AI 编写，本文件对所有 agent（Codex、Claude Code、Cursor）生效。
 
-第一版（Dify 中文文档问答）已整体归档：文档在 `harness/archive/v1-dify-docs/`，代码状态在 git 标签 `v1-dify-docs`。**现有代码是第一版的，正在按 `PLANS.md` 逐阶段改造**；看到与 Dify 文档、`edition`、jieba 相关的代码不要惊讶，按阶段文件处理。
+当前主流程采用第二版实现，实际进度和已验证结果见 `harness/build-log.md`。第一版文档归档在 `harness/archive/v1-dify-docs/`，代码可通过 git 标签 `v1-dify-docs` 查看。
 
 ## 文档地图
 
@@ -19,8 +19,6 @@ grounded_rag（第二版）：以索尼银行住宅贷款客服为背景的坐�
 | 开始阶段、提交、自查、Review | `WORKFLOW.md`；可复用的任务指令见 `PROMPTS.md` |
 | 第一版的全部计划、日志、评测记录 | `harness/archive/v1-dify-docs/`（只读，不再追加） |
 | Review 结果 | `harness/code_review/` |
-
-`CODING-STANDARDS.md`、`WORKFLOW.md`、`PROMPTS.md` 是第一版写的，规则仍然有效，里面的例子可能还是 Dify 场景；阶段 38 统一更新。
 
 ## 常用命令（在 `backend/` 目录下执行）
 

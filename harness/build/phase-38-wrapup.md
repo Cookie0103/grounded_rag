@@ -1,6 +1,6 @@
 # 阶段 38：收尾
 
-状态：未开始（草案；执行模型开工前可细化，细化后自行标「已批准」）
+状态：独立收尾已验收，终稿等待阶段 36、37（本地分支 `2026-11-18-local-wrapup`）
 
 > 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。
 
@@ -26,11 +26,13 @@
 
 ## 任务
 
-- [ ] T1 README 与 `docs/` 下的运行手册重写。
+先完成可以独立进行的手册、纯合成目录复现及发布前核验。真实 Dify 对照和正式规程成绩保留未测，等阶段 36、37 的外部输入后补齐终稿。
+
+- [x] T1 README 与 `docs/` 下的运行手册重写。
 - [ ] T2 最终报告：合并阶段 36、37 的结果；写「小范围验证能否代表几千篇规模」的结论，依据是 S、L 的配对差值。
-- [ ] T3 已知缺口清单：混合意图只支持一种组合、先流后校、大模型为外部 API、没有真实流量等。
-- [ ] T4 清理：删除不再被引用的旧代码、旧提示词、旧脚本；更新 `PROMPTS.md`、`WORKFLOW.md`、`CODING-STANDARDS.md` 里过时的例子。
-- [ ] T5 推送前检查（AC6），并提醒作者仓库是公开的。
+- [x] T3 已知缺口清单：混合意图范围、先流后校、外部生成与本机数据限制。
+- [x] T4 清理：更新活动规范和旧例子；将仍用于清洗的 7 对上游 MDX 夹具替换为合成材料，保留覆盖。
+- [x] T5 核查本次发布候选改动与活动文档，保留本机提交。
 
 ## 需要作者做的
 
@@ -39,8 +41,16 @@
 
 ## 记录
 
-（执行时填写）
+- [README](../../README.md) 新增两种启动路径、架构图和命令。用 `git archive` 的实际程序子目录建立临时干净目录，未复制公开快照或评测目录。独立 Compose 项目 `grounded_synthetic_demo` 的 PostgreSQL、Elasticsearch、Redis、MySQL 和模拟 API 均 healthy。
+- 在干净目录执行 `uv sync --locked`、`uv run --locked alembic upgrade head`、`uv run --locked poe build-policies --as-of 2026-11-18 --synthetic-only --target-documents 12`、`uv run --locked poe ingest`。迁移从空库到 0007，生成 3 篇 S 档、12 篇 L 档，12 个合成块入两库。第一次离线同步缺少一个锁定的 wheel，按锁文件联网同步后成功，后续构建命令可离线执行。
+- `uv run --locked poe serve` 实际用 README 的两个 HTTP 请求核对。现行规程为 `HL-DEMO-DOCS-v2`，客户问候走 `smalltalk`。另外用脚本化假模型跑真实 API 及数据服务，旧日期得到 v1、当前日期得到 v2；规程 SSE 200 且有引用，坐席工具实际从 420 期裁到 5 期。无付费调用；离线回归 14/14。详情留在 `.cache/phase-38-clean.log` 和 `.cache/phase-38-clean-api.log`。
+- [本机阶段报告](../../docs/eval/mac-poc-report.md) 明确标出待测项。直接从阶段 35、36 与语料原始结果文件交叉复核 7 组数字，覆盖意图、首字、整段、成本、回归、撤回和语料规模。正式 S/L 结论和真实 Dify 列待作者输入后补。
+- 7 对第一版上游 MDX 夹具已重写为日文合成材料，定向 `test_cleaner.py` 与 `test_chunker.py` 改前改后均为 71 项通过。仍被历史评审适配引用的兼容代码保留。
+- `uv run --locked poe check` 为 568 项通过，覆盖率 90.18%；`uv run --locked poe test-int` 为 46 项通过。`uv run --locked --offline python -m scripts.copilot_regression` 为 14/14。提交留在本机，远程 CI 未运行。
+- 暂存后执行 `uv run --locked python -m scripts.audit_release`，54 份活动文档共 109 条相对链接，29 个配置字段，都无问题。扫描 518 个跟踪路径和 514 份文本，未命中公开页面原文、参考方案或密钥的检查规则；4 份历史压缩包只核查文件名。`git diff --cached --check` 通过，暂存区未改动评测数据、评分和评审实现。
+- 合成复现结束后停止临时栈，恢复默认故障开关。本机 Copilot API `127.0.0.1:18081/health` 返回应用、数据库均正常，主 Compose 六个服务均 healthy。
 
 ## 阻塞
 
-（无）
+- 最终对照、正式 S/L 差值与作者校准仍依赖阶段 36、37；当前可核对各项已完成的本机指标。
+- 本机 `GET /console/api/setup` 仍为 `not_started`，需作者完成 Chrome 中的 Dify 专用管理员初始化并登录，之后继续知识库导入、逐节点截图和同题回放。正式规程开发题只接收开发集，封存集由作者亲自跑。
