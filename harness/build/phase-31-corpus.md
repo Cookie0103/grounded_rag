@@ -1,6 +1,6 @@
 # 阶段 31：语料与知识库加工
 
-状态：已批准，进行中（本地分支 `2026-11-18-build-corpus`）
+状态：完成（本地分支 `2026-11-18-build-corpus`）
 
 > 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。设计依据见 [PLANS.md](../../PLANS.md) §3.1、§3.2 和 [GOALS.md](../../GOALS.md)「规模口径」。
 
@@ -39,14 +39,14 @@
 ## 任务
 
 - [x] T1 建立本机公开层清单，在独立、可见的 Chrome 标签页逐页保存并写 manifest。先试存四份文件，经加载器验证后保存剩余清单项。
-- [ ] T2 迁移：`documents` / `chunks` 增加元数据列，去掉 `edition` 的 CHECK 约束（列先保留，阶段 32 之后删）。同步改 `db/tables.py`。
+- [x] T2 迁移：`documents` / `chunks` 增加元数据列，去掉 `edition` 的 CHECK 约束（列先保留，阶段 32 之后删）。同步改 `db/tables.py`。
 - [x] T3 加载 HTML、PDF 和 Markdown 为同一种中间结构。HTML 保留正文、标题和表格，PDF 按页提取，Markdown 剥离文档头元数据。复用现有切块器，为新语料提供独立的 300～800 字档位配置。
-- [ ] T4 内部层生成：脚本读取公开层，按主题生成操作手册、应对话术、事务规程；每月利率通知用种子利率表套模板。版本组的做法：同一 `policy_id` 前缀，v1 设 `effective_to`，v2 的 `effective_from` 紧接其后，内容里至少有一处可出题的差异（数值、手续、适用条件）。
-- [ ] T5 干扰层生成：其他产品线的规程与 FAQ 风格短文，外加住宅贷款的近义难负例（如リフォームローン、过期活动）。先估算费用再跑，超出每日预算就分天。
-- [ ] T6 入库：嵌入写 pgvector；块文本和元数据写 ES（索引 mapping 入库）。入库流程幂等，沿用内容哈希。
-- [ ] T7 发布：实现 `status` 的 `draft → online → offline` 流转命令。
-- [ ] T8 数据报告与出题包：各层篇数、块数、长度分布、版本组清单；导出 S 档的出题用语料包到 `.cache/`。
-- [ ] T9 删除只服务 Dify 语料的脚本和清洗代码（在新流程验证通过之后）。
+- [x] T4 内部层生成。已校验的公开资料为流程模板提供来源 ID，另生成 24 份明确虚构数值的月度通知。版本组按左闭右开日期连续，旧版与新版包含不同的模拟应对步骤。
+- [x] T5 用固定种子生成其他产品线干扰规程及住宅改修近义场景，全部标记为合成。
+- [x] T6 嵌入写入 pgvector，块文本和元数据写入 kuromoji 索引。验证重复导入的新增量和重新嵌入量为零。
+- [x] T7 实现 `draft → online → offline` 发布命令，验证历史查询仍命中当时有效的下线版本。
+- [x] T8 生成数据报告与 S 档出题包，并逐项核对出题包的文档数量和合成标记。
+- [x] T9 归档第一版的采集、出题和入库命令及采集专属实现。旧 MDX 清洗及兼容路径仍被保留的第一版检索测试调用，待后继阶段替换调用方后处理。
 
 ## 需要作者做的
 
@@ -57,7 +57,13 @@
 - AC1 在同一个可见 Chrome 标签页进行 55 次 Sony Bank 页面打开操作，覆盖 54 个清单 URL。一次重复打开用于等待动态 FAQ 正文渲染。浏览器记录的最短间隔为 5.101 秒；起始入口保存时间为 17:57:59，下一页打开时间为 17:58:21（东京时间）。全部 54 份 HTML 通过 SHA-256 一致性和非空正文检查。清单与证据在本机 `data/raw/public/allowlist.json`、`manifest.jsonl` 与对应 HTML。
 - Chrome 本机保存窗口无法被可靠选中，改用同一标签页的本机表单落盘 Chrome 已渲染的 HTML。表单只监听环回地址，未向站点发起请求。FAQ 关联链接中有一份开户问答，清单 `in_scope=false`；其余 53 份纳入住宅贷款语料候选。
 - T3 用 54 份实际 HTML 核对加载；自动测试验证 FAQ 标题、跨行表格标签、PDF 分页、Markdown 文件头和新语料切块档位。新增 Beautiful Soup 4.15.0、pypdf 6.21.4，分别用于结构化 HTML 和本地 PDF 文本提取。通过 `uv --no-config add --no-sync` 更新锁文件，沿用本机全局配置文件。
-- 在 `backend/` 运行 `UV_NO_CONFIG=1 UV_OFFLINE=1 UV_CACHE_DIR=../.cache/uv uv run --locked poe check`，470 个测试通过，覆盖率 94.47%。阶段 31 的合成语料、元数据迁移、入库同步、发布及出题用语料包仍待验证。
+- 加载器检查点的 `uv run --locked poe check` 通过 470 个测试，覆盖率 94.47%。
+- AC2～AC3 经 `uv run --locked poe build-policies --as-of 2026-11-18` 与生成清单校验，53 篇公开资料、132 篇内部合成规程、2,815 篇干扰文档，合计 3,000 篇。S 档有 185 篇，含 36 个新旧版本组和 24 个月度通知。干扰层未写入出题包。
+- AC4、AC6 经 `uv run --locked poe ingest` 写入并重复导入。PostgreSQL 规程块数 3,213，必填元数据缺失为 0；Elasticsearch `GET /grounded-rag-policy/_count` 为 3,213。重复导入 3,000 篇未变，新增、改动、移除和重新嵌入均为 0。实际 MPS 重建耗时及模型加载日志在 `.cache/phase-31-ingest-final.log`。
+- AC5 对全部子块测得中位长度 326 字。3,035/3,213 块在 300～800 字内，178 块低于 300，没有超过 800。S 档 398 块中有 220 块在区间内，中位数 339 字。10 篇抽样核对 38 个完整表格行和 62 条完整列表条款，记录在本机 `.cache/phase-31-chunk-audit.json`。首轮发现合成标记被独立切成短块，将其并入正文所在章节并重建。
+- AC7 使用真实 PostgreSQL 和 Elasticsearch 运行 `test_policy_ingest_is_idempotent_and_publishes_consistent_dated_versions`，发布 v2 后两个存储在旧日期只命中 v1、新日期只命中 v2，重新导入保留发布状态。
+- AC8 使用 `UV_NO_CONFIG=1 UV_OFFLINE=1 UV_CACHE_DIR=../.cache/uv` 执行 `uv lock --check`、`uv run --locked poe check` 与 `uv run --locked poe test-int`。锁文件解析 174 个包，常规 462 个测试通过，覆盖率 92.77%，集成测试 34 个通过。退役采集模块的 9 个专属测试随代码归档。CI 集成作业新增 ES 环境准备步骤，以运行新的真实双库测试；已运行对应本机命令，阶段提交留在本地。
+- `.cache/policy-question-pack.zip` 校验了 185 篇 Markdown，均在 S 档，132 篇合成内容同时在文件和索引中标记。作者可以据此开始准备阶段 36 的规程题。详细数据报告在 `.cache/policy-corpus-report.json`。
 
 ## 阻塞
 

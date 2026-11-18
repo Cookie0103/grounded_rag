@@ -7,6 +7,7 @@ dependencies = [
     "asyncpg>=0.32.0",
     "beautifulsoup4>=4.13,<5",
     "bm25s>=0.3.13",
+    "elasticsearch[async]>=8.19,<9",
     "fastapi>=0.143.2",
     "httpx>=0.28.1",
     "jieba3>=1.0.2",
@@ -127,8 +128,8 @@ check = ["lint", "typecheck", "test"]
 test-int = "pytest -m integration"
 test-gpu = "pytest -m gpu --no-cov"
 serve = { cmd = "uvicorn app.api.main:create_app --factory --reload", env = { PREWARM = "true" } }
-fetch-docs = "python -m scripts.fetch_docs"
-ingest = "python -m scripts.ingest"
+build-policies = "python -m scripts.build_policy_corpus"
+ingest = "python -m scripts.ingest_policy_corpus"
 retrieve-demo = "python -m scripts.retrieve_demo"
 mcp = "python -m scripts.mcp_server"
 load-test = "python -m scripts.load_test"
@@ -137,7 +138,6 @@ export-bad-cases = "python -m scripts.export_bad_cases"
 compare-retrieval = "python -m scripts.compare_retrieval"
 eval-dev = "python -m scripts.eval_run"
 eval-validate = "python -m scripts.validate_questions"
-export-for-gemini = "python -m scripts.export_for_gemini"
 
 # 本机 GPU 推理用的 PyTorch 从官方 CUDA 13 源安装（RTX 50 系需要 CUDA 12.8 及以上）；CI 不装
 [tool.uv.sources]

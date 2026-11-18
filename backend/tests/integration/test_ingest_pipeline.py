@@ -160,7 +160,7 @@ async def test_cleaning_statistics_are_collected(tmp_path: Path, engine: AsyncEn
 
 
 async def test_empty_raw_directory_is_an_error(tmp_path: Path, engine: AsyncEngine) -> None:
-    with pytest.raises(CorpusError, match="fetch-docs"):
+    with pytest.raises(CorpusError, match="请恢复第一版的本地语料快照"):
         await ingest_corpus(tmp_path, CountingEmbedder(), engine)
 
 

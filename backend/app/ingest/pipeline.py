@@ -53,7 +53,7 @@ class IngestStats:
 
 
 @dataclass
-class _Prepared:
+class PreparedDocument:
     record: DocumentRecord
     chunked: ChunkedDocument
 
@@ -68,10 +68,10 @@ async def ingest_corpus(
 ) -> IngestStats:
     files = list_raw_files(raw_dir)
     if not files:
-        raise CorpusError(f"{raw_dir} 里没有语料文件，先运行 uv run poe fetch-docs")
+        raise CorpusError(f"{raw_dir} 里没有语料文件，请恢复第一版的本地语料快照")
     stats = IngestStats()
     async with engine.connect() as connection:
-        existing = await document_hashes(connection)
+        existing = await document_hashes(connection, legacy_only=True)
         if existing and not await has_embeddings(connection, embedder.name):
             # 整篇重建会级联删掉别的模型的向量；给第二个模型补向量要单独做（M2）
             raise CorpusError(
@@ -79,7 +79,7 @@ async def ingest_corpus(
                 "给另一个嵌入模型补向量不能用整篇重建，留到 M2 做模型对比时再加"
             )
 
-    to_write: list[_Prepared] = []
+    to_write: list[PreparedDocument] = []
     current_ids: set[str] = set()
     for path in files:
         prepared = _prepare(path, raw_dir, commit, stats)
@@ -96,7 +96,7 @@ async def ingest_corpus(
 
     stale = sorted(set(existing) - current_ids)
     stats.removed = len(stale)
-    vectors = await _embed_all(embedder, to_write, stats)
+    vectors = await embed_prepared(embedder, to_write, stats)
     async with engine.begin() as connection:
         await delete_documents(connection, stale)
     for prepared, doc_vectors in zip(to_write, vectors, strict=True):
@@ -104,14 +104,14 @@ async def ingest_corpus(
             await replace_document(
                 connection,
                 prepared.record,
-                _parent_records(prepared),
-                _chunk_records(prepared, doc_vectors),
+                parent_records(prepared),
+                chunk_records(prepared, doc_vectors),
                 embedder.name,
             )
     return stats
 
 
-def _prepare(path: Path, raw_dir: Path, commit: str, stats: IngestStats) -> _Prepared:
+def _prepare(path: Path, raw_dir: Path, commit: str, stats: IngestStats) -> PreparedDocument:
     raw = path.read_bytes()
     relative = path.relative_to(raw_dir).as_posix()
     cleaned = clean_mdx(raw.decode("utf-8"), path=relative)
@@ -128,11 +128,11 @@ def _prepare(path: Path, raw_dir: Path, commit: str, stats: IngestStats) -> _Pre
         content_hash=content_hash(raw),
         corpus_commit=commit,
     )
-    return _Prepared(record, chunk_document(cleaned.title, cleaned.markdown))
+    return PreparedDocument(record, chunk_document(cleaned.title, cleaned.markdown))
 
 
-async def _embed_all(
-    embedder: Embedder, prepared: list[_Prepared], stats: IngestStats
+async def embed_prepared(
+    embedder: Embedder, prepared: list[PreparedDocument], stats: IngestStats
 ) -> list[list[list[float]]]:
     """所有要写入的子块一起分批嵌入，再按文档拆回去。"""
     texts = [
@@ -158,7 +158,8 @@ async def _embed_all(
     return per_document
 
 
-def _parent_records(prepared: _Prepared) -> list[ParentRecord]:
+def parent_records(prepared: PreparedDocument) -> list[ParentRecord]:
+    """把父块转换成写库记录。"""
     doc_id = prepared.record.id
     return [
         ParentRecord(
@@ -168,7 +169,8 @@ def _parent_records(prepared: _Prepared) -> list[ParentRecord]:
     ]
 
 
-def _chunk_records(prepared: _Prepared, vectors: list[list[float]]) -> list[ChunkRecord]:
+def chunk_records(prepared: PreparedDocument, vectors: list[list[float]]) -> list[ChunkRecord]:
+    """把子块及其对应向量转换成写库记录。"""
     doc_id = prepared.record.id
     return [
         ChunkRecord(

@@ -19,4 +19,16 @@ uv run poe test-int
 
 在 `backend/` 执行 `uv run python -m scripts.phase_30_models --gateway` 可验证两个档位及 token 用量。这会调用一次 DeepSeek，沿用本地每日预算。
 
+## 阶段 31 语料
+
+公开页面、清单和哈希位于本机 `data/raw/public/`。用已保存的本地资料生成日文合成规程，在 `backend/` 执行以下命令。
+
+```bash
+uv run alembic upgrade head
+uv run poe build-policies --as-of 2026-11-18
+uv run poe ingest
+```
+
+入库在 PostgreSQL 写入向量和版本元数据，并同步 kuromoji 索引。出题用语料包写入 `.cache/policy-question-pack.zip`，数据报告写入 `.cache/policy-corpus-report.json`。发布草稿规程时用 `uv run poe ingest --publish <文档ID>`。
+
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。
