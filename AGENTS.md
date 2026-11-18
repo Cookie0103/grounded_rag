@@ -37,13 +37,13 @@ uv run poe eval-dev   # 开发集评测，花钱，Spec 要求时才跑
 - 不再等作者批准：Spec 可以自己细化、自己标「已批准」，一个阶段做完直接做下一个，直到最后。
 - 下面「先问」那一栏改为：做了就在阶段文件的「记录」和 build-log 里写明原因，不再停下来等回复。
 - **交接**：每完成一个任务就追加 `harness/build-log.md` 并更新其「当前状态」（做到哪、剩什么、阻塞项），提交；用量快到上限或要停下时，先把它写完整再停，方便换一个模型接着做（模板见 `PROMPTS.md` §5）。
-- 只有缺少**外部输入**才算阻塞（作者保存公开页面、作者出评测题、人工校准、Dify 界面操作、API 密钥）：先把不依赖它的部分做完，再在日志和最终报告里集中说明。
+- 只有缺少**外部输入**才算阻塞（作者出评测题、人工校准、作者跑测试集、API 密钥、公开页面保存被站点拦下）：先把不依赖它的部分做完，再在日志和最终报告里集中说明。
 
 ## 权限
 
 | 直接做 | 先问（长程模式下改为：做了要写明原因） | 禁止 |
 |---|---|---|
-| 在当前阶段范围内改 `backend/`、`mock_core/`、`docker-compose.yml`、本阶段的 `harness/build/` 文件、`harness/context/`、`harness/build-log.md`、`harness/code_review/` | 新增或升级依赖（`PLANS.md` §8 已列出预期的） | 自动批量抓取 sonybank.jp，或用任何方式绕过它的访问限制 |
+| 在当前阶段范围内改 `backend/`、`mock_core/`、`docker-compose.yml`、本阶段的 `harness/build/` 文件、`harness/context/`、`harness/build-log.md`、`harness/code_review/` | 新增或升级依赖（`PLANS.md` §8 已列出预期的） | 用脚本或 HTTP 库直接请求 sonybank.jp、伪装请求头、处理验证码、高频抓取（只允许按 `PLANS.md` §3.1 的限制用真实浏览器低速保存清单内页面，被拦就停） |
 | 运行 `poe` 任务、本地 docker compose、写 `.cache/` 和 `data/` | 改数据表、改 REST 的字段 | 提交 `.env`、密钥、`data/`、`.cache/`、公开页面原文、参考方案原文 |
 | 每日预算内真实调用 DeepSeek（¥10/天） | 改本文件、`GOALS.md`、`PLANS.md`、`CODING-STANDARDS.md`、`WORKFLOW.md`、CI、`pyproject.toml` 的检查配置 | 读取测试集；改评分规则、评审 Prompt |
 | 在当天分支（`<日期>-<两个英文单词>`，见 WORKFLOW.md §3）提交 | 删除不是本任务创建的文件（阶段文件里点名要删的除外） | 为了通过检查而加 `noqa` / `type: ignore` / `skip`，或降低门槛 |
