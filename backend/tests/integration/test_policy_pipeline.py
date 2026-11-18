@@ -1,18 +1,23 @@
 from datetime import date
+from itertools import product
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
 from elasticsearch import AsyncElasticsearch, NotFoundError
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from app.core.config import Settings
 from app.core.policy import PolicyMetadata, PolicyStatus
 from app.db.policy import valid_policy_document_ids
+from app.db.policy_filter import MetaFilter
 from app.db.policy_index import PolicyIndex
+from app.db.tables import chunks as chunk_table
 from app.ingest.policy_corpus import PolicyMaterial
 from app.ingest.policy_pipeline import ingest_policy_corpus, publish_policy_version
 from app.providers.fakes import FakeEmbedder
+from app.retrieval.keyword import ElasticsearchKeywords
 
 pytestmark = pytest.mark.integration
 
@@ -50,6 +55,20 @@ async def test_policy_ingest_is_idempotent_and_publishes_consistent_dated_versio
         _write_policy(tmp_path, "old", _OLD_DAY, "online"),
         _write_policy(tmp_path, "new", _NEW_DAY, "draft"),
     ]
+    other = _write_policy(tmp_path, "other", _OLD_DAY, "online")
+    docs.append(
+        other.model_copy(
+            update={
+                "policy": other.policy.model_copy(
+                    update={
+                        "product_line": "card_loan",
+                        "corpus_tier": "L",
+                        "policy_id": "CL-TEST",
+                    }
+                )
+            }
+        )
+    )
     (tmp_path / "policy_index.jsonl").write_text(
         "".join(item.model_dump_json() + "\n" for item in docs), encoding="utf-8"
     )
@@ -58,9 +77,9 @@ async def test_policy_ingest_is_idempotent_and_publishes_consistent_dated_versio
     index = PolicyIndex(settings.elasticsearch_url, alias)
     try:
         first, chunks = await ingest_policy_corpus(tmp_path, FakeEmbedder(), engine, index)
-        old_id = next(chunk.document_id for chunk in chunks if chunk.policy.status == "online")
+        old_id = next(chunk.document_id for chunk in chunks if chunk.document_id.startswith("old@"))
         new_id = next(chunk.document_id for chunk in chunks if chunk.policy.status == "draft")
-        assert first.added == 2
+        assert first.added == 3
         assert await publish_policy_version(engine, index, new_id) == len(chunks)
         repeat, current = await ingest_policy_corpus(tmp_path, FakeEmbedder(), engine, index)
 
@@ -73,6 +92,10 @@ async def test_policy_ingest_is_idempotent_and_publishes_consistent_dated_versio
             assert (await es.count(index=alias))["count"] == len(current)
             assert await _visible_index_ids(es, alias, _OLD_DAY) == {old_id}
             assert await _visible_index_ids(es, alias, _NEW_DAY) == {new_id}
+            await _check_filter_equivalence(engine, es, alias)
+        keywords = ElasticsearchKeywords(settings.elasticsearch_url, alias)
+        matches = await keywords.search("ＨＬ－ＴＥＳＴの受付", 5, MetaFilter(as_of=_NEW_DAY))
+        assert matches[0][0].startswith(f"{new_id}#")
     finally:
         await index.close()
         async with AsyncElasticsearch(settings.elasticsearch_url, request_timeout=10) as es:
@@ -82,6 +105,29 @@ async def test_policy_ingest_is_idempotent_and_publishes_consistent_dated_versio
                 names = {}
             if names:
                 await es.indices.delete(index=list(names), ignore_unavailable=True)
+
+
+async def _check_filter_equivalence(
+    engine: AsyncEngine, es: AsyncElasticsearch, alias: str
+) -> None:
+    scopes = (
+        ("home_loan", "procedure"),
+        ("home_loan", None),
+        (None, "procedure"),
+        ("card_loan", None),
+        ("home_loan", "fee"),
+    )
+    async with engine.connect() as connection:
+        for day, tier, (line, kind) in product((_OLD_DAY, _NEW_DAY), ("S", "L"), scopes):
+            filters = MetaFilter(as_of=day, corpus_tier=tier, product_line=line, policy_type=kind)
+            pg = await connection.scalars(select(chunk_table.c.id).where(*filters.sql_conditions()))
+            found = await es.search(
+                index=alias,
+                size=20,
+                source=False,
+                query={"bool": {"filter": filters.elasticsearch_filters()}},
+            )
+            assert set(pg) == {item["_id"] for item in found["hits"]["hits"]}
 
 
 async def _visible_index_ids(es: AsyncElasticsearch, alias: str, when: date) -> set[str]:

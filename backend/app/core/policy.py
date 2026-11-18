@@ -46,6 +46,7 @@ class PolicyChunk(BaseModel):
 
     id: str
     document_id: str
+    parent_id: str
     heading_path: str
     text: str
     policy: PolicyMetadata

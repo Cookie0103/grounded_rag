@@ -3,6 +3,7 @@ from collections.abc import Sequence
 
 import pytest
 
+from app.db.policy_filter import MetaFilter
 from app.orchestration.models import ABSTAIN_TEXT, REFUSE_TEXT, ChatRequest, ChatResponse
 from app.orchestration.pipeline import ChatPipeline
 from app.providers.base import ChatMessage, Completion
@@ -59,6 +60,7 @@ class StubRetriever:
         *,
         top_k: int = 5,
         editions: Sequence[str] | None = None,
+        filters: MetaFilter | None = None,
         rerank: bool = True,
         mode: str = HYBRID,
     ) -> RetrievalResult:

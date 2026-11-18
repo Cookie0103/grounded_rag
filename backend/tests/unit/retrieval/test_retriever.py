@@ -1,8 +1,12 @@
 from collections.abc import Sequence
+from dataclasses import replace
+from datetime import date
 
+from app.core.errors import DependencyUnavailableError
+from app.core.policy import PolicyMetadata
 from app.core.text import search_text
+from app.db.policy_filter import MetaFilter
 from app.providers.fakes import FakeEmbedder, FakeReranker
-from app.retrieval.bm25 import Bm25Index
 from app.retrieval.retriever import (
     ChunkInfo,
     HybridRetriever,
@@ -37,22 +41,27 @@ class InMemoryStorage:
 
     def __init__(self, embedder: FakeEmbedder) -> None:
         self._embedder = embedder
-        self.editions_seen: list[Sequence[str] | None] = []
+        self.filters_seen: list[MetaFilter] = []
         self.parent_requests: list[list[str]] = []
 
     async def vector_search(
-        self, embedding: Sequence[float], limit: int, editions: Sequence[str] | None
+        self, embedding: Sequence[float], limit: int, filters: MetaFilter
     ) -> list[VectorHit]:
-        self.editions_seen.append(editions)
+        self.filters_seen.append(filters)
         vectors = await self._embedder.embed_documents(
             [search_text(c.heading_path, c.text) for c in CHUNKS]
         )
         scored = [
             VectorHit(chunk.id, 1 - sum(a * b for a, b in zip(embedding, vector, strict=True)))
             for chunk, vector in zip(CHUNKS, vectors, strict=True)
-            if editions is None or chunk.edition in editions
+            if _allowed(chunk, filters)
         ]
         return sorted(scored, key=lambda hit: hit.distance)[:limit]
+
+    async def load_children(
+        self, chunk_ids: Sequence[str], filters: MetaFilter
+    ) -> dict[str, ChunkInfo]:
+        return {c.id: c for c in CHUNKS if c.id in chunk_ids and _allowed(c, filters)}
 
     async def load_parents(self, parent_ids: Sequence[str]) -> dict[str, ParentContext]:
         self.parent_requests.append(list(parent_ids))
@@ -61,12 +70,37 @@ class InMemoryStorage:
         }
 
 
-def _retriever(*, reranker: FakeReranker | None = None) -> tuple[HybridRetriever, InMemoryStorage]:
+def _allowed(chunk: ChunkInfo, filters: MetaFilter) -> bool:
+    return filters.corpus_tier == "L" or chunk.edition != "cloud"
+
+
+class StubKeywords:
+    def __init__(self, *, unavailable: bool = False) -> None:
+        self._unavailable = unavailable
+
+    async def search(self, query: str, limit: int, filters: MetaFilter) -> list[tuple[str, float]]:
+        if self._unavailable:
+            raise DependencyUnavailableError("ES 不可用")
+        if query == "完全无关的内容":
+            return []
+        matches = [
+            (chunk.id, float(len(set(query) & set(chunk.text))))
+            for chunk in CHUNKS
+            if _allowed(chunk, filters)
+        ]
+        return sorted(matches, key=lambda value: -value[1])[:limit]
+
+
+def _retriever(
+    *, reranker: FakeReranker | None = None, unavailable: bool = False
+) -> tuple[HybridRetriever, InMemoryStorage]:
     embedder = FakeEmbedder()
     storage = InMemoryStorage(embedder)
-    bm25 = Bm25Index([c.id for c in CHUNKS], [search_text(c.heading_path, c.text) for c in CHUNKS])
     retriever = HybridRetriever(
-        chunks=CHUNKS, bm25=bm25, embedder=embedder, storage=storage, reranker=reranker
+        keyword=StubKeywords(unavailable=unavailable),
+        embedder=embedder,
+        storage=storage,
+        reranker=reranker,
     )
     return retriever, storage
 
@@ -98,7 +132,7 @@ async def test_candidates_carry_both_ranks_and_the_fused_score() -> None:
 async def test_reranker_reorders_the_candidates_and_scores_are_reported() -> None:
     retriever, _ = _retriever(reranker=FakeReranker())
 
-    result = await retriever.retrieve("监控页面查看调用次数")
+    result = await retriever.retrieve("监控页面查看调用次数", rerank=True)
 
     assert result.candidates[0].chunk.id == "d2#c0"
     scores = [c.rerank_score for c in result.candidates if c.rerank_score is not None]
@@ -125,7 +159,7 @@ async def test_top_k_limits_the_candidates() -> None:
 async def test_recall_and_reranking_keep_candidates_removed_by_top_k() -> None:
     retriever, _ = _retriever(reranker=FakeReranker())
 
-    result = await retriever.retrieve("上传文件", top_k=1)
+    result = await retriever.retrieve("上传文件", top_k=1, rerank=True)
 
     assert len(result.recall_candidates) > len(result.candidates)
     assert {c.chunk.id for c in result.recall_candidates} == {
@@ -136,13 +170,14 @@ async def test_recall_and_reranking_keep_candidates_removed_by_top_k() -> None:
     assert result.candidates[0].chunk == result.reranked_candidates[0].chunk
 
 
-async def test_edition_filter_applies_to_both_retrieval_paths() -> None:
+async def test_metadata_filter_applies_to_both_retrieval_paths() -> None:
     retriever, storage = _retriever()
 
-    result = await retriever.retrieve("监控页面查看调用次数", editions=("self_host", "common"))
+    filters = MetaFilter(corpus_tier="S")
+    result = await retriever.retrieve("监控页面查看调用次数", filters=filters)
 
     assert {c.chunk.edition for c in result.candidates} <= {"self_host", "common"}
-    assert storage.editions_seen == [("self_host", "common")]
+    assert storage.filters_seen == [filters]
     assert "d2#c0" not in {c.chunk.id for c in result.candidates}
 
 
@@ -159,9 +194,9 @@ async def test_parents_are_deduplicated_in_candidate_order() -> None:
 async def test_timings_cover_every_stage() -> None:
     retriever, _ = _retriever(reranker=FakeReranker())
 
-    result = await retriever.retrieve("上传文件")
+    result = await retriever.retrieve("上传文件", rerank=True)
 
-    expected = {"embed", "vector", "bm25", "fuse", "rerank", "parents", "total"}
+    expected = {"embed", "vector", "keyword", "fuse", "hydrate", "rerank", "parents", "total"}
     assert set(result.timings_ms) >= expected
 
 
@@ -172,3 +207,57 @@ async def test_query_with_no_lexical_match_still_returns_vector_neighbours() -> 
 
     assert result.candidates
     assert all(c.bm25_rank is None for c in result.candidates)
+
+
+async def test_elasticsearch_failure_uses_filtered_vector_retrieval() -> None:
+    retriever, storage = _retriever(reranker=FakeReranker(), unavailable=True)
+    filters = MetaFilter(corpus_tier="S")
+
+    result = await retriever.retrieve("返済の手続", filters=filters, rerank=True)
+
+    assert result.degraded
+    assert result.candidates
+    assert all(c.bm25_rank is None and c.vector_rank for c in result.candidates)
+    assert all(c.rerank_score is None for c in result.candidates)
+    assert storage.filters_seen == [filters]
+
+
+async def test_explicit_policy_identifier_survives_fusion_when_vector_has_no_match() -> None:
+    metadata = PolicyMetadata(
+        source="internal",
+        synthetic=True,
+        product_line="home_loan",
+        policy_type="procedure",
+        policy_id="HL-TEST",
+        effective_from=date(2026, 11, 1),
+        status="online",
+        corpus_tier="S",
+        based_on=("public/test-fixture",),
+    )
+    match = replace(CHUNKS[1], policy=metadata)
+    other = CHUNKS[0]
+
+    class VectorStorage(InMemoryStorage):
+        async def vector_search(
+            self, embedding: Sequence[float], limit: int, filters: MetaFilter
+        ) -> list[VectorHit]:
+            return [VectorHit(other.id, 0.1)]
+
+        async def load_children(
+            self, chunk_ids: Sequence[str], filters: MetaFilter
+        ) -> dict[str, ChunkInfo]:
+            return {item.id: item for item in (match, other) if item.id in chunk_ids}
+
+    class ExactKeywords:
+        async def search(
+            self, query: str, limit: int, filters: MetaFilter
+        ) -> list[tuple[str, float]]:
+            return [(match.id, 100.0), (other.id, 1.0)]
+
+    embedder = FakeEmbedder()
+    retriever = HybridRetriever(
+        keyword=ExactKeywords(), embedder=embedder, storage=VectorStorage(embedder)
+    )
+    result = await retriever.retrieve("ＨＬ－ＴＥＳＴの受付", top_k=1)
+
+    assert [candidate.chunk.id for candidate in result.candidates] == [match.id]

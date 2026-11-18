@@ -20,7 +20,6 @@ from app.retrieval.resilient import ResilientRetriever
 from app.retrieval.retriever import Retriever
 
 EMBEDDING_CACHE_SIZE, EMBEDDING_CACHE_TTL = 2000, 3600.0
-RETRIEVAL_CACHE_SIZE, RETRIEVAL_CACHE_TTL = 500, 600.0
 ANSWER_CACHE_SIZE, ANSWER_CACHE_TTL = 200, 600.0
 RERANK_FAILURE_THRESHOLD, RERANK_RESET_SECONDS = 3, 30.0
 
@@ -40,7 +39,7 @@ async def build_services(engine: AsyncEngine, settings: Settings) -> Services:
     base = await build_retriever(engine, settings, embedder=embedder)
     retriever = ResilientRetriever(
         base,
-        cache=TtlCache(RETRIEVAL_CACHE_SIZE, RETRIEVAL_CACHE_TTL),
+        cache=None,
         breaker=CircuitBreaker(RERANK_FAILURE_THRESHOLD, RERANK_RESET_SECONDS),
     )
     pipeline = ChatPipeline(get_chat_model(settings), retriever, PostgresSessionStore(engine))

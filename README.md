@@ -31,4 +31,13 @@ uv run poe ingest
 
 入库在 PostgreSQL 写入向量和版本元数据，并同步 kuromoji 索引。出题用语料包写入 `.cache/policy-question-pack.zip`，数据报告写入 `.cache/policy-corpus-report.json`。发布草稿规程时用 `uv run poe ingest --publish <文档ID>`。
 
+## 阶段 32 检索
+
+`POST /retrieve` 用 pgvector 和 Elasticsearch 混合检索。查询日期默认取当天，语料档默认 L，精排默认关闭。请求中可指定 `filter.product_line`、`filter.policy_type`、`filter.as_of`、`filter.corpus_tier` 和 `rerank`。响应返回子块元数据和 `degraded` 标记。
+
+```bash
+uv run poe retrieve-demo --corpus-tier S --as-of 2026-11-18 '繰上返済の手続を確認したいです。'
+uv run poe compare-retrieval
+```
+
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。

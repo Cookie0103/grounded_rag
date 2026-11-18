@@ -28,7 +28,7 @@ BGE_M3_MODEL_NAME = "bge-m3"
 
 # Qwen3-Embedding 只给查询加指令，文档不加
 QWEN3_QUERY_INSTRUCTION = (
-    "Given a question about the Dify platform, retrieve documentation passages that answer it"
+    "住宅ローンのお問い合わせに答えるため、有効な手続、規程、よくある質問を検索してください。"
 )
 
 
@@ -36,6 +36,7 @@ QWEN3_QUERY_INSTRUCTION = (
 RETRIEVE_TOP_K = 30
 FUSION_TOP_K = 20
 FINAL_TOP_K = 5
+DEFAULT_POLICY_RERANK = False
 RRF_K = 60
 QWEN3_RERANKER_NAME = "qwen3-reranker-0.6b"
 BGE_RERANKER_NAME = "bge-reranker-v2-m3"

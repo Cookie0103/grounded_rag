@@ -1,4 +1,4 @@
-"""混合检索：向量 + BM25 并行 → RRF 融合 → 精排 → 取前 K → 带出父块。"""
+"""并行查询 pgvector 和 Elasticsearch，融合后取有效子块与父块。"""
 
 import asyncio
 import time
@@ -7,11 +7,14 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field, replace
 from typing import Protocol
 
-from app.core.config import FINAL_TOP_K, FUSION_TOP_K, RETRIEVE_TOP_K
+from app.core.config import DEFAULT_POLICY_RERANK, FINAL_TOP_K, FUSION_TOP_K, RETRIEVE_TOP_K
+from app.core.errors import DependencyUnavailableError
+from app.core.policy import PolicyMetadata
 from app.core.text import search_text
+from app.db.policy_filter import MetaFilter
 from app.providers.base import Embedder, Reranker
-from app.retrieval.bm25 import Bm25Index
 from app.retrieval.fusion import rrf
+from app.retrieval.keyword import policy_numbers
 
 
 @dataclass(frozen=True)
@@ -21,7 +24,8 @@ class ChunkInfo:
     parent_id: str
     heading_path: str
     text: str
-    edition: str
+    edition: str = "common"
+    policy: PolicyMetadata | None = None
 
 
 @dataclass(frozen=True)
@@ -56,13 +60,13 @@ class RetrievalResult:
     candidates: list[Candidate]
     parents: list[ParentContext]
     timings_ms: dict[str, float] = field(default_factory=dict)
-    degraded: bool = False  # 精排不可用，跳过了精排
+    degraded: bool = False
     recall_candidates: list[Candidate] = field(default_factory=list)
     reranked_candidates: list[Candidate] = field(default_factory=list)
     cached: bool = False
 
 
-HYBRID, VECTOR, BM25 = "hybrid", "vector", "bm25"
+HYBRID, VECTOR, KEYWORD, BM25 = "hybrid", "vector", "keyword", "bm25"
 
 
 class Retriever(Protocol):
@@ -74,7 +78,8 @@ class Retriever(Protocol):
         *,
         top_k: int = FINAL_TOP_K,
         editions: Sequence[str] | None = None,
-        rerank: bool = True,
+        filters: MetaFilter | None = None,
+        rerank: bool = DEFAULT_POLICY_RERANK,
         mode: str = HYBRID,
     ) -> RetrievalResult: ...
 
@@ -83,24 +88,32 @@ class Storage(Protocol):
     """检索器需要的两个数据库操作；生产环境由 factory 用真实的库实现。"""
 
     async def vector_search(
-        self, embedding: Sequence[float], limit: int, editions: Sequence[str] | None
+        self, embedding: Sequence[float], limit: int, filters: MetaFilter
     ) -> list[VectorHit]: ...
 
+    async def load_children(
+        self, chunk_ids: Sequence[str], filters: MetaFilter
+    ) -> dict[str, ChunkInfo]: ...
+
     async def load_parents(self, parent_ids: Sequence[str]) -> dict[str, ParentContext]: ...
+
+
+class KeywordSearch(Protocol):
+    async def search(
+        self, query: str, limit: int, filters: MetaFilter
+    ) -> list[tuple[str, float]]: ...
 
 
 class HybridRetriever:
     def __init__(
         self,
         *,
-        chunks: Sequence[ChunkInfo],
-        bm25: Bm25Index,
+        keyword: KeywordSearch,
         embedder: Embedder,
         storage: Storage,
         reranker: Reranker | None = None,
     ) -> None:
-        self._chunks = {chunk.id: chunk for chunk in chunks}
-        self._bm25 = bm25
+        self._keyword = keyword
         self._embedder = embedder
         self._storage = storage
         self._reranker = reranker
@@ -108,8 +121,7 @@ class HybridRetriever:
     def with_reranker(self, reranker: Reranker | None) -> "HybridRetriever":
         """同样的索引和存储，换一个精排模型（对比实验用）。"""
         return HybridRetriever(
-            chunks=list(self._chunks.values()),
-            bm25=self._bm25,
+            keyword=self._keyword,
             embedder=self._embedder,
             storage=self._storage,
             reranker=reranker,
@@ -121,78 +133,94 @@ class HybridRetriever:
         *,
         top_k: int = FINAL_TOP_K,
         editions: Sequence[str] | None = None,
-        rerank: bool = True,
+        filters: MetaFilter | None = None,
+        rerank: bool = DEFAULT_POLICY_RERANK,
         mode: str = HYBRID,
     ) -> RetrievalResult:
-        """mode：hybrid（向量 + BM25）、vector（只用向量）、bm25（只用 BM25）；后两个做消融实验。"""
+        """保留旧调用签名，规程检索统一使用新版元数据。"""
+        active_filter = filters or MetaFilter()
         timings: dict[str, float] = {}
         started = time.perf_counter()
-        vector_hits, bm25_hits = await self._first_stage(query, editions, mode, timings)
+        vector_hits, keyword_hits = await self._first_stage(query, active_filter, mode, timings)
+        degraded = keyword_hits is None
+        bm25_hits = keyword_hits or []
 
         with _timed(timings, "fuse"):
             fused = rrf([[hit.chunk_id for hit in vector_hits], [cid for cid, _ in bm25_hits]])
-        recall = self._candidates(fused, vector_hits, bm25_hits)
+        with _timed(timings, "hydrate"):
+            available = await self._storage.load_children(
+                [chunk_id for chunk_id, _ in fused], active_filter
+            )
+        recall = self._candidates(fused, vector_hits, bm25_hits, available)
+        references = policy_numbers(query) if bm25_hits else ()
+        recall = _prefer_explicit_references(recall, references)
         candidates = recall[:FUSION_TOP_K]
         reranked: list[Candidate] = []
-        if rerank and self._reranker is not None and candidates:
+        if rerank and not degraded and self._reranker is not None and candidates:
             candidates = await self._rerank(self._reranker, query, candidates, timings)
+            candidates = _prefer_explicit_references(candidates, references)
             reranked = candidates
         top = [replace(c, rank=rank) for rank, c in enumerate(candidates[:top_k], start=1)]
 
         parents = await self._parents(top, timings)
         timings["total"] = _ms(time.perf_counter() - started)
         return RetrievalResult(
-            query, top, parents, timings, recall_candidates=recall, reranked_candidates=reranked
+            query,
+            top,
+            parents,
+            timings,
+            degraded=degraded,
+            recall_candidates=recall,
+            reranked_candidates=reranked,
         )
 
     async def _first_stage(
         self,
         query: str,
-        editions: Sequence[str] | None,
+        filters: MetaFilter,
         mode: str,
         timings: dict[str, float],
-    ) -> tuple[list[VectorHit], list[tuple[str, float]]]:
-        use_vector, use_bm25 = mode in (HYBRID, VECTOR), mode in (HYBRID, BM25)
-        vector: list[float] = []
-        if use_vector:
+    ) -> tuple[list[VectorHit], list[tuple[str, float]] | None]:
+        async def run_vector() -> list[VectorHit]:
             with _timed(timings, "embed"):
                 vector = (await self._embedder.embed_queries([query]))[0]
-        allowed = (
-            None
-            if editions is None
-            else frozenset(c.id for c in self._chunks.values() if c.edition in editions)
-        )
-
-        async def run_vector() -> list[VectorHit]:
-            if not use_vector:
-                return []
             with _timed(timings, "vector"):
-                return await self._storage.vector_search(vector, RETRIEVE_TOP_K, editions)
+                return await self._storage.vector_search(vector, RETRIEVE_TOP_K, filters)
 
-        async def run_bm25() -> list[tuple[str, float]]:
-            if not use_bm25:
-                return []
-            with _timed(timings, "bm25"):
-                return await asyncio.to_thread(self._bm25.search, query, RETRIEVE_TOP_K, allowed)
+        async def run_keyword() -> list[tuple[str, float]] | None:
+            try:
+                with _timed(timings, "keyword"):
+                    return await self._keyword.search(query, RETRIEVE_TOP_K, filters)
+            except DependencyUnavailableError:
+                return None
 
-        return await asyncio.gather(run_vector(), run_bm25())
+        if mode == VECTOR:
+            return await run_vector(), []
+        if mode in (KEYWORD, BM25):
+            hits = await run_keyword()
+            return (await run_vector() if hits is None else []), hits
+        vector_hits, keyword_hits = await asyncio.gather(run_vector(), run_keyword())
+        return vector_hits, keyword_hits
 
+    @staticmethod
     def _candidates(
-        self,
         fused: list[tuple[str, float]],
         vector_hits: list[VectorHit],
         bm25_hits: list[tuple[str, float]],
+        available: dict[str, ChunkInfo],
     ) -> list[Candidate]:
         vector_info = {h.chunk_id: (rank, h.distance) for rank, h in enumerate(vector_hits, 1)}
         bm25_info = {cid: (rank, score) for rank, (cid, score) in enumerate(bm25_hits, 1)}
         candidates: list[Candidate] = []
         for rank, (chunk_id, score) in enumerate(fused, start=1):
+            if chunk_id not in available:
+                continue
             vector_rank, distance = vector_info.get(chunk_id, (None, None))
             bm25_rank, bm25_score = bm25_info.get(chunk_id, (None, None))
             candidates.append(
                 Candidate(
                     rank=rank,
-                    chunk=self._chunks[chunk_id],
+                    chunk=available[chunk_id],
                     vector_rank=vector_rank,
                     vector_distance=distance,
                     bm25_rank=bm25_rank,
@@ -220,6 +248,18 @@ class HybridRetriever:
         with _timed(timings, "parents"):
             loaded = await self._storage.load_parents(parent_ids)
         return [loaded[pid] for pid in parent_ids if pid in loaded]
+
+
+def _prefer_explicit_references(
+    candidates: list[Candidate], references: tuple[str, ...]
+) -> list[Candidate]:
+    if not references:
+        return candidates
+    ordered = sorted(
+        candidates,
+        key=lambda item: item.chunk.policy is None or item.chunk.policy.policy_id not in references,
+    )
+    return [replace(item, rank=rank) for rank, item in enumerate(ordered, 1)]
 
 
 @contextmanager

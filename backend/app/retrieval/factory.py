@@ -5,13 +5,19 @@ from collections.abc import Sequence
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from app.core.config import Settings
-from app.core.text import search_text
-from app.db.corpus import load_chunks, load_parents, nearest_chunks
+from app.db.corpus import load_parents, nearest_chunks
+from app.db.policy import load_policy_chunks
+from app.db.policy_filter import MetaFilter
 from app.providers.base import Embedder, Reranker
 from app.providers.factory import get_embedder, get_reranker
-from app.retrieval.bm25 import Bm25Index, Tokenizer
-from app.retrieval.retriever import ChunkInfo, HybridRetriever, ParentContext, VectorHit
-from app.retrieval.tokenizer import tokenize
+from app.retrieval.keyword import ElasticsearchKeywords
+from app.retrieval.retriever import (
+    ChunkInfo,
+    HybridRetriever,
+    KeywordSearch,
+    ParentContext,
+    VectorHit,
+)
 
 
 class DatabaseStorage:
@@ -22,13 +28,30 @@ class DatabaseStorage:
         self._model = model
 
     async def vector_search(
-        self, embedding: Sequence[float], limit: int, editions: Sequence[str] | None
+        self, embedding: Sequence[float], limit: int, filters: MetaFilter
     ) -> list[VectorHit]:
         async with self._engine.connect() as connection:
             found = await nearest_chunks(
-                connection, embedding, model=self._model, limit=limit, editions=editions
+                connection, embedding, model=self._model, limit=limit, filters=filters
             )
         return [VectorHit(chunk.chunk_id, chunk.distance) for chunk in found]
+
+    async def load_children(
+        self, chunk_ids: Sequence[str], filters: MetaFilter
+    ) -> dict[str, ChunkInfo]:
+        async with self._engine.connect() as connection:
+            rows = await load_policy_chunks(connection, ids=chunk_ids, filters=filters)
+        return {
+            row.id: ChunkInfo(
+                row.id,
+                row.document_id,
+                row.parent_id,
+                row.heading_path,
+                row.text,
+                policy=row.policy,
+            )
+            for row in rows
+        }
 
     async def load_parents(self, parent_ids: Sequence[str]) -> dict[str, ParentContext]:
         async with self._engine.connect() as connection:
@@ -45,24 +68,13 @@ async def build_retriever(
     *,
     embedder: Embedder | None = None,
     reranker: Reranker | None = None,
-    tokenizer: Tokenizer = tokenize,
+    keyword: KeywordSearch | None = None,
 ) -> HybridRetriever:
-    """从库里读出所有子块建 BM25 索引；嵌入和精排模型按配置创建（也可以显式传入）。"""
-    async with engine.connect() as connection:
-        rows = await load_chunks(connection)
-    chunks = [
-        ChunkInfo(r.id, r.document_id, r.parent_id, r.heading_path, r.text, r.edition) for r in rows
-    ]
-    bm25 = Bm25Index(
-        [chunk.id for chunk in chunks],
-        [search_text(chunk.heading_path, chunk.text) for chunk in chunks],
-        tokenizer,
-    )
+    """组装实时查询两种存储的规程检索器。"""
     embedder = embedder or get_embedder(settings.embedding_model, settings)
     reranker = reranker if reranker is not None else get_reranker(settings.reranker_model, settings)
     return HybridRetriever(
-        chunks=chunks,
-        bm25=bm25,
+        keyword=keyword or ElasticsearchKeywords(settings.elasticsearch_url),
         embedder=embedder,
         storage=DatabaseStorage(engine, embedder.name),
         reranker=reranker,

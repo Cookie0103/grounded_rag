@@ -7,6 +7,7 @@ from sqlalchemy import Column, bindparam, delete, exists, func, insert, select, 
 from sqlalchemy.ext.asyncio import AsyncConnection
 
 from app.core.policy import PolicyMetadata
+from app.db.policy_filter import MetaFilter
 from app.db.tables import chunk_embeddings, chunks, documents, parent_chunks
 
 
@@ -120,6 +121,7 @@ async def nearest_chunks(
     model: str,
     limit: int,
     editions: Sequence[str] | None = None,
+    filters: MetaFilter | None = None,
 ) -> list[NearestChunk]:
     """按余弦距离取最近的子块；可以只查某几种版本（self_host / cloud / common）的文档。
 
@@ -148,6 +150,8 @@ async def nearest_chunks(
     )
     if editions is not None:
         statement = statement.where(documents.c.edition.in_(list(editions)))
+    if filters is not None:
+        statement = statement.where(*filters.sql_conditions())
     rows = await connection.execute(statement)
     return [
         NearestChunk(

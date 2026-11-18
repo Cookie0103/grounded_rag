@@ -6,15 +6,16 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-18（阶段 31 验收，出题包可用）
+最后更新：2026-11-18（阶段 32 验收，出题包可用）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
 - **代码**：第一版文档已归档。五个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
-- **分支**：当前本地 `2026-11-18-build-corpus`，从阶段 30 验收提交 `83ddae0` 建立。阶段提交留在本机。
+- **分支**：当前本地 `2026-11-18-policy-retrieval`，从阶段 31 验收提交 `33e7b2c` 建立。阶段提交留在本机。
 - **第一版遗留**：阶段 21 的消融还有 251 份回答没评审，随第一版一起归档，不再继续。
 - **模型**：意图档用 Qwen3 4B Instruct，20 条合成日文短题 19/20，P95 95.2 毫秒；嵌入和精排用 MPS；生成档用 DeepSeek V4 Pro。测量口径见[阶段 30](build/phase-30-cleanup-infra.md#小模型冒烟ac5)。
 - **语料**：在可见 Chrome 中保存 54 份 HTML，53 份用于住宅贷款语料。S 档 185 篇、L 档 3,000 篇，两个存储均有 3,213 个规程块。出题包已校验，作者可以用本机 `.cache/policy-question-pack.zip` 开始准备阶段 36 的规程题。
-- **下一步**：执行[阶段 32](build/phase-32-retrieval.md)，用同一元数据过滤条件接通 ES 和 pgvector，在 S、L 上跑检索冒烟与精排对比。
+- **检索**：`/retrieve` 已接通 ES 和 pgvector 的共同硬过滤，30 条日文冒烟的默认混合检索 S/L 均命中 30 条，P95 分别为 38.62/41.88 毫秒。默认关闭精排，仍可通过请求开关启用。
+- **下一步**：执行[阶段 33](build/phase-33-tools.md)，建立合成业务数据、MySQL 模拟系统及只读工具中间件。
 - **阻塞**：无。阶段 36 由作者出题、校准和跑封存测试集；公开页面保存和 Dify 界面操作由执行模型用 Chrome 完成。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
 
@@ -26,7 +27,7 @@
 |---|---|---|
 | [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 完成 | 五个 ARM 容器正常，网关两档通过，465 个常规检查测试、32 个集成测试通过 |
 | [31 语料与知识库加工](build/phase-31-corpus.md) | 完成 | S 185 篇、L 3,000 篇，双库 3,213 块，出题包已校验 |
-| [32 检索](build/phase-32-retrieval.md) | 未开始 | |
+| [32 检索](build/phase-32-retrieval.md) | 完成 | 双库硬过滤、精确编号、降级与四模式冒烟已实测 |
 | [33 模拟业务系统与工具层](build/phase-33-tools.md) | 未开始 | |
 | [34 双泳道编排](build/phase-34-orchestration.md) | 未开始 | |
 | [35 流式与护栏](build/phase-35-streaming-guard.md) | 未开始 | |
@@ -83,3 +84,9 @@
 - 开发库迁移至 0006；使用 MPS 嵌入并同步 kuromoji。两库均 3,213 块，规程块必填元数据缺失为 0，重复导入新增和重新嵌入均为 0。历史日期与现行日期的发布案例通过双库断言。
 - `uv run --locked poe check` 为 462 个测试通过、覆盖率 92.77%；`uv run --locked poe test-int` 为 34 个通过。阶段证据见[阶段 31](build/phase-31-corpus.md#记录)，版本与同步选择见[语料决策](context/phase-31-corpus-context.md)。
 - S 档出题包 `.cache/policy-question-pack.zip` 已验证。作者可以提前准备 40 道开发题和 20 道封存测试题，保留金标文档 ID 和必要的查询日期。公开来源快照和出题包留在本机。
+
+### 2026-11-18 · 阶段 32 检索验收
+
+- 用 `MetaFilter` 统一 pgvector、ES 和候选回读。20 组集成过滤的块 ID 完全一致。真实 API 请求以旧日期和当天分别命中指定 v1/v2，关闭精排时延迟保持检索级。
+- `uv run --locked poe compare-retrieval` 在 S/L 各跑 30 条日文冒烟。默认混合时各 30/30、P95 38.62/41.88 毫秒，启用精排各 27/30、P95 1964.51/1993.04 毫秒。所有模式未出现失效候选。详细表与指令对照见[阶段 32](build/phase-32-retrieval.md#记录)，结论只覆盖本次冒烟样本。
+- `uv lock --check` 解析 172 个包，`uv run --locked poe check` 通过 445 个测试，覆盖率 92.46%；`uv run --locked poe test-int` 通过 34 个测试。退役关键词代码和专属测试已归档。

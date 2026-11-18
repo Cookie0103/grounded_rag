@@ -2,6 +2,7 @@ from collections.abc import Sequence
 
 import pytest
 
+from app.db.policy_filter import MetaFilter
 from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
 from app.providers.deepseek import cost_cny
 from app.providers.fakes import FakeChatModel
@@ -28,6 +29,7 @@ class StubRetriever:
         *,
         top_k: int = 5,
         editions: Sequence[str] | None = None,
+        filters: MetaFilter | None = None,
         rerank: bool = True,
         mode: str = HYBRID,
     ) -> RetrievalResult:
