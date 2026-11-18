@@ -73,10 +73,13 @@ services:
       DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-ollama_chat/qwen3:4b-instruct}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      DIFY_EMBEDDING_BASE_URL: ${DIFY_EMBEDDING_BASE_URL:-http://host.docker.internal:18082/v1}
     ports:
       - "127.0.0.1:${GATEWAY_PORT:-4000}:4000"
     volumes:
       - ./infra/litellm/config.yaml:/app/config.yaml:ro
+      - ./infra/litellm/usage_report.py:/app/usage_report.py:ro
+      - ./.cache/litellm-usage:/app/local-usage
     healthcheck:
       test:
         - CMD

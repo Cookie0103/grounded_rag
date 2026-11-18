@@ -3,6 +3,7 @@
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # backend/app/core/config.py → 仓库根目录
@@ -83,6 +84,8 @@ class Settings(BaseSettings):
     gateway_api_key: str | None = None
     gateway_small_model: str = "small"
     gateway_large_model: str = "deepseek-v4-pro"
+    dify_base_url: str = "http://127.0.0.1:18090/v1"
+    dify_api_key: SecretStr | None = None
     strict_answer_checks: bool = False
     evaluation_mock_faults: bool = False
     daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）

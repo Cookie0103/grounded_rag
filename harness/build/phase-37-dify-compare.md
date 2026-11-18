@@ -1,6 +1,6 @@
 # 阶段 37：Dify 对照
 
-状态：未开始（草案；执行模型开工前可细化，细化后自行标「已批准」）
+状态：部署和独立检查完成，等待本机控制台登录（本地分支 `2026-11-18-dify-comparison`）
 
 > 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。设计依据见 [PLANS.md](../../PLANS.md) §5、§6.3。
 
@@ -31,7 +31,9 @@
 
 ## 任务
 
-- [ ] T1 部署：官方 compose 放在仓库外或 `.cache/` 下，端口避开现有服务；起之前先停掉用不到的容器并记录内存占用。
+官方稳定版固定为 [Dify 1.19.0](https://github.com/langgenius/dify/releases/tag/1.19.0)，源码放本机忽略目录，独立 Compose 项目仅开放回环端口。先验证 192 条合成开发题和 21 条随机故障条件，作者正式题到位后按同一配置补跑。两档聊天模型与 MPS 嵌入均从同一 LiteLLM 网关进入，网关只追加实际 token 数和模型别名。
+
+- [x] T1 部署：官方 Compose 放在 `.cache/` 下，独立项目和回环端口，记录原生镜像和内存基线。
 - [ ] T2 模型：供应商配成 OpenAI 兼容，指向网关；嵌入模型尽量与本系统一致（把本机嵌入模型经 OpenAI 兼容接口暴露），做不到就记录差异。
 - [ ] T3 知识库：导入 S 档语料；记录分段设置、混合检索设置、元数据能配到什么程度。
 - [ ] T4 Chatflow V3：开始节点（`query`、`channel`、`customer_id`）→ 问题分类器 → 条件分支（按 `channel` 分两条泳道）→ 知识检索 / HTTP 请求（调 `mock_core`，带坐席 ID 头）+ 代码节点（字段裁剪、列表截断）→ LLM → 直接回复。写出 DSL，操作浏览器在本机 Dify 界面导入并逐节点核对，每个节点的配置留一张截图。Dify 管理员用本机专用的测试账号，凭据放 `.env`。
@@ -45,8 +47,15 @@
 
 ## 记录
 
-（执行时填写）
+- 独立 Compose `grounded_dify` 已启动，15 个长驻服务就绪；`/install` 和 `/console/api/setup` 本机 HTTP 200。Dify 到网关及模拟业务健康接口均为 200，已核验私网拒绝、错误端口拒绝和模拟业务 POST 拒绝。上传一次选择上限实测为 185。
+- 容器实际镜像检查均为 `linux/arm64`，含一次性初始化共 16 个。带 healthcheck 的 5 个服务均 healthy，初始化退出码 0。Docker VM 25,158,770,688 字节；Dify 实际 `docker stats --no-stream` 快照 2,480.74 MiB。代理容器在纠正官方要求的 base64url 启动密钥后返回 HTTP 200。
+- `uv run --locked uvicorn scripts.dify_embeddings:create_app --factory --host 127.0.0.1 --port 18082` 提供 MPS 嵌入，网关 `/v1/embeddings` 实际两条各 1024 维，实际输入 20 token。参考[本机连接规则](../context/phase-37-dify-context.md)。
+- 连接网关直接调用 small，回调 JSONL 对应非流式 15/21 token 和流式 15/2 token，均有请求 ID。Dify 本身的真实用量等待控制台配置和回放。
+- 对 [37 节点模板](../../infra/dify/copilot-chatflow.yml) 用官方镜像里的 11 种节点模型校验，37/37 通过。官方 Graphon 引擎以模型、HTTP、检索桩跑通 6 条流程，包含越权、故障和混合。进一步的 Chrome 导入和真实回放等待控制台登录。
+- 已在 Chrome 打开 Dify 管理员初始化表单，确认是独立本机页面并交给作者填写。S 档导入素材、Chatflow 模板与本机回放目录就绪。
+- `poe check` 565 项通过，覆盖率 89.91%；`poe test-int` 46 项通过。真实 Dify API 回放、模型登录后的节点配置、瓶颈截图和完整对照表待验证。
 
 ## 阻塞
 
-（无）
+- 作者正式规程题和人工校准尚待提供。Dify 部署、知识导入、画布与合成回放可以独立完成。
+- 自动审批拒绝通过临时网页传递 `.env` 凭据，原因为可能暴露网关密钥和管理员口令。该动作未执行。已请作者在 Chrome 本机安装页建立专用测试管理员。等待控制台会话期间继续验证 DSL、网关和回放脚本。

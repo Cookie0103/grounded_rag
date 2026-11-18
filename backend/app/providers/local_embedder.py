@@ -71,3 +71,13 @@ class SentenceTransformerEmbedder:
 
     async def embed_documents(self, texts: list[str]) -> list[list[float]]:
         return await asyncio.to_thread(self._encode, texts, None)
+
+    def _count_tokens(self, texts: list[str]) -> int:
+        with self._lock:
+            model = self._load()
+            encoded = model.tokenizer(texts, truncation=True, max_length=model.max_seq_length)
+            return sum(len(item) for item in encoded.input_ids)
+
+    async def document_tokens(self, texts: list[str]) -> int:
+        """读取同一模型的分词用量，供本机 OpenAI 兼容嵌入出口返回。"""
+        return await asyncio.to_thread(self._count_tokens, texts)
