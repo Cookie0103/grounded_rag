@@ -56,6 +56,8 @@
 
 ## 6. Gemini 出评测题
 
+> 第一版 Dify 中文文档的出题模板。阶段 36 更新为日文住宅贷款规程版。
+
 作者在 Gemini 网页端使用。步骤：
 
 1. 在 `backend/` 下运行 `uv run poe export-for-gemini`，得到 `.cache/gemini-pack/part-01.md` …（每份是清洗后的文档，每篇前有「文档 ID」）。

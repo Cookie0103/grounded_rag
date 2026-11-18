@@ -6,14 +6,14 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-18（第二版计划写完，代码未动）
+最后更新：2026-11-18（阶段 30 进行中，基线检查和 MPS 推理已实测）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
-- **代码**：仍是第一版的状态，等同于 git 标签 `v1-dify-docs`（即 `origin/main` 的 `4ae48f3`）。本轮只改了文档，没有改任何代码、测试、配置。
-- **分支**：`2026-11-18-reopen`（作者指定的名字），从 `origin/main` 建立并跟踪 `origin/2026-11-18-reopen`；阶段 30～38 的九份计划纳入版本控制。
+- **代码**：完成第一版文档归档，新增四个 Compose 服务、网关分档客户端及本地模型冒烟脚本。阶段 30 的代码与 PostgreSQL 集成检查已通过，容器与模型仍在实测。
+- **分支**：本地 `2026-11-18-local-infra`，由 `2026-11-18-reopen` 的 `85faf90` 建立。阶段提交留在本机。
 - **第一版遗留**：阶段 21 的消融还有 251 份回答没评审，随第一版一起归档，不再继续。
-- **下一步**：执行 [阶段 30](build/phase-30-cleanup-infra.md)。
-- **阻塞**：无。作者本人只需参与阶段 36（出题、校准、跑测试集）；公开页面保存和 Dify 界面操作由执行模型用浏览器完成。
+- **下一步**：完成[阶段 30](build/phase-30-cleanup-infra.md) 的五服务健康检查、kuromoji、两款意图模型和真实网关调用，再进入阶段 31。
+- **阻塞**：尚未发现需作者处理的外部输入。阶段 36 由作者出题、校准和跑封存测试集；公开页面保存和 Dify 界面操作由执行模型用 Chrome 完成。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
 
 ## 阶段状态
@@ -22,7 +22,7 @@
 
 | 阶段 | 状态 | 说明 |
 |---|---|---|
-| [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 未开始 | |
+| [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 进行中 | 归档、代码检查和 MPS 已验证，容器及网关实测进行中 |
 | [31 语料与知识库加工](build/phase-31-corpus.md) | 未开始 | 公开页面由执行模型用浏览器低速保存 |
 | [32 检索](build/phase-32-retrieval.md) | 未开始 | |
 | [33 模拟业务系统与工具层](build/phase-33-tools.md) | 未开始 | |
@@ -54,3 +54,10 @@
 - 将 `2026-11-18-reopen` 推送到 GitHub 并设置上游。首次推送后发现 `.gitignore` 的 `build/` 规则也匹配 `harness/build/`，阶段 30～38 的九份计划因此遗漏。
 - 为 `harness/build/` 添加精确路径例外，并将九份原计划纳入版本控制。`git status` 确认九份计划均可见，`git check-ignore` 确认构建输出、`.env`、`data/` 和 `.cache/` 仍被忽略。逐份核对计划内容，未发现密钥、公开页面原文或参考方案原文。
 - `uv run --locked --offline poe check` 通过：格式、lint、分层、类型检查通过，463 项单元测试通过。下一步仍是执行阶段 30。
+
+### 2026-11-18 · 阶段 30 代码与 Mac 基础环境（分支 `2026-11-18-local-infra`）
+
+- 归档第一版 README、导学与面经、评测资料和报告；按作者确认更新本机环境和阶段 37 完整同题回放范围。新增 ES、Redis、MySQL、LiteLLM Compose 规格，网关档位共用已有的 OpenAI 兼容调用、预算与计费路径。
+- `docker info` 确认 Docker VM 已分配约 24 GiB；五个镜像的仓库清单均有原生 Linux arm64。Qwen3 嵌入和精排实际完成 MPS 推理，详细输出见 [Mac 环境记录](context/phase-30-mac-context.md)。
+- 通过 `uv --no-config lock --check --offline`，不需要重新生成锁文件。在 `backend/` 忽略本机 uv 全局配置后，`uv run --locked poe check` 通过 465 个测试、覆盖率 94.93%；`uv run --locked poe test-int` 通过 32 个 PostgreSQL 集成测试。
+- 阶段 30 仍在执行，容器与模型权重在下载；五服务健康、kuromoji 分词、两模型意图冒烟和网关真实调用待核验。

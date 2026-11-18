@@ -7,8 +7,8 @@ from typing import Any, Protocol
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
 from app.orchestration.models import ChatRequest, Step, StepDetails
 from app.orchestration.pipeline import ChatPipeline
-from app.providers.base import ChatMessage, ChatModel, Completion
-from app.providers.deepseek import cost_cny
+from app.providers.base import ChatMessage, ChatModel
+from app.providers.deepseek import completion_cost_cny
 from app.retrieval.retriever import VECTOR, Retriever
 from eval.dataset import Question
 from eval.judge import fill_template
@@ -90,10 +90,6 @@ class RetrievalOnlySystem:
         )
 
 
-def _completion_cost(completion: Completion) -> float:
-    return cost_cny(completion.prompt_tokens, completion.completion_tokens)
-
-
 class NoRetrievalSystem:
     """基线一：不检索，直接问模型。"""
 
@@ -113,7 +109,7 @@ class NoRetrievalSystem:
             retrieved_docs=(),
             contexts=(),
             latency_ms=(time.perf_counter() - started) * 1000,
-            cost_cny=_completion_cost(completion),
+            cost_cny=completion_cost_cny(completion),
             steps=(
                 Step(
                     name="generate",
@@ -176,7 +172,7 @@ class NaiveRagSystem:
             ),
             contexts=contexts,
             latency_ms=(time.perf_counter() - started) * 1000,
-            cost_cny=_completion_cost(completion),
+            cost_cny=completion_cost_cny(completion),
             steps=(
                 Step(
                     name="retrieve",

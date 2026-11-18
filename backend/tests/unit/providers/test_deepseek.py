@@ -8,7 +8,7 @@ import pytest
 
 from app.core.config import Settings
 from app.core.errors import BudgetExceededError, ConfigError, DependencyUnavailableError
-from app.providers.base import ChatMessage
+from app.providers.base import ChatMessage, ChatTier
 from app.providers.budget import BudgetLedger
 from app.providers.deepseek import DeepSeekChat, cost_cny
 from app.providers.factory import get_chat_model
@@ -168,3 +168,38 @@ def test_factory_picks_the_chat_model(tmp_path: Path) -> None:
     assert isinstance(get_chat_model(Settings(chat_model="deepseek")), DeepSeekChat)
     with pytest.raises(ConfigError):
         get_chat_model(Settings(chat_model="gpt"))
+
+
+@pytest.mark.parametrize(
+    ("tier", "alias", "expected_cost"),
+    [
+        ("small", "small", 0.0),
+        ("large", "deepseek-v4-pro", (1000 * 1.32 + 500 * 3.96) * 7.2 / 1_000_000),
+    ],
+)
+async def test_gateway_routes_by_tier_and_records_only_paid_usage(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    tier: ChatTier,
+    alias: str,
+    expected_cost: float,
+) -> None:
+    transport, seen = _transport(httpx.Response(200, json=OK))
+    client = httpx.AsyncClient(base_url="http://gateway/v1", transport=transport)
+    monkeypatch.setattr("app.providers.factory.CACHE_DIR", tmp_path)
+    model = get_chat_model(
+        Settings(chat_model="gateway", gateway_api_key="local-key"),
+        tier=tier,
+        client=client,
+    )
+
+    completion = await model.complete(MESSAGES, json_mode=True)
+
+    assert seen[0]["headers"]["authorization"] == "Bearer local-key"
+    assert seen[0]["body"]["model"] == alias
+    assert seen[0]["body"]["response_format"] == {"type": "json_object"}
+    assert (completion.prompt_tokens, completion.completion_tokens) == (1000, 500)
+    assert completion.cost_cny == pytest.approx(expected_cost)
+    assert BudgetLedger(tmp_path / "budget", daily_limit_cny=10).spent() == pytest.approx(
+        expected_cost
+    )

@@ -46,6 +46,8 @@ EDITION_FILTERS = {
 # 价格页 https://api-docs.deepseek.com/quick_start/pricing，2026-10-16 核对；官方改价后要更新
 DEEPSEEK_INPUT_USD_PER_MILLION = 0.3
 DEEPSEEK_OUTPUT_USD_PER_MILLION = 1.2
+DEEPSEEK_PRO_INPUT_USD_PER_MILLION = 1.32
+DEEPSEEK_PRO_OUTPUT_USD_PER_MILLION = 3.96
 USD_TO_CNY = 7.2
 
 
@@ -55,16 +57,23 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=REPO_ROOT / ".env", extra="ignore")
 
     database_url: str = "postgresql+asyncpg://grounded:grounded@localhost:5432/grounded_rag"
+    elasticsearch_url: str = "http://127.0.0.1:9200"
+    redis_url: str = "redis://127.0.0.1:6379/0"
+    mysql_url: str = "mysql://grounded:grounded@127.0.0.1:3306/grounded_mock"
     db_timeout_seconds: float = 5.0
     log_level: str = "INFO"
     embedding_model: str = "qwen3"  # qwen3 / bge-m3 / fake
-    embed_device: str = "cuda"
+    embed_device: str = "mps"
     embed_batch_size: int = 32
     reranker_model: str = "qwen3"  # qwen3 / bge / fake / none
-    chat_model: str = "deepseek"  # deepseek / fake
+    chat_model: str = "deepseek"  # gateway / deepseek / fake
     deepseek_api_key: str | None = None
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-flash"
+    gateway_base_url: str = "http://127.0.0.1:4000/v1"
+    gateway_api_key: str | None = None
+    gateway_small_model: str = "small"
+    gateway_large_model: str = "deepseek-v4-pro"
     daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）
     rate_limit_per_minute: int = 30  # 每个客户端 IP；0 表示不限制
     prewarm: bool = False  # 启动时就建检索器、加载模型；poe serve 会打开

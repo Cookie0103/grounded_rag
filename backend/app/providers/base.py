@@ -4,6 +4,8 @@ from typing import Literal, Protocol
 
 from pydantic import BaseModel
 
+ChatTier = Literal["small", "large"]
+
 
 class ChatMessage(BaseModel):
     role: Literal["system", "user", "assistant"]
@@ -15,6 +17,7 @@ class Completion(BaseModel):
     model: str
     prompt_tokens: int
     completion_tokens: int
+    cost_cny: float | None = None
 
 
 class ChatModel(Protocol):

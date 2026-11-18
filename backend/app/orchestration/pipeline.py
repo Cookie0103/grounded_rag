@@ -39,7 +39,7 @@ from app.orchestration.models import (
     StepDetails,
 )
 from app.providers.base import ChatMessage, ChatModel, Completion
-from app.providers.deepseek import cost_cny
+from app.providers.deepseek import completion_cost_cny
 from app.retrieval.retriever import ParentContext, RetrievalResult, Retriever
 
 logger = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ class MeteredChat:
         completion: Completion = await self._chat.complete(
             [ChatMessage(role="user", content=prompt)], json_mode=json_mode
         )
-        self.cost_cny += cost_cny(completion.prompt_tokens, completion.completion_tokens)
+        self.cost_cny += completion_cost_cny(completion)
         return completion.text
 
 
