@@ -6,14 +6,15 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-18（阶段 30 进行中，基线检查和 MPS 推理已实测）
+最后更新：2026-11-18（阶段 30 验收完成）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
-- **代码**：完成第一版文档归档，新增四个 Compose 服务、网关分档客户端及本地模型冒烟脚本。阶段 30 的代码与 PostgreSQL 集成检查已通过，容器与模型仍在实测。
+- **代码**：第一版文档已归档。五个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
 - **分支**：本地 `2026-11-18-local-infra`，由 `2026-11-18-reopen` 的 `85faf90` 建立。阶段提交留在本机。
 - **第一版遗留**：阶段 21 的消融还有 251 份回答没评审，随第一版一起归档，不再继续。
-- **下一步**：完成[阶段 30](build/phase-30-cleanup-infra.md) 的五服务健康检查、kuromoji、两款意图模型和真实网关调用，再进入阶段 31。
-- **阻塞**：尚未发现需作者处理的外部输入。阶段 36 由作者出题、校准和跑封存测试集；公开页面保存和 Dify 界面操作由执行模型用 Chrome 完成。
+- **模型**：意图档用 Qwen3 4B Instruct，20 条合成日文短题 19/20，P95 95.2 毫秒；嵌入和精排用 MPS；生成档用 DeepSeek V4 Pro。测量口径见[阶段 30](build/phase-30-cleanup-infra.md#小模型冒烟ac5)。
+- **下一步**：进入[阶段 31](build/phase-31-corpus.md)，先在可见 Chrome 中盘点和试存清单内公开页面，再完成语料处理与出题用语料包。
+- **阻塞**：无。阶段 36 由作者出题、校准和跑封存测试集；公开页面保存和 Dify 界面操作由执行模型用 Chrome 完成。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
 
 ## 阶段状态
@@ -22,7 +23,7 @@
 
 | 阶段 | 状态 | 说明 |
 |---|---|---|
-| [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 进行中 | 归档、代码检查和 MPS 已验证，容器及网关实测进行中 |
+| [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 完成 | 五个 ARM 容器正常，网关两档通过，465 个常规检查测试、32 个集成测试通过 |
 | [31 语料与知识库加工](build/phase-31-corpus.md) | 未开始 | 公开页面由执行模型用浏览器低速保存 |
 | [32 检索](build/phase-32-retrieval.md) | 未开始 | |
 | [33 模拟业务系统与工具层](build/phase-33-tools.md) | 未开始 | |
@@ -61,3 +62,10 @@
 - `docker info` 确认 Docker VM 已分配约 24 GiB；五个镜像的仓库清单均有原生 Linux arm64。Qwen3 嵌入和精排实际完成 MPS 推理，详细输出见 [Mac 环境记录](context/phase-30-mac-context.md)。
 - 通过 `uv --no-config lock --check --offline`，不需要重新生成锁文件。在 `backend/` 忽略本机 uv 全局配置后，`uv run --locked poe check` 通过 465 个测试、覆盖率 94.93%；`uv run --locked poe test-int` 通过 32 个 PostgreSQL 集成测试。
 - 阶段 30 仍在执行，容器与模型权重在下载；五服务健康、kuromoji 分词、两模型意图冒烟和网关真实调用待核验。
+
+### 2026-11-18 · 阶段 30 验收
+
+- `docker compose up -d --build --wait --wait-timeout 120` 成功，五个服务均 healthy，运行镜像均为 `linux/arm64`；`/_analyze` 实际返回 kuromoji 日文词元。各服务内存快照见[阶段文件](build/phase-30-cleanup-infra.md#记录)。
+- 同样 4096 token 上下文下，两款 Ollama 候选分别串行跑 20 条合成日文短题。Qwen3 4B Instruct 19/20、P95 95.2 毫秒，Qwen2.5 7B 18/20、P95 128.4 毫秒。选定 4B，Ollama 报告 3.2 GB、100% GPU。
+- `uv run --locked python -m scripts.phase_30_models --gateway` 成功，两档均 HTTP 200。DeepSeek V4 Pro 返回 14 输入、3 输出 token，保守记账 ¥0.000219。
+- 阶段 30 的 AC1～AC7 已核验。本阶段提交仅在本地，下一步进入阶段 31。

@@ -15,7 +15,7 @@ uv run poe check
 uv run poe test-int
 ```
 
-执行前使 Ollama 在本机 11434 端口运行。网关启用方式为 `CHAT_MODEL=gateway`，大模型用 DeepSeek，小模型用 Ollama 的本机模型。容器端口、模型别名及覆盖方式见 [.env.example](.env.example)。
+执行前在另一个终端用 `OLLAMA_CONTEXT_LENGTH=4096 ollama serve` 启动本机 Ollama，监听 11434 端口。网关启用方式为 `CHAT_MODEL=gateway`，大模型用 DeepSeek，小模型用 Ollama 的本机模型。容器端口、模型别名及覆盖方式见 [.env.example](.env.example)。
 
 在 `backend/` 执行 `uv run python -m scripts.phase_30_models --gateway` 可验证两个档位及 token 用量。这会调用一次 DeepSeek，沿用本地每日预算。
 
