@@ -25,6 +25,16 @@ def _sentence(index: int, length: int = 40) -> str:
     return body + "。"
 
 
+def test_japanese_corpus_can_use_larger_child_chunks() -> None:
+    passage = "契約内容を確認します。" * 55
+
+    legacy = chunk_document("手続", passage)
+    policy = chunk_document("手続", passage, child_target=500, child_maximum=800)
+
+    assert len(legacy.children) > 1
+    assert [child.text for child in policy.children] == [passage]
+
+
 def _paths(chunked: ChunkedDocument) -> list[str]:
     return [parent.heading_path for parent in chunked.parents]
 
