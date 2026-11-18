@@ -52,4 +52,20 @@ uv run poe test-int
 
 日常运行时按默认配置启动 Compose，故障注入请求头会关闭。模拟坐席、接口和注入方式见 [模拟业务系统说明](mock_core/README.md)。
 
+## 阶段 34 坐席／客户双泳道
+
+在 `backend/` 执行 `uv run alembic upgrade head` 和 `uv run poe serve`。`POST /chat` 默认为客户泳道。坐席调用传 `channel: "agent"`，通过 `agent_id` 和 `customer_id` 指定本机合成工作台上下文。规程检索支持与 `/retrieve` 相同的 `filter`，连续对话传同一个 `session_id`。
+
+```json
+{
+  "question": "契約L0001の次回の返済予定額を照会してください。",
+  "channel": "agent",
+  "agent_id": "A001",
+  "customer_id": "C0001",
+  "session_id": "synthetic-demo"
+}
+```
+
+响应包含 `intent`、脱敏 `tool_calls`、`citations`、节点耗时和网关用量。配置 `STRICT_ANSWER_CHECKS=true` 可打开证据评分和忠实度校验。用 `uv run python -m scripts.phase_34_smoke` 跑 20 条合成日文样例，DeepSeek 用量计入原每日预算。
+
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。

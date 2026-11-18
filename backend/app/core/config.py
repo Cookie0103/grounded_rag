@@ -40,6 +40,10 @@ DEFAULT_POLICY_RERANK = False
 RRF_K = 60
 QWEN3_RERANKER_NAME = "qwen3-reranker-0.6b"
 BGE_RERANKER_NAME = "bge-reranker-v2-m3"
+
+# 仅模型网关返回分类 token 的置信度时应用此阈值。
+MIN_INTENT_CONFIDENCE = 0.55
+
 # 版本过滤：只看自部署版 / 云版时，同时包含「通用」文档
 EDITION_FILTERS = {
     "self_host": ("self_host", "common"),
@@ -71,7 +75,7 @@ class Settings(BaseSettings):
     embed_device: str = "mps"
     embed_batch_size: int = 32
     reranker_model: str = "qwen3"  # qwen3 / bge / fake / none
-    chat_model: str = "deepseek"  # gateway / deepseek / fake
+    chat_model: str = "gateway"  # gateway / deepseek / fake
     deepseek_api_key: str | None = None
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-flash"
@@ -79,6 +83,7 @@ class Settings(BaseSettings):
     gateway_api_key: str | None = None
     gateway_small_model: str = "small"
     gateway_large_model: str = "deepseek-v4-pro"
+    strict_answer_checks: bool = False
     daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）
     rate_limit_per_minute: int = 30  # 每个客户端 IP；0 表示不限制
     prewarm: bool = False  # 启动时就建检索器、加载模型；poe serve 会打开

@@ -1,21 +1,29 @@
 """编排的输入输出类型。"""
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
+from app.db.policy_filter import MetaFilter
 from app.retrieval.retriever import ParentContext, RetrievalResult
 from app.tools.middleware import ToolTrace
 
-DIRECT, SINGLE, MULTI, CLARIFY, REFUSE = "DIRECT", "SINGLE", "MULTI", "CLARIFY", "REFUSE"
-ROUTES = (DIRECT, SINGLE, MULTI, CLARIFY, REFUSE)
+Intent = Literal["smalltalk", "complaint", "policy", "lookup"]
+Channel = Literal["agent", "customer"]
+INTENTS = ("smalltalk", "complaint", "policy", "lookup")
 
-REFUSE_TEXT = "这个问题超出了 Dify 产品文档问答的范围，我没法回答。"
-ABSTAIN_TEXT = "抱歉，在文档里没有找到足够的依据来回答这个问题。"
+REFUSE = "REFUSE"  # 与已有的评测拒答记录兼容
 
 
 class ChatRequest(BaseModel):
     question: str
     edition: str | None = None  # self_host / cloud / None（不限制）
     session_id: str | None = None
+    channel: Channel = "customer"
+    agent_id: str | None = None
+    customer_id: str | None = None
+    filter: MetaFilter | None = None
+    rerank: bool = False
 
 
 class Citation(BaseModel):
@@ -57,6 +65,11 @@ def tool_trace_step(trace: ToolTrace) -> Step:
 class ChatResponse(BaseModel):
     answer: str
     route: str
+    intent: Intent | None = None
+    secondary_intent: Intent | None = None
+    tool_calls: list[ToolTrace] = Field(default_factory=list)
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
     citations: list[Citation] = Field(default_factory=list)
     steps: list[Step] = Field(default_factory=list)
     retrieved_docs: list[str] = Field(default_factory=list)

@@ -25,7 +25,7 @@ def assemble(parents: Sequence[ParentContext]) -> tuple[list[Citation], str]:
         if blocks and room < MIN_USEFUL_CHARS:
             break
         index = len(citations) + 1
-        header = f"[{index}] 文档：{parent.document_id}｜{parent.heading_path}\n"
+        header = f"[{index}] 資料：{parent.document_id}｜{parent.heading_path}\n"
         body = (
             parent.text[: max(room - len(header), 0)]
             if used + len(parent.text) > MAX_CONTEXT_CHARS

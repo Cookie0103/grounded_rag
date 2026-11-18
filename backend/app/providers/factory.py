@@ -15,9 +15,9 @@ from app.core.config import (
 from app.core.errors import ConfigError
 from app.providers.base import ChatModel, ChatTier, Embedder, Reranker
 from app.providers.budget import BudgetLedger
-from app.providers.deepseek import DeepSeekChat
+from app.providers.deepseek import TIMEOUT_SECONDS, DeepSeekChat
 from app.providers.fakes import FAKE_MODEL_NAME, FakeChatModel, FakeEmbedder, FakeReranker
-from app.providers.gateway import GatewayChat
+from app.providers.gateway import GatewayChat, OllamaGatewayChat
 from app.providers.local_embedder import EmbedderSpec, SentenceTransformerEmbedder
 from app.providers.local_reranker import CrossEncoderReranker, Qwen3Reranker
 
@@ -37,6 +37,16 @@ SPECS = {
 }
 RERANK_BATCH_SIZE = 8
 RERANKER_NAMES = ("qwen3", "bge", FAKE_MODEL_NAME, "none")
+
+
+def create_chat_http_client(settings: Settings) -> httpx.AsyncClient:
+    """为两个模型档复用连接池，由调用方管理生命周期。"""
+    url = (
+        settings.gateway_base_url
+        if settings.chat_model == "gateway"
+        else settings.deepseek_base_url
+    )
+    return httpx.AsyncClient(base_url=url, timeout=TIMEOUT_SECONDS)
 
 
 def get_embedder(name: str, settings: Settings) -> Embedder:
@@ -88,7 +98,8 @@ def get_chat_model(
     ledger = BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny)
     if settings.chat_model == "gateway":
         is_small = tier == "small"
-        return GatewayChat(
+        chat_type = OllamaGatewayChat if is_small else GatewayChat
+        return chat_type(
             api_key=settings.gateway_api_key,
             base_url=settings.gateway_base_url,
             model=settings.gateway_small_model if is_small else settings.gateway_large_model,

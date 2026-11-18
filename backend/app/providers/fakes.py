@@ -2,8 +2,9 @@
 
 import hashlib
 import math
+from collections.abc import Sequence
 
-from app.providers.base import ChatMessage, Completion
+from app.providers.base import ChatMessage, Completion, FunctionTool
 
 FAKE_MODEL_NAME = "fake"
 DEFAULT_DIMENSION = 1024
@@ -63,30 +64,41 @@ class FakeReranker:
 
 
 class FakeChatModel:
-    """按顺序返回预设回答；没有预设时回显最后一条 user 消息。调用记录在 `calls`。"""
+    """返回预设文本或完成响应，没有预设时回显最后一条 user 消息。"""
 
-    def __init__(self, responses: list[str] | None = None) -> None:
+    def __init__(self, responses: Sequence[str | Completion] | None = None) -> None:
         self._responses = list(responses) if responses is not None else None
         self._next = 0
         self.calls: list[list[ChatMessage]] = []
+        self.offered_tools: list[list[FunctionTool] | None] = []
 
-    async def complete(self, messages: list[ChatMessage], *, json_mode: bool = False) -> Completion:
+    async def complete(
+        self,
+        messages: list[ChatMessage],
+        *,
+        json_mode: bool = False,
+        tools: Sequence[FunctionTool] | None = None,
+        logprobs: bool = False,
+    ) -> Completion:
         self.calls.append(list(messages))
-        text = self._next_text(messages)
+        self.offered_tools.append(list(tools) if tools is not None else None)
+        response = self._next_response(messages)
+        if isinstance(response, Completion):
+            return response
         prompt_chars = sum(len(message.content) for message in messages)
         return Completion(
-            text=text,
+            text=response,
             model=FAKE_MODEL_NAME,
             prompt_tokens=prompt_chars // CHARS_PER_TOKEN,
-            completion_tokens=len(text) // CHARS_PER_TOKEN,
+            completion_tokens=len(response) // CHARS_PER_TOKEN,
         )
 
-    def _next_text(self, messages: list[ChatMessage]) -> str:
+    def _next_response(self, messages: list[ChatMessage]) -> str | Completion:
         if self._responses is None:
             user_messages = [message for message in messages if message.role == "user"]
             return user_messages[-1].content if user_messages else ""
         if self._next >= len(self._responses):
             raise RuntimeError("FakeChatModel 的预设回答已用完")
-        text = self._responses[self._next]
+        response = self._responses[self._next]
         self._next += 1
-        return text
+        return response

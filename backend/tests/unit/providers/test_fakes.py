@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from app.providers.base import ChatMessage
+from app.providers.base import ChatMessage, Completion, FunctionCall, FunctionTool
 from app.providers.fakes import FakeChatModel, FakeEmbedder, FakeReranker, char_bigrams
 
 
@@ -71,6 +71,27 @@ async def test_chat_model_returns_scripted_answers_in_order_and_records_calls() 
     assert first.model == "fake"
     assert first.prompt_tokens == 1  # 3 个字符，按每 2 个字符 1 个 token 估算
     assert model.calls == [messages, messages]
+
+
+async def test_chat_model_can_script_a_function_call_and_records_offered_tools() -> None:
+    result = Completion(
+        text="",
+        model="fake",
+        prompt_tokens=15,
+        completion_tokens=7,
+        tool_calls=[FunctionCall(name="get_payment", arguments="{}")],
+    )
+    model = FakeChatModel([result, "確認しました"])
+    tools = (
+        FunctionTool(
+            name="get_payment", description="返済額を照会する", parameters={"type": "object"}
+        ),
+    )
+    messages = [ChatMessage(role="user", content="来月の返済額を教えてください")]
+
+    assert await model.complete(messages, tools=tools) == result
+    assert (await model.complete(messages)).text == "確認しました"
+    assert model.offered_tools == [list(tools), None]
 
 
 async def test_chat_model_echoes_last_user_message_without_script() -> None:

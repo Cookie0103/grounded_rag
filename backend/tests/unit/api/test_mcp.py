@@ -1,10 +1,12 @@
+from collections.abc import AsyncIterator
+
 import pytest
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import UnexpectedToolError
 
 from app.api.mcp_server import create_mcp_server
 from app.orchestration.factory import Services
-from app.orchestration.models import ChatRequest, ChatResponse, Citation
+from app.orchestration.models import ChatRequest, ChatResponse, Citation, Step
 from app.retrieval.retriever import Candidate, ChunkInfo, ParentContext, RetrievalResult
 
 
@@ -34,6 +36,12 @@ class StubChat:
         self.requests.append(request)
         return self._response
 
+    async def stream(self, request: ChatRequest) -> AsyncIterator[Step | ChatResponse]:
+        yield await self.answer(request)
+
+    async def close(self) -> None:
+        pass
+
 
 def _server(
     retriever: StubRetriever | None = None, response: ChatResponse | None = None
@@ -47,7 +55,7 @@ def _server(
             citations=[Citation(index=1, document_id="learn/a", heading_path="标题")],
         )
     )
-    services = Services(retriever=retriever, chat=chat)  # type: ignore[arg-type]
+    services = Services(retriever=retriever, chat=chat)
 
     async def provide() -> Services:
         return services
@@ -70,21 +78,24 @@ async def test_server_exposes_the_two_tools_with_descriptions() -> None:
     assert tools["search_docs"].input_schema["required"] == ["query"]
 
 
-async def test_search_docs_returns_snippets_with_sources_and_applies_filters() -> None:
+async def test_search_docs_returns_policy_snippets_with_sources() -> None:
     server, retriever, _ = _server()
 
     text = await _call(server, "search_docs", {"query": "上传限制", "edition": "cloud", "top_k": 3})
 
-    assert "文档：learn/a｜标题 > 节" in text
+    assert "資料：learn/a｜标题 > 节" in text
     assert "正文内容" in text
     assert retriever.calls[0]["top_k"] == 3
-    assert retriever.calls[0]["editions"] == ("cloud", "common")
+    assert "editions" not in retriever.calls[0]
 
 
 async def test_search_docs_with_no_hits_says_so() -> None:
     server, _, _ = _server(StubRetriever(found=False))
 
-    assert await _call(server, "search_docs", {"query": "不存在"}) == "没有找到相关文档。"
+    assert (
+        await _call(server, "search_docs", {"query": "不存在"})
+        == "該当する資料が見つかりませんでした。"
+    )
 
 
 async def test_ask_docs_lists_the_sources_and_flags_degradation() -> None:
@@ -94,11 +105,13 @@ async def test_ask_docs_lists_the_sources_and_flags_degradation() -> None:
 
     assert text.startswith("最多 5 个 [1]")
     assert "[1] learn/a｜标题" in text
-    assert chat.requests == [ChatRequest(question="最多传几个", edition="self_host")]
+    assert chat.requests == [ChatRequest(question="最多传几个", channel="customer")]
 
     degraded = ChatResponse(answer="片段", route="SINGLE", degraded=True)
     server2, _, _ = _server(response=degraded)
-    assert "服务降级" in await _call(server2, "ask_docs", {"question": "问"})
+    assert "一部の機能を利用できませんでした。" in await _call(
+        server2, "ask_docs", {"question": "问"}
+    )
 
 
 @pytest.mark.parametrize(

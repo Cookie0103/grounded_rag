@@ -1,5 +1,6 @@
 import json
 from datetime import date
+from math import log
 from pathlib import Path
 from typing import Any
 
@@ -8,7 +9,7 @@ import pytest
 
 from app.core.config import Settings
 from app.core.errors import BudgetExceededError, ConfigError, DependencyUnavailableError
-from app.providers.base import ChatMessage, ChatTier
+from app.providers.base import ChatMessage, ChatTier, FunctionCall, FunctionTool
 from app.providers.budget import BudgetLedger
 from app.providers.deepseek import DeepSeekChat, cost_cny
 from app.providers.factory import get_chat_model
@@ -75,6 +76,91 @@ async def test_plain_call_has_no_response_format() -> None:
     await _chat(transport).complete(MESSAGES)
 
     assert "response_format" not in seen[0]["body"]
+    assert "tools" not in seen[0]["body"]
+    assert "logprobs" not in seen[0]["body"]
+
+
+async def test_function_call_round_trips_schema_arguments_and_usage(tmp_path: Path) -> None:
+    function = {
+        "name": "get_payment",
+        "description": "返済額を照会する",
+        "parameters": {
+            "type": "object",
+            "properties": {"month": {"type": "string"}},
+            "required": ["month"],
+            "additionalProperties": False,
+        },
+    }
+    returned = {
+        "id": "call_1",
+        "type": "function",
+        "function": {"name": "get_payment", "arguments": '{"month":"2026-12"}'},
+    }
+    payload = {**OK, "choices": [{"message": {"content": None, "tool_calls": [returned]}}]}
+    transport, seen = _transport(httpx.Response(200, json=payload))
+    ledger = BudgetLedger(tmp_path, daily_limit_cny=1)
+
+    result = await _chat(transport, ledger=ledger).complete(
+        MESSAGES, tools=[FunctionTool.model_validate(function)]
+    )
+
+    assert seen[0]["body"]["tools"] == [{"type": "function", "function": function}]
+    assert result.text == ""
+    assert result.tool_calls == [FunctionCall(name="get_payment", arguments='{"month":"2026-12"}')]
+    assert (result.prompt_tokens, result.completion_tokens) == (1000, 500)
+    assert ledger.spent() == pytest.approx(cost_cny(1000, 500))
+
+
+async def test_classification_confidence_uses_only_tokens_overlapping_intent_value() -> None:
+    tokens = [
+        {"token": '{"intent', "logprob": 0},
+        {"token": '":"in', "logprob": log(0.8)},
+        {"token": 'quiry"', "logprob": log(0.6)},
+        {"token": ',"secondary_intent":"policy"}', "logprob": log(0.2)},
+    ]
+    payload = {
+        **OK,
+        "choices": [
+            {
+                "message": {"content": '{"intent":"inquiry","secondary_intent":"policy"}'},
+                "logprobs": {"content": tokens},
+            },
+        ],
+    }
+    transport, seen = _transport(httpx.Response(200, json=payload))
+
+    result = await _chat(transport).complete(MESSAGES, json_mode=True, logprobs=True)
+
+    assert seen[0]["body"]["logprobs"] is True
+    assert result.confidence == pytest.approx(0.48)
+
+
+@pytest.mark.parametrize(
+    "logprob_content",
+    [
+        None,
+        [],
+        [{"token": '{"intent":"policy"}', "logprob": 0.0}],
+        [{"token": '{"intent":"inquiry"}', "logprob": -9999.0}],
+    ],
+)
+async def test_confidence_is_unavailable_without_aligned_logprobs(
+    logprob_content: list[dict[str, Any]] | None,
+) -> None:
+    payload = {
+        **OK,
+        "choices": [
+            {
+                "message": {"content": '{"intent":"inquiry"}'},
+                "logprobs": {"content": logprob_content},
+            },
+        ],
+    }
+    transport, _ = _transport(httpx.Response(200, json=payload))
+
+    result = await _chat(transport).complete(MESSAGES, json_mode=True, logprobs=True)
+
+    assert result.confidence is None
 
 
 async def test_retries_rate_limits_and_server_errors_then_succeeds() -> None:
@@ -193,11 +279,13 @@ async def test_gateway_routes_by_tier_and_records_only_paid_usage(
         client=client,
     )
 
-    completion = await model.complete(MESSAGES, json_mode=True)
+    completion = await model.complete(MESSAGES, json_mode=True, logprobs=True)
 
     assert seen[0]["headers"]["authorization"] == "Bearer local-key"
     assert seen[0]["body"]["model"] == alias
     assert seen[0]["body"]["response_format"] == {"type": "json_object"}
+    assert ("logprobs" in seen[0]["body"]) == (tier == "large")
+    assert completion.confidence is None
     assert (completion.prompt_tokens, completion.completion_tokens) == (1000, 500)
     assert completion.cost_cny == pytest.approx(expected_cost)
     assert BudgetLedger(tmp_path / "budget", daily_limit_cny=10).spent() == pytest.approx(

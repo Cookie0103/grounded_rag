@@ -12,13 +12,16 @@ from pydantic import BaseModel, StringConstraints
 from app.api.services import enforce_rate_limit, get_services
 from app.core.errors import AppError
 from app.core.trace import trace_id_var
+from app.db.policy_filter import MetaFilter
 from app.orchestration.factory import Services
-from app.orchestration.models import ChatRequest, ChatResponse, Citation, Step
+from app.orchestration.models import Channel, ChatRequest, ChatResponse, Citation, Intent, Step
+from app.tools.middleware import ToolTrace
 
 router = APIRouter(dependencies=[Depends(enforce_rate_limit)])
 logger = logging.getLogger(__name__)
 
 MAX_QUESTION_CHARS = 500
+Identity = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=32)]
 
 
 class ChatBody(BaseModel):
@@ -27,13 +30,22 @@ class ChatBody(BaseModel):
     ]
     edition: Literal["self_host", "cloud"] | None = None
     session_id: Annotated[str, StringConstraints(min_length=1, max_length=100)] | None = None
+    channel: Channel = "customer"
+    agent_id: Identity | None = None
+    customer_id: Identity | None = None
+    filter: MetaFilter | None = None
+    rerank: bool = False
     stream: bool = False
 
 
 class ChatOut(BaseModel):
     trace_id: str
     answer: str
-    route: str
+    intent: Intent | None
+    secondary_intent: Intent | None
+    tool_calls: list[ToolTrace]
+    prompt_tokens: int
+    completion_tokens: int
     citations: list[Citation]
     retrieved_docs: list[str]
     steps: list[Step]
@@ -45,7 +57,9 @@ class ChatOut(BaseModel):
 
 
 def _out(response: ChatResponse) -> ChatOut:
-    return ChatOut(trace_id=trace_id_var.get(), **response.model_dump(exclude={"contexts"}))
+    return ChatOut(
+        trace_id=trace_id_var.get(), **response.model_dump(exclude={"contexts", "route"})
+    )
 
 
 def _event(name: str, data: object) -> str:
@@ -70,7 +84,16 @@ async def _sse(services: Services, request: ChatRequest) -> AsyncIterator[str]:
 async def chat(
     body: ChatBody, services: Annotated[Services, Depends(get_services)]
 ) -> ChatOut | StreamingResponse:
-    request = ChatRequest(question=body.question, edition=body.edition, session_id=body.session_id)
+    request = ChatRequest(
+        question=body.question,
+        edition=body.edition,
+        session_id=body.session_id,
+        channel=body.channel,
+        agent_id=body.agent_id if body.channel == "agent" else None,
+        customer_id=body.customer_id if body.channel == "agent" else None,
+        filter=body.filter,
+        rerank=body.rerank,
+    )
     if body.stream:
         return StreamingResponse(
             _sse(services, request),

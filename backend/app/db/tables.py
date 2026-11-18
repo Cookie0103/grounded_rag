@@ -128,20 +128,6 @@ chunk_embeddings = Table(
 )
 
 
-sessions = Table(
-    "sessions",
-    metadata,
-    Column("id", Text, primary_key=True),
-    Column("edition", Text),
-    Column("summary", Text, nullable=False, server_default=""),
-    Column("turns", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
-    _timestamp("created_at"),
-    _timestamp("updated_at"),
-    CheckConstraint("edition IS NULL OR edition IN ('self_host', 'cloud')", name="edition"),
-    Index("ix_sessions_updated_at", "updated_at"),
-)
-
-
 traces = Table(
     "traces",
     metadata,

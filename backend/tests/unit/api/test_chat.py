@@ -41,6 +41,9 @@ class StubChat:
         return ChatResponse(
             answer="默认最多 5 个 [1]",
             route="SINGLE",
+            intent="policy",
+            prompt_tokens=120,
+            completion_tokens=30,
             citations=[Citation(index=1, document_id="d", heading_path="标题")],
             retrieved_docs=["d"],
             contexts=["很长的上下文，不应该返回给调用方"],
@@ -57,7 +60,7 @@ class StubRetriever:
 @pytest.fixture
 def chat(app: FastAPI) -> StubChat:
     stub = StubChat()
-    services = Services(retriever=StubRetriever(), chat=stub)  # type: ignore[arg-type]
+    services = Services(retriever=StubRetriever(), chat=stub)
     app.dependency_overrides[get_services] = lambda: services
     return stub
 
@@ -75,6 +78,11 @@ async def test_chat_returns_answer_citations_steps_and_the_trace_id(
     assert body["citations"] == [{"index": 1, "document_id": "d", "heading_path": "标题"}]
     assert body["trace_id"] == response.headers["X-Trace-Id"]
     assert "contexts" not in body
+    assert "route" not in body
+    assert body["intent"] == "policy"
+    assert body["tool_calls"] == []
+    assert body["prompt_tokens"] == 120
+    assert body["completion_tokens"] == 30
     assert body["steps"][0]["details"]["context"] == "实际上下文"
     assert chat.requests == [ChatRequest(question="一次最多上传几个文件", edition="cloud")]
 
@@ -85,6 +93,30 @@ async def test_session_id_is_passed_through(client: AsyncClient, chat: StubChat)
     assert chat.requests[0].session_id == "abc"
 
 
+async def test_customer_channel_ignores_supplied_workbench_identity(
+    client: AsyncClient, chat: StubChat
+) -> None:
+    question = "返済額を確認できますか？"
+    identities = {"agent_id": "A001", "customer_id": "C0001"}
+    await client.post("/chat", json={"question": question, "channel": "customer", **identities})
+    await client.post(
+        "/chat",
+        json={
+            "question": question,
+            "channel": "agent",
+            "filter": {"corpus_tier": "S"},
+            **identities,
+        },
+    )
+
+    customer, agent = chat.requests
+    assert customer.agent_id is customer.customer_id is None
+    assert agent.agent_id == "A001"
+    assert agent.customer_id == "C0001"
+    assert agent.filter is not None
+    assert agent.filter.corpus_tier == "S"
+
+
 @pytest.mark.parametrize(
     "body",
     [
@@ -93,6 +125,7 @@ async def test_session_id_is_passed_through(client: AsyncClient, chat: StubChat)
         {"question": "   "},
         {"question": "x" * 501},
         {"question": "问", "edition": "mars"},
+        {"question": "問", "channel": "other"},
         {"question": "问", "session_id": ""},
     ],
 )
@@ -127,7 +160,7 @@ async def test_stream_sends_step_events_then_the_answer(
 
 
 async def test_stream_reports_errors_as_an_error_event(app: FastAPI, client: AsyncClient) -> None:
-    services = Services(retriever=StubRetriever(), chat=StubChat(fail_after_steps=True))  # type: ignore[arg-type]
+    services = Services(retriever=StubRetriever(), chat=StubChat(fail_after_steps=True))
     app.dependency_overrides[get_services] = lambda: services
 
     response = await client.post("/chat", json={"question": "问", "stream": True})
@@ -157,7 +190,7 @@ async def test_service_is_built_lazily_once_when_not_prewarmed(
 
     async def fake_build(engine: object, settings: object) -> Services:
         built.append(1)
-        return Services(retriever=StubRetriever(), chat=StubChat())  # type: ignore[arg-type]
+        return Services(retriever=StubRetriever(), chat=StubChat())
 
     monkeypatch.setattr("app.api.services.build_services", fake_build)
     app.state.engine = object()
@@ -172,7 +205,7 @@ async def test_prewarm_builds_the_services_at_startup(
     app: FastAPI, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     chat = StubChat()
-    services = Services(retriever=StubRetriever(), chat=chat)  # type: ignore[arg-type]
+    services = Services(retriever=StubRetriever(), chat=chat)
 
     async def fake_build(engine: object, settings: object) -> Services:
         return services

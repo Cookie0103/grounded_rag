@@ -5,8 +5,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Protocol
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
-from app.orchestration.models import ChatRequest, Step, StepDetails
-from app.orchestration.pipeline import ChatPipeline
+from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
 from app.providers.base import ChatMessage, ChatModel
 from app.providers.deepseek import completion_cost_cny
 from app.retrieval.retriever import VECTOR, Retriever
@@ -51,6 +50,10 @@ class System(Protocol):
     name: str
 
     async def answer(self, question: Question) -> SystemAnswer: ...
+
+
+class AnswerService(Protocol):
+    async def answer(self, request: ChatRequest) -> ChatResponse: ...
 
 
 class RetrievalOnlySystem:
@@ -189,22 +192,25 @@ class NaiveRagSystem:
 
 
 class FullSystem:
-    """完整系统：护栏、路由、改写 / 分解、证据评分、带引用生成、忠实度校验。"""
+    """把 LangGraph 问答响应转换成评测所需的记录。"""
 
     name = "完整系统"
 
-    def __init__(self, pipeline: ChatPipeline, *, name: str | None = None) -> None:
-        self._pipeline = pipeline
+    def __init__(self, service: AnswerService, *, name: str | None = None) -> None:
+        self._service = service
         if name is not None:
             self.name = name
 
     async def answer(self, question: Question) -> SystemAnswer:
-        started = time.perf_counter()
-        response = await self._pipeline.answer(
-            ChatRequest(question=question.question, edition=question.edition)
+        return await self.answer_request(
+            question.id, ChatRequest(question=question.question, edition=question.edition)
         )
+
+    async def answer_request(self, question_id: str, request: ChatRequest) -> SystemAnswer:
+        started = time.perf_counter()
+        response = await self._service.answer(request)
         return SystemAnswer(
-            question_id=question.id,
+            question_id=question_id,
             answer=response.answer,
             route=response.route,
             retrieved_docs=tuple(response.retrieved_docs),

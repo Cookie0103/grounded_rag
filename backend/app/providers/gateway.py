@@ -8,3 +8,9 @@ class GatewayChat(OpenAIChat):
 
     provider_name = "模型网关"
     api_key_name = "GATEWAY_API_KEY"
+
+
+class OllamaGatewayChat(GatewayChat):
+    """访问当前拒绝 logprobs 参数的 LiteLLM Ollama 后端。"""
+
+    _supports_logprobs = False

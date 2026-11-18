@@ -21,9 +21,9 @@ from app.core.trace import new_trace_id, trace_id_var
 from app.db.engine import create_engine, ping
 from app.ingest.corpus import CORPUS_COMMIT
 from app.orchestration import prompts
+from app.orchestration.copilot_service import ChatAccess
 from app.orchestration.factory import build_services
 from app.orchestration.models import ChatRequest
-from app.orchestration.service import ChatService
 from app.providers.budget import BudgetLedger
 from eval.dataset import Question, load_questions, validate_questions
 from eval.runner import run_system
@@ -37,7 +37,7 @@ MAX_AGENT_DAILY_CNY = 10
 class RecordedService:
     name = "full-service"
 
-    def __init__(self, chat: ChatService, directory: Path, *, send_edition: bool = True) -> None:
+    def __init__(self, chat: ChatAccess, directory: Path, *, send_edition: bool = True) -> None:
         self._chat = chat
         self._directory = directory
         self._send_edition = send_edition

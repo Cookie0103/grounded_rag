@@ -54,7 +54,7 @@ async def engine(test_database_url: str) -> AsyncIterator[AsyncEngine]:
     try:
         async with test_engine.begin() as connection:  # 每个测试从空表开始
             await connection.execute(
-                text("TRUNCATE documents, sessions, traces, feedback, interventions CASCADE")
+                text("TRUNCATE documents, traces, feedback, interventions CASCADE")
             )
         yield test_engine
     finally:

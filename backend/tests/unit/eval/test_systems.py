@@ -104,7 +104,7 @@ async def test_full_system_maps_the_pipeline_response() -> None:
                 steps=[Step(name="generate", ms=1, details=StepDetails(context="[1] c"))],
             )
 
-    answer = await FullSystem(StubPipeline()).answer(QUESTION)  # type: ignore[arg-type]
+    answer = await FullSystem(StubPipeline()).answer(QUESTION)
 
     assert (answer.answer, answer.route, answer.retrieved_docs, answer.cost_cny) == (
         "答",
