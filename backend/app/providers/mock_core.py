@@ -1,5 +1,6 @@
 """模拟核心业务系统的只读 HTTP 适配器。"""
 
+from contextvars import ContextVar
 from http import HTTPStatus
 from typing import Literal, Protocol
 
@@ -7,6 +8,10 @@ import httpx
 from pydantic import BaseModel
 
 type MockCoreStatus = Literal["ok", "denied", "timeout", "upstream_error", "invalid_response"]
+type EvaluationFault = Literal["timeout", "5xx"]
+evaluation_fault: ContextVar[EvaluationFault | None] = ContextVar(
+    "evaluation_mock_fault", default=None
+)
 
 
 class MockCoreRequest(BaseModel):
@@ -45,11 +50,14 @@ class MockCoreClient:
         self, path: str, request: MockCoreRequest, *, timeout_seconds: float
     ) -> MockCoreReply:
         """发送带可信坐席头和客户范围的 GET 请求。"""
+        headers = {"X-Agent-Id": request.agent_id}
+        if path != "/authorization" and (fault := evaluation_fault.get()) is not None:
+            headers["X-Mock-Fault"] = fault
         try:
             response = await self._client.get(
                 f"{self._base_url}{path}",
                 params=request.model_dump(exclude={"agent_id"}, exclude_none=True),
-                headers={"X-Agent-Id": request.agent_id},
+                headers=headers,
                 timeout=timeout_seconds,
             )
         except httpx.TimeoutException:

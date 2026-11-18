@@ -15,7 +15,12 @@ from pydantic import (
 )
 
 from app.core.resilience import CircuitBreaker
-from app.providers.mock_core import MockCoreReply, MockCoreRequest, MockCoreTransport
+from app.providers.mock_core import (
+    MockCoreReply,
+    MockCoreRequest,
+    MockCoreTransport,
+    evaluation_fault,
+)
 from app.tools.cache import ToolCache
 from app.tools.definitions import (
     TOOL_DEFINITIONS,
@@ -171,7 +176,8 @@ class ToolRunner:
 
         # 散列包含完整调用范围，Redis 键不暴露坐席、客户或合同编号。
         key = hashlib.sha256(f"{definition.name}:{request.model_dump_json()}".encode()).hexdigest()
-        cached = await self._cache.get(key)
+        cacheable = evaluation_fault.get() is None
+        cached = await self._cache.get(key) if cacheable else None
         if cached is not None:
             result = _read_cached(definition, cached)
             if result is not None:
@@ -192,7 +198,10 @@ class ToolRunner:
             )
         except ValidationError:
             return ToolResult(status="failed", reason="invalid_response")
-        await self._cache.set(key, result.model_dump_json(include={"synthetic", "data", "total"}))
+        if cacheable:
+            await self._cache.set(
+                key, result.model_dump_json(include={"synthetic", "data", "total"})
+            )
         return result
 
     async def _authorize(

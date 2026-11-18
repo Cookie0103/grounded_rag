@@ -4,12 +4,13 @@ import logging
 from collections.abc import AsyncIterator
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, Header, Path, Request
+from fastapi import APIRouter, Depends, Header, HTTPException, Path, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, StringConstraints
 
 from app.api.chat_replay import ChatStreams, OutgoingEvent
 from app.api.services import enforce_rate_limit, get_services
+from app.core.config import get_settings
 from app.core.errors import AppError
 from app.core.trace import trace_id_var
 from app.db.policy_filter import MetaFilter
@@ -24,6 +25,7 @@ from app.orchestration.models import (
     Intent,
     Step,
 )
+from app.providers.mock_core import EvaluationFault, evaluation_fault
 from app.tools.middleware import ToolTrace
 
 router = APIRouter(dependencies=[Depends(enforce_rate_limit)])
@@ -110,6 +112,8 @@ async def chat(
     body: ChatBody,
     services: Annotated[Services, Depends(get_services)],
     streams: Annotated[ChatStreams, Depends(_streams)],
+    http_request: Request,
+    mock_fault: Annotated[EvaluationFault | None, Header(alias="X-Eval-Fault")] = None,
 ) -> ChatOut | StreamingResponse:
     request = ChatRequest(
         question=body.question,
@@ -121,9 +125,23 @@ async def chat(
         filter=body.filter,
         rerank=body.rerank,
     )
-    if body.stream:
-        return await streams.start(_events(services, request))
-    return _out(await services.chat.answer(request))
+    if mock_fault is not None and not _allow_fault(http_request):
+        raise HTTPException(status_code=403, detail="合成评测故障仅允许本机显式开启")
+    scope = evaluation_fault.set(mock_fault)
+    try:
+        if body.stream:
+            return await streams.start(_events(services, request))
+        return _out(await services.chat.answer(request))
+    finally:
+        evaluation_fault.reset(scope)
+
+
+def _allow_fault(request: Request) -> bool:
+    return (
+        get_settings().evaluation_mock_faults
+        and request.client is not None
+        and request.client.host in {"127.0.0.1", "::1"}
+    )
 
 
 @router.get("/chat/stream/{response_id}", response_model=None)

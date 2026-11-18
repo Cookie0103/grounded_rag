@@ -79,15 +79,24 @@ def _check_response(response: HTTPResponse) -> None:
         raise RuntimeError(f"问答服务返回 HTTP {response.status}")
 
 
-def ask_stream(port: int, body: dict[str, object], *, disconnect_after: int = 0) -> StreamResult:
+def ask_stream(
+    port: int,
+    body: dict[str, object],
+    *,
+    disconnect_after: int = 0,
+    evaluation_fault: str | None = None,
+) -> StreamResult:
     started = time.perf_counter()
     connection = HTTPConnection("127.0.0.1", port, timeout=100)
     try:
+        headers = {"Content-Type": "application/json"}
+        if evaluation_fault is not None:
+            headers["X-Eval-Fault"] = evaluation_fault
         connection.request(
             "POST",
             "/chat",
             body=json.dumps({**body, "stream": True}).encode(),
-            headers={"Content-Type": "application/json"},
+            headers=headers,
         )
         with connection.getresponse() as response:
             _check_response(response)

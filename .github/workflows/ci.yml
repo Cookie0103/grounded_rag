@@ -21,6 +21,7 @@ jobs:
           cache-dependency-glob: backend/uv.lock
       - run: uv sync --locked
       - run: uv run poe check
+      - run: uv run --locked --offline python -m scripts.copilot_regression
       - run: uv run --locked python -m pytest
         working-directory: mock_core
   integration:

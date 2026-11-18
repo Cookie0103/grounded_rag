@@ -152,6 +152,17 @@ async def test_session_id_is_passed_through(client: AsyncClient, chat: StubChat)
     assert chat.requests[0].session_id == "abc"
 
 
+async def test_mock_fault_header_is_forbidden_by_default(
+    client: AsyncClient, chat: StubChat
+) -> None:
+    response = await client.post(
+        "/chat", json={"question": "照会できますか。"}, headers={"X-Eval-Fault": "timeout"}
+    )
+
+    assert response.status_code == 403
+    assert not chat.requests
+
+
 async def test_customer_channel_ignores_supplied_workbench_identity(
     client: AsyncClient, chat: StubChat
 ) -> None:

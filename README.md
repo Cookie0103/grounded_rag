@@ -78,4 +78,10 @@ uv run python -m scripts.stream_client --disconnect-after 5 '一部繰上返済�
 
 服务在进入模型前遮蔽问题中的电话、账户、卡号、个人编号和电邮。收到完整模型输出后检查数字证据、规程引用、禁用表达，首字与整段耗时分别进入 trace。使用合成工具数据或引用合成规程的响应带 `synthetic: true`。
 
+## 阶段 36 评测
+
+在 `backend/` 运行 `uv run python -m scripts.generate_copilot_cases generate` 生成合成开发集与保留集。`uv run --locked --offline python -m scripts.copilot_regression` 使用假模型执行离线 CI 门禁。
+
+实测报告使用本机网关和合成业务系统，默认回环端口为 18081。显式故障回放需在模拟服务开启 `MOCK_ALLOW_FAULT_HEADERS=true`，并以 `EVALUATION_MOCK_FAULTS=true` 启动本机 API。两种故障条件分别回放，`--merge-fault-run` 可把实测结果合入统一报告。规程出题、人工校准和一次封存评测按[作者评测手册](docs/eval/copilot-author.md)执行。
+
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。

@@ -202,6 +202,11 @@ def _tokens(text: str) -> list[re.Match[str]]:
     return list(_TOKEN.finditer(_ORDERED_LIST.sub("", _normalize(without_citations))))
 
 
+def numeric_claims(text: str) -> set[_Number]:
+    """抽取带单位的数值用于和评测金标精确比对。"""
+    return {_value(token) for token in _tokens(text)}
+
+
 def _tool_value(key: object, value: object) -> _Number | None:
     if not isinstance(key, str):
         return None
