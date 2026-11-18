@@ -6,16 +6,17 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-18（阶段 32 验收，出题包可用）
+最后更新：2026-11-18（阶段 33 验收，出题包可用）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
-- **代码**：第一版文档已归档。五个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
-- **分支**：当前本地 `2026-11-18-policy-retrieval`，从阶段 31 验收提交 `33e7b2c` 建立。阶段提交留在本机。
+- **代码**：第一版文档已归档。本机六个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
+- **分支**：阶段 33 在本地 `2026-11-18-mock-tools` 验收。阶段提交留在本机。
 - **第一版遗留**：阶段 21 的消融还有 251 份回答没评审，随第一版一起归档，不再继续。
 - **模型**：意图档用 Qwen3 4B Instruct，20 条合成日文短题 19/20，P95 95.2 毫秒；嵌入和精排用 MPS；生成档用 DeepSeek V4 Pro。测量口径见[阶段 30](build/phase-30-cleanup-infra.md#小模型冒烟ac5)。
 - **语料**：在可见 Chrome 中保存 54 份 HTML，53 份用于住宅贷款语料。S 档 185 篇、L 档 3,000 篇，两个存储均有 3,213 个规程块。出题包已校验，作者可以用本机 `.cache/policy-question-pack.zip` 开始准备阶段 36 的规程题。
 - **检索**：`/retrieve` 已接通 ES 和 pgvector 的共同硬过滤，30 条日文冒烟的默认混合检索 S/L 均命中 30 条，P95 分别为 38.62/41.88 毫秒。默认关闭精排，仍可通过请求开关启用。
-- **下一步**：执行[阶段 33](build/phase-33-tools.md)，建立合成业务数据、MySQL 模拟系统及只读工具中间件。
+- **工具**：模拟业务已经以 MySQL 合成数据跑通，五个只读工具走同一鉴权、Redis、超时和裁剪链。真实联调保持坐席隔离，420 期返回 5 期并保留总数。
+- **下一步**：按[阶段 34](build/phase-34-orchestration.md) 接入 LangGraph 坐席／客户双泳道和 Postgres 会话。
 - **阻塞**：无。阶段 36 由作者出题、校准和跑封存测试集；公开页面保存和 Dify 界面操作由执行模型用 Chrome 完成。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
 
@@ -28,7 +29,7 @@
 | [30 清场与基础设施](build/phase-30-cleanup-infra.md) | 完成 | 五个 ARM 容器正常，网关两档通过，465 个常规检查测试、32 个集成测试通过 |
 | [31 语料与知识库加工](build/phase-31-corpus.md) | 完成 | S 185 篇、L 3,000 篇，双库 3,213 块，出题包已校验 |
 | [32 检索](build/phase-32-retrieval.md) | 完成 | 双库硬过滤、精确编号、降级与四模式冒烟已实测 |
-| [33 模拟业务系统与工具层](build/phase-33-tools.md) | 未开始 | |
+| [33 模拟业务系统与工具层](build/phase-33-tools.md) | 完成 | 五个只读工具联调，合成数据指纹及 420 期裁剪已核验 |
 | [34 双泳道编排](build/phase-34-orchestration.md) | 未开始 | |
 | [35 流式与护栏](build/phase-35-streaming-guard.md) | 未开始 | |
 | [36 评测与回归门禁](build/phase-36-evaluation.md) | 未开始 | 需要作者出题、校准、跑测试集 |
@@ -90,3 +91,9 @@
 - 用 `MetaFilter` 统一 pgvector、ES 和候选回读。20 组集成过滤的块 ID 完全一致。真实 API 请求以旧日期和当天分别命中指定 v1/v2，关闭精排时延迟保持检索级。
 - `uv run --locked poe compare-retrieval` 在 S/L 各跑 30 条日文冒烟。默认混合时各 30/30、P95 38.62/41.88 毫秒，启用精排各 27/30、P95 1964.51/1993.04 毫秒。所有模式未出现失效候选。详细表与指令对照见[阶段 32](build/phase-32-retrieval.md#记录)，结论只覆盖本次冒烟样本。
 - `uv lock --check` 解析 172 个包，`uv run --locked poe check` 通过 445 个测试，覆盖率 92.46%；`uv run --locked poe test-int` 通过 34 个测试。退役关键词代码和专属测试已归档。
+
+### 2026-11-18 · 阶段 33 模拟业务与工具验收（分支 `2026-11-18-mock-tools`）
+
+- `MOCK_ALLOW_FAULT_HEADERS=true docker compose up -d --build --wait db es redis mock_core` 启动成功，模拟业务镜像为 `linux/arm64`，六个运行服务均 healthy。MySQL 合成种子两次生成和数据库导出的指纹一致，覆盖 300 个客户、20 个坐席及六种指定业务边界。
+- 联调五个只读接口、越权拦截、坐席缓存隔离和字段白名单。420 期样本保留 `total=420`，裁剪至 5 期，离线编码从 21,626 降为 318 token。注入超时和 5xx 返回安全的失败状态，本机分别耗时 2,002.32 和 11.96 毫秒。
+- `uv run --locked poe check` 通过 471 项，覆盖率 92.29%；`uv run --locked poe test-int` 通过 40 项；`mock_core` 独立测试 10 项通过。逐项证据见[阶段 33](build/phase-33-tools.md#记录)。

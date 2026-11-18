@@ -88,6 +88,35 @@ services:
       retries: 12
       start_period: 30s
 
+  mock_core:
+    build: ./mock_core
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MOCK_MYSQL_HOST: mysql
+      MOCK_MYSQL_PORT: "3306"
+      MOCK_MYSQL_DATABASE: grounded_mock
+      MOCK_MYSQL_USER: grounded
+      MOCK_MYSQL_PASSWORD: ${MYSQL_PASSWORD:-grounded}
+      MOCK_FAULT_DELAY_MS: ${MOCK_FAULT_DELAY_MS:-0}
+      MOCK_FAULT_TIMEOUT_RATE: ${MOCK_FAULT_TIMEOUT_RATE:-0}
+      MOCK_FAULT_5XX_RATE: ${MOCK_FAULT_5XX_RATE:-0}
+      MOCK_FAULT_SEED: ${MOCK_FAULT_SEED:-331107}
+      MOCK_ALLOW_FAULT_HEADERS: ${MOCK_ALLOW_FAULT_HEADERS:-false}
+    ports:
+      - "127.0.0.1:${MOCK_CORE_PORT:-8001}:8001"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)"
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 45s
+
 volumes:
   pgdata:
   esdata:

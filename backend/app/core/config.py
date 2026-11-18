@@ -64,6 +64,7 @@ class Settings(BaseSettings):
     elasticsearch_url: str = "http://127.0.0.1:9200"
     redis_url: str = "redis://127.0.0.1:6379/0"
     mysql_url: str = "mysql://grounded:grounded@127.0.0.1:3306/grounded_mock"
+    mock_core_base_url: str = "http://127.0.0.1:8001"
     db_timeout_seconds: float = 5.0
     log_level: str = "INFO"
     embedding_model: str = "qwen3"  # qwen3 / bge-m3 / fake

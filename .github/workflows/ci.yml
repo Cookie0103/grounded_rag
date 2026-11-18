@@ -21,6 +21,8 @@ jobs:
           cache-dependency-glob: backend/uv.lock
       - run: uv sync --locked
       - run: uv run poe check
+      - run: uv run --locked python -m pytest
+        working-directory: mock_core
   integration:
     runs-on: ubuntu-latest
     services:
@@ -41,6 +43,8 @@ jobs:
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
       - run: uv sync --locked
-      - run: docker compose up -d --build --wait es
+      - run: docker compose up -d --build --wait es redis mock_core
         working-directory: .
+        env:
+          MOCK_ALLOW_FAULT_HEADERS: "true"
       - run: uv run poe test-int

@@ -17,6 +17,7 @@ dependencies = [
     "pydantic-settings>=2.16.0",
     "pypdf>=6,<7",
     "pyyaml>=6.0.3",
+    "redis>=6,<8",
     "sqlalchemy[asyncio]>=2.1.4",
     "uvicorn[standard]>=0.54.0",
 ]
@@ -112,7 +113,7 @@ type = "layers"
 layers = [
     "app.api",
     "app.orchestration",
-    "app.retrieval | app.ingest",
+    "app.retrieval | app.ingest | app.tools",
     "app.providers | app.db",
     "app.core",
 ]

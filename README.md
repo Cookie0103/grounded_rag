@@ -12,7 +12,6 @@ docker compose up -d --build --wait
 cd backend
 uv sync --locked --extra gpu
 uv run poe check
-uv run poe test-int
 ```
 
 执行前在另一个终端用 `OLLAMA_CONTEXT_LENGTH=4096 ollama serve` 启动本机 Ollama，监听 11434 端口。网关启用方式为 `CHAT_MODEL=gateway`，大模型用 DeepSeek，小模型用 Ollama 的本机模型。容器端口、模型别名及覆盖方式见 [.env.example](.env.example)。
@@ -39,5 +38,18 @@ uv run poe ingest
 uv run poe retrieve-demo --corpus-tier S --as-of 2026-11-18 '繰上返済の手続を確認したいです。'
 uv run poe compare-retrieval
 ```
+
+## 阶段 33 模拟业务与只读工具
+
+`mock_core` 启动时会为独立的 MySQL 数据库建表并灌入合成种子。对照测试经 HTTP 复用同一合成业务系统。用下列命令启动联调服务并在 `backend/` 跑集成测试。
+
+```bash
+MOCK_ALLOW_FAULT_HEADERS=true docker compose up -d --build --wait db es redis mock_core
+docker compose exec -T mock_core python -m mock_core.seed verify
+cd backend
+uv run poe test-int
+```
+
+日常运行时按默认配置启动 Compose，故障注入请求头会关闭。模拟坐席、接口和注入方式见 [模拟业务系统说明](mock_core/README.md)。
 
 第一版的运行与评测说明见 [归档 README](harness/archive/v1-dify-docs/README.md)。

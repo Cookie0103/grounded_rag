@@ -3,6 +3,7 @@
 from pydantic import BaseModel, Field
 
 from app.retrieval.retriever import ParentContext, RetrievalResult
+from app.tools.middleware import ToolTrace
 
 DIRECT, SINGLE, MULTI, CLARIFY, REFUSE = "DIRECT", "SINGLE", "MULTI", "CLARIFY", "REFUSE"
 ROUTES = (DIRECT, SINGLE, MULTI, CLARIFY, REFUSE)
@@ -24,7 +25,7 @@ class Citation(BaseModel):
 
 
 class StepDetails(BaseModel):
-    """检索、证据判断和实际生成上下文，随步骤一起落盘。"""
+    """随步骤保存的检索、生成上下文和脱敏工具摘要。"""
 
     retrievals: list[RetrievalResult] = Field(default_factory=list)
     sufficient: bool | None = None
@@ -33,6 +34,7 @@ class StepDetails(BaseModel):
     queries: list[str] = Field(default_factory=list)
     parents: list[ParentContext] = Field(default_factory=list)
     output: str | None = None
+    tool_call: ToolTrace | None = None
 
 
 class Step(BaseModel):
@@ -40,6 +42,16 @@ class Step(BaseModel):
     ms: float
     note: str = ""
     details: StepDetails | None = None
+
+
+def tool_trace_step(trace: ToolTrace) -> Step:
+    """把工具调用的脱敏摘要转换成现有编排步骤。"""
+    return Step(
+        name="tool",
+        ms=trace.elapsed_ms,
+        note=trace.tool_name,
+        details=StepDetails(tool_call=trace),
+    )
 
 
 class ChatResponse(BaseModel):
