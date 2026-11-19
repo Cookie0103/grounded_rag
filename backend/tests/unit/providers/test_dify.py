@@ -21,7 +21,16 @@ class _Stream(httpx.AsyncByteStream):
 
 
 @pytest.mark.asyncio
-async def test_chatflow_preserves_session_and_measures_stream_boundaries() -> None:
+@pytest.mark.parametrize("workflow_finishes_first", [True, False])
+async def test_chatflow_preserves_session_and_measures_stream_boundaries(
+    workflow_finishes_first: bool,
+) -> None:
+    terminal_events: list[dict[str, object]] = [
+        {"event": "workflow_finished", "data": {"status": "succeeded"}},
+        {"event": "message_end", "metadata": {"final": True}, "conversation_id": "conversation"},
+    ]
+    if not workflow_finishes_first:
+        terminal_events.reverse()
     events: list[dict[str, object]] = [
         {
             "event": "node_finished",
@@ -35,8 +44,7 @@ async def test_chatflow_preserves_session_and_measures_stream_boundaries() -> No
         },
         {"event": "message", "answer": "住宅ローン", "conversation_id": "conversation"},
         {"event": "message_replace", "answer": "住宅ローンのご案内です。"},
-        {"event": "workflow_finished", "data": {"status": "succeeded"}},
-        {"event": "message_end", "metadata": {}, "conversation_id": "conversation"},
+        *terminal_events,
     ]
 
     def respond(request: httpx.Request) -> httpx.Response:
@@ -69,11 +77,24 @@ async def test_chatflow_preserves_session_and_measures_stream_boundaries() -> No
     assert result.conversation_id == "conversation"
     assert result.first_token_ms == 250
     assert result.latency_ms == 1000
+    assert result.workflow_status == "succeeded"
+    assert result.metadata == {"final": True}
     assert result.nodes[0].outputs == {"class_name": "policy"}
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("finish", [[], [{"event": "error", "message": "private"}]])
+@pytest.mark.parametrize(
+    "finish",
+    [
+        [],
+        [{"event": "error", "message": "private"}],
+        [{"event": "message_end", "conversation_id": "conversation"}],
+        [
+            {"event": "message_end", "conversation_id": "conversation"},
+            {"event": "workflow_finished", "data": {"status": "failed"}},
+        ],
+    ],
+)
 async def test_incomplete_or_failed_stream_is_not_a_completed_answer(
     finish: list[dict[str, object]],
 ) -> None:

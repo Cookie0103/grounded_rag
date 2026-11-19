@@ -44,16 +44,18 @@ docker compose -p grounded_dify -f docker-compose.yaml \
 
 在已发布应用的「访问入口 → 后端服务 API」使用本机专用密钥，放入项目忽略的 `.env` 中 `DIFY_API_KEY`。导出实际使用的应用包，从中取出 `app.yaml` 作为回放清单的画布输入。先在本机分别预热两个系统，串行执行同一份开发用例。逐条的 Dify 意图、知识库命中、工具和最终回答留在回放目录。实际用量回调只写模型别名、请求 ID、时间和 token 数，文件位于 `.cache/litellm-usage/phase-37-gateway-usage.jsonl`。正式规程题准备与封存操作见[作者手册](copilot-author.md)。
 
-当前 Mac 的画布导出为 `.cache/dify-evidence/published-chatflow.yml`。在仓库根目录先用 `MOCK_ALLOW_FAULT_HEADERS=true docker compose up -d --wait mock_core` 启用明确指定的合成故障，然后从 `backend/` 执行基线回放。
+当前 Mac 的画布导出为 `.cache/dify-evidence/published-chatflow.yml`。代理启用 `cache deny grounded_mock_core grounded_mock_core_port`，让每条模拟业务 GET 由上游实际处理，防止错误时复用旧成功答复。若此前跑过不同的代理配置，选择新的回放目录。 [Squid `cache` 说明](https://www.squid-cache.org/Doc/config/cache/)
+
+在仓库根目录先用 `MOCK_ALLOW_FAULT_HEADERS=true docker compose up -d --wait mock_core` 启用明确指定的合成故障，然后从 `backend/` 执行基线回放。
 
 ```bash
 uv run --locked python -m scripts.compare_dify \
   --dify-url http://127.0.0.1:18090/v1 \
   --chatflow ../.cache/dify-evidence/published-chatflow.yml \
-  --run-dir ../.cache/copilot-eval/runs/mac-dify-baseline \
+  --run-dir ../.cache/copilot-eval/runs/mac-dify-verified \
   --langgraph-run ../.cache/copilot-eval/runs/mac-baseline \
   --warmup 2 --langgraph-warmup 2 --hardware 'Mac M4 Max / 64 GB / Docker 24 GiB' \
   --same-machine --same-gateway --embedding same --embedding-model qwen3-embedding-0.6b
 ```
 
-随机故障回放使用同一代码、语料、模型和用例，先从仓库根目录执行 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml -f infra/mock-faults-5pct.yml up -d --wait mock_core`。回放命令改用 `--fault-mode 5%-timeout`、独立 `--run-dir ../.cache/copilot-eval/runs/mac-dify-fault-5pct` 和 `--langgraph-run ../.cache/copilot-eval/runs/mac-fault-5pct`，固定种子一致后添加 `--same-fault-profile`。最后在基线命令中加 `--report-only --merge-fault-run ../.cache/copilot-eval/runs/mac-dify-fault-5pct` 和故障条件的第二个 `--langgraph-run`。停止回放后恢复 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml up -d --wait mock_core`。
+随机故障回放使用同一代码、语料、模型和用例，先从仓库根目录执行 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml -f infra/mock-faults-5pct.yml up -d --wait mock_core`。回放命令改用 `--fault-mode 5%-timeout`、独立 `--run-dir ../.cache/copilot-eval/runs/mac-dify-verified-fault-5pct` 和 `--langgraph-run ../.cache/copilot-eval/runs/mac-fault-5pct`，固定种子一致后添加 `--same-fault-profile`。最后在基线命令中加 `--report-only --merge-fault-run ../.cache/copilot-eval/runs/mac-dify-verified-fault-5pct` 和故障条件的第二个 `--langgraph-run`。停止回放后恢复 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml up -d --wait mock_core`。

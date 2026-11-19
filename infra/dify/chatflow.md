@@ -62,14 +62,14 @@
 
 ## 平台能力核对
 
-以下证据保存在本机 `.cache/dify-evidence/`，对应同一个已发布实例。回放脚本的成绩还需从后端服务 API 实测获取。
+以下证据保存在本机 `.cache/dify-evidence/`，对应同一个已发布实例。合成同题成绩来自后端服务 API 串行回放。
 
 | 需求 | 实际操作与观察 | 本机证据 |
 |---|---|---|
 | 查询日生效过滤 | 在知识库查看自定义字段，有 String、Number 与 Time。在检索节点打开手动筛选，上传的 Markdown 没有结构化字段，添加条件显示「暂无数据」。发布版本使用提示词里的日期，结构化日期回填与过滤未测。 | `metadata-field-types.jpg`、`metadata-empty-conditions.jpg` |
-| 统一业务归属鉴权 | 画布中读取 `mock_core` 的归属预检结果，通过后才调用同一模拟业务。实际坐席预览走通。越权与失败已在引擎替身样例中验证，真实批量越权率待回放。 | `node-mock_authorize.jpg`、`node-auth_gate.jpg`、`smoke-agent-lookup.jpg` |
-| 五秒幂等复用 | 检查实际 HTTP 节点配置及应用包，当前工作流没有设置五秒查数缓存，直接执行查询。该项与 LangGraph 的 Redis 行为存在差异，重复请求未进行定量测量。 | `node-mock_get.jpg`、`published-chatflow.yml` |
+| 统一业务归属鉴权 | 画布中读取 `mock_core` 的归属预检结果，通过后才调用同一模拟业务。坐席预览走通，服务 API 回放的 4 条无注入越权用例均被拦截。 | `node-mock_authorize.jpg`、`node-auth_gate.jpg`、`smoke-agent-lookup.jpg`、本机回放报告 |
+| 五秒幂等复用 | 工作流本身直接执行只读 GET。首次回放观察到 Squid 返回旧成功响应，随后只禁用模拟业务代理缓存。用同一 GET 路径看到 200、503、200，确认故障仍可达；LangGraph 的五秒 Redis 复用作为实现差异保留。 | `node-mock_get.jpg`、`published-chatflow.yml`、`proxy-caching-diagnostic.txt` |
 | 可核验的字段白名单 | 可在代码节点检查白名单、`synthetic` 和五项裁剪逻辑，工作流跑通后在中间结果读取脱敏输出。 | `node-crop_response.jpg`、`node-tool_evidence.jpg` |
-| 断点续推 | 核对本机版本的服务接口实现，提供聊天 SSE、停止和历史消息读取。已发布实例的同一响应续推未测。 | 官方检出 `api/controllers/service_api/app/completion.py`、`message.py` |
+| 断点续推 | 合成问候首段后断开，带 `Last-Event-ID` 在同会话请求，实际得到新消息。两条流都没有事件 ID，历史读取 HTTP 200。 | `service-api-resume-smoke.json` |
 | 版本与协作 | 打开工作流版本历史，备份和发布后各导出一次应用包，以 YAML 做差异比较。双账号协作未测。 | `workflow-version-history.jpg`、`workflow-config.diff` |
 | 单元检查与 CI | 工作区检查清单清零后发布。通过官方运行镜像验证节点模型并以替身运行分支，在仓库用 `poe check` 和 `poe test-int` 验证。远程 CI 未运行。 | [阶段 37 验收](../../harness/build/phase-37-dify-compare.md#记录) |

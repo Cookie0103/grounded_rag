@@ -74,16 +74,21 @@ class _TurnState:
     workflow_run_id: str | None = None
     workflow_status: str | None = None
     first_token_ms: float | None = None
+    message_end_ms: float | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def _record_answer(self, event: _Event, elapsed: Callable[[], float]) -> None:
+        if self.first_token_ms is None:
+            self.first_token_ms = elapsed()
+        if event.event == "message_replace":
+            self.parts.clear()
+        self.parts.append(event.answer)
 
     def consume(self, event: _Event, elapsed: Callable[[], float]) -> DifyTurn | None:
         self.conversation_id = event.conversation_id or self.conversation_id
         self.workflow_run_id = event.workflow_run_id or self.workflow_run_id
         if event.event in ANSWER_EVENTS and event.answer:
-            if self.first_token_ms is None:
-                self.first_token_ms = elapsed()
-            if event.event == "message_replace":
-                self.parts.clear()
-            self.parts.append(event.answer)
+            self._record_answer(event, elapsed)
         if event.event == "node_finished":
             self.nodes.append(DifyNode.model_validate(event.data))
         if event.event == "workflow_finished":
@@ -92,19 +97,23 @@ class _TurnState:
                 raise DependencyUnavailableError("Dify 返回失败的工作流终态")
         if event.event == "error":
             raise DependencyUnavailableError("Dify 返回流式错误")
-        if event.event != "message_end":
+        if event.event == "message_end":
+            self.message_end_ms = elapsed()
+            self.metadata = event.metadata
+        # Dify 先结束答复也可能稍后才结束工作流，答复延迟仍记录到答复结束。
+        if self.message_end_ms is None or self.workflow_status is None:
             return None
         if not self.conversation_id:
             raise DependencyUnavailableError("Dify 终态缺少会话 ID")
         return DifyTurn(
             answer="".join(self.parts),
             conversation_id=self.conversation_id,
-            latency_ms=elapsed(),
+            latency_ms=self.message_end_ms,
             first_token_ms=self.first_token_ms,
             nodes=self.nodes,
             workflow_status=self.workflow_status,
             workflow_run_id=self.workflow_run_id,
-            metadata=event.metadata,
+            metadata=self.metadata,
         )
 
 
@@ -134,7 +143,7 @@ class DifyClient:
         self._clock = clock
 
     async def chat(self, request: DifyRequest) -> DifyTurn:
-        """读取到 message_end；错误或提前断开时保留失败状态。"""
+        """同时等待答复与工作流终态，错误或提前断开时报告失败。"""
         started = self._clock()
         state = _TurnState()
 
@@ -157,7 +166,7 @@ class DifyClient:
             raise DependencyUnavailableError("Dify API 请求中断") from None
         except ValidationError:
             raise DependencyUnavailableError("Dify API 返回无效的流式事件") from None
-        raise DependencyUnavailableError("Dify 流在答复终态前结束")
+        raise DependencyUnavailableError("Dify 流在答复和工作流终态齐备前结束")
 
 
 @asynccontextmanager
