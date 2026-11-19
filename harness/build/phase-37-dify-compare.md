@@ -1,6 +1,6 @@
 # 阶段 37：Dify 对照
 
-状态：本机合成同题对照已验收，正式规程补测等阶段 36（本地续办分支 `2026-11-19-dify-console`）
+状态：213 条合成和 42 道规程开发题已配对，规程回答评分受校准限制（本地续办分支 `2026-11-19-policy-tuning`）
 
 > 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。设计依据见 [PLANS.md](../../PLANS.md) §5、§6.3。
 
@@ -40,7 +40,7 @@
 - [x] T5 合成回放与指标：用 Dify 应用 API 取得 213 条与 LangGraph 可配对的观察。意图取中间输出，实际 token 用量取同一网关。
 - [ ] T6 在平台内逐项尝试并记录：按生效日期硬过滤、统一的归属鉴权、5 秒幂等缓存、字段白名单的可测试性、断点续推、两人协作与 diff、单元测试与 CI。能做到的就如实写能做到。
 - [x] T7 将合成同题结果合并至本机报告，保留三种故障条件的表、95% 区间和四层逐题差异。
-- [ ] T8 作者正式规程开发题及校准就绪后，补齐正式规程指标及最终对照。
+- [x] T8 回放 42 道规程开发题并给出同题检索、版本、延迟和成本。规程回答通过率及离线可采纳率按校准结果记为未测。
 
 ## 需要作者做的
 
@@ -76,7 +76,15 @@
 - 应用 API 在合成问候首段后断开，再以同会话带 `Last-Event-ID` 发送请求，实际生成新消息。两次 SSE 都没有事件 ID，历史读取 HTTP 200，证据在 `.cache/dify-evidence/service-api-resume-smoke.json`。该探查费用为 ¥0。
 - 最终本机 `uv run --locked poe check` 571 项通过，覆盖率 90.21%；`uv run --locked poe test-int` 46 项通过。回放和测试结束后已恢复默认故障开关。合成结论见 [Mac 同题报告](../../docs/eval/mac-poc-report.md#s-档同题对照)。
 
+### 2026-11-19 · 规程开发题回放
+
+- 启动本机 Dify MPS 嵌入服务后，从 `backend/` 用 `python -m scripts.compare_dify --cases ../.cache/copilot-dev/policy-only-base.jsonl --policy-dev ../.cache/copilot-policy-dev.jsonl --chatflow ../.cache/dify-evidence/published-chatflow.yml --run-dir ../.cache/copilot-dev/dify-policy-baseline --langgraph-run ../.cache/copilot-dev --warmup 2 --langgraph-warmup 2 --calibration ../.cache/copilot-dev/author-calibration-paired.jsonl`，沿用原本机 Dify API、Mac、网关及嵌入参数。输出 `Dify 已记录 42 条；与 LangGraph 配对 42 条`，缺失网关证据 0。
+- Dify S 档规程 Top5 为 13/37（35.14%），与 LangGraph 原版 S 档的 22/37 对比，Dify 减 LangGraph 的配对 95% 区间为 −43.24 至 −8.11 个百分点。Dify 版本陷阱中 4/8 出现过期 Top5 候选；按回放器可识别的文档 ID，未观测到答复引用过期 ID。原版 LangGraph 为 0/8。Dify 原画布仅在生成提示中使用查询日期，未应用知识库结构化日期过滤。
+- Dify 首字和整段 P95 为 6.626 秒和 6.664 秒，各 42 条。单会话平均账本成本 ¥0.005568，42 条共 ¥0.23384592，含两条预热的账本增量 ¥0.24142061。样本量低于计划 100 条延迟目标。
+- 对原版 S 档，四层差异为意图 17 条（另 1 条未测）、候选 29 条、工具 0 条、回答 30 条。调优前原始配对、逐题差异和报告保存在本机 `.cache/copilot-dev/dify-policy-baseline/`。
+- 将同一批 Dify 观察复制到 `.cache/copilot-dev/dify-policy-v2-paired/`，以 `--report-only --langgraph-run ../.cache/copilot-dev/policy-v2` 与调优版 S 档配对。输出 42/42，直接复用 Dify 缓存。四层差异为意图 22 条（另 1 条未测）、候选 37 条、工具 0 条、回答 39 条。Dify 减调优版的 Top5 配对 95% 区间为 −64.86 至 −29.73 个百分点，首字 3.178 至 6.938 秒，整段 −2.261 至 3.358 秒。 [本机实测报告](../../docs/eval/mac-poc-report.md#规程开发题同题回放与校准)
+
 ## 阻塞
 
-- 作者已交付 42 道规程开发题。按作者要求等阶段 36 的盲标校准后再跑 Dify 正式题。合成开发对照已交付。
+- 42 道规程开发题已实际回放。校准未达门槛，规程回答通过率和离线可采纳率为未测。
 - 平台能力中双账号同时协作没有本机实测，已记录单账号实际版本历史和导出差异。此项不阻塞合成对照。

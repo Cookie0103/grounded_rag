@@ -59,3 +59,5 @@ uv run --locked python -m scripts.compare_dify \
 ```
 
 随机故障回放使用同一代码、语料、模型和用例，先从仓库根目录执行 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml -f infra/mock-faults-5pct.yml up -d --wait mock_core`。回放命令改用 `--fault-mode 5%-timeout`、独立 `--run-dir ../.cache/copilot-eval/runs/mac-dify-verified-fault-5pct` 和 `--langgraph-run ../.cache/copilot-eval/runs/mac-fault-5pct`，固定种子一致后添加 `--same-fault-profile`。最后在基线命令中加 `--report-only --merge-fault-run ../.cache/copilot-eval/runs/mac-dify-verified-fault-5pct` 和故障条件的第二个 `--langgraph-run`。停止回放后恢复 `MOCK_ALLOW_FAULT_HEADERS=false docker compose -f docker-compose.yml up -d --wait mock_core`。
+
+规程开发题单独使用 `--cases ../.cache/copilot-dev/policy-only-base.jsonl --policy-dev ../.cache/copilot-policy-dev.jsonl`，其中主文件为空 JSONL。以 `--run-dir ../.cache/copilot-dev/dify-policy-baseline --langgraph-run ../.cache/copilot-dev/policy-v1-calibrated` 替换合成回放路径，保留同机、同网关和预热参数。校准来自 `--calibration ../.cache/copilot-dev/author-calibration-paired.jsonl`。用已落盘的 Dify 观察与另一次 LangGraph 开发回放配对时，将 Dify 的 `manifest.json` 和 `observations.jsonl` 复制到新目录，指定新的两个运行目录并加 `--report-only`。规程题按知识库的 S 档配对。
