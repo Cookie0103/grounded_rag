@@ -1,6 +1,6 @@
 # 阶段 37 · Dify Chatflow V3
 
-[Chatflow 模板](copilot-chatflow.yml)使用 Dify 1.19.0 的应用 DSL 0.7.0。部署时，将模板中两处 `00000000-0000-4000-8000-000000000001` 替换为本机 S 档知识库的 UUID，或导入后在两个检索节点重新选中该知识库。知识库端配置混合检索，节点端设 Top 5，关闭额外精排。模型节点绑定工作区的 OpenAI 兼容供应商，使用网关别名 `small` 和 `deepseek-v4-pro`。
+[Chatflow 模板](copilot-chatflow.yml)使用 Dify 1.19.0 的应用 DSL 0.7.0。导入后在两个检索节点分别选中本机 S 档知识库。知识库端配置混合检索，节点端设 Top 5，使用内置加权召回。模型节点绑定工作区的 OpenAI 兼容供应商，使用网关别名 `small` 和 `deepseek-v4-pro`。混合分支以分类器公开的 `class_label` 判断查数类 `CLASS 5`，回放从中间结果读取实际 `class_id`。
 
 应用 API 使用顶层 `query` 对应 `sys.query`，其他字段放在 `inputs`。省略 `channel` 时使用 `customer`。坐席查数必须提供 `channel=agent`、`agent_id` 和 `customer_id`。可选 `as_of` 按 `YYYY-MM-DD` 传入回答提示。可选 `mock_fault` 仅用于已启用故障头的本机模拟服务，支持空值、`timeout`、`5xx` 和 `delay`。
 
@@ -59,3 +59,17 @@
 | 模型 | `intent`、`plan_tools` 使用 `small`。三个 `generate_*` 通过同一网关使用 `deepseek-v4-pro`。 |
 
 当前模板的混合分支先查数再检索。合同级工具需要当前问题里的合同编号。知识检索调用使用原问和知识库的混合排序，`as_of` 在生成节点内作为文字证据约束。合成结果的字段范围由独立代码节点限制，HTTP 日志仍可能保留完整上游响应，评测只导出脱敏的工具结果。工作流的 `agent_id` 由本机评测入口提供，模拟服务负责复核客户及合同归属。
+
+## 平台能力核对
+
+以下证据保存在本机 `.cache/dify-evidence/`，对应同一个已发布实例。回放脚本的成绩还需从后端服务 API 实测获取。
+
+| 需求 | 实际操作与观察 | 本机证据 |
+|---|---|---|
+| 查询日生效过滤 | 在知识库查看自定义字段，有 String、Number 与 Time。在检索节点打开手动筛选，上传的 Markdown 没有结构化字段，添加条件显示「暂无数据」。发布版本使用提示词里的日期，结构化日期回填与过滤未测。 | `metadata-field-types.jpg`、`metadata-empty-conditions.jpg` |
+| 统一业务归属鉴权 | 画布中读取 `mock_core` 的归属预检结果，通过后才调用同一模拟业务。实际坐席预览走通。越权与失败已在引擎替身样例中验证，真实批量越权率待回放。 | `node-mock_authorize.jpg`、`node-auth_gate.jpg`、`smoke-agent-lookup.jpg` |
+| 五秒幂等复用 | 检查实际 HTTP 节点配置及应用包，当前工作流没有设置五秒查数缓存，直接执行查询。该项与 LangGraph 的 Redis 行为存在差异，重复请求未进行定量测量。 | `node-mock_get.jpg`、`published-chatflow.yml` |
+| 可核验的字段白名单 | 可在代码节点检查白名单、`synthetic` 和五项裁剪逻辑，工作流跑通后在中间结果读取脱敏输出。 | `node-crop_response.jpg`、`node-tool_evidence.jpg` |
+| 断点续推 | 核对本机版本的服务接口实现，提供聊天 SSE、停止和历史消息读取。已发布实例的同一响应续推未测。 | 官方检出 `api/controllers/service_api/app/completion.py`、`message.py` |
+| 版本与协作 | 打开工作流版本历史，备份和发布后各导出一次应用包，以 YAML 做差异比较。双账号协作未测。 | `workflow-version-history.jpg`、`workflow-config.diff` |
+| 单元检查与 CI | 工作区检查清单清零后发布。通过官方运行镜像验证节点模型并以替身运行分支，在仓库用 `poe check` 和 `poe test-int` 验证。远程 CI 未运行。 | [阶段 37 验收](../../harness/build/phase-37-dify-compare.md#记录) |

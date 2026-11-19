@@ -34,12 +34,12 @@ docker compose -p grounded_dify -f docker-compose.yaml \
 | `deepseek-v4-pro` | 坐席与客户最终生成 |
 | `qwen3-embedding-0.6b` | 本机 S 档索引和查询嵌入 |
 
-网关在共享 Docker 网络内的地址为 `http://gateway:4000`。两个聊天模型使用 `/v1` 地址，嵌入配置以插件实际追加版本路径的行为为准。嵌入服务输出同一 MPS 模型的 1024 维向量。该接口为输入统一使用文档嵌入，LangGraph 的查询还带日文任务指令，判断检索对照时记录该差异。
+网关在共享 Docker 网络内的地址为 `http://gateway:4000`。OpenAI 兼容插件 0.0.84 的三个模型均使用 `http://gateway:4000/v1` 作为基础地址。嵌入服务输出同一 MPS 模型的 1024 维向量。Dify 查询复用文档嵌入，LangGraph 的查询还带日文任务指令，检索对照须记录这个差异。
 
 ## 语料和画布
 
-从本机出题包解出 `documents/`，按原文件名导入 185 篇 S 档材料。文件名用于关联阶段 36 的金标 ID。预览一个正常分段后设置混合检索。导入 [Chatflow 模板](../../infra/dify/copilot-chatflow.yml)，将两个检索节点绑定同一知识库，再核对分类、泳道、HTTP、裁剪和回答节点。素材、实例导出与截图保存在本机忽略目录。
+从本机出题包解出 `documents/`，按原文件名导入 185 篇 S 档材料。文件名用于关联阶段 36 的金标 ID。采用通用分段，空行分隔，上限 1024 字符，重叠 50 字符。高质量索引选择本机 Qwen3，混合检索用语义 0.7、关键词 0.3、Top 5。导入 [Chatflow 模板](../../infra/dify/copilot-chatflow.yml)，将两个检索节点各绑定同一知识库一次。通过检查清单后，从工作区发布到本机。素材、实例导出与截图保存在本机忽略目录。
 
 ## 回放证据
 
-先在本机分别预热两个系统，串行执行同一份开发用例。逐条的 Dify 意图、知识库命中、工具和最终回答留在回放目录。实际用量回调只写模型别名、请求 ID、时间和 token 数，文件位于 `.cache/litellm-usage/phase-37-gateway-usage.jsonl`。正式规程题准备与封存操作见[作者手册](copilot-author.md)。
+在已发布应用的「访问入口 → 后端服务 API」使用本机专用密钥，放入项目忽略的 `.env` 中 `DIFY_API_KEY`。导出实际使用的应用包，从中取出 `app.yaml` 作为回放清单的画布输入。先在本机分别预热两个系统，串行执行同一份开发用例。逐条的 Dify 意图、知识库命中、工具和最终回答留在回放目录。实际用量回调只写模型别名、请求 ID、时间和 token 数，文件位于 `.cache/litellm-usage/phase-37-gateway-usage.jsonl`。正式规程题准备与封存操作见[作者手册](copilot-author.md)。

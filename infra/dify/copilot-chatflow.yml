@@ -1,4 +1,4 @@
-# Dify 1.19.0 Chatflow 模板。导入前替换两处 S 档知识库 UUID，或导入后在两个检索节点中绑定。
+# Dify 1.19.0 Chatflow 模板。导入后在两个检索节点中绑定本机 S 档知识库。
 # 模型访问由 Dify 工作区配置，当前文件只保留公共的供应商标识和网关别名。
 app:
   name: 住宅贷款坐席 Copilot V3
@@ -1620,9 +1620,9 @@ workflow:
           - id: mixed_gate-condition
             variable_selector:
             - intent
-            - class_id
+            - class_label
             comparison_operator: is
-            value: lookup
+            value: CLASS 5
             varType: string
       position:
         x: 5400
@@ -1645,8 +1645,7 @@ workflow:
         - sys
         - query
         query_attachment_selector: []
-        dataset_ids:
-        - 00000000-0000-4000-8000-000000000001
+        dataset_ids: []
         retrieval_mode: multiple
         multiple_retrieval_config:
           top_k: 5
@@ -1676,8 +1675,7 @@ workflow:
         - sys
         - query
         query_attachment_selector: []
-        dataset_ids:
-        - 00000000-0000-4000-8000-000000000001
+        dataset_ids: []
         retrieval_mode: multiple
         multiple_retrieval_config:
           top_k: 5
