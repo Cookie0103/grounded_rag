@@ -1,6 +1,6 @@
 # 阶段 36：评测与回归门禁
 
-状态：42 道正式规程开发题已回放，已交付 20 条盲标（本地续办分支 `2026-11-19-policy-calibration`）
+状态：42 道正式规程开发题已回放，20 条机器标签已生成，等待作者盲标（本地续办分支 `2026-11-19-policy-calibration`）
 
 > 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。设计依据见 [PLANS.md](../../PLANS.md) §6 和 [GOALS.md](../../GOALS.md)「成功条件」。
 
@@ -82,7 +82,13 @@
 - 读取实际 `rows.jsonl` 复核，S/L Top5 都为 22/37（59.46%），L 减 S 的配对差值为 0.00 个百分点（95% 区间 0.00 至 0.00，n=37），两档均无过期命中（各 0/8）。首字 P95 为 S 1.819 秒、L 1.570 秒，整段分别为 4.370 秒与 3.864 秒。各档延迟样本 42 条，低于计划所需的 100 条。84 条回放实记 ¥1.39892227，与账本差额一致。
 - 原脚本在缺少 `--judge-command` 时不会写盲标文件。按现有脚本的题目 ID 哈希顺序从实际 S 档结果抽出相同的 20 条，独立导出仅供人工判断的 `author-calibration-blind.jsonl` 和空白 `author-human-labels.jsonl`。文件中的 20 条回答与原始观察逐条一致，未包含机器标签。未改评审提示或评分规则。汇总在本机 `.cache/copilot-dev/calibration-summary.md`，详细报告在同目录 `report.md`。
 
+### 2026-11-19 · 本机独立评审
+
+- 作者选定 Ollama Qwen2.5 7B Instruct（`qwen2.5:7b`，权重指纹 `845dbda0ea48`）。评审通过本机回环接口，温度为 0，上下文 32,768 token。初次普通 JSON 在第 12 条返回无效要点标签。将前 11 条诊断输出另存，在本机适配器启用 JSON Schema 约束字段、标签和值的数量，继续用既有评审提示、解析器和评分规则完成同一批 20 条评审。
+- 从 `backend/` 执行 `uv run --locked python -m scripts.evaluate_copilot --cases ../.cache/copilot-dev/policy-only-base.jsonl --policy-dev ../.cache/copilot-policy-dev.jsonl --run-dir ../.cache/copilot-dev/judge-stage --resume --prepare-calibration --judge-command 'python ../.cache/copilot-dev/local_judge.py' --warmup 2 --hardware 'Mac M4 Max / 64 GB / Docker 24 GiB' --commit f9d1f94a612e69009ad58df01977661d07f67cac`。20 条机器标签有效，按 ID 与原盲标逐条对应。原盲标的 SHA-256 与 84 条缓存答复均一致。DeepSeek 账本仍为 ¥3.45690893，本轮增量 ¥0。
+- 机器标签与人工标注表分别保存在本机 `.cache/copilot-dev/`，作者可在 `author-human-labels.jsonl` 填入布尔值。汇总已保存为本机 `calibration-summary.md`。通用检查 571 项通过，文档审计问题 0 项。
+
 ## 阻塞
 
-- 等作者在盲标包上独立判断 20 条，并指定独立评审命令。当前规程回答得分、一致率和离线可采纳率均未测。按作者要求先暂停调优与 Dify 正式回放。
+- 等作者在盲标包上独立判断 20 条并提交人工标签。本机评审已生成对应的 20 条机器标签。至少 17 条一致才达到 85% 的采用门槛。目前正式规程回答得分、一致率和离线可采纳率均未测。按作者要求停在盲标处。
 - 封存集由作者保管并在冻结版本后亲自跑一次。
