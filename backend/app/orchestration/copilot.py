@@ -218,7 +218,7 @@ class CopilotGraph:
         }
         try:
             completion = await self._small.complete(
-                model_messages("intent_v1", payload), json_mode=True, logprobs=True
+                model_messages("intent_v2", payload), json_mode=True, logprobs=True
             )
         except DependencyUnavailableError:
             record("intent", started, "分类模型不可用，按规程处理")
@@ -305,9 +305,10 @@ class CopilotGraph:
         if policy_context:
             payload["policies"] = policy_context
         kind = "mixed" if evidence and policy_context else "lookup" if evidence else "policy"
+        prompt_name = "generate_policy_v2" if kind == "policy" else f"generate_{kind}_v1"
         try:
             completion = await self._complete_generation(
-                model_messages(f"generate_{kind}_v1", payload), state.get("stream_tokens", False)
+                model_messages(prompt_name, payload), state.get("stream_tokens", False)
             )
         except DependencyUnavailableError:
             record("generate", started, "生成模型不可用")
