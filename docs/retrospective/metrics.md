@@ -1,6 +1,6 @@
 # LangGraph 与 Dify 实测复盘
 
-2026-11-20 · Mac M4 Max。这里保留完整开发回放的主要指标、节点耗时和运行证据。冻结版以 `fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0` 为准。Dify 对照对应历史实际运行，冻结版只追加 LangGraph 回归，封存成绩待作者提供。 [本机实测报告](../eval/mac-poc-report.md) · [开发日志](../../harness/build-log.md)
+2026-11-20 · Mac M4 Max。这里保留完整开发回放的主要指标、节点耗时和运行证据。冻结版以 `fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0` 为准。Dify 对照对应历史实际运行，冻结版另完成 LangGraph 回归和一次封存技术回放。 [本机实测报告](../eval/mac-poc-report.md) · [开发日志](../../harness/build-log.md)
 
 ## 怎么读这些数
 
@@ -152,4 +152,6 @@ Dify 的四次过期命中都是候选。截至该次回放，答复中没有观
 | 冻结前后并排及断点记账 | `.cache/copilot-dev/tax-referral/comparison.json`、`.cache/copilot-dev/tax-referral/same-day-receipt.json` |
 | 小模型、检索、编排和 SSE 冒烟 | `.cache/ollama/benchmark-4k-*.log`、`.cache/phase-32-retrieval-smoke.json`、`.cache/phase-34-orchestration-smoke.json`、`.cache/phase-35-stream-smoke.json` |
 
-正式规程回答通过率、离线可采纳率、坐席采纳率、AHT、自助办结率、月度结算、生产灰度及回滚演练均为未测。封存部分由作者在仓库外执行，汇总收到前仍记未测。上述目录按本机证据保留，仓库里的本文和主报告只保存汇总。 [项目成功条件](../../GOALS.md) · [作者运行手册](../eval/copilot-author.md)
+冻结版封存由作者委托在仓库外一次完成，S/L 各 16 条，Top5 均 6/13，账本增量 ¥1.08514771。各档成本、节点、延迟区间、样本范围和不足单列在 [冻结版封存回放](../eval/mac-poc-report.md#冻结版一次封存回放)。
+
+正式规程回答通过率、离线可采纳率、坐席采纳率、AHT、自助办结率、月度结算、生产灰度及回滚演练均为未测。仓库里的本文和主报告保存聚合结果。 [项目成功条件](../../GOALS.md) · [作者运行手册](../eval/copilot-author.md)

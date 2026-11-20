@@ -1,6 +1,6 @@
 # 第二版交接与复盘
 
-2026-11-20 冻结提交 `fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0`。这是住宅贷款 Copilot 的本机 PoC，已完成开发回放、Dify 同题对照及合规专项。封存成绩待作者运行。 [当前状态](../../harness/build-log.md#当前状态先读这里)
+2026-11-20 冻结提交 `fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0`。这是住宅贷款 Copilot 的本机 PoC，已完成开发回放、Dify 同题对照、合规专项与一次封存技术回放。 [当前状态](../../harness/build-log.md#当前状态先读这里) · [封存结果](../eval/mac-poc-report.md#冻结版一次封存回放)
 
 ## 按目的查资料
 
