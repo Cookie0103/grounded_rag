@@ -257,6 +257,11 @@ async def test_other_repayment_questions_keep_their_route(
         ("agent", "お客さまの住宅ローン減税の金額を試算してほしいと相談されました。"),
         ("customer", "家のローンがあるのですが、自分は控除でいくら戻りますか。"),
         ("customer", "住宅ローン控除って、いくら戻るんですか。"),
+        (
+            "customer",
+            "私の年末残高証明書に残高が載っています。私の住宅ローン控除額はいくらですか。",
+        ),
+        ("customer", "昨年入居しました。私は住宅ローン控除の要件を満たしていますか。"),
     ],
 )
 async def test_personal_tax_referral_skips_retrieval_and_models(
@@ -284,6 +289,7 @@ async def test_personal_tax_referral_skips_retrieval_and_models(
         "私の住宅ローン減税用の年末残高証明書を再発行してもらえますか。",
         "住宅ローン控除の対象となる一般的な条件は何ですか。",
         "私が住宅ローン控除の対象となった年の証明書はいつ届きますか。",
+        "私の住宅ローン控除用の残高証明書は、ダウンロードして使えますか。",
     ],
 )
 async def test_general_tax_policy_uses_original_retrieval(question: str) -> None:
@@ -345,6 +351,18 @@ async def test_personal_tax_followup_stops_after_standalone_question() -> None:
     assert "税務署" in response.answer
     assert not retriever.calls
     assert not large.calls
+
+
+async def test_confirmed_tax_amount_is_background_for_repayment_consultation() -> None:
+    graph = CopilotGraph(FakeChatModel([]), FakeChatModel([]), StubRetriever(), _runner(StubCore()))
+    request = ChatRequest(
+        question="私の住宅ローン控除額は確定しています。返済が難しいので相談したいです。"
+    )
+
+    response = await graph.answer(request)
+
+    assert response.steps[-1].name == "repayment_support"
+    assert "税務署" not in response.answer
 
 
 @pytest.mark.parametrize(
