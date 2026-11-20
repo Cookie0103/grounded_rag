@@ -6,7 +6,7 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-20（作者确认冻结，代码草稿 PR 已创建，封存待作者运行）
+最后更新：2026-11-20（代码和交接文档均已提交草稿 PR，封存待作者运行）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
 - **代码**：第一版文档已归档。本机六个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
@@ -26,7 +26,7 @@
 - **转介修复**：`11ba76a` 的原三道还款困难题也是 0/3；`4ea922b` 修复后原题 3/3、新题 6/6、反向 6/6。最终候选实测回归 176/185、意图 122/128、规程 S/L 各 42 条，Top5 为 30/37、31/37。 [并排指标](../docs/eval/mac-poc-report.md#还款困难专门转介复测)
 - **减税修复**：`fdd5a5e` 原题 9/9、新说法 18/18、一般减税规程 18/18，上一轮全部还款原题、新说法、反向对照也都通过三遍。
 - **全量同日续跑**：同一候选合成 185/185、规程 S/L 各 42。合成回归 177/185、意图 122/128，规程 S/L Top5 为 30/37、31/37，过期命中均 0/8。 [并排实测](../docs/eval/mac-poc-report.md#个人减税修复后的全量回归)
-- **交接**：冻结代码在[草稿 PR #3](https://github.com/Cookie0103/grounded_rag/pull/3)，复盘文档在分支 `2026-11-20-retrospective-docs`。文件索引、实测和换机资料见 [交接与复盘](../docs/retrospective/README.md)。
+- **交接**：冻结代码在[草稿 PR #3](https://github.com/Cookie0103/grounded_rag/pull/3)，复盘文档在[草稿 PR #4](https://github.com/Cookie0103/grounded_rag/pull/4)。代码 PR 的 Linux 常规与集成检查均已通过。文件索引、实测和换机资料见 [交接与复盘](../docs/retrospective/README.md)。
 - **下一步**：由作者从冻结代码运行一次仓库外的封存集，回传聚合报告。 [封存命令与预算](../docs/eval/copilot-author.md#作者运行一次封存评测)
 - **待测**：评审校准为 16/20，正式规程回答通过率与离线可采纳率为未测。日账本 ¥11.79725818，开发续跑覆盖已撤回，默认 ¥10。作者另授权 2026-11-20 封存运行最多 ¥20，当前账本未计入封存调用。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
@@ -233,3 +233,4 @@
 - 冻结时重跑 `UV_NO_CONFIG=1 UV_OFFLINE=1 uv run --locked poe check`，602 项通过，覆盖率 90.47%。46 项集成测试及 132 条专项是同一受测提交的实测记录。
 - GitHub 首轮 `check` 和 `integration` 均发现普通依赖环境缺 NumPy。`bd1c826` 仅修 CI 的安装步骤，使用锁文件已有的 NumPy 2.5.4，保留原检查。在干净无 GPU 环境执行 `uv run --locked --no-sync poe check` 602 项通过，离线回归 14/14。用 `git diff --exit-code fdd5a5e -- backend mock_core infra docker-compose.yml .env.example` 确认受测文件一致。 [首轮 CI 证据](https://github.com/Cookie0103/grounded_rag/actions/runs/44668864803)
 - 将同题指标、模型和节点耗时、踩坑记录、换机流程、历史阶段索引与作者封存命令汇到 [交接与复盘](../docs/retrospective/README.md)。本机 `.cache/handoff-2026-11-20/development-metrics.zip` 收拢 8 份聚合结果，文件哈希和 ZIP 完整性均已核对。原始证据保留原路径，未读取封存题，未追加评测调用。
+- GitHub 核对代码 PR 的 `check` 和 `integration` 均成功，后者 46 项通过。另创建交接草稿 PR，比较基线为 `2026-11-20-project-handoff`，GitHub 文件列表共 6 份 Markdown。 [代码 PR 的 Linux CI](https://github.com/Cookie0103/grounded_rag/actions/runs/44669384106) · [交接文档 PR #4](https://github.com/Cookie0103/grounded_rag/pull/4)

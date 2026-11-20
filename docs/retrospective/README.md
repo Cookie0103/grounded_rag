@@ -42,4 +42,4 @@
 ## Git 交接
 
 - `2026-11-20-project-handoff` 提交冻结运行代码和冻结记录，草稿 PR 目标为 `main`。 [冻结代码 PR](https://github.com/Cookie0103/grounded_rag/pull/3)
-- `2026-11-20-retrospective-docs` 从代码交接分支派生，草稿 PR 目标为代码交接分支，只包含复盘和换机资料。冻结标签留在原机；新机也可以通过完整提交号核对运行文件。 [换机命令](migration.md#换机先准备什么)
+- `2026-11-20-retrospective-docs` 从代码交接分支派生，草稿 PR 目标为代码交接分支，只包含复盘和换机资料。冻结标签留在原机；新机也可以通过完整提交号核对运行文件。 [交接文档 PR](https://github.com/Cookie0103/grounded_rag/pull/4) · [换机命令](migration.md#换机先准备什么)
