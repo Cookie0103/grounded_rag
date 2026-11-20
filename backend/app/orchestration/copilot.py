@@ -34,6 +34,11 @@ from app.orchestration.models import (
 from app.orchestration.output_guard import validate_output
 from app.orchestration.pii import redact_pii
 from app.orchestration.repayment_support import needs_repayment_support
+from app.orchestration.tax_referral import (
+    TAX_REFERRAL_PROMPT,
+    needs_tax_referral,
+    tax_referral_on_rejection,
+)
 from app.providers.base import ChatDelta, ChatMessage, ChatModel, Completion, StreamingChatModel
 from app.retrieval.retriever import RetrievalResult, Retriever
 from app.tools.middleware import ToolRunner
@@ -63,6 +68,7 @@ Failure = Literal[
     "evidence",
     "generation",
     "output_guard",
+    "tax_scope",
 ]
 AfterAgentIntent = Literal["direct", "escalate", "retrieve", "tool_branch"]
 
@@ -177,6 +183,7 @@ class CopilotGraph:
         builder.add_node("direct", _direct)
         builder.add_node("escalate", _escalate)
         builder.add_node("repayment_support", _repayment_support)
+        builder.add_node("tax_referral", _tax_referral)
         builder.add_node("degrade", _degrade)
         builder.add_edge(START, "guard")
         builder.add_conditional_edges("guard", _after_guard)
@@ -193,6 +200,7 @@ class CopilotGraph:
         builder.add_edge("direct", END)
         builder.add_edge("escalate", END)
         builder.add_edge("repayment_support", END)
+        builder.add_edge("tax_referral", END)
         builder.add_edge("degrade", END)
         self._connect_generation(builder)
         return builder.compile()
@@ -253,6 +261,8 @@ class CopilotGraph:
         update: _State = {"usage": usage}
         if rewritten:
             update["standalone_question"] = rewritten
+            if needs_tax_referral(rewritten):
+                return {**update, "failure": "tax_scope"}
         try:
             retrieved = await self._retriever.retrieve(
                 question, filters=request.filter, rerank=request.rerank
@@ -400,10 +410,15 @@ def _guard(state: _State) -> _State:
     return {"failure": "guard"} if reason else {}
 
 
-def _after_guard(state: _State) -> Literal["degrade", "intent", "repayment_support"]:
+def _after_guard(
+    state: _State,
+) -> Literal["degrade", "intent", "repayment_support", "tax_referral"]:
     if state.get("failure"):
         return "degrade"
-    if needs_repayment_support(state["request"].question):
+    question = state["request"].question
+    if needs_tax_referral(question):
+        return "tax_referral"
+    if needs_repayment_support(question):
         return "repayment_support"
     return "intent"
 
@@ -433,6 +448,8 @@ def _after_agent_intent(
 
 
 def _join(state: _State) -> _State:
+    if state.get("failure") == "tax_scope":
+        return {}
     tool_status = state.get("tool_status")
     intents = (state["intent"], state.get("secondary_intent"))
     if "lookup" in intents and tool_status != "ok":
@@ -518,6 +535,10 @@ def _repayment_support(state: _State) -> _State:
     return {**_fixed("repayment_support"), "abstained": True}
 
 
+def _tax_referral(state: _State) -> _State:
+    return {**_fixed("tax_referral"), "abstained": True}
+
+
 def _fixed(node: str) -> _State:
     started = time.perf_counter()
     answer = prompts.render(f"{node}_v2" if node == "direct" else f"{node}_v1").strip()
@@ -537,7 +558,12 @@ def _degrade(state: _State) -> _State:
         "evidence": "degrade_policy_v1",
         "generation": "degrade_service_v1",
         "output_guard": "degrade_output_v1",
+        "tax_scope": TAX_REFERRAL_PROMPT,
     }[failure]
+    if failure == "output_guard" and tax_referral_on_rejection(
+        state["request"].question, state.get("standalone_question")
+    ):
+        filename = TAX_REFERRAL_PROMPT
     answer = prompts.render(filename).strip()
     record("degrade", started, failure)
     return {"answer": answer, "citations": []}

@@ -1,5 +1,7 @@
 from collections.abc import AsyncIterator
 
+import pytest
+
 from app.db.conversation import Conversation
 from app.orchestration.copilot_service import CopilotService
 from app.orchestration.models import (
@@ -13,6 +15,7 @@ from app.orchestration.models import (
     StepDetails,
 )
 from app.orchestration.observe import InMemoryTraceStore
+from app.orchestration.tax_referral import tax_referral_answer
 
 
 class MemoryConversationStore:
@@ -142,3 +145,34 @@ async def test_stream_retracts_visible_unsafe_output_and_records_both_latency_va
     assert record.steps[0]["details"]["output"] == "手数料は123円です。"
     assert record.steps[-1]["details"]["first_token_ms"] == result.first_token_ms
     assert record.steps[-1]["details"]["total_ms"] == result.total_ms
+
+
+async def test_postprocess_block_retracts_to_the_same_tax_referral(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class RejectedGraph(RecordingGraph):
+        async def stream(
+            self,
+            request: ChatRequest,
+            *,
+            previous_intent: Intent | None = None,
+            previous_policy_question: str | None = None,
+            stream_tokens: bool = False,
+        ) -> AsyncIterator[ChatStreamItem]:
+            text = "合成禁止文言を含む応答です。"
+            if stream_tokens:
+                yield AnswerDelta(text=text)
+            yield ChatResponse(answer=text, route="policy", intent="policy")
+
+    monkeypatch.setattr("app.orchestration.postprocess.BLOCKED_TERMS", ("合成禁止文言",))
+    service = CopilotService(RejectedGraph(), MemoryConversationStore())
+    request = ChatRequest(question="住宅ローン控除の適用可否を確認したいです。")
+    events = [event async for event in service.stream(request, stream_tokens=True)]
+
+    assert (
+        AnswerRetraction(replacement=tax_referral_answer(), reasons=("answer_replaced",)) in events
+    )
+    result = events[-1]
+    assert isinstance(result, ChatResponse)
+    assert result.answer == tax_referral_answer()
+    assert result.abstained

@@ -29,6 +29,7 @@ from app.orchestration.models import (
 from app.orchestration.observe import TraceStore
 from app.orchestration.pii import redact_pii
 from app.orchestration.postprocess import postprocess
+from app.orchestration.tax_referral import tax_referral_answer, tax_referral_on_rejection
 from app.providers.cloud_trace import CloudTracer
 
 logger = logging.getLogger(__name__)
@@ -112,7 +113,7 @@ class CopilotService:
                 yield item
             if response is None:
                 raise RuntimeError("问答图没有产出最终响应")
-            response, postprocess_step = _postprocess(response)
+            response, postprocess_step = _postprocess(response, request.question)
             if postprocess_step is not None:
                 run.step(postprocess_step)
                 yield postprocess_step
@@ -235,14 +236,19 @@ def _elapsed_ms(started: float) -> float:
     return (time.perf_counter() - started) * 1000
 
 
-def _postprocess(response: ChatResponse) -> tuple[ChatResponse, Step | None]:
+def _postprocess(response: ChatResponse, question: str) -> tuple[ChatResponse, Step | None]:
     checked = postprocess(response.answer)
     if not checked.notes:
         return response, None
     step = Step(name="postprocess", ms=0.0, note="、".join(checked.notes))
     updates: dict[str, object] = {"answer": checked.answer, "steps": [*response.steps, step]}
     if checked.blocked:
-        updates.update(answer=SAFE_ANSWER, citations=[], abstained=True)
+        replacement = (
+            tax_referral_answer()
+            if tax_referral_on_rejection(question, response.standalone_question)
+            else SAFE_ANSWER
+        )
+        updates.update(answer=replacement, citations=[], abstained=True)
     return response.model_copy(update=updates), step
 
 

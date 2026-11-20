@@ -251,6 +251,103 @@ async def test_other_repayment_questions_keep_their_route(
 
 
 @pytest.mark.parametrize(
+    ("channel", "question"),
+    [
+        ("customer", "私の住宅ローン控除は適用されるか判断してください。"),
+        ("agent", "お客さまの住宅ローン減税の金額を試算してほしいと相談されました。"),
+        ("customer", "家のローンがあるのですが、自分は控除でいくら戻りますか。"),
+        ("customer", "住宅ローン控除って、いくら戻るんですか。"),
+    ],
+)
+async def test_personal_tax_referral_skips_retrieval_and_models(
+    channel: Channel, question: str
+) -> None:
+    small, large = FakeChatModel([]), FakeChatModel([])
+    retriever, core = StubRetriever(), StubCore()
+    graph = CopilotGraph(small, large, retriever, _runner(core))
+
+    response = await graph.answer(ChatRequest(question=question, channel=channel))
+
+    assert [step.name for step in response.steps] == ["guard", "tax_referral"]
+    assert "税務署" in response.answer
+    assert response.abstained
+    assert not small.calls
+    assert not large.calls
+    assert not retriever.calls
+    assert not core.calls
+
+
+@pytest.mark.parametrize(
+    "question",
+    [
+        "住宅ローン控除用の残高証明書はいつ届きますか。",
+        "私の住宅ローン減税用の年末残高証明書を再発行してもらえますか。",
+        "住宅ローン控除の対象となる一般的な条件は何ですか。",
+        "私が住宅ローン控除の対象となった年の証明書はいつ届きますか。",
+    ],
+)
+async def test_general_tax_policy_uses_original_retrieval(question: str) -> None:
+    small = FakeChatModel([_completion('{"intent":"policy"}')])
+    graph = CopilotGraph(
+        small,
+        FakeChatModel([_completion(f"{POLICY} [1]")]),
+        StubRetriever(),
+        _runner(StubCore()),
+    )
+
+    response = await graph.answer(ChatRequest(question=question))
+
+    assert not response.abstained
+    assert "retrieve" in {step.name for step in response.steps}
+    assert "税務署" not in response.answer
+    assert response.citations
+
+
+async def test_tax_referral_replaces_answer_when_citations_are_rejected() -> None:
+    small = FakeChatModel([_completion('{"intent":"policy"}')])
+    graph = CopilotGraph(
+        small,
+        FakeChatModel([["住宅ローン控除は確認できません。"]]),
+        StubRetriever(),
+        _runner(StubCore()),
+    )
+    question = "住宅ローン控除の適用可否について相談したいです。"
+
+    events = [
+        item async for item in graph.stream(ChatRequest(question=question), stream_tokens=True)
+    ]
+
+    result = events[-1]
+    assert isinstance(result, ChatResponse)
+    assert result.abstained
+    assert any(
+        step.name == "output_guard" and step.note == "missing_citation" for step in result.steps
+    )
+    assert "税務署" in result.answer
+    assert not result.citations
+
+
+async def test_personal_tax_followup_stops_after_standalone_question() -> None:
+    rewrite = "私の場合に住宅ローン控除の対象となるか判断してください。"
+    small = FakeChatModel(
+        [_completion('{"intent":"policy"}'), _completion(json.dumps({"question": rewrite}))]
+    )
+    large = FakeChatModel([])
+    retriever = StubRetriever()
+    graph = CopilotGraph(small, large, retriever, _runner(StubCore()))
+
+    response = await graph.answer(
+        ChatRequest(question="この場合はどうですか。"),
+        previous_policy_question="住宅ローン控除の一般の要件を教えてください。",
+    )
+
+    assert response.abstained
+    assert "税務署" in response.answer
+    assert not retriever.calls
+    assert not large.calls
+
+
+@pytest.mark.parametrize(
     "output",
     [
         _completion("意図を分類できません"),
