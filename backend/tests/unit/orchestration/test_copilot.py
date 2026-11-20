@@ -187,6 +187,7 @@ async def test_customer_mixed_intent_hands_off_without_retrieving_or_offering_to
         ("agent", "延滞した住宅ローンについてお客さまが相談したいそうです。"),
         ("agent", "お客さまが返済条件の変更について相談を希望しています。"),
         ("customer", "家のローンが今月は払えないです。助けてください。"),
+        ("customer", "今月は住宅ローンの返済ができません。相談したいです。"),
     ],
 )
 async def test_repayment_consultation_stops_before_intent_and_tools(
@@ -220,6 +221,17 @@ async def test_repayment_consultation_stops_before_intent_and_tools(
         ("policy", "延滞した場合の遅延損害金の一般的な扱いを教えてください。", "retrieve"),
         ("lookup", "私の契約に延滞の記録があるか確認してください。", "handoff"),
         ("policy", "住宅ローン控除の申告に必要な書類はどこで確認できますか。", "retrieve"),
+        ("policy", "アプリで繰上返済できません。操作手順を教えてください。", "retrieve"),
+        (
+            "policy",
+            "住民税を滞納しています。住宅ローン控除の対象になるか税理士に相談した方がよいですか。",
+            "retrieve",
+        ),
+        (
+            "complaint",
+            "延滞の相談を断った担当者の対応に苦情があります。責任者に取り次いでください。",
+            "escalate",
+        ),
     ],
 )
 async def test_other_repayment_questions_keep_their_route(
