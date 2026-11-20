@@ -2,7 +2,7 @@
 
 一个在 Mac 上运行的住宅贷款坐席 Copilot 概念验证。业务背景来自索尼银行的公开住宅贷款页面，客户、合同、还款与内部规程使用合成数据。坐席能通过只读工具查数并查阅日文规程。客户泳道只回答规程，个别合同查询引导转人工。
 
-[本机实测报告](docs/eval/mac-poc-report.md) · [开发日志](harness/build-log.md) · [Dify 本机手册](docs/eval/dify-local.md)
+[交接与复盘总入口](docs/retrospective/README.md) · [详细实测](docs/retrospective/metrics.md) · [换机手册](docs/retrospective/migration.md) · [作者封存命令](docs/eval/copilot-author.md#作者运行一次封存评测)
 
 ## 架构
 
@@ -24,7 +24,7 @@ flowchart LR
     N -.-> K
 ```
 
-图中虚线为 Dify 对照的目标连接。Dify 已部署，画布导入和真实同题回放的进度见[阶段 37](harness/build/phase-37-dify-compare.md)。
+图中虚线是本机 Dify 对照连到同一网关与模拟业务的路径。画布已部署，并完成 213 条合成及 42 道规程同题回放。 [阶段 37](harness/build/phase-37-dify-compare.md)
 
 ## 用纯合成语料启动
 
@@ -69,12 +69,12 @@ curl --fail --json '{"question":"こんにちは。","channel":"customer"}' http
 
 ## 检查与评测
 
-在 `backend/` 执行以下命令。只在需要测试故障时显式打开两个本机调试开关。
+在 `backend/` 执行以下命令。完整 Mac 环境的 GPU 依赖已带 NumPy。只同步基础依赖的环境先运行 `uv pip install --no-deps 'numpy==2.5.4'`，使用锁文件中的版本，然后执行相同检查。只在需要测试故障时显式打开本机调试开关。
 
 ```bash
-uv run --locked poe check
+uv run --locked --no-sync poe check
 MOCK_ALLOW_FAULT_HEADERS=true docker compose -f ../docker-compose.yml up -d --build --wait db es redis mock_core
-uv run --locked poe test-int
+uv run --locked --no-sync poe test-int
 uv run --locked python -m scripts.generate_copilot_cases generate
 uv run --locked --offline python -m scripts.copilot_regression
 ```
