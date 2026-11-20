@@ -1,6 +1,6 @@
 name: CI
 on:
-  push:                 # 任何分支；暂不开 PR，靠 push 触发
+  push:
   pull_request:
 permissions:
   contents: read
@@ -10,6 +10,9 @@ concurrency:
 defaults:
   run:
     working-directory: backend
+env:
+  # 与 backend/uv.lock 一致，评测检查无需安装整套 GPU 依赖。
+  CI_NUMPY_REQUIREMENT: numpy==2.5.4
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -20,8 +23,9 @@ jobs:
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
       - run: uv sync --locked
-      - run: uv run poe check
-      - run: uv run --locked --offline python -m scripts.copilot_regression
+      - run: uv pip install --no-deps "$CI_NUMPY_REQUIREMENT"
+      - run: uv run --locked --no-sync poe check
+      - run: uv run --locked --no-sync --offline python -m scripts.copilot_regression
       - run: uv run --locked python -m pytest
         working-directory: mock_core
   integration:
@@ -44,8 +48,9 @@ jobs:
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
       - run: uv sync --locked
+      - run: uv pip install --no-deps "$CI_NUMPY_REQUIREMENT"
       - run: docker compose up -d --build --wait es redis mock_core
         working-directory: .
         env:
           MOCK_ALLOW_FAULT_HEADERS: "true"
-      - run: uv run poe test-int
+      - run: uv run --locked --no-sync poe test-int
