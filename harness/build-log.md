@@ -6,7 +6,7 @@
 
 ## 当前状态（先读这里）
 
-最后更新：2026-11-20（作者确认冻结，等待作者运行封存集）
+最后更新：2026-11-20（作者委托的一次封存回放已完成，汇总已记录）
 
 - **方向**：项目改为「索尼银行住宅贷款坐席 Copilot」概念验证，见 [GOALS.md](../GOALS.md)、[PLANS.md](../PLANS.md)。
 - **代码**：第一版文档已归档。本机六个 Compose 服务原生 arm64 并 healthy，kuromoji 已实测，网关的本机 Ollama 和 DeepSeek 两档都返回非零 token 用量。
@@ -26,8 +26,9 @@
 - **转介修复**：`11ba76a` 的原三道还款困难题也是 0/3；`4ea922b` 修复后原题 3/3、新题 6/6、反向 6/6。最终候选实测回归 176/185、意图 122/128、规程 S/L 各 42 条，Top5 为 30/37、31/37。 [并排指标](../docs/eval/mac-poc-report.md#还款困难专门转介复测)
 - **减税修复**：`fdd5a5e` 原题 9/9、新说法 18/18、一般减税规程 18/18，上一轮全部还款原题、新说法、反向对照也都通过三遍。
 - **全量同日续跑**：同一候选合成 185/185、规程 S/L 各 42。合成回归 177/185、意图 122/128，规程 S/L Top5 为 30/37、31/37，过期命中均 0/8。 [并排实测](../docs/eval/mac-poc-report.md#个人减税修复后的全量回归)
-- **下一步**：由作者从冻结代码运行一次仓库外的封存集，回传聚合报告。新版 PR 验证结果和封存结果待补。
-- **待测**：评审校准为 16/20，正式规程回答通过率与离线可采纳率为未测。日账本 ¥11.79725818，开发续跑覆盖已撤回，默认 ¥10。作者另授权 2026-11-20 封存运行最多 ¥20，当前账本未计入封存调用。
+- **交接**：冻结代码在[草稿 PR #3](https://github.com/Cookie0103/grounded_rag/pull/3)，复盘文档在[草稿 PR #4](https://github.com/Cookie0103/grounded_rag/pull/4)。代码 PR 的 Linux 常规与集成检查均已通过。文件索引、实测和换机资料见 [交接与复盘](../docs/retrospective/README.md)。
+- **封存**：作者委托独立出题、审题与执行。固定版 S/L 各 16 条，共 32 条，Top5 均 6/13，过期候选或引用均 0/2。首字 P95 分别 4.858 和 1.432 秒。账本增加 ¥1.08514771，累计 ¥12.88240589。临时上限已撤回，默认 ¥10。 [封存实测和口径](../docs/eval/mac-poc-report.md#冻结版一次封存回放)
+- **未测**：评审校准为 16/20，正式规程回答通过率、离线可采纳率仍为未测。线上业务指标仍为未测。
 - **提醒**：远程仓库是公开的。推送前确认没有带入公开页面原文和参考方案原文。
 
 ## 阶段状态
@@ -42,9 +43,9 @@
 | [33 模拟业务系统与工具层](build/phase-33-tools.md) | 完成 | 五个只读工具联调，合成数据指纹及 420 期裁剪已核验 |
 | [34 双泳道编排](build/phase-34-orchestration.md) | 完成 | 双图、进程重启恢复、20 条真模型节点耗时已验收 |
 | [35 流式与护栏](build/phase-35-streaming-guard.md) | 完成 | 50 个 Redis 续推断点、HTTP 首字和整段、日文护栏已核验 |
-| [36 评测与回归门禁](build/phase-36-evaluation.md) | 阻塞 | 一轮开发调优已实测，校准 16/20，冻结后待作者封存 |
+| [36 评测与回归门禁](build/phase-36-evaluation.md) | 阻塞 | 一轮开发调优及一次封存回放已实测，正式答复评分校准未达门槛 |
 | [37 Dify 对照](build/phase-37-dify-compare.md) | 阻塞 | 213 条合成、42 条规程配对均完成；正式规程回答评分未测 |
-| [38 收尾](build/phase-38-wrapup.md) | 进行中 | 已冻结，已保留实测退步，待封存汇总与远程验收 |
+| [38 收尾](build/phase-38-wrapup.md) | 完成 | 已冻结并记录四项实测退步、一次封存汇总和已知限制 |
 
 ## 活动记录（追加）
 
@@ -225,3 +226,17 @@
 
 - 作者接受四项实测变化，停止调优。`git rev-parse 'copilot-freeze-2026-11-20^{commit}'` 核对本地标签精确指向 `fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0`。受测代码保持该版本，后继提交记录交接资料。 [并排实测](../docs/eval/mac-poc-report.md#个人减税修复后的全量回归)
 - 独立读取应用配置与预算账本，默认上限为 ¥10，当日已记 ¥11.79725818。作者授权 2026-11-20 封存运行的临时上限为 ¥20。该覆盖由作者运行时设置，到当日东京时间午夜失效。实际封存花费待作者发回汇总；本次冻结没有付费调用。
+
+### 2026-11-20 · 冻结代码 PR 与换机资料
+
+- 作者授权分开提交代码和资料。`2026-11-20-project-handoff` 推至 `origin`，以 `main` 为目标创建[草稿 PR #3](https://github.com/Cookie0103/grounded_rag/pull/3)。冻结标签留在本机。复盘资料分支基于该远程分支，方便单独审查文档差异。
+- 冻结时重跑 `UV_NO_CONFIG=1 UV_OFFLINE=1 uv run --locked poe check`，602 项通过，覆盖率 90.47%。46 项集成测试及 132 条专项是同一受测提交的实测记录。
+- GitHub 首轮 `check` 和 `integration` 均发现普通依赖环境缺 NumPy。`bd1c826` 仅修 CI 的安装步骤，使用锁文件已有的 NumPy 2.5.4，保留原检查。在干净无 GPU 环境执行 `uv run --locked --no-sync poe check` 602 项通过，离线回归 14/14。用 `git diff --exit-code fdd5a5e -- backend mock_core infra docker-compose.yml .env.example` 确认受测文件一致。 [首轮 CI 证据](https://github.com/Cookie0103/grounded_rag/actions/runs/44668864803)
+- 将同题指标、模型和节点耗时、踩坑记录、换机流程、历史阶段索引与作者封存命令汇到 [交接与复盘](../docs/retrospective/README.md)。本机 `.cache/handoff-2026-11-20/development-metrics.zip` 收拢 8 份聚合结果，文件哈希和 ZIP 完整性均已核对。原始证据保留原路径，未读取封存题，未追加评测调用。
+- GitHub 核对代码 PR 的 `check` 和 `integration` 均成功，后者 46 项通过。另创建交接草稿 PR，比较基线为 `2026-11-20-project-handoff`，GitHub 文件列表共 6 份 Markdown。 [代码 PR 的 Linux CI](https://github.com/Cookie0103/grounded_rag/actions/runs/44669384106) · [交接文档 PR #4](https://github.com/Cookie0103/grounded_rag/pull/4)
+
+### 2026-11-20 · 作者委托完成封存
+
+- 作者委托在新建的仓库外私有目录准备题目并代跑。独立出题和审题后，16 道题通过 `policy-test` 校验，其中 10 道公开规程、6 道合成、3 道不可回答、2 道版本陷阱。初稿曾因场景重复退回，所有调整都在首次回放前完成。题目和逐题答复留在本机私有目录。 [题集来源和摘要](context/phase-36-evaluation-context.md#2026-11-20--作者委托一次封存回放)
+- 从 `backend/` 执行 `uv run --locked --no-sync python -m scripts.evaluate_copilot --sealed-test … --run-dir … --port 18083 --commit fdd5a5eb16e9fb1e7a4e10e9fba9f7e6881cb4c0 --calibration ../.cache/copilot-dev/author-calibration-paired.jsonl`，退出码 0。S/L 两档各 16 条终态，观测和评分记录分别共 32 条，无续跑。两档 Top5 均 6/13、过期均 0/2。S/L 首字 P95 为 4.858/1.432 秒、整段 P95 为 8.118/4.494 秒。答复正式评分和离线可采纳率因校准未达门槛保留未测。 [封存聚合指标](../docs/eval/mac-poc-report.md#冻结版一次封存回放)
+- 2026-11-20 封存按作者授权使用 ¥20 进程临时上限。原预算账本由 ¥11.79725818 增至 ¥12.88240589，增量 ¥1.08514771。退出临时 API，验证 `18083` 无监听，独立进程读取默认 ¥10。`git diff --exit-code` 核对受测文件与冻结版一致。`UV_NO_CONFIG=1 UV_OFFLINE=1 uv run --locked --no-sync poe check` 602 项通过，覆盖率 90.47%。本次交付汇总在本地 `2026-11-20-sealed-results`。
