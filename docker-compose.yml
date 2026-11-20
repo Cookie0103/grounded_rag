@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: grounded
       POSTGRES_DB: grounded_rag
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -14,5 +14,113 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  es:
+    build: ./infra/elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - "127.0.0.1:${ES_PORT:-9200}:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fsS
+        - "http://127.0.0.1:9200/_cluster/health?wait_for_status=yellow&timeout=3s"
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: grounded_mock
+      MYSQL_USER: grounded
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-grounded}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    ports:
+      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  gateway:
+    image: ghcr.io/berriai/litellm:main-stable@sha256:4295b064b22eb88f9530e616afc812edd47048891ba64896bfc3fa74e2b883c3
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    environment:
+      GATEWAY_API_KEY: ${GATEWAY_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-ollama_chat/qwen3:4b-instruct}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      DIFY_EMBEDDING_BASE_URL: ${DIFY_EMBEDDING_BASE_URL:-http://host.docker.internal:18082/v1}
+    ports:
+      - "127.0.0.1:${GATEWAY_PORT:-4000}:4000"
+    volumes:
+      - ./infra/litellm/config.yaml:/app/config.yaml:ro
+      - ./infra/litellm/usage_report.py:/app/usage_report.py:ro
+      - ./.cache/litellm-usage:/app/local-usage
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:4000/health/liveliness', timeout=3)"
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  mock_core:
+    build: ./mock_core
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MOCK_MYSQL_HOST: mysql
+      MOCK_MYSQL_PORT: "3306"
+      MOCK_MYSQL_DATABASE: grounded_mock
+      MOCK_MYSQL_USER: grounded
+      MOCK_MYSQL_PASSWORD: ${MYSQL_PASSWORD:-grounded}
+      MOCK_FAULT_DELAY_MS: ${MOCK_FAULT_DELAY_MS:-0}
+      MOCK_FAULT_TIMEOUT_RATE: ${MOCK_FAULT_TIMEOUT_RATE:-0}
+      MOCK_FAULT_5XX_RATE: ${MOCK_FAULT_5XX_RATE:-0}
+      MOCK_FAULT_SEED: ${MOCK_FAULT_SEED:-331107}
+      MOCK_ALLOW_FAULT_HEADERS: ${MOCK_ALLOW_FAULT_HEADERS:-false}
+    ports:
+      - "127.0.0.1:${MOCK_CORE_PORT:-8001}:8001"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)"
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 45s
+
 volumes:
   pgdata:
+  esdata:
+  mysqldata:

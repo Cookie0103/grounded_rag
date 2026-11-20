@@ -3,6 +3,7 @@
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # backend/app/core/config.py → 仓库根目录
@@ -15,6 +16,9 @@ MODEL_CACHE_DIR = CACHE_DIR / "models"
 INGEST_VERSION = "1"
 CHILD_TARGET_CHARS = 300
 CHILD_MAX_CHARS = 500
+POLICY_CHILD_TARGET_CHARS = 500
+POLICY_CHILD_MAX_CHARS = 800
+POLICY_INDEX_ALIAS = "grounded-rag-policy"
 PARENT_MAX_CHARS = 4000
 CODE_BLOCK_MAX_CHARS = 1500
 
@@ -25,7 +29,7 @@ BGE_M3_MODEL_NAME = "bge-m3"
 
 # Qwen3-Embedding 只给查询加指令，文档不加
 QWEN3_QUERY_INSTRUCTION = (
-    "Given a question about the Dify platform, retrieve documentation passages that answer it"
+    "住宅ローンのお問い合わせに答えるため、有効な手続、規程、よくある質問を検索してください。"
 )
 
 
@@ -33,9 +37,14 @@ QWEN3_QUERY_INSTRUCTION = (
 RETRIEVE_TOP_K = 30
 FUSION_TOP_K = 20
 FINAL_TOP_K = 5
+DEFAULT_POLICY_RERANK = False
 RRF_K = 60
 QWEN3_RERANKER_NAME = "qwen3-reranker-0.6b"
 BGE_RERANKER_NAME = "bge-reranker-v2-m3"
+
+# 仅模型网关返回分类 token 的置信度时应用此阈值。
+MIN_INTENT_CONFIDENCE = 0.55
+
 # 版本过滤：只看自部署版 / 云版时，同时包含「通用」文档
 EDITION_FILTERS = {
     "self_host": ("self_host", "common"),
@@ -46,6 +55,8 @@ EDITION_FILTERS = {
 # 价格页 https://api-docs.deepseek.com/quick_start/pricing，2026-10-16 核对；官方改价后要更新
 DEEPSEEK_INPUT_USD_PER_MILLION = 0.3
 DEEPSEEK_OUTPUT_USD_PER_MILLION = 1.2
+DEEPSEEK_PRO_INPUT_USD_PER_MILLION = 1.32
+DEEPSEEK_PRO_OUTPUT_USD_PER_MILLION = 3.96
 USD_TO_CNY = 7.2
 
 
@@ -55,16 +66,28 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=REPO_ROOT / ".env", extra="ignore")
 
     database_url: str = "postgresql+asyncpg://grounded:grounded@localhost:5432/grounded_rag"
+    elasticsearch_url: str = "http://127.0.0.1:9200"
+    redis_url: str = "redis://127.0.0.1:6379/0"
+    mysql_url: str = "mysql://grounded:grounded@127.0.0.1:3306/grounded_mock"
+    mock_core_base_url: str = "http://127.0.0.1:8001"
     db_timeout_seconds: float = 5.0
     log_level: str = "INFO"
     embedding_model: str = "qwen3"  # qwen3 / bge-m3 / fake
-    embed_device: str = "cuda"
+    embed_device: str = "mps"
     embed_batch_size: int = 32
     reranker_model: str = "qwen3"  # qwen3 / bge / fake / none
-    chat_model: str = "deepseek"  # deepseek / fake
+    chat_model: str = "gateway"  # gateway / deepseek / fake
     deepseek_api_key: str | None = None
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-flash"
+    gateway_base_url: str = "http://127.0.0.1:4000/v1"
+    gateway_api_key: str | None = None
+    gateway_small_model: str = "small"
+    gateway_large_model: str = "deepseek-v4-pro"
+    dify_base_url: str = "http://127.0.0.1:18090/v1"
+    dify_api_key: SecretStr | None = None
+    strict_answer_checks: bool = False
+    evaluation_mock_faults: bool = False
     daily_budget_cny: float = 10.0  # 0 表示不限制（作者手动测试用）
     rate_limit_per_minute: int = 30  # 每个客户端 IP；0 表示不限制
     prewarm: bool = False  # 启动时就建检索器、加载模型；poe serve 会打开

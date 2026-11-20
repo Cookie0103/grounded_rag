@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from httpx import AsyncClient
 
 from app.api.retrieve import get_retriever
+from app.db.policy_filter import MetaFilter
 from app.retrieval.retriever import Candidate, ChunkInfo, ParentContext, RetrievalResult
 
 
@@ -18,9 +19,10 @@ class StubRetriever:
         *,
         top_k: int = 5,
         editions: Sequence[str] | None = None,
+        filters: MetaFilter | None = None,
         rerank: bool = True,
     ) -> RetrievalResult:
-        self.calls.append({"query": query, "top_k": top_k, "editions": editions, "rerank": rerank})
+        self.calls.append({"query": query, "top_k": top_k, "filters": filters, "rerank": rerank})
         chunk = ChunkInfo("d#c0", "d", "d#p0", "标题 > 节", "正文", "self_host")
         candidate = Candidate(
             rank=1,
@@ -60,7 +62,7 @@ async def test_retrieve_returns_candidates_parents_and_timings(
             "parent_id": "d#p0",
             "heading_path": "标题 > 节",
             "text": "正文",
-            "edition": "self_host",
+            "metadata": None,
             "vector_rank": 2,
             "vector_distance": 0.2,
             "bm25_rank": 1,
@@ -73,19 +75,21 @@ async def test_retrieve_returns_candidates_parents_and_timings(
         {"id": "d#p0", "document_id": "d", "heading_path": "标题 > 节", "text": "父块正文"}
     ]
     assert body["timings_ms"] == {"total": 1.5}
-    assert stub.calls == [{"query": "怎么上传", "top_k": 3, "editions": None, "rerank": True}]
+    assert stub.calls == [
+        {"query": "怎么上传", "top_k": 3, "filters": MetaFilter(), "rerank": False}
+    ]
+    assert body["filter"]["corpus_tier"] == "L"
+    assert body["degraded"] is False
 
 
-@pytest.mark.parametrize(
-    ("edition", "editions"),
-    [("self_host", ("self_host", "common")), ("cloud", ("cloud", "common"))],
-)
-async def test_edition_includes_common_documents(
-    client: AsyncClient, stub: StubRetriever, edition: str, editions: tuple[str, ...]
-) -> None:
-    await client.post("/retrieve", json={"query": "x", "edition": edition, "rerank": False})
+async def test_metadata_filter_is_forwarded(client: AsyncClient, stub: StubRetriever) -> None:
+    filters = {"product_line": "home_loan", "as_of": "2026-11-18", "corpus_tier": "S"}
+    response = await client.post(
+        "/retrieve", json={"query": "返済", "filter": filters, "rerank": False}
+    )
 
-    assert stub.calls[0]["editions"] == editions
+    assert response.status_code == 200
+    assert stub.calls[0]["filters"] == MetaFilter.model_validate(filters)
     assert stub.calls[0]["rerank"] is False
 
 

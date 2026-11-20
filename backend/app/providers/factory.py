@@ -1,5 +1,7 @@
 """按配置里的名字创建嵌入模型和精排模型。"""
 
+import httpx
+
 from app.core.config import (
     BGE_M3_MODEL_NAME,
     BGE_RERANKER_NAME,
@@ -11,10 +13,11 @@ from app.core.config import (
     Settings,
 )
 from app.core.errors import ConfigError
-from app.providers.base import ChatModel, Embedder, Reranker
+from app.providers.base import ChatModel, ChatTier, Embedder, Reranker
 from app.providers.budget import BudgetLedger
-from app.providers.deepseek import DeepSeekChat
+from app.providers.deepseek import TIMEOUT_SECONDS, DeepSeekChat
 from app.providers.fakes import FAKE_MODEL_NAME, FakeChatModel, FakeEmbedder, FakeReranker
+from app.providers.gateway import GatewayChat, OllamaGatewayChat
 from app.providers.local_embedder import EmbedderSpec, SentenceTransformerEmbedder
 from app.providers.local_reranker import CrossEncoderReranker, Qwen3Reranker
 
@@ -34,6 +37,16 @@ SPECS = {
 }
 RERANK_BATCH_SIZE = 8
 RERANKER_NAMES = ("qwen3", "bge", FAKE_MODEL_NAME, "none")
+
+
+def create_chat_http_client(settings: Settings) -> httpx.AsyncClient:
+    """为两个模型档复用连接池，由调用方管理生命周期。"""
+    url = (
+        settings.gateway_base_url
+        if settings.chat_model == "gateway"
+        else settings.deepseek_base_url
+    )
+    return httpx.AsyncClient(base_url=url, timeout=TIMEOUT_SECONDS)
 
 
 def get_embedder(name: str, settings: Settings) -> Embedder:
@@ -76,15 +89,32 @@ def get_reranker(name: str, settings: Settings) -> Reranker | None:
     raise ConfigError(f"未知的精排模型 {name!r}，可选：{', '.join(RERANKER_NAMES)}")
 
 
-def get_chat_model(settings: Settings) -> ChatModel:
-    """settings.chat_model: deepseek / fake。"""
+def get_chat_model(
+    settings: Settings, *, tier: ChatTier = "large", client: httpx.AsyncClient | None = None
+) -> ChatModel:
+    """按档创建对话模型，保留已有调用点的默认大模型档。"""
     if settings.chat_model == FAKE_MODEL_NAME:
         return FakeChatModel()
+    ledger = BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny)
+    if settings.chat_model == "gateway":
+        is_small = tier == "small"
+        chat_type = OllamaGatewayChat if is_small else GatewayChat
+        return chat_type(
+            api_key=settings.gateway_api_key,
+            base_url=settings.gateway_base_url,
+            model=settings.gateway_small_model if is_small else settings.gateway_large_model,
+            ledger=None if is_small else ledger,
+            client=client,
+            is_free=is_small,
+        )
     if settings.chat_model == "deepseek":
         return DeepSeekChat(
             api_key=settings.deepseek_api_key,
             base_url=settings.deepseek_base_url,
             model=settings.deepseek_model,
-            ledger=BudgetLedger(CACHE_DIR / "budget", settings.daily_budget_cny),
+            ledger=ledger,
+            client=client,
         )
-    raise ConfigError(f"未知的对话模型 {settings.chat_model!r}，可选：deepseek、{FAKE_MODEL_NAME}")
+    raise ConfigError(
+        f"未知的对话模型 {settings.chat_model!r}，可选：gateway、deepseek、{FAKE_MODEL_NAME}"
+    )

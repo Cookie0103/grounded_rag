@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from sqlalchemy import Column, bindparam, delete, exists, func, insert, select, text
 from sqlalchemy.ext.asyncio import AsyncConnection
 
+from app.core.policy import PolicyMetadata
+from app.db.policy_filter import MetaFilter
 from app.db.tables import chunk_embeddings, chunks, documents, parent_chunks
 
 
@@ -19,6 +21,7 @@ class DocumentRecord:
     description: str | None
     content_hash: str
     corpus_commit: str
+    policy: PolicyMetadata | None = None
 
 
 @dataclass(frozen=True)
@@ -49,9 +52,14 @@ class NearestChunk:
     distance: float  # 余弦距离 = 1 - 余弦相似度，越小越相似
 
 
-async def document_hashes(connection: AsyncConnection) -> dict[str, str]:
+async def document_hashes(
+    connection: AsyncConnection, *, legacy_only: bool = False
+) -> dict[str, str]:
     """库里已有的文档 → 内容哈希，用来判断哪些文档变了。"""
-    rows = await connection.execute(select(documents.c.id, documents.c.content_hash))
+    statement = select(documents.c.id, documents.c.content_hash)
+    if legacy_only:
+        statement = statement.where(documents.c.source.is_(None))
+    rows = await connection.execute(statement)
     return {row.id: row.content_hash for row in rows}
 
 
@@ -75,8 +83,11 @@ async def replace_document(
     model: str,
 ) -> None:
     """删掉旧文档再整篇重建。调用方负责放在同一个事务里。"""
+    policy = document.policy.model_dump() if document.policy is not None else {}
     await delete_documents(connection, [document.id])
-    await connection.execute(insert(documents).values(**document.__dict__))
+    await connection.execute(
+        insert(documents).values(**_without(document.__dict__, "policy"), **policy)
+    )
     if parents:
         await connection.execute(
             insert(parent_chunks),
@@ -86,7 +97,7 @@ async def replace_document(
         await connection.execute(
             insert(chunks),
             [
-                {"document_id": document.id, **_without(chunk.__dict__, "embedding")}
+                {"document_id": document.id, **_without(chunk.__dict__, "embedding"), **policy}
                 for chunk in chunk_records
             ],
         )
@@ -110,6 +121,7 @@ async def nearest_chunks(
     model: str,
     limit: int,
     editions: Sequence[str] | None = None,
+    filters: MetaFilter | None = None,
 ) -> list[NearestChunk]:
     """按余弦距离取最近的子块；可以只查某几种版本（self_host / cloud / common）的文档。
 
@@ -138,6 +150,8 @@ async def nearest_chunks(
     )
     if editions is not None:
         statement = statement.where(documents.c.edition.in_(list(editions)))
+    if filters is not None:
+        statement = statement.where(*filters.sql_conditions())
     rows = await connection.execute(statement)
     return [
         NearestChunk(

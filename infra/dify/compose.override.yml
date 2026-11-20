@@ -1,0 +1,61 @@
+# 与官方 Dify 1.19.0 的 docker-compose.yaml 合并。实验 UI 仅监听本机。
+services:
+  nginx:
+    ports: !override
+      - "127.0.0.1:18090:80"
+  api:
+    environment:
+      # 本机知识库导入一次选择完整的 S 档语料。
+      UPLOAD_FILE_BATCH_LIMIT: "185"
+      BATCH_UPLOAD_LIMIT: "185"
+    networks:
+      - grounded_rag
+  plugin_daemon:
+    ports: !reset []
+    networks:
+      - grounded_rag
+  ssrf_proxy:
+    networks:
+      - grounded_rag
+    volumes: !override
+      - ./ssrf_proxy/squid-common.conf.template:/etc/squid/dify_common.conf.template
+      - ./ssrf_proxy/docker-entrypoint.sh:/docker-entrypoint-mount.sh
+    configs:
+      - source: grounded_dify_squid_template
+        target: /etc/squid/squid.conf.template
+
+networks:
+  grounded_rag:
+    name: grounded_rag_default
+    external: true
+
+configs:
+  grounded_dify_squid_template:
+    # 保留官方顺序，在私网拒绝规则前仅允许两个固定的服务名及端口。
+    content: |
+      include /etc/squid/dify_common.conf
+      acl allowed_domains dstdomain .marketplace.dify.ai
+      acl grounded_gateway dstdomain -n gateway
+      acl grounded_gateway_port port 4000
+      acl grounded_mock_core dstdomain -n mock_core
+      acl grounded_mock_core_port port 8001
+      acl grounded_read_only method GET HEAD
+
+      http_port $${HTTP_PORT}
+
+      http_access deny !Safe_ports
+      http_access deny CONNECT !SSL_ports
+      http_access allow localhost manager
+      http_access deny manager
+      include /etc/squid/dify_sandbox_proxy.conf
+      include /etc/squid/dify_allow_private.conf
+      http_access allow client_localnet grounded_gateway grounded_gateway_port
+      http_access allow client_localnet grounded_mock_core grounded_mock_core_port grounded_read_only
+      http_access deny to_private_networks
+      http_access allow allowed_domains
+      http_access allow client_localnet
+      http_access allow localhost
+      http_access deny all
+
+      # 模拟业务的故障与权限必须按每次上游调用判断，代理不复用旧响应。
+      cache deny grounded_mock_core grounded_mock_core_port

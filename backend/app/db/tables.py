@@ -1,6 +1,7 @@
 """表定义。表结构只能通过 Alembic 迁移修改；这里的定义要和迁移一致。"""
 
 from datetime import datetime
+from typing import Any
 
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
@@ -9,6 +10,7 @@ from sqlalchemy import (
     Boolean,
     CheckConstraint,
     Column,
+    Date,
     Float,
     ForeignKey,
     Identity,
@@ -41,6 +43,23 @@ def _timestamp(name: str) -> Column[datetime]:
     return Column(name, TIMESTAMP(timezone=True), nullable=False, server_default=func.now())
 
 
+def _policy_columns() -> list[Column[Any]]:
+    # 留空的旧行属于第一版，住宅贷款语料始终由校验后的元数据填充。
+    return [
+        Column("source", Text),
+        Column("synthetic", Boolean),
+        Column("product_line", Text),
+        Column("policy_type", Text),
+        Column("policy_id", Text),
+        Column("effective_from", Date),
+        Column("effective_to", Date),
+        Column("status", Text),
+        Column("corpus_tier", Text),
+        Column("based_on", JSONB),
+        Column("source_url", Text),
+    ]
+
+
 documents = Table(
     "documents",
     metadata,
@@ -54,7 +73,7 @@ documents = Table(
     Column("corpus_commit", Text, nullable=False),
     _timestamp("created_at"),
     _timestamp("updated_at"),
-    CheckConstraint("edition IN ('self_host', 'cloud', 'common')", name="edition"),
+    *_policy_columns(),
 )
 
 parent_chunks = Table(
@@ -78,6 +97,7 @@ chunks = Table(
     Column("heading_path", Text, nullable=False),
     Column("text", Text, nullable=False),
     _timestamp("created_at"),
+    *_policy_columns(),
     Index("ix_chunks_document_id", "document_id"),
 )
 
@@ -105,20 +125,6 @@ chunk_embeddings = Table(
         postgresql_ops={"embedding": "vector_cosine_ops"},
         postgresql_where=text(f"model = '{BGE_M3_MODEL_NAME}'"),
     ),
-)
-
-
-sessions = Table(
-    "sessions",
-    metadata,
-    Column("id", Text, primary_key=True),
-    Column("edition", Text),
-    Column("summary", Text, nullable=False, server_default=""),
-    Column("turns", JSONB, nullable=False, server_default=text("'[]'::jsonb")),
-    _timestamp("created_at"),
-    _timestamp("updated_at"),
-    CheckConstraint("edition IS NULL OR edition IN ('self_host', 'cloud')", name="edition"),
-    Index("ix_sessions_updated_at", "updated_at"),
 )
 
 

@@ -9,7 +9,7 @@ SECRET_PATTERNS = (
     re.compile(r"sk-[A-Za-z0-9_-]{16,}"),
     re.compile(r"Bearer\s+[A-Za-z0-9._-]{16,}"),
 )
-MASK_TEXT = "[已隐藏]"
+MASK_TEXT = "[非表示]"
 SENTENCE_SPLIT = re.compile(r"(?<=[。！？!?\n])")
 MIN_SENTENCE_CHARS = 4
 MAX_REPEATS = 2

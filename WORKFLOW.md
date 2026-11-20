@@ -7,21 +7,23 @@
 
 | 阶段 | 产出 | 谁做 | 人工关口 |
 |---|---|---|---|
-| Spec | `harness/build/phase-NN-<名称>.md` 的「需求」部分（M0～M9 即 phase-00～09） | agent 起草 | **作者批准后才能进入 Plan** |
+| Spec | `harness/build/phase-NN-<名称>.md` 的「需求」部分（第二版为阶段 30～38） | agent 起草 | 作者批准后进入 Plan |
 | Plan | 同一文件的「方案」和「任务」部分 | agent | 作者确认任务拆分 |
 | Implement | 代码与测试；每个任务一组提交，放在当天的分支上 | agent | — |
-| Verify | `poe check`、验收证据、自审、当天的 PR | agent | **作者合并 PR** |
+| Verify | `poe check`、验收证据和自审，经授权时开 PR | agent | 作者合并 PR |
+
+启用长程任务模式时，按 [AGENTS.md](AGENTS.md#长程任务模式) 自行细化和批准 Spec，并记录需要说明的决定。
 
 实际做了什么、测试结果、阻塞，追加到 `harness/build-log.md` 的「活动记录」（只追加；进度以它为准）。
 重要决定记进 `harness/context/phase-NN-*-context.md`。里程碑完成时，在该阶段文件的「记录」里写一段总结：做了什么、指标变化（链接报告）、遗留问题。
-`harness/archive/` 是历史归档（2026-10-16 的完整日志和调研笔记），不再追加。
+`harness/archive/` 保留第一版日志、调研和评测材料，不再追加。
 
 ## 2. Spec 与 Plan
 
 一个里程碑一个文件。不确定的地方写进「待确认」，不要猜。
 
 ```markdown
-# Mx：标题
+# 阶段 NN：标题
 
 状态：草稿 / 已批准 / 进行中 / 阻塞 / 完成
 
@@ -46,12 +48,12 @@
 
 ## 3. Implement
 
-- **按天开分支**：分支名为 `<日期>-<两个英文单词>`，例如 `2026-10-16-framework-build`、`2026-10-17-ingest-pipeline`，看名字就知道当天在做什么。
+- **按天开分支**：分支名为 `<日期>-<两个英文单词>`，例如 `2026-11-18-dual-orchestration`、`2026-11-18-streaming-guards`。
   - 每天的新分支从**前一天的分支**创建，不等前一天的 PR 合并；第一天从 `main` 创建。
   - 当天所有提交都放在当天分支上；同一天开了多个会话也用同一个分支。
-  - 收工前推送，并开一个 PR 合并到 `main`，标题为 `<日期> <当天做了什么>`；PR 按日期顺序合并。
+  - 推送和开 PR 按 AGENTS.md 的权限执行。推送前按阶段 38 核查公开仓库内容。PR 标题为 `<日期> <当天做了什么>`，按日期顺序合并。
   - 因为分支是一天接一天叠起来的，合并时**用 merge commit，不用 squash**，否则后一天的 PR 会重复出现前一天的提交并产生冲突。
-- 每完成一个任务至少提交一次；提交说明里写上任务编号，例如 `feat(M1-T3): 父子块切分`。
+- 每完成一个任务至少提交一次，并在提交说明里写上任务编号，例如 `feat(phase-35-T2): 支持 SSE 断线续推`。
 - 按红 → 绿 → 重构推进：先写失败的测试，再写刚好能通过的实现，最后只在任务范围内整理代码。
 - 重构、格式调整和功能改动分开提交。
 - 提交说明用 Conventional Commits：`feat:`、`fix:`、`test:`、`refactor:`、`docs:`、`chore:`。
@@ -65,15 +67,16 @@
 | 命令（在 `backend/` 下执行） | 内容 |
 |---|---|
 | `poe fmt` | `ruff format .` 加 `ruff check --fix .` |
-| `poe check` | `ruff format --check .`、`ruff check .`、`lint-imports`、`mypy`、`pytest -m "not integration" --cov` |
-| `poe test-int` | `pytest -m integration`，使用独立的测试库 `grounded_rag_test`，由夹具自动建库并迁移 |
-| `poe eval-dev` | 开发集评测，输出报告，不进 CI |
+| `poe check` | `ruff format --check .`、`ruff check .`、`lint-imports`、`mypy`、`pytest -m 'not integration and not gpu' --cov` |
+| `poe test-int` | `pytest -m integration`，PostgreSQL 测试库 `grounded_rag_test` 由夹具建库并迁移，联调还使用 Elasticsearch、Redis 和 mock_core |
+| `uv run python -m scripts.evaluate_copilot` | 第二版实测评测，命令参数见[作者手册](docs/eval/copilot-author.md)，不进 CI |
+| `uv run python -m scripts.audit_release` | 公开仓库推送前检查活动文档链接、配置样例字段、跟踪路径和常见敏感材料形态 |
 
-CI（`.github/workflows/ci.yml`，push 到 main 或提 PR 时触发）：
+CI 由 [工作流](.github/workflows/ci.yml) 定义，在分支推送或 PR 时触发。
 
-- **check**：`uv sync --locked` → `poe check`（working-directory 为 `backend`）
-- **integration**：用 `pgvector/pgvector:pg16` service container 跑 `poe test-int`
-- 不进 CI 的：评测、GPU 推理、真实 DeepSeek 调用
+- **check** 运行 `uv sync --locked`、`poe check`、离线 Copilot 回归与 mock_core 单元测试。
+- **integration** 启动 PostgreSQL、Elasticsearch、Redis 和 mock_core 后运行 `poe test-int`。
+- 实测评测、GPU 推理和真实 DeepSeek 调用在 CI 外执行。
 
 其他自动化：
 
@@ -92,7 +95,7 @@ CI（`.github/workflows/ci.yml`，push 到 main 或提 PR 时触发）：
 
 ### 4.3 评审
 
-开当天的 PR 前，用一个新会话或另一个 agent（`/code-review`、Codex review）只看 diff 和阶段文件审一遍（提示词见 [PROMPTS.md §4](PROMPTS.md)），对照下表；审查结果写进 `harness/code_review/`：
+开当天的 PR 前，用一个新会话或另一个 agent（`/code-review`、Codex review）审查 diff 和阶段文件，对照下表，并把结果写进 `harness/code_review/`。[审查提示词](PROMPTS.md#4-code-review)
 
 | 看什么 | 问题 |
 |---|---|

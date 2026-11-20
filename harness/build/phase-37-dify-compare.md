@@ -1,0 +1,90 @@
+# 阶段 37：Dify 对照
+
+状态：213 条合成和 42 道规程开发题已配对，规程回答评分受校准限制（本地续办分支 `2026-11-19-policy-tuning`）
+
+> 这是计划和记录，不是完成证据；进度以 [build-log](../build-log.md) 为准。设计依据见 [PLANS.md](../../PLANS.md) §5、§6.3。
+
+## 需求
+
+### 目标
+
+1. 本机自部署 Dify，用 Chatflow 搭一个功能上尽量对等的版本（V3），接同一个网关、同一个模拟业务系统、同一份 S 档语料。
+2. 用阶段 36 的同一批用例回放，得到对照表的 Dify 一列。
+3. 把「平台内做不到或做起来很别扭」的事整理成有证据的清单。
+
+### 非目标
+
+- 把 Dify 版调到最优。目标是一个认真搭过、公平的对照，不是稻草人；也不为了让它难看而故意少配。
+- 线上流量影子、灰度切流。
+
+### 验收标准
+
+| 编号 | 标准 | 验证 |
+|---|---|---|
+| AC1 | Dify 的版本号、compose 改动、模型供应商配置写进记录；模型全部经网关 | 记录 + 网关用量里能看到 Dify 的调用 |
+| AC2 | Chatflow DSL（YAML）入库，附逐节点说明 | 文件 |
+| AC3 | 回放脚本经 Dify API 跑完同一批用例，结果落成与阶段 36 相同的格式 | 结果文件 |
+| AC4 | 对照表两列都有实测值，每行标明是否干净对照；嵌入模型不一致时在检索行标注 | 报告 |
+| AC5 | 逐条对比四层输出（意图、检索文档、工具调用、最终回答），给出不一致用例的清单和分类 | 对比报告 |
+| AC6 | 瓶颈清单每条都有「需求 → 在平台内试了什么 → 结果 → 证据（截图、DSL 片段或请求记录）」 | 清单文件 |
+| AC7 | 延迟对比在同一台机器、同一并发度、各自预热后进行 | 报告里的条件说明 |
+
+## 任务
+
+官方稳定版固定为 [Dify 1.19.0](https://github.com/langgenius/dify/releases/tag/1.19.0)，源码放本机忽略目录，独立 Compose 项目仅开放回环端口。先验证 192 条合成开发题和 21 条随机故障条件，作者正式题到位后按同一配置补跑。两档聊天模型与 MPS 嵌入均从同一 LiteLLM 网关进入，网关只追加实际 token 数和模型别名。
+
+- [x] T1 部署：官方 Compose 放在 `.cache/` 下，独立项目和回环端口，记录原生镜像和内存基线。
+- [x] T2 模型：OpenAI 兼容供应商连接同一网关，实际通过 `small`、`deepseek-v4-pro` 和本机 MPS 嵌入验证；Dify 端查询无额外任务前缀。
+- [x] T3 知识库：185 篇 S 档索引完成，分段、混合检索与元数据观测已记录。
+- [x] T4 Chatflow V3：Chrome 导入并核对 37 节点的开始、分类、双泳道、知识检索、HTTP 与裁剪、生成和回复。每个节点留一张证据，通过检查清单并已在本机发布。
+- [x] T5 合成回放与指标：用 Dify 应用 API 取得 213 条与 LangGraph 可配对的观察。意图取中间输出，实际 token 用量取同一网关。
+- [ ] T6 在平台内逐项尝试并记录：按生效日期硬过滤、统一的归属鉴权、5 秒幂等缓存、字段白名单的可测试性、断点续推、两人协作与 diff、单元测试与 CI。能做到的就如实写能做到。
+- [x] T7 将合成同题结果合并至本机报告，保留三种故障条件的表、95% 区间和四层逐题差异。
+- [x] T8 回放 42 道规程开发题并给出同题检索、版本、延迟和成本。规程回答通过率及离线可采纳率按校准结果记为未测。
+
+## 需要作者做的
+
+- 看一遍瓶颈清单和截图，确认每条都是实际观察到的现象。界面上的导入、建知识库、节点核对由执行模型操作浏览器完成。
+
+## 记录
+
+- 独立 Compose `grounded_dify` 已启动，15 个长驻服务就绪；`/install` 和 `/console/api/setup` 本机 HTTP 200。Dify 到网关及模拟业务健康接口均为 200，已核验私网拒绝、错误端口拒绝和模拟业务 POST 拒绝。上传一次选择上限实测为 185。
+- 容器实际镜像检查均为 `linux/arm64`，含一次性初始化共 16 个。带 healthcheck 的 5 个服务均 healthy，初始化退出码 0。Docker VM 25,158,770,688 字节；Dify 实际 `docker stats --no-stream` 快照 2,480.74 MiB。代理容器在纠正官方要求的 base64url 启动密钥后返回 HTTP 200。
+- `uv run --locked uvicorn scripts.dify_embeddings:create_app --factory --host 127.0.0.1 --port 18082` 提供 MPS 嵌入，网关 `/v1/embeddings` 实际两条各 1024 维，实际输入 20 token。参考[本机连接规则](../context/phase-37-dify-context.md)。
+- 连接网关直接调用 small，回调 JSONL 对应非流式 15/21 token 和流式 15/2 token，均有请求 ID。Dify 本身的真实用量等待控制台配置和回放。
+- 对 [37 节点模板](../../infra/dify/copilot-chatflow.yml) 用官方镜像里的 11 种节点模型校验，37/37 通过。官方 Graphon 引擎以模型、HTTP、检索桩跑通 6 条流程，包含越权、故障和混合。进一步的 Chrome 导入和真实回放等待控制台登录。
+- 已在 Chrome 打开 Dify 管理员初始化表单，确认是独立本机页面并交给作者填写。S 档导入素材、Chatflow 模板与本机回放目录就绪。
+- `poe check` 565 项通过，覆盖率 89.91%；`poe test-int` 46 项通过。真实 Dify API 回放、模型登录后的节点配置、瓶颈截图和完整对照表待验证。
+- 作者已初始化本机专用管理员。Chrome 已进入工作室，`GET /console/api/setup` 返回 `finished`。通过集成页面安装认证的 `langgenius/openai_api_compatible` 0.0.84，页面显示 1 个集成安装成功。
+- 用 Chrome 和 macOS 原生文件选择器导入 `infra/dify/copilot-chatflow.yml`。Dify 显示「应用已创建」，进入 37 节点编排。完整工作流从界面导为 14,524 × 2,594 的 PNG，保存在 `.cache/dify-evidence/imported-workflow.png`。意图节点显示 `small` 未配置，画布仍为草稿。
+- 知识库创建页已实际上传 185 个不同文件名，进入分段表单。设置通用分段、空行分隔、1024 字符上限与 50 字符重叠；预览首篇返回 6 个预估块。表单已选高质量索引、混合检索、默认语义权重 0.7、Top 5，等待选中 MPS 嵌入模型后处理。
+- 本次续办在 `backend/` 重跑 `uv run --locked poe check`，568 项通过，覆盖率 90.18%；`uv run --locked poe test-int`，46 项通过，之后恢复模拟服务的默认故障开关。
+- 核对已安装的 `openai_api_compatible` 0.0.84 实现，嵌入请求在配置的基础地址后追加 `/embeddings`。三个模型表单已在本机控制台预填 `http://gateway:4000/v1`，嵌入模型批次上限填 8。登录后已有的浏览器自动填写内容已清空。
+- 作者已许可将本机网关密钥以粘贴方式填入 Dify。Chrome 原生快捷键和编辑菜单粘贴后密码栏仍为空，浏览器定向快捷键报告剪贴板无数据。三个表单未提交，已交给作者在本机界面粘贴。检查新一天用量账本为 ¥0，上限仍为 ¥10，尚无模型验证调用。
+- 作者直接在模型供应商界面完成配置，Chrome 显示三档模型保存并启用。网关回调捕获配置验证的 `small` 9/5 token 与 `deepseek-v4-pro` 5/3 token，DeepSeek 本机记账 ¥0.000133056。`qwen3-embedding-0.6b` 通过知识库真实索引验证，185/185 篇完成，0 篇失败。
+- 首次节点校验发现模板的知识库占位引用残留，以及编辑器不接受 `class_id` 作为条件变量。仓库模板改为空的可移植知识库引用，混合分支改用公开的 `class_label` 及精确匹配 `CLASS 5`。在 Chrome 里清空旧绑定再绑同一知识库，修改原应用的条件并通过检查清单。UI 发布成功。导出的 `.cache/dify-evidence/published-chatflow.ifpkg` 核验 37 节点、两处单知识库、加权召回 0.7/0.3、Top 5 和五个模型节点别名。
+- 通过 Dify 预览实际跑通合成 `lookup-01`，走业务归属预检、只读业务 GET、裁剪与 DeepSeek，回答金额与种子金标一致。另一次客户规程问答走检索、DeepSeek 和规程回复，显示引用，答复确认检索没有提供具体申请步骤。两条预览分别实际记账 ¥0.006500736 和 ¥0.008287488，含模型配置验证当日已记账 ¥0.01492128。两条是链路冒烟，未计入正式同题成绩。
+- 按节点打开配置面板，在 Chrome 留存 36 个配置面板与 1 个固定迭代起点截图。核对文件名与导出节点 ID 完全一致，归档为 `.cache/dify-evidence/dify-ui-evidence.zip`，另含元数据、预览、版本历史和配置差异证据。具体能力与待验证项见[逐节点说明](../../infra/dify/chatflow.md#平台能力核对)。
+- 发布后 `uv run --locked poe check` 568 项通过、覆盖率 90.18%，`uv run --locked poe test-int` 46 项通过。已恢复模拟系统默认故障开关。
+- 作者已确认创建本机应用回放密钥，Chrome 显示「API 密钥已创建」。界面复制后的内容未到达项目侧系统剪贴板，指纹检查失败并保留 `.env` 原样。自动审批拒绝改从 Dify 数据库提取凭据，因为用户授权了创建与本机保存，数据库并非预期的凭据来源。该操作未执行，保留真实 Dify 弹窗给作者直接复制。
+- 校对 `python -m scripts.compare_dify --help` 和两份旧 LangGraph 回放清单。基线有 192 条观察，5% 条件有 21 条观察，原基线预热 2 次。参数及模拟服务恢复步骤记于[本机运行手册](../../docs/eval/dify-local.md#回放证据)。
+- 作者保存应用密钥后，本机指纹校验一致、真实 `POST /v1/chat-messages` 返回 200。Dify 实际先发送 `message_end`，再发送 `workflow_finished`。回放器等待两个终态，整段耗时仍取客户端收到 `message_end` 的时间。异常或缺少任一终态会中止。改动前回归用例报告 3 失败，修复后 Dify 定向 12 项通过。
+- 修复后真实应用 API 问候和规程各 1 条，分类、工作流终态和网关用量均完整。问候 1 次 `small`，规程 1 次 `small` 加 1 次 `deepseek-v4-pro`，实记 ¥0.008857728。单条证据在 `.cache/dify-evidence/service-api-verified.jsonl`。
+- 首轮 API 已配对 213 条，代理日志中有 2 条 `TCP_REFRESH_FAIL_OLD/200`，和指定故障组中 2 条 5xx 用例读到成功的数量一致。首次结果保留作诊断。只在 Dify 代理的模拟业务服务和端口上禁用缓存，重建代理后 `squid -k parse` 通过。对相同 GET 路径实际验证 200、显式故障 503、恢复后 200，模拟业务 POST 仍由代理拒绝 403。开始用新目录重跑完整 213 条，以统一代理条件计量。
+- 最终 `python -m scripts.compare_dify --resume` 跑完基线 192 条和 5% 条件 21 条，`--report-only --merge-fault-run` 合并并配对 213/213 条，缺少工作流终态、网关调用或用量均为 0。原始观察、逐条差异和报告留在 `.cache/copilot-eval/runs/mac-dify-verified/` 与 `mac-dify-verified-fault-5pct/`，逐条差异为意图 13、文档 59、工具 22、回答 99。预热后双方在同一台 Mac、同一网关和模拟业务系统串行回放。只取实际第二轮计入合成对照，独立原始数据复核了两侧 `case_id`、故障标签、延迟 P95、平均成本和随机故障工具状态。
+- 无注入组 Dify 意图 120/128（93.75%），首字 P95 4,841.47 毫秒，整段 P95 4,880.48 毫秒，单会话平均成本 ¥0.003356，回归 154/185（83.24%）。指定故障安全降级 7/7，5% 条件下 2/21 次工具最终失败且 2/2 安全降级。整批 213 条 Dify 观察的 token 成本为 ¥0.72425232，含诊断轮及冒烟的当日账本为 ¥1.50703027 / ¥10。两轮之间在持久代理日志中核对，第二轮新增缓存命中、重验证和返回旧响应记录均为 0。
+- 应用 API 在合成问候首段后断开，再以同会话带 `Last-Event-ID` 发送请求，实际生成新消息。两次 SSE 都没有事件 ID，历史读取 HTTP 200，证据在 `.cache/dify-evidence/service-api-resume-smoke.json`。该探查费用为 ¥0。
+- 最终本机 `uv run --locked poe check` 571 项通过，覆盖率 90.21%；`uv run --locked poe test-int` 46 项通过。回放和测试结束后已恢复默认故障开关。合成结论见 [Mac 同题报告](../../docs/eval/mac-poc-report.md#s-档同题对照)。
+
+### 2026-11-19 · 规程开发题回放
+
+- 启动本机 Dify MPS 嵌入服务后，从 `backend/` 用 `python -m scripts.compare_dify --cases ../.cache/copilot-dev/policy-only-base.jsonl --policy-dev ../.cache/copilot-policy-dev.jsonl --chatflow ../.cache/dify-evidence/published-chatflow.yml --run-dir ../.cache/copilot-dev/dify-policy-baseline --langgraph-run ../.cache/copilot-dev --warmup 2 --langgraph-warmup 2 --calibration ../.cache/copilot-dev/author-calibration-paired.jsonl`，沿用原本机 Dify API、Mac、网关及嵌入参数。输出 `Dify 已记录 42 条；与 LangGraph 配对 42 条`，缺失网关证据 0。
+- Dify S 档规程 Top5 为 13/37（35.14%），与 LangGraph 原版 S 档的 22/37 对比，Dify 减 LangGraph 的配对 95% 区间为 −43.24 至 −8.11 个百分点。Dify 版本陷阱中 4/8 出现过期 Top5 候选；按回放器可识别的文档 ID，未观测到答复引用过期 ID。原版 LangGraph 为 0/8。Dify 原画布仅在生成提示中使用查询日期，未应用知识库结构化日期过滤。
+- Dify 首字和整段 P95 为 6.626 秒和 6.664 秒，各 42 条。单会话平均账本成本 ¥0.005568，42 条共 ¥0.23384592，含两条预热的账本增量 ¥0.24142061。样本量低于计划 100 条延迟目标。
+- 对原版 S 档，四层差异为意图 17 条（另 1 条未测）、候选 29 条、工具 0 条、回答 30 条。调优前原始配对、逐题差异和报告保存在本机 `.cache/copilot-dev/dify-policy-baseline/`。
+- 将同一批 Dify 观察复制到 `.cache/copilot-dev/dify-policy-v2-paired/`，以 `--report-only --langgraph-run ../.cache/copilot-dev/policy-v2` 与调优版 S 档配对。输出 42/42，直接复用 Dify 缓存。四层差异为意图 22 条（另 1 条未测）、候选 37 条、工具 0 条、回答 39 条。Dify 减调优版的 Top5 配对 95% 区间为 −64.86 至 −29.73 个百分点，首字 3.178 至 6.938 秒，整段 −2.261 至 3.358 秒。 [本机实测报告](../../docs/eval/mac-poc-report.md#规程开发题同题回放与校准)
+
+## 阻塞
+
+- 42 道规程开发题已实际回放。校准未达门槛，规程回答通过率和离线可采纳率为未测。
+- 平台能力中双账号同时协作没有本机实测，已记录单账号实际版本历史和导出差异。此项不阻塞合成对照。

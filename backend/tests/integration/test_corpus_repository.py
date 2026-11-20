@@ -1,11 +1,14 @@
 import math
+from dataclasses import replace
+from datetime import date
 
 import pytest
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from app.core.config import EMBEDDING_DIMENSION, QWEN3_MODEL_NAME
+from app.core.policy import PolicyMetadata
 from app.db.corpus import (
     ChunkRecord,
     DocumentRecord,
@@ -16,6 +19,7 @@ from app.db.corpus import (
     replace_document,
     table_counts,
 )
+from app.db.tables import chunks, documents
 from app.providers.fakes import FakeEmbedder
 
 pytestmark = pytest.mark.integration
@@ -71,6 +75,34 @@ async def test_stored_document_is_visible_with_its_hash_and_counts(engine: Async
             "chunks": 3,
             "chunk_embeddings": 3,
         }
+
+
+async def test_policy_metadata_is_copied_to_all_chunks_and_isolated_from_legacy_ingestion(
+    engine: AsyncEngine,
+) -> None:
+    policy = PolicyMetadata(
+        source="internal",
+        synthetic=True,
+        product_line="home_loan",
+        policy_type="procedure",
+        policy_id="HL-REPAY",
+        effective_from=date(2026, 11, 18),
+        status="online",
+        corpus_tier="S",
+        based_on=("public/hl-59",),
+    )
+    document = replace(_document("policy", edition="common"), policy=policy)
+    await _store(engine, document, ["返済手続を確認します。"], FakeEmbedder())
+
+    async with engine.connect() as connection:
+        for table in (documents, chunks):
+            row = (await connection.execute(select(table))).mappings().one()
+            assert row["source"] == policy.source
+            assert row["synthetic"] is True
+            assert row["effective_from"] == policy.effective_from
+            assert row["policy_id"] == policy.policy_id
+            assert row["based_on"] == list(policy.based_on)
+        assert await document_hashes(connection, legacy_only=True) == {}
 
 
 async def test_replacing_a_document_removes_its_old_rows(engine: AsyncEngine) -> None:

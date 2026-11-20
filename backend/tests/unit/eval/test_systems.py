@@ -2,6 +2,7 @@ from collections.abc import Sequence
 
 import pytest
 
+from app.db.policy_filter import MetaFilter
 from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
 from app.providers.deepseek import cost_cny
 from app.providers.fakes import FakeChatModel
@@ -28,6 +29,7 @@ class StubRetriever:
         *,
         top_k: int = 5,
         editions: Sequence[str] | None = None,
+        filters: MetaFilter | None = None,
         rerank: bool = True,
         mode: str = HYBRID,
     ) -> RetrievalResult:
@@ -102,7 +104,7 @@ async def test_full_system_maps_the_pipeline_response() -> None:
                 steps=[Step(name="generate", ms=1, details=StepDetails(context="[1] c"))],
             )
 
-    answer = await FullSystem(StubPipeline()).answer(QUESTION)  # type: ignore[arg-type]
+    answer = await FullSystem(StubPipeline()).answer(QUESTION)
 
     assert (answer.answer, answer.route, answer.retrieved_docs, answer.cost_cny) == (
         "答",

@@ -5,17 +5,22 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "alembic>=1.20.0",
     "asyncpg>=0.32.0",
-    "bm25s>=0.3.13",
+    "beautifulsoup4>=4.13,<5",
+    "elasticsearch[async]>=8.19,<9",
     "fastapi>=0.143.2",
     "httpx>=0.28.1",
-    "jieba3>=1.0.2",
     "langfuse>=5,<6",
     "langgraph>=1.2.15",
+    "langgraph-checkpoint-postgres>=3.2.1",
     "mcp>=2.3.0",
     "pgvector>=0.5.1",
+    "psycopg-pool>=3.3.3",
+    "psycopg[binary]>=3.3.9",
     "pydantic>=2.14.1",
     "pydantic-settings>=2.16.0",
+    "pypdf>=6,<7",
     "pyyaml>=6.0.3",
+    "redis>=6,<8",
     "sqlalchemy[asyncio]>=2.1.4",
     "uvicorn[standard]>=0.54.0",
 ]
@@ -111,7 +116,7 @@ type = "layers"
 layers = [
     "app.api",
     "app.orchestration",
-    "app.retrieval | app.ingest",
+    "app.retrieval | app.ingest | app.tools",
     "app.providers | app.db",
     "app.core",
 ]
@@ -125,8 +130,8 @@ check = ["lint", "typecheck", "test"]
 test-int = "pytest -m integration"
 test-gpu = "pytest -m gpu --no-cov"
 serve = { cmd = "uvicorn app.api.main:create_app --factory --reload", env = { PREWARM = "true" } }
-fetch-docs = "python -m scripts.fetch_docs"
-ingest = "python -m scripts.ingest"
+build-policies = "python -m scripts.build_policy_corpus"
+ingest = "python -m scripts.ingest_policy_corpus"
 retrieve-demo = "python -m scripts.retrieve_demo"
 mcp = "python -m scripts.mcp_server"
 load-test = "python -m scripts.load_test"
@@ -135,7 +140,6 @@ export-bad-cases = "python -m scripts.export_bad_cases"
 compare-retrieval = "python -m scripts.compare_retrieval"
 eval-dev = "python -m scripts.eval_run"
 eval-validate = "python -m scripts.validate_questions"
-export-for-gemini = "python -m scripts.export_for_gemini"
 
 # 本机 GPU 推理用的 PyTorch 从官方 CUDA 13 源安装（RTX 50 系需要 CUDA 12.8 及以上）；CI 不装
 [tool.uv.sources]
@@ -147,5 +151,5 @@ url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [[tool.mypy.overrides]]
-module = ["sentence_transformers.*", "torch.*", "transformers.*", "bm25s.*", "jieba3.*"]
+module = ["sentence_transformers.*", "torch.*", "transformers.*"]
 ignore_missing_imports = true

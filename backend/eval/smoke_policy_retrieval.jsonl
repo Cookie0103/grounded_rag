@@ -1,0 +1,30 @@
+{"query":"繰上返済を進める手順を確認したいです。","gold":"public/hl-59"}
+{"query":"住宅ローンの手数料の一覧はありますか。","gold":"public/hl-fees"}
+{"query":"今の住宅ローンの適用金利を載せたページを確認したいです。","gold":"public/hl-rates"}
+{"query":"借入後に変動金利が見直されるルールはどこですか。","gold":"public/hl-57"}
+{"query":"住宅ローン完済の手続を案内してください。","gold":"public/hl-62"}
+{"query":"お借入後の各種証明書の発行手続はどこで見られますか。","gold":"public/hl-60"}
+{"query":"団信の請求先や手続を確認したい。","gold":"public/hl-63"}
+{"query":"団信の各保障プランを比べたいです。","gold":"public/hl-08"}
+{"query":"二人で別々のローンを組む場合の仕組みが知りたいです。","gold":"public/hl-42"}
+{"query":"物件を共有する場合の持分と担保提供者の説明を探しています。","gold":"public/hl-43"}
+{"query":"書類を銀行に提出するときの方法を確認したい。","gold":"public/hl-52"}
+{"query":"住宅ローンの必要書類を確認したいです。","gold":"public/hl-07"}
+{"query":"借入までの全体の流れをどこで見られますか。","gold":"public/hl-06"}
+{"query":"商品詳細説明書はありますか。","gold":"public/hl-04"}
+{"query":"金利が変動するリスクの説明資料を見たい。","gold":"public/hl-38"}
+{"query":"返済の期間を契約後に変更できるか確認したい。","gold":"public/faq-id-1240306"}
+{"query":"控除用の年末残高証明をなくした場合の再発行について知りたい。","gold":"public/faq-id-1240405"}
+{"query":"変動金利の返済に５年・１２５％のルールはありますか。","gold":"public/faq-id-1210211"}
+{"query":"最初の返済日","gold":"public/faq-id-1210304"}
+{"query":"金利タイプ変更","gold":"public/faq-id-1210205"}
+{"query":"一部だけ固定する金利特約の仕組みを確認したい。","gold":"public/faq-id-1210208"}
+{"query":"加入中の団信の保障を自分で確認できるところはありますか。","gold":"public/faq-id-1220418"}
+{"query":"PUBLIC-HL-45","gold":"public/hl-45"}
+{"query":"PUBLIC-HL-56 の商品案内","gold":"public/hl-56"}
+{"query":"PUBLIC-HL-40 付帯サービス","gold":"public/hl-40"}
+{"query":"HL-OPS-001 の該当版で受付記録をどう付けますか。","gold":"internal/HL-OPS-001-v1","as_of":"2026-10-10"}
+{"query":"HL-OPS-001 の該当版で受付記録をどう付けますか。","gold":"internal/HL-OPS-001-v2","as_of":"2026-11-18"}
+{"query":"架空の月次資料 HL-RATE-2026-10 を探してください。","gold":"internal/HL-RATE-2026-10","as_of":"2026-10-15"}
+{"query":"今月分の架空の月次通知 HL-RATE-2026-11","gold":"internal/HL-RATE-2026-11","as_of":"2026-11-18"}
+{"query":"HL-OPS-011 の書面案内の手順を確認したいです。","gold":"internal/HL-OPS-011-v2","as_of":"2026-11-18"}

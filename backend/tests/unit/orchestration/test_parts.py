@@ -47,7 +47,7 @@ def test_assemble_dedupes_keeps_order_and_numbers_from_one() -> None:
     citations, text = assemble([_parent("a"), _parent("b"), _parent("a")])
 
     assert [(c.index, c.document_id) for c in citations] == [(1, "doc-a"), (2, "doc-b")]
-    assert text.index("[1] 文档：doc-a｜标题 a") < text.index("[2] 文档：doc-b")
+    assert text.index("[1] 資料：doc-a｜标题 a") < text.index("[2] 資料：doc-b")
     assert text.count("正文") == 2
 
 
@@ -94,11 +94,11 @@ def test_json_helpers() -> None:
 
 
 def test_render_fills_placeholders_and_rejects_mismatches() -> None:
-    assert "你好" in prompts.render("direct_v1", question="你好")
+    assert "返済手続" in prompts.render("grade_v1", question="返済手続", contexts="手続資料")
     with pytest.raises(ValueError, match="需要"):
-        prompts.render("direct_v1")
+        prompts.render("grade_v1", contexts="手続資料")
     with pytest.raises(ValueError, match="需要"):
-        prompts.render("direct_v1", question="x", extra="y")
+        prompts.render("grade_v1", question="x", contexts="手続資料", extra="y")
 
 
 def test_every_prompt_file_is_versioned_and_has_only_simple_placeholders() -> None:

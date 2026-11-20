@@ -9,13 +9,14 @@ from collections.abc import Sequence
 from dataclasses import replace
 
 from app.core.cache import TtlCache
-from app.core.config import FINAL_TOP_K
+from app.core.config import DEFAULT_POLICY_RERANK, FINAL_TOP_K
 from app.core.errors import AppError
 from app.core.resilience import CircuitBreaker
+from app.db.policy_filter import MetaFilter
 from app.retrieval.retriever import HYBRID, RetrievalResult, Retriever
 
 logger = logging.getLogger(__name__)
-type CacheKey = tuple[str, int, tuple[str, ...] | None, bool, str]
+type CacheKey = tuple[str, int, tuple[str, ...] | None, MetaFilter | None, bool, str]
 
 
 class ResilientRetriever:
@@ -23,7 +24,7 @@ class ResilientRetriever:
         self,
         inner: Retriever,
         *,
-        cache: TtlCache[CacheKey, RetrievalResult],
+        cache: TtlCache[CacheKey, RetrievalResult] | None,
         breaker: CircuitBreaker,
     ) -> None:
         self._inner = inner
@@ -36,14 +37,17 @@ class ResilientRetriever:
         *,
         top_k: int = FINAL_TOP_K,
         editions: Sequence[str] | None = None,
-        rerank: bool = True,
+        filters: MetaFilter | None = None,
+        rerank: bool = DEFAULT_POLICY_RERANK,
         mode: str = HYBRID,
     ) -> RetrievalResult:
-        key = (query, top_k, tuple(editions) if editions else None, rerank, mode)
+        if self._cache is None:
+            return await self._retrieve(query, top_k, editions, filters, rerank, mode)
+        key = (query, top_k, tuple(editions) if editions else None, filters, rerank, mode)
         cached = self._cache.get(key)
         if cached is not None:
             return replace(cached, cached=True)
-        result = await self._retrieve(query, top_k, editions, rerank, mode)
+        result = await self._retrieve(query, top_k, editions, filters, rerank, mode)
         if not result.degraded:
             self._cache.put(key, result)
         return result
@@ -53,30 +57,36 @@ class ResilientRetriever:
         query: str,
         top_k: int,
         editions: Sequence[str] | None,
+        filters: MetaFilter | None,
         rerank: bool,
         mode: str,
     ) -> RetrievalResult:
         if not rerank:
             return await self._inner.retrieve(
-                query, top_k=top_k, editions=editions, rerank=False, mode=mode
+                query, top_k=top_k, editions=editions, filters=filters, rerank=False, mode=mode
             )
         if not self._breaker.allow():
-            return await self._without_rerank(query, top_k, editions, mode)
+            return await self._without_rerank(query, top_k, editions, filters, mode)
         try:
             result = await self._inner.retrieve(
-                query, top_k=top_k, editions=editions, rerank=True, mode=mode
+                query, top_k=top_k, editions=editions, filters=filters, rerank=True, mode=mode
             )
         except (AppError, RuntimeError, OSError) as error:
             logger.warning("精排检索失败，降级为不精排：%r", error)
             self._breaker.record_failure()
-            return await self._without_rerank(query, top_k, editions, mode)
+            return await self._without_rerank(query, top_k, editions, filters, mode)
         self._breaker.record_success()
         return result
 
     async def _without_rerank(
-        self, query: str, top_k: int, editions: Sequence[str] | None, mode: str
+        self,
+        query: str,
+        top_k: int,
+        editions: Sequence[str] | None,
+        filters: MetaFilter | None,
+        mode: str,
     ) -> RetrievalResult:
         result = await self._inner.retrieve(
-            query, top_k=top_k, editions=editions, rerank=False, mode=mode
+            query, top_k=top_k, editions=editions, filters=filters, rerank=False, mode=mode
         )
         return replace(result, degraded=True)

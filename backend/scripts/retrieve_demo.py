@@ -2,41 +2,37 @@
 
 import argparse
 import asyncio
-import logging
 import sys
+from datetime import date
 
-from app.core.config import EDITION_FILTERS, get_settings
+from app.core.config import get_settings
 from app.core.logging import configure_logging
 from app.db.engine import create_engine
+from app.db.policy_filter import MetaFilter
 from app.retrieval.factory import build_retriever
 
 DEFAULT_QUERIES = [
-    "知识库单次最多上传几个文件",
-    "怎么修改上传文件的大小限制",
-    "UPLOAD_FILE_SIZE_LIMIT 是什么",
-    "云版本怎么查看应用的监控数据",
-    "工作流和对话流有什么区别",
+    "繰上返済の手続を確認したいです。",
+    "住宅ローンの手数料の一覧はありますか。",
+    "変動金利の見直しルールを調べたいです。",
 ]
-
-logger = logging.getLogger("retrieve_demo")
 
 
 def _fmt(value: float | int | None, spec: str = "") -> str:
     return "-" if value is None else format(value, spec)
 
 
-async def run(queries: list[str], edition: str | None) -> str:
+async def run(queries: list[str], filters: MetaFilter, *, rerank: bool) -> str:
     settings = get_settings()
     engine = create_engine(settings)
     try:
         retriever = await build_retriever(engine, settings)
-        editions = EDITION_FILTERS[edition] if edition else None
         lines: list[str] = []
         for query in queries:
-            result = await retriever.retrieve(query, editions=editions)
+            result = await retriever.retrieve(query, filters=filters, rerank=rerank)
             lines += [
                 f"\n### {query}",
-                "| # | 文档 | 标题路径 | 向量名次 | BM25 名次 | 精排分 |",
+                "| # | 文档 | 标题路径 | 向量名次 | 关键词名次 | 精排分 |",
                 "|---|---|---|---|---|---|",
             ]
             for c in result.candidates:
@@ -53,10 +49,15 @@ async def run(queries: list[str], edition: str | None) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="检索演示")
     parser.add_argument("queries", nargs="*", help="不给就用内置的几个问题")
-    parser.add_argument("--edition", choices=sorted(EDITION_FILTERS), help="只查某个版本")
+    parser.add_argument("--as-of", type=date.fromisoformat, default=date.today())
+    parser.add_argument("--corpus-tier", choices=("S", "L"), default="L")
+    parser.add_argument("--rerank", action="store_true")
     arguments = parser.parse_args()
     configure_logging("INFO")
-    sys.stdout.write(asyncio.run(run(arguments.queries or DEFAULT_QUERIES, arguments.edition)))
+    filters = MetaFilter(as_of=arguments.as_of, corpus_tier=arguments.corpus_tier)
+    sys.stdout.write(
+        asyncio.run(run(arguments.queries or DEFAULT_QUERIES, filters, rerank=arguments.rerank))
+    )
 
 
 if __name__ == "__main__":

@@ -64,7 +64,16 @@ class _Block:
 # ---------------------------------------------------------------- 入口
 
 
-def chunk_document(title: str, markdown: str) -> ChunkedDocument:
+def chunk_document(
+    title: str,
+    markdown: str,
+    *,
+    child_target: int = CHILD_TARGET_CHARS,
+    child_maximum: int = CHILD_MAX_CHARS,
+) -> ChunkedDocument:
+    """按文档结构生成父块和子块，允许新语料选择子块长度。"""
+    if not 0 < child_target <= child_maximum:
+        raise ValueError("子块长度目标必须大于 0 且不超过上限")
     parents: list[ParentChunk] = []
     children: list[ChildChunk] = []
     for heading_path, blocks in _sections(title, _parse_blocks(markdown)):
@@ -76,7 +85,7 @@ def chunk_document(title: str, markdown: str) -> ChunkedDocument:
                     parent_ordinal, heading_path, BLOCK_SEPARATOR.join(p.text for p in group)
                 )
             )
-            for text in _child_texts(group):
+            for text in _child_texts(group, child_target, child_maximum):
                 children.append(ChildChunk(len(children), parent_ordinal, heading_path, text))
     return ChunkedDocument(parents, children)
 
@@ -295,25 +304,25 @@ def _pack_parents(pieces: list[_Block]) -> list[list[_Block]]:
     return groups
 
 
-def _child_texts(parent_pieces: list[_Block]) -> list[str]:
+def _child_texts(parent_pieces: list[_Block], target: int, maximum: int) -> list[str]:
     atoms: list[_Block] = []
     for piece in parent_pieces:
         if piece.kind == "code":
             atoms += _fit(piece, CODE_BLOCK_MAX_CHARS)
-        elif len(piece.text) <= CHILD_MAX_CHARS:
+        elif len(piece.text) <= maximum:
             atoms.append(piece)
         else:
-            atoms += _split(piece, CHILD_TARGET_CHARS, CHILD_MAX_CHARS)
-    return _pack_children([atom.text for atom in atoms])
+            atoms += _split(piece, target, maximum)
+    return _pack_children([atom.text for atom in atoms], target, maximum)
 
 
-def _pack_children(atoms: list[str]) -> list[str]:
-    """接近 CHILD_TARGET_CHARS 就开始新的子块，不超过 CHILD_MAX_CHARS。"""
+def _pack_children(atoms: list[str], target: int, maximum: int) -> list[str]:
+    """到达目标长度或放不下下一结构块时，开始新的子块。"""
     children: list[str] = []
     current = ""
     for atom in atoms:
         joined = f"{current}{BLOCK_SEPARATOR}{atom}" if current else atom
-        if current and (len(current) >= CHILD_TARGET_CHARS or len(joined) > CHILD_MAX_CHARS):
+        if current and (len(current) >= target or len(joined) > maximum):
             children.append(current)
             current = atom
         else:

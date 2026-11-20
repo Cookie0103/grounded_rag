@@ -5,6 +5,7 @@ import pytest
 from app.core.cache import TtlCache
 from app.core.errors import DependencyUnavailableError
 from app.core.resilience import OPEN, CircuitBreaker
+from app.db.policy_filter import MetaFilter
 from app.providers.cached import CachedEmbedder
 from app.providers.fakes import FakeEmbedder
 from app.retrieval.resilient import ResilientRetriever
@@ -26,6 +27,7 @@ class FlakyRetriever:
         *,
         top_k: int = 5,
         editions: Sequence[str] | None = None,
+        filters: MetaFilter | None = None,
         rerank: bool = True,
         mode: str = HYBRID,
     ) -> RetrievalResult:
@@ -45,9 +47,9 @@ async def test_results_are_cached_per_query_and_options() -> None:
     inner = FlakyRetriever()
     retriever = _retriever(inner)
 
-    first = await retriever.retrieve("问题")
-    second = await retriever.retrieve("问题")
-    await retriever.retrieve("问题", editions=["cloud", "common"])
+    first = await retriever.retrieve("问题", rerank=True)
+    second = await retriever.retrieve("问题", rerank=True)
+    await retriever.retrieve("问题", editions=["cloud", "common"], rerank=True)
     await retriever.retrieve("问题", rerank=False)
 
     assert inner.calls == [True, True, False]
@@ -59,9 +61,9 @@ async def test_rerank_failure_degrades_to_plain_retrieval_and_is_not_cached() ->
     inner = FlakyRetriever(rerank_fails=True)
     retriever = _retriever(inner)
 
-    first = await retriever.retrieve("问题")
+    first = await retriever.retrieve("问题", rerank=True)
     inner.rerank_fails = False
-    second = await retriever.retrieve("问题")
+    second = await retriever.retrieve("问题", rerank=True)
 
     assert first.degraded
     assert not second.degraded  # 降级的结果没进缓存，精排恢复后马上用上
@@ -74,7 +76,7 @@ async def test_breaker_opens_after_repeated_rerank_failures_and_skips_rerank() -
     retriever = ResilientRetriever(inner, cache=TtlCache(10, 60), breaker=breaker)
 
     for number in range(4):
-        result = await retriever.retrieve(f"问题{number}")
+        result = await retriever.retrieve(f"问题{number}", rerank=True)
         assert result.degraded
 
     assert breaker.state == OPEN
@@ -85,7 +87,7 @@ async def test_errors_that_also_break_plain_retrieval_are_raised() -> None:
     retriever = _retriever(FlakyRetriever(always_fails=True))
 
     with pytest.raises(RuntimeError):
-        await retriever.retrieve("问题")
+        await retriever.retrieve("问题", rerank=True)
 
 
 async def test_plain_retrieval_errors_pass_through_without_touching_the_breaker() -> None:

@@ -1,103 +1,82 @@
 # grounded_rag
 
-Dify 官方中文文档的问答后端（RAG）：按问题复杂度选择检索流程，答案带引用，文档里没有就拒答。对外提供 REST API 和 MCP。
+一个在 Mac 上运行的住宅贷款坐席 Copilot 概念验证。业务背景来自索尼银行的公开住宅贷款页面，客户、合同、还款与内部规程使用合成数据。坐席能通过只读工具查数并查阅日文规程。客户泳道只回答规程，个别合同查询引导转人工。
 
-> 状态：框架已完成，本机真实模型问答已跑通，逐步证据与可选 Langfuse 云端观测已接入（见 [build-log](harness/build-log.md)）。**正式效果数字还没有**：需要作者准备评测题和人工标注，步骤见 [评测运行手册](docs/eval/runbook.md)；已知的缺口见 [PLANS.md §8](PLANS.md §8)。
+[本机实测报告](docs/eval/mac-poc-report.md) · [开发日志](harness/build-log.md) · [Dify 本机手册](docs/eval/dify-local.md)
 
-## 它做什么
+## 架构
 
 ```mermaid
 flowchart LR
-    Q["问题"] --> G["护栏"] --> R{"路由"}
-    R -->|闲聊| D["直接回答"]
-    R -->|含糊| C["反问"]
-    R -->|无关 / 注入| X["拒绝"]
-    R -->|单跳| S["改写"] --> H
-    R -->|多跳| M["分解"] --> H["混合检索：向量 + BM25 → RRF → 精排"]
-    H --> J{"证据够吗"}
-    J -->|不够，≤2 次| W["换个说法重检索"] --> H
-    J -->|够| A["带引用生成"] --> V{"忠实度校验"}
-    V -->|不过| N["重生成 1 次，仍不过则拒答"]
-    V -->|通过| O["后处理 → 回答 + 引用 + trace"]
+    A["坐席／客户"] --> B["FastAPI · SSE"]
+    B --> C["LangGraph 双泳道"]
+    C --> D["规程检索"]
+    C --> E["坐席只读工具"]
+    C --> F["LiteLLM 网关"]
+    C --> G["PostgreSQL 会话检查点"]
+    B --> H["Redis 流式回放"]
+    D --> I["pgvector + Elasticsearch kuromoji"]
+    E --> J["归属鉴权 · Redis 缓存"]
+    J --> K["模拟业务 API + MySQL"]
+    F --> L["Ollama Qwen3 4B"]
+    F --> M["DeepSeek V4 Pro"]
+    N["Dify 对照 Chatflow"] -.-> F
+    N -.-> K
 ```
 
-- 文档：Dify 中文文档 182 篇（自部署版 137、云版 45），固定 commit，不入库，按需下载。
-- 检索：Qwen3-Embedding-0.6B + jieba3 分词的 BM25（bm25s）+ RRF + Qwen3-Reranker-0.6B，本机 GPU 推理；PostgreSQL + pgvector 存向量。
-- 生成：DeepSeek（`deepseek-flash`），每天预算由代码强制。
-- 可靠性：三级缓存、精排熔断与降级、生成不可用时返回检索片段、限流、启动预热。
-- 观测：每次问答存 trace（`GET /traces/{id}`），记录查询、召回 / 精排候选、实际上下文、各次生成和后处理；配置 Langfuse 项目凭据后另存云端。另有反馈、干预库、坏例导出。
+图中虚线为 Dify 对照的目标连接。Dify 已部署，画布导入和真实同题回放的进度见[阶段 37](harness/build/phase-37-dify-compare.md)。
 
-## 快速开始
+## 用纯合成语料启动
 
-需要：[uv](https://docs.astral.sh/uv/)、Docker、（本机推理需要 NVIDIA GPU；没有 GPU 时用 `EMBEDDING_MODEL=fake` 只能跑流程）。Python 3.12 由 uv 自动安装。
+适用于一个新克隆。需要 Python 3.12、uv 和 Docker Compose。若本机已有 Postgres 或其他同端口服务，先用 [.env.example](.env.example) 注释里的 Compose 端口覆盖值调开冲突，同时更新对应连接地址。
 
 ```bash
-cp .env.example .env              # 本机 5432 被占用时，见 .env.example 里关于 DB_PORT 的说明
-docker compose up -d db           # PostgreSQL 16 + pgvector
-
+cp -n .env.example .env
+docker compose up -d --build --wait db es redis mock_core
 cd backend
-uv sync --extra gpu               # 不要 GPU 推理就去掉 --extra gpu
-uv run alembic upgrade head       # 迁移开发库
-uv run poe fetch-docs             # 下载 182 篇文档到 data/raw/
-uv run poe ingest                 # 清洗、切块、嵌入、入库
-uv run poe check                  # 格式 + lint + 分层 + 类型 + 单元测试
-uv run poe test-int               # 集成测试（自动建测试库 grounded_rag_test）
-uv run poe serve                  # http://127.0.0.1:8000/docs，启动时预热模型
+UV_NO_CONFIG=1 uv sync --locked
+UV_NO_CONFIG=1 uv run --locked alembic upgrade head
+UV_NO_CONFIG=1 uv run --locked poe build-policies --as-of 2026-11-18 --synthetic-only --target-documents 12
+EMBEDDING_MODEL=fake UV_NO_CONFIG=1 uv run --locked poe ingest
+CHAT_MODEL=fake EMBEDDING_MODEL=fake RERANKER_MODEL=none UV_NO_CONFIG=1 uv run --locked poe serve
 ```
 
-所有命令都在 `backend/` 下执行。问答需要在 `.env` 里写 `DEEPSEEK_API_KEY`（没有密钥时可以设 `CHAT_MODEL=fake` 只跑流程）。
+另开终端检索一份有版本的合成规程。编号可替换为 `HL-DEMO-ADDRESS` 查看另一条样例。
 
-已有入库数据后，终端直接问：`uv run python -m scripts.ask "你的问题"`，加 `--json` 查看完整过程。常驻服务用 `poe serve`。云端配置、语料位置和第一批开发题的准备方式见 [运行手册 §8～9](docs/eval/runbook.md#8-langfuse-云端与最终静态报告)。
+```bash
+curl --fail --json '{"query":"HL-DEMO-DOCS 返済予定表の再発行","filter":{"corpus_tier":"S","as_of":"2026-11-18"}}' \
+  http://127.0.0.1:8000/retrieve
+curl --fail --json '{"question":"こんにちは。","channel":"customer"}' http://127.0.0.1:8000/chat
+```
+
+纯合成入口会写入当前目录的语料清单，已有公开层的环境请保留各自的入库配置。在 `backend/` 用 `uv run --locked --offline python -m scripts.copilot_regression` 跑固定假模型回归。
+
+## 本机完整链路
+
+1. 在根目录 `.env` 配置现有 `DEEPSEEK_API_KEY`、本机 `GATEWAY_API_KEY` 和 `EMBED_DEVICE=mps`。
+2. 准备 Ollama 的 `qwen3:4b-instruct`，用 `OLLAMA_CONTEXT_LENGTH=4096 ollama serve` 启动。在仓库根目录运行 `docker compose up -d --build --wait`。
+3. 在 `backend/` 用 `uv sync --locked --extra gpu` 加载本机推理依赖。如果全局 uv 配置限制了已锁定的包，在当前命令设置 `UV_NO_CONFIG=1`。
+4. 按 [公开快照规则](PLANS.md#31-知识库语料) 用真实浏览器准备清单与快照，存到 `data/raw/public/`。依次执行 `uv run --locked alembic upgrade head`、`uv run --locked poe build-policies --as-of 2026-11-18`、`uv run --locked poe ingest` 和 `uv run --locked poe serve`。
+
+本机生成和查询沿用同一 LiteLLM 网关、原有 DeepSeek 每日预算与计费记录。模拟系统的端点、归属样本和故障设置见 [mock_core 说明](mock_core/README.md)。公开页面原文只供本机使用，代码按 MIT 许可发布，合成材料由生成器在本机生成并标记。
 
 ## 接口
 
-| 接口 | 说明 |
-|---|---|
-| `POST /chat` | 问答；`"stream": true` 时是 SSE（每个环节一个 `step` 事件，最后一个 `answer` 事件） |
-| `POST /retrieve` | 只检索，返回每个候选在各环节的名次和分数 |
-| `GET /traces/{trace_id}` | 复盘一次问答 |
-| `POST /feedback` | 对某次回答打好 / 差评 |
-| `GET /health` | 健康检查 |
+- `POST /retrieve` 用日期、语料档、商品和规程类型硬过滤。默认混合检索，精排可按请求开启。
+- `POST /chat` 默认客户泳道。坐席请求带 `channel: "agent"`、`agent_id`、`customer_id`。会话连续时传同一 `session_id`。
+- `POST /chat` 加 `stream: true` 开启 SSE。断开后用 `GET /chat/stream/{response_id}`、`Last-Event-ID` 续推。收到 `retract` 时用 `replacement` 替换已显示文本，最终 `answer` 为确定答复。
+- `GET /traces/{trace_id}` 提供本机调试，`POST /feedback` 保存满意或不满意反馈。`uv run poe mcp` 提供与客户泳道共享的文档检索与问答。
 
-MCP（stdio）：`claude mcp add grounded-rag -- uv run --directory <仓库>/backend poe mcp`，工具 `search_docs`、`ask_docs`。
+## 检查与评测
 
-## 评测
+在 `backend/` 执行以下命令。只在需要测试故障时显式打开两个本机调试开关。
 
 ```bash
-uv run poe eval-validate                      # 检查题目格式、金标文档是否在语料里
-uv run poe eval-dev --system retrieval        # 只检索：Recall@5（不需要密钥）
-uv run poe eval-dev --system full --judge deepseek   # 完整系统 + 评审（需要密钥和开发集）
-uv run poe compare-retrieval                  # 9 种检索方案对比
-uv run poe load-test --endpoint retrieve      # 压测（先 `poe serve`，并把 RATE_LIMIT_PER_MINUTE 设成 0）
+uv run --locked poe check
+MOCK_ALLOW_FAULT_HEADERS=true docker compose -f ../docker-compose.yml up -d --build --wait db es redis mock_core
+uv run --locked poe test-int
+uv run --locked python -m scripts.generate_copilot_cases generate
+uv run --locked --offline python -m scripts.copilot_regression
 ```
 
-评测题由作者用 Gemini 出，提示词在 [PROMPTS.md §6](PROMPTS.md)；完整步骤见 [评测运行手册](docs/eval/runbook.md)。
-
-## 目录
-
-```text
-backend/    app/（业务代码）、tests/、eval/、scripts/、migrations/、pyproject.toml
-harness/    阶段计划（build）、决策（context）、开发日志、review、归档
-docs/       只给人看的：评测运行手册、最终报告模板
-data/       下载的原始文档（gitignore）
-.cache/     临时内容、模型缓存、评测输出（gitignore）
-```
-
-## 文档
-
-| 想知道 | 看哪里 |
-|---|---|
-| 现在做到哪了、下一步 | [harness/build-log.md](harness/build-log.md) |
-| 做什么、不做什么、成功条件 | [GOALS.md](GOALS.md) |
-| 怎么做、里程碑顺序、没验证的 / 需要作者做的 | [PLANS.md](PLANS.md) |
-| 每个阶段的范围、任务、验收 | [harness/build/](harness/build/) |
-| 已定的决策、本机环境 | [harness/context/](harness/context/) |
-| 代码、测试、接口、数据库规范 | [CODING-STANDARDS.md](CODING-STANDARDS.md) |
-| 开发流程、Review | [WORKFLOW.md](WORKFLOW.md)、[PROMPTS.md](PROMPTS.md) |
-| 历史日志和调研笔记 | [harness/archive/](harness/archive/README.md) |
-| 怎么跑评测、出最终报告 | [docs/eval/runbook.md](docs/eval/runbook.md) |
-| Agent 工作规则（Claude / Codex 通用） | [AGENTS.md](AGENTS.md) |
-
-## 许可
-
-代码：MIT。Dify 文档（不入库）：CC BY 4.0，来源 [langgenius/dify-docs](https://github.com/langgenius/dify-docs)。
+真实合成开发回放、作者规程出题、校准与封存步骤见 [作者评测手册](docs/eval/copilot-author.md)。Dify 的部署、模型绑定和同题回放见 [Dify 本机手册](docs/eval/dify-local.md)。阶段验收、已知限制和交接记录在 [开发日志](harness/build-log.md)，历史实现见 [归档](harness/archive/v1-dify-docs/README.md)。

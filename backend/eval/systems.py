@@ -5,10 +5,9 @@ from dataclasses import asdict, dataclass
 from typing import Any, Protocol
 
 from app.core.config import EDITION_FILTERS, FINAL_TOP_K
-from app.orchestration.models import ChatRequest, Step, StepDetails
-from app.orchestration.pipeline import ChatPipeline
-from app.providers.base import ChatMessage, ChatModel, Completion
-from app.providers.deepseek import cost_cny
+from app.orchestration.models import ChatRequest, ChatResponse, Step, StepDetails
+from app.providers.base import ChatMessage, ChatModel
+from app.providers.deepseek import completion_cost_cny
 from app.retrieval.retriever import VECTOR, Retriever
 from eval.dataset import Question
 from eval.judge import fill_template
@@ -53,6 +52,10 @@ class System(Protocol):
     async def answer(self, question: Question) -> SystemAnswer: ...
 
 
+class AnswerService(Protocol):
+    async def answer(self, request: ChatRequest) -> ChatResponse: ...
+
+
 class RetrievalOnlySystem:
     """只做检索，不生成回答：用来出检索指标（Recall@5），不需要大模型。"""
 
@@ -90,10 +93,6 @@ class RetrievalOnlySystem:
         )
 
 
-def _completion_cost(completion: Completion) -> float:
-    return cost_cny(completion.prompt_tokens, completion.completion_tokens)
-
-
 class NoRetrievalSystem:
     """基线一：不检索，直接问模型。"""
 
@@ -113,7 +112,7 @@ class NoRetrievalSystem:
             retrieved_docs=(),
             contexts=(),
             latency_ms=(time.perf_counter() - started) * 1000,
-            cost_cny=_completion_cost(completion),
+            cost_cny=completion_cost_cny(completion),
             steps=(
                 Step(
                     name="generate",
@@ -176,7 +175,7 @@ class NaiveRagSystem:
             ),
             contexts=contexts,
             latency_ms=(time.perf_counter() - started) * 1000,
-            cost_cny=_completion_cost(completion),
+            cost_cny=completion_cost_cny(completion),
             steps=(
                 Step(
                     name="retrieve",
@@ -193,22 +192,25 @@ class NaiveRagSystem:
 
 
 class FullSystem:
-    """完整系统：护栏、路由、改写 / 分解、证据评分、带引用生成、忠实度校验。"""
+    """把 LangGraph 问答响应转换成评测所需的记录。"""
 
     name = "完整系统"
 
-    def __init__(self, pipeline: ChatPipeline, *, name: str | None = None) -> None:
-        self._pipeline = pipeline
+    def __init__(self, service: AnswerService, *, name: str | None = None) -> None:
+        self._service = service
         if name is not None:
             self.name = name
 
     async def answer(self, question: Question) -> SystemAnswer:
-        started = time.perf_counter()
-        response = await self._pipeline.answer(
-            ChatRequest(question=question.question, edition=question.edition)
+        return await self.answer_request(
+            question.id, ChatRequest(question=question.question, edition=question.edition)
         )
+
+    async def answer_request(self, question_id: str, request: ChatRequest) -> SystemAnswer:
+        started = time.perf_counter()
+        response = await self._service.answer(request)
         return SystemAnswer(
-            question_id=question.id,
+            question_id=question_id,
             answer=response.answer,
             route=response.route,
             retrieved_docs=tuple(response.retrieved_docs),
