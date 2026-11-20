@@ -33,6 +33,7 @@ from app.orchestration.models import (
 )
 from app.orchestration.output_guard import validate_output
 from app.orchestration.pii import redact_pii
+from app.orchestration.repayment_support import needs_repayment_support
 from app.providers.base import ChatDelta, ChatMessage, ChatModel, Completion, StreamingChatModel
 from app.retrieval.retriever import RetrievalResult, Retriever
 from app.tools.middleware import ToolRunner
@@ -175,6 +176,7 @@ class CopilotGraph:
         builder.add_node("generate", self._generate)
         builder.add_node("direct", _direct)
         builder.add_node("escalate", _escalate)
+        builder.add_node("repayment_support", _repayment_support)
         builder.add_node("degrade", _degrade)
         builder.add_edge(START, "guard")
         builder.add_conditional_edges("guard", _after_guard)
@@ -190,6 +192,7 @@ class CopilotGraph:
         builder.add_edge("retrieve", "join")
         builder.add_edge("direct", END)
         builder.add_edge("escalate", END)
+        builder.add_edge("repayment_support", END)
         builder.add_edge("degrade", END)
         self._connect_generation(builder)
         return builder.compile()
@@ -397,8 +400,12 @@ def _guard(state: _State) -> _State:
     return {"failure": "guard"} if reason else {}
 
 
-def _after_guard(state: _State) -> Literal["degrade", "intent"]:
-    return "degrade" if state.get("failure") else "intent"
+def _after_guard(state: _State) -> Literal["degrade", "intent", "repayment_support"]:
+    if state.get("failure"):
+        return "degrade"
+    if needs_repayment_support(state["request"].question):
+        return "repayment_support"
+    return "intent"
 
 
 def _after_customer_intent(state: _State) -> Literal["direct", "escalate", "handoff", "retrieve"]:
@@ -505,6 +512,10 @@ def _escalate(state: _State) -> _State:
 
 def _handoff(state: _State) -> _State:
     return {**_fixed("handoff"), "abstained": True}
+
+
+def _repayment_support(state: _State) -> _State:
+    return {**_fixed("repayment_support"), "abstained": True}
 
 
 def _fixed(node: str) -> _State:

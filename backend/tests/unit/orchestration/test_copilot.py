@@ -9,7 +9,7 @@ from app.core.config import DEFAULT_POLICY_RERANK, FINAL_TOP_K
 from app.core.policy import PolicyMetadata
 from app.db.policy_filter import MetaFilter
 from app.orchestration.copilot import CopilotGraph
-from app.orchestration.models import AnswerDelta, ChatRequest, ChatResponse, Step
+from app.orchestration.models import AnswerDelta, Channel, ChatRequest, ChatResponse, Step
 from app.providers.base import Completion, FunctionCall
 from app.providers.fakes import FakeChatModel
 from app.providers.mock_core import MockCoreReply, MockCoreRequest
@@ -176,6 +176,65 @@ async def test_customer_mixed_intent_hands_off_without_retrieving_or_offering_to
     assert not any(char.isnumeric() for char in response.answer)
     assert small.offered_tools == [None]
     assert not retriever.calls
+    assert not core.calls
+
+
+@pytest.mark.parametrize(
+    ("channel", "question"),
+    [
+        ("customer", "病気で来月の住宅ローンの返済が難しく、相談したいです。"),
+        ("customer", "月々の支払いが滞ってしまいました。どうすればいいですか。"),
+        ("agent", "延滞した住宅ローンについてお客さまが相談したいそうです。"),
+        ("agent", "お客さまが返済条件の変更について相談を希望しています。"),
+        ("customer", "家のローンが今月は払えないです。助けてください。"),
+    ],
+)
+async def test_repayment_consultation_stops_before_intent_and_tools(
+    channel: Channel, question: str
+) -> None:
+    small, large = FakeChatModel([]), FakeChatModel([])
+    retriever, core = StubRetriever(), StubCore()
+    graph = CopilotGraph(small, large, retriever, _runner(core))
+    request = ChatRequest(question=question, channel=channel, agent_id="A001", customer_id="C0001")
+
+    response = await graph.answer(request)
+
+    assert [step.name for step in response.steps] == ["guard", "repayment_support"]
+    assert "専門窓口" in response.answer
+    assert "責任者" not in response.answer
+    assert not any(character.isnumeric() for character in response.answer)
+    assert response.abstained
+    assert not small.calls
+    assert not large.calls
+    assert not retriever.calls
+    assert not core.calls
+
+
+@pytest.mark.parametrize(
+    ("intent", "question", "destination"),
+    [
+        ("complaint", "返済の説明が難しかったです。案内について責任者と話したい。", "escalate"),
+        ("policy", "繰上返済で毎月の返済額を減らす一般的な仕組みを教えて。", "retrieve"),
+        ("policy", "毎月の返済日を変更する手順はどこにありますか。", "retrieve"),
+        ("policy", "返済条件の変更の一般的な手順を知りたいです。", "retrieve"),
+        ("policy", "延滞した場合の遅延損害金の一般的な扱いを教えてください。", "retrieve"),
+        ("lookup", "私の契約に延滞の記録があるか確認してください。", "handoff"),
+        ("policy", "住宅ローン控除の申告に必要な書類はどこで確認できますか。", "retrieve"),
+    ],
+)
+async def test_other_repayment_questions_keep_their_route(
+    intent: str, question: str, destination: str
+) -> None:
+    small = FakeChatModel([_completion(json.dumps({"intent": intent}))])
+    large = FakeChatModel([_completion(f"{POLICY} [1]")])
+    core = StubCore()
+    graph = CopilotGraph(small, large, StubRetriever(), _runner(core))
+
+    response = await graph.answer(ChatRequest(question=question))
+
+    assert response.intent == intent
+    assert destination in {step.name for step in response.steps}
+    assert "専門窓口" not in response.answer
     assert not core.calls
 
 
